@@ -1,8 +1,8 @@
 package generate
 
 import (
-	"github.com/Project-Arwen/Rivendell/perception/heartbeat/config"
-	"github.com/Project-Arwen/Rivendell/perception/heartbeat/support"
+	"Heartbeat/config"
+	support "Support"
 	"time"
 )
 
