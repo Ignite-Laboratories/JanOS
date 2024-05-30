@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1dd61011-a0b4-47f3-8c90-071717bba8a4" name="Changes" comment="" />
+    <list default="true" id="1dd61011-a0b4-47f3-8c90-071717bba8a4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/heartbeat/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/noise.go" beforeDir="false" afterPath="$PROJECT_DIR$/generate/noise.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" beforeDir="false" afterPath="$PROJECT_DIR$/generate/pulse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/go.work" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/heartbeat/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/observer.go" beforeDir="false" afterPath="$PROJECT_DIR$/support/observer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/neuron/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/config/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/generate/noise.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/generate/pulse.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/go.work" beforeDir="false" afterPath="$PROJECT_DIR$/go.work" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/neuron/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Neuron/observer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/support/go.mod" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,10 +74,13 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "DefaultGoTemplateProperty": "Go File",
     "Go Build.build heartbeat.executor": "Run",
+    "Go Build.build only.executor": "Run",
     "Go Build.go build Heartbeat.executor": "Run",
     "Go Build.go build scratch.go.executor": "Debug",
     "Go Build.heartbeat.executor": "Run",
     "Go Build.neuron.executor": "Run",
+    "Go Build.run heartbeat.executor": "Run",
+    "Makefile Target.Unnamed.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -62,7 +89,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Source/Arwen-Source/JanOS/Neuron",
+    "last_opened_file_path": "C:/Source/Arwen-Source/JanOS/makefile",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -71,66 +98,58 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Source\Arwen-Source\JanOS\Neuron" />
       <recent name="C:\Source\Arwen-Source\JanOS\Support" />
+      <recent name="C:\Source\Arwen-Source\JanOS" />
+      <recent name="C:\Source\Arwen-Source\JanOS\Neuron" />
       <recent name="C:\Source\Arwen-Source\JanOS\Heartbeat\output" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Source\Arwen-Source\JanOS" />
+      <recent name="C:\Source\Arwen-Source\JanOS\src" />
+      <recent name="C:\Source\Arwen-Source\JanOS\janos\config" />
+      <recent name="C:\Source\Arwen-Source\JanOS\support" />
+      <recent name="C:\Source\Arwen-Source\JanOS\Support" />
+    </key>
   </component>
-  <component name="RunManager" selected="Go Build.heartbeat">
-    <configuration name="heartbeat" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="JanOS" />
-      <working_directory value="$PROJECT_DIR$/Heartbeat" />
-      <kind value="PACKAGE" />
-      <package value="Heartbeat" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <output_directory value="$PROJECT_DIR$/Output" />
-      <option name="run" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration name="neuron" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="JanOS" />
-      <working_directory value="$PROJECT_DIR$/Neuron" />
-      <kind value="PACKAGE" />
-      <package value="Neuron" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <output_directory value="$PROJECT_DIR$/Output" />
-      <option name="run" value="false" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Makefile Target.Build All">
     <configuration name="run heartbeat" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="JanOS" />
-      <working_directory value="$PROJECT_DIR$/Heartbeat" />
+      <working_directory value="$PROJECT_DIR$/heartbeat" />
       <kind value="PACKAGE" />
-      <package value="Heartbeat" />
+      <package value="github.com/Ignite-Laboratories/JanOS/heartbeat" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/Heartbeat/heartbeat.go" />
       <method v="2" />
     </configuration>
-    <configuration name="run neuron" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+    <configuration name="run neuron" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="JanOS" />
-      <working_directory value="$PROJECT_DIR$/Neuron" />
+      <working_directory value="$PROJECT_DIR$/neuron" />
       <kind value="PACKAGE" />
-      <package value="Neuron" />
+      <package value="github.com/Ignite-Laboratories/JanOS/neuron" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/Heartbeat/main.go" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="scratch" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="JanOS" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
+      <package value="JanOS" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$APPLICATION_CONFIG_DIR$/scratches/scratch.go" />
       <method v="2" />
     </configuration>
+    <configuration name="Build All" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile">
+      <makefile filename="C:\Source\Arwen-Source\JanOS\makefile" target="all" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Go Build.run heartbeat" />
-      <item itemvalue="Go Build.heartbeat" />
-      <item itemvalue="Go Build.neuron" />
       <item itemvalue="Go Build.run neuron" />
       <item itemvalue="Go Build.scratch" />
+      <item itemvalue="Makefile Target.Build All" />
     </list>
     <recent_temporary>
       <list>

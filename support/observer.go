@@ -1,4 +1,4 @@
-package main
+package support
 
 import (
 	"bufio"
@@ -10,10 +10,12 @@ type Observer struct {
 	OutputStream chan string
 }
 
+func NewObserver() *Observer {
+	return &Observer{OutputStream: make(chan string)}
+}
+
 func NewStdInObserver() *Observer {
-	m := &Observer{
-		OutputStream: make(chan string),
-	}
+	m := NewObserver()
 	scanner := bufio.NewScanner(os.Stdin)
 	go m.handleScanner(scanner)
 	return m

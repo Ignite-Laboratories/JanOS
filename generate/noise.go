@@ -1,8 +1,8 @@
 package generate
 
 import (
-	"Heartbeat/config"
-	support "Support"
+	"github.com/Ignite-Laboratories/JanOS/config"
+	"github.com/Ignite-Laboratories/JanOS/support"
 	"time"
 )
 
@@ -21,10 +21,12 @@ func (nt *NoiseType) CreateNoise() string {
 }
 
 func (ng NoiseGenerator) Broadcast() {
-	for {
-		ng.Output <- ng.Type.CreateNoise()
-		time.Sleep(ng.Type.Duration)
-	}
+	go func() {
+		for {
+			ng.Output <- ng.Type.CreateNoise()
+			time.Sleep(ng.Type.Duration)
+		}
+	}()
 }
 
 func NewNoiseType() NoiseType {

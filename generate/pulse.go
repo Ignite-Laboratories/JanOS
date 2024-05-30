@@ -1,7 +1,7 @@
 package generate
 
 import (
-	"Heartbeat/config"
+	"github.com/Ignite-Laboratories/JanOS/config"
 	"time"
 )
 

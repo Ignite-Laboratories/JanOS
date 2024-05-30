@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Heartbeat/config"
-	"Heartbeat/generate"
 	"fmt"
+	"github.com/Ignite-Laboratories/JanOS/config"
+	"github.com/Ignite-Laboratories/JanOS/generate"
+	"github.com/Ignite-Laboratories/JanOS/support"
 	"log"
 	"time"
 )
@@ -12,7 +13,7 @@ func main() {
 	config.Initialize()
 	log.Println(`HEARTBEAT - NEUROLOGICAL SEED: ` + config.Current.Seed)
 
-	o := NewObserver()
+	o := support.NewObserver()
 
 	// Prints the observed data to stdout
 	go func() {
