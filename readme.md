@@ -1,0 +1,2 @@
+![logo](https://github.com/Ignite-Laboratories/.github/blob/main/profile/artwork_janos_dark.png?raw=true#gh-light-mode-only)
+![logo](https://github.com/Ignite-Laboratories/.github/blob/main/profile/artwork_janos_light.png?raw=true#gh-dark-mode-only)
