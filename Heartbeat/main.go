@@ -3,23 +3,32 @@ package main
 import (
 	"Heartbeat/config"
 	"Heartbeat/generate"
+	"fmt"
 	"log"
 	"time"
 )
 
 func main() {
 	config.Initialize()
-	log.Println("SEED: " + config.Current.Seed)
+	log.Println(`HEARTBEAT - NEUROLOGICAL SEED: ` + config.Current.Seed)
+
+	o := NewObserver()
+
+	// Prints the observed data to stdout
+	go func() {
+		for line := range o.OutputStream {
+			fmt.Println(line)
+		}
+	}()
 
 	ng := generate.Noise(generate.NewNoiseType())
-	pg := generate.Pulse(generate.NewPulseData())
-	m := NewObserver()
+	ng.Broadcast()
+	go o.MuxChannel(ng.Output)
 
-	go m.Observe(ng.Output)
-	go m.Observe(pg.Output)
+	pg := generate.NewPulseGenerator()
+	pg.Pulse()
+	go o.MuxChannel(pg.Output)
 
-	//NewNeuron(m)
-	//
 	for {
 		time.Sleep(time.Second)
 	}

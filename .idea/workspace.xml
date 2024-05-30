@@ -5,66 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1dd61011-a0b4-47f3-8c90-071717bba8a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/JanOS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/.gitmodules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/.idea/Go-Support.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/Go-Support/support.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/generate/noise.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Heartbeat/observer.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/support/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Rivendell.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/config/config.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/generate/noise.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/generate/pulse.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perception/heartbeat/observer.go" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/config/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/generate/noise.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/generate/pulse.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/go.work" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Neuron/observer.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Output/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Output/heartbeat.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Output/neuron.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/support/random.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/noise.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/generate/noise.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Heartbeat/observer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/observer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/support/support.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
   <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.22.2" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "rpetz"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;rpetz&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Ignite-Laboratories/JanOS.git",
-    "accountId": "4b6708cc-4628-445c-a272-82027a0d1d87"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Ignite-Laboratories/JanOS.git&quot;,
+    &quot;accountId&quot;: &quot;4b6708cc-4628-445c-a272-82027a0d1d87&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2h51b5K8byGhrsjEwneV6x5YlyD" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -77,6 +70,12 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultGoTemplateProperty": "Go File",
+    "Go Build.build heartbeat.executor": "Run",
+    "Go Build.go build Heartbeat.executor": "Run",
+    "Go Build.go build scratch.go.executor": "Debug",
+    "Go Build.heartbeat.executor": "Run",
+    "Go Build.neuron.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -85,23 +84,80 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/rpetz",
-    "nodejs_package_manager_path": "npm"
+    "last_opened_file_path": "C:/Source/Arwen-Source/JanOS/Neuron",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.goide.configuration.GoLibrariesConfigurableProvider"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="go build Heartbeat" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Source\Arwen-Source\JanOS\Neuron" />
+      <recent name="C:\Source\Arwen-Source\JanOS\Support" />
+      <recent name="C:\Source\Arwen-Source\JanOS\Heartbeat\output" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Build.heartbeat">
+    <configuration name="heartbeat" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="JanOS" />
       <working_directory value="$PROJECT_DIR$/Heartbeat" />
       <kind value="PACKAGE" />
       <package value="Heartbeat" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$/Output" />
+      <option name="run" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="neuron" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="JanOS" />
+      <working_directory value="$PROJECT_DIR$/Neuron" />
+      <kind value="PACKAGE" />
+      <package value="Neuron" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$/Output" />
+      <option name="run" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run heartbeat" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="JanOS" />
+      <working_directory value="$PROJECT_DIR$/Heartbeat" />
+      <kind value="PACKAGE" />
+      <package value="Heartbeat" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/Heartbeat/heartbeat.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run neuron" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="JanOS" />
+      <working_directory value="$PROJECT_DIR$/Neuron" />
+      <kind value="PACKAGE" />
+      <package value="Neuron" />
+      <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/Heartbeat/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="scratch" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="JanOS" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$APPLICATION_CONFIG_DIR$/scratches/scratch.go" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Build.run heartbeat" />
+      <item itemvalue="Go Build.heartbeat" />
+      <item itemvalue="Go Build.neuron" />
+      <item itemvalue="Go Build.run neuron" />
+      <item itemvalue="Go Build.scratch" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build Heartbeat" />
+        <item itemvalue="Go Build.scratch" />
+        <item itemvalue="Go Build.run neuron" />
       </list>
     </recent_temporary>
   </component>
@@ -122,5 +178,21 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$APPLICATION_CONFIG_DIR$/scratches/scratch.go</url>
+          <line>28</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$APPLICATION_CONFIG_DIR$/scratches/scratch.go</url>
+          <line>8</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

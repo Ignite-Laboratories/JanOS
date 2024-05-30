@@ -21,12 +21,10 @@ func (nt *NoiseType) CreateNoise() string {
 }
 
 func (ng NoiseGenerator) Broadcast() {
-	go func() {
-		for {
-			ng.Output <- ng.Type.CreateNoise()
-			time.Sleep(ng.Type.Duration)
-		}
-	}()
+	for {
+		ng.Output <- ng.Type.CreateNoise()
+		time.Sleep(ng.Type.Duration)
+	}
 }
 
 func NewNoiseType() NoiseType {
