@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/config"
 	"github.com/Ignite-Laboratories/JanOS/support"
+	"github.com/Ignite-Laboratories/JanOS/support/config"
 	"log"
 	"time"
 )

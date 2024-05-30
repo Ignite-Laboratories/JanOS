@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/config"
-	"github.com/Ignite-Laboratories/JanOS/generate"
 	"github.com/Ignite-Laboratories/JanOS/support"
+	"github.com/Ignite-Laboratories/JanOS/support/config"
+	"github.com/Ignite-Laboratories/JanOS/support/generate"
 	"log"
 	"time"
 )
