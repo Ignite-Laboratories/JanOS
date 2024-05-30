@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1dd61011-a0b4-47f3-8c90-071717bba8a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Neuron/config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/generate/noise.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/generate/pulse.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/go.work" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Neuron/observer.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output/config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output/heartbeat.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output/neuron.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/support/random.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/noise.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/generate/noise.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/generate/pulse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Heartbeat/observer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Heartbeat/observer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/support/support.go" beforeDir="false" />
-    </list>
+    <list default="true" id="1dd61011-a0b4-47f3-8c90-071717bba8a4" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
