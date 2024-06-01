@@ -2,18 +2,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/support"
-	"github.com/Ignite-Laboratories/JanOS/support/config"
-	"github.com/Ignite-Laboratories/JanOS/support/generate"
+	"github.com/Ignite-Laboratories/JanOS/common"
+	"github.com/Ignite-Laboratories/JanOS/common/config"
+	"github.com/Ignite-Laboratories/JanOS/common/generate"
 	"log"
-	"time"
 )
 
 func main() {
 	config.Initialize()
 	log.Println(`HEARTBEAT - NEUROLOGICAL SEED: ` + config.Current.Seed)
 
-	o := support.NewObserver()
+	ng := generate.Noise(generate.NewNoiseType())
+	ng.Broadcast()
+	pg := generate.NewPulseGenerator()
+	pg.Pulse()
+
+	o := common.NewObserver(ng.Output, pg.Output)
 
 	// Prints the observed data to stdout
 	go func() {
@@ -22,15 +26,5 @@ func main() {
 		}
 	}()
 
-	ng := generate.Noise(generate.NewNoiseType())
-	ng.Broadcast()
-	go o.MuxChannel(ng.Output)
-
-	pg := generate.NewPulseGenerator()
-	pg.Pulse()
-	go o.MuxChannel(pg.Output)
-
-	for {
-		time.Sleep(time.Second)
-	}
+	common.KeepAlive()
 }
