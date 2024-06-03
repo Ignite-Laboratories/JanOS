@@ -16,17 +16,11 @@ type NoiseType struct {
 	Duration time.Duration
 }
 
-func (nt *NoiseType) CreateNoise() string {
-	return common.RandomString(nt.Width)
-}
-
 func (ng NoiseGenerator) Broadcast() {
-	go func() {
-		for {
-			ng.Output <- ng.Type.CreateNoise()
-			time.Sleep(ng.Type.Duration)
-		}
-	}()
+	for {
+		ng.Output <- common.RandomString(ng.Type.Width)
+		time.Sleep(ng.Type.Duration)
+	}
 }
 
 func NewNoiseType() NoiseType {
@@ -36,7 +30,7 @@ func NewNoiseType() NoiseType {
 	}
 }
 
-func Noise(nt NoiseType) *NoiseGenerator {
+func NewNoiseGenerator(nt NoiseType) *NoiseGenerator {
 	ng := NoiseGenerator{
 		Output: make(chan string),
 		Type:   nt,

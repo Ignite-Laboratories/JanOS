@@ -12,10 +12,10 @@ func main() {
 	config.Initialize()
 	log.Println(`HEARTBEAT - NEUROLOGICAL SEED: ` + config.Current.Seed)
 
-	ng := generate.Noise(generate.NewNoiseType())
-	ng.Broadcast()
+	ng := generate.NewNoiseGenerator(generate.NewNoiseType())
+	go ng.Broadcast()
 	pg := generate.NewPulseGenerator()
-	pg.Pulse()
+	go pg.Pulse()
 
 	o := common.NewObserver(ng.Output, pg.Output)
 
