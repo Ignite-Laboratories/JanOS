@@ -7,12 +7,12 @@ import (
 	"net/rpc"
 )
 
-type StdRPCHandler[Tapi any] struct {
+type Handler[Tapi any] struct {
 	Network string
 	Address string
 }
 
-func (h *StdRPCHandler[Tapi]) StartClient() *rpc.Client {
+func (h *Handler[Tapi]) StartClient() *rpc.Client {
 	log.Printf("[RPC] Launching RPC client")
 
 	client, err := rpc.DialHTTP(h.Network, h.Address)
@@ -23,7 +23,7 @@ func (h *StdRPCHandler[Tapi]) StartClient() *rpc.Client {
 	return client
 }
 
-func (h *StdRPCHandler[Tapi]) StartServer() {
+func (h *Handler[Tapi]) StartServer() {
 	log.Printf("[RPC] Launching RPC server")
 	api := new(Tapi)
 	err := rpc.Register(api)

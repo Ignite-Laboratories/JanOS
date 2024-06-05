@@ -13,7 +13,7 @@ func NewServer(address string) *Server {
 }
 
 func (s *Server) Start() {
-	h := new(RPC.StdRPCHandler[API])
+	h := new(RPC.Handler[API])
 	h.Network = "tcp"
 	h.Address = s.Address
 	h.StartServer()

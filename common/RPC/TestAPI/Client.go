@@ -2,6 +2,7 @@ package TestAPI
 
 import (
 	"Common/RPC"
+	"log"
 	"net/rpc"
 )
 
@@ -10,7 +11,7 @@ type Client struct {
 }
 
 func NewClient(address string) *Client {
-	h := new(RPC.StdRPCHandler[API])
+	h := new(RPC.Handler[API])
 	h.Network = "tcp"
 	h.Address = address
 	c := h.StartClient()
@@ -19,17 +20,27 @@ func NewClient(address string) *Client {
 }
 
 func (a *Client) Echo(value string) string {
-	var rstr string
-	a.client.Call("API.Echo", "TEST", &rstr)
-	return rstr
+	var str string
+	err := a.client.Call("API.Echo", value, &str)
+	if err != nil {
+		log.Fatal("[RPC] Error: ", err)
+	}
+	return str
 }
 
 func (a *Client) GetObject(title string) *TestObject {
-	var robj *TestObject
-	a.client.Call("API.GetObject", "Test Object", &robj)
-	return robj
+	var obj *TestObject
+	err := a.client.Call("API.GetObject", title, &obj)
+	if err != nil {
+		log.Fatal("[RPC] Error: ", err)
+	}
+	return obj
 }
 
 func (a *Client) ReceiveObject(obj *TestObject) {
-	a.client.Call("API.ReceiveObject", &obj, "")
+	var str string
+	err := a.client.Call("API.ReceiveObject", obj, &str)
+	if err != nil {
+		log.Fatal("[RPC] Error: ", err)
+	}
 }

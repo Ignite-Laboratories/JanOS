@@ -28,9 +28,10 @@ func (a *API) GetObject(title string, reply *TestObject) error {
 	return nil
 }
 
-func (a *API) ReceiveObject(obj TestObject, _ *string) error {
+func (a *API) ReceiveObject(obj TestObject, reply *string) error {
 	js, _ := json.Marshal(obj)
 	log.Printf("Received object: %s\n", string(js))
 
+	*reply = ""
 	return nil
 }

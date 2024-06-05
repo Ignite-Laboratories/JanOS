@@ -12,12 +12,12 @@ func main() {
 
 	time.Sleep(time.Millisecond * 250)
 
-	rstr := c.Echo("TEST")
-	fmt.Println(rstr)
+	str := c.Echo("Rawrrr")
+	fmt.Println(str)
 
-	robj := c.GetObject("ASDF")
-	js, _ := json.Marshal(robj)
+	obj := c.GetObject("ASDF")
+	js, _ := json.Marshal(obj)
 	fmt.Println(string(js))
 
-	c.ReceiveObject(robj)
+	c.ReceiveObject(obj)
 }
