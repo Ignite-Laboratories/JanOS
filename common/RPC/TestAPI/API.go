@@ -1,4 +1,4 @@
-package RPC
+package TestAPI
 
 import (
 	"encoding/json"
@@ -6,19 +6,19 @@ import (
 	"log"
 )
 
-type TestAPI int
+type API int
 
 type TestObject struct {
 	Title string
 	Value string
 }
 
-func (a *TestAPI) Echo(value string, reply *string) error {
+func (a *API) Echo(value string, reply *string) error {
 	*reply = fmt.Sprintf("%s : %s", value, value)
 	return nil
 }
 
-func (a *TestAPI) GetObject(title string, reply *TestObject) error {
+func (a *API) GetObject(title string, reply *TestObject) error {
 	obj := TestObject{
 		Title: title,
 		Value: "RAWRRR",
@@ -28,7 +28,7 @@ func (a *TestAPI) GetObject(title string, reply *TestObject) error {
 	return nil
 }
 
-func (a *TestAPI) ReceiveObject(obj TestObject, _ *string) error {
+func (a *API) ReceiveObject(obj TestObject, _ *string) error {
 	js, _ := json.Marshal(obj)
 	log.Printf("Received object: %s\n", string(js))
 

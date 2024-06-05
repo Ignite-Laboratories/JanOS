@@ -1,30 +1,23 @@
 package main
 
 import (
-	"Common/RPC"
+	"Common/RPC/TestAPI"
 	"encoding/json"
 	"fmt"
 	"time"
 )
 
 func main() {
-	h := new(RPC.StdRPCHandler[RPC.TestAPI])
-	h.Network = "tcp"
-	h.Address = "localhost:420"
-	c := h.StartClient()
+	c := TestAPI.NewClient("localhost:420")
 
 	time.Sleep(time.Millisecond * 250)
 
-	var rstr string
-	c.Call("TestAPI.Echo", "TEST", &rstr)
+	rstr := c.Echo("TEST")
 	fmt.Println(rstr)
 
-	var robj *RPC.TestObject
-	c.Call("TestAPI.GetObject", "Test Object", &robj)
-	js1, _ := json.Marshal(robj)
-	fmt.Println(string(js1))
+	robj := c.GetObject("ASDF")
+	js, _ := json.Marshal(robj)
+	fmt.Println(string(js))
 
-	c.Call("TestAPI.ReceiveObject", &robj, "")
-	js2, _ := json.Marshal(robj)
-	fmt.Println(string(js2))
+	c.ReceiveObject(robj)
 }

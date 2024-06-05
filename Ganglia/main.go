@@ -1,10 +1,10 @@
 package main
 
-import "Common/RPC"
+import (
+	"Common/RPC/TestAPI"
+)
 
 func main() {
-	h := new(RPC.StdRPCHandler[RPC.TestAPI])
-	h.Network = "tcp"
-	h.Address = "localhost:420"
-	h.StartServer()
+	s := TestAPI.NewServer("localhost:420")
+	s.Start()
 }
