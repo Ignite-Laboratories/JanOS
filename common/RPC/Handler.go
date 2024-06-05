@@ -8,12 +8,14 @@ import (
 )
 
 type Handler[Tapi any] struct {
+	API     *Tapi
 	Network string
 	Address string
 }
 
 func NewHandler[Tapi any](network, address string) *Handler[Tapi] {
 	return &Handler[Tapi]{
+		API:     new(Tapi),
 		Network: network,
 		Address: address,
 	}
@@ -32,8 +34,7 @@ func (h *Handler[Tapi]) StartClient() *rpc.Client {
 
 func (h *Handler[Tapi]) StartServer() {
 	log.Printf("[RPC] Launching RPC server")
-	api := new(Tapi)
-	err := rpc.Register(api)
+	err := rpc.Register(h.API)
 	if err != nil {
 		log.Fatal("[RPC] Error registering API", err)
 	}

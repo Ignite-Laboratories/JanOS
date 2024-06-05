@@ -1,21 +1,27 @@
 package main
 
 import (
-	"Common/RPC/SampleAPI"
-	"encoding/json"
-	"fmt"
+	"Common/RPC/PerceptionAPI"
+	"time"
 )
 
 func main() {
-	c := SampleAPI.NewClient("localhost:420")
-	c.Start()
+	go AddClient("A")
+	go AddClient("B")
+	go AddClient("C")
 
-	str := c.Echo("Rawrrr")
-	fmt.Println(str)
+	for {
 
-	obj := c.GetObject("ASDF")
-	js, _ := json.Marshal(obj)
-	fmt.Println(string(js))
+	}
+}
 
-	c.ReceiveObject(obj)
+func AddClient(id string) {
+	c := PerceptionAPI.NewClient("localhost:420")
+	go c.Start()
+
+	time.Sleep(time.Second)
+	for {
+		c.ProcessPacket(id)
+		time.Sleep(time.Second / 4)
+	}
 }
