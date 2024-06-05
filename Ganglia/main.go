@@ -2,18 +2,14 @@ package main
 
 import (
 	"Common/RPC/PerceptionAPI"
+	"github.com/google/uuid"
 	"log"
-	"time"
 )
 
+var ThisComponent = PerceptionAPI.NewComponent(uuid.New().String(), "tcp", "localhost:420")
+
 func main() {
-	//s := PerceptionAPI.NewServer("unix", "/tmp/perception.sock")
-	s := PerceptionAPI.NewServer("tcp", "localhost:420")
-	go s.Start()
-
-	time.Sleep(time.Second)
-
-	for msg := range s.PacketChannel {
+	for msg := range ThisComponent.Server.PacketChannel {
 		log.Println("[PACKET] " + msg)
 	}
 }

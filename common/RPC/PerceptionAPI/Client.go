@@ -2,17 +2,20 @@ package PerceptionAPI
 
 import (
 	"Common/RPC"
+	"github.com/google/uuid"
 	"log"
 	"net/rpc"
 )
 
 type Client struct {
+	ID      string
 	handler *RPC.Handler[API]
 	client  *rpc.Client
 }
 
 func NewClient(network string, address string) *Client {
 	return &Client{
+		ID:      uuid.New().String(),
 		handler: RPC.NewHandler[API](network, address),
 	}
 }

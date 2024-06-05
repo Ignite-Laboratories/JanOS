@@ -45,11 +45,11 @@ func (h *Handler[Tapi]) StartServer() {
 	if err != nil {
 		log.Fatal("Error listening on "+h.Address, err)
 	}
-	log.Printf("[RPC] Listening on " + h.Address)
+	log.Printf("[RPC] Listening on [%s]", h.Address)
 
 	err = http.Serve(listener, nil)
 	if err != nil {
 		log.Fatal("Error serving", err)
 	}
-	log.Printf("[RPC] Serving on " + h.Address)
+	log.Printf("[RPC] Server Terminated")
 }
