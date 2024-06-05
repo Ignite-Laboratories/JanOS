@@ -1,16 +1,14 @@
 package main
 
 import (
-	"Common/RPC/TestAPI"
+	"Common/RPC/SampleAPI"
 	"encoding/json"
 	"fmt"
-	"time"
 )
 
 func main() {
-	c := TestAPI.NewClient("localhost:420")
-
-	time.Sleep(time.Millisecond * 250)
+	c := SampleAPI.NewClient("localhost:420")
+	c.Start()
 
 	str := c.Echo("Rawrrr")
 	fmt.Println(str)

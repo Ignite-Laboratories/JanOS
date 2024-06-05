@@ -1,4 +1,4 @@
-package TestAPI
+package SampleAPI
 
 import (
 	"encoding/json"

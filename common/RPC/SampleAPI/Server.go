@@ -1,4 +1,4 @@
-package TestAPI
+package SampleAPI
 
 import "Common/RPC"
 
@@ -13,8 +13,5 @@ func NewServer(address string) *Server {
 }
 
 func (s *Server) Start() {
-	h := new(RPC.Handler[API])
-	h.Network = "tcp"
-	h.Address = s.Address
-	h.StartServer()
+	RPC.NewHandler[API]("tcp", s.Address).StartServer()
 }

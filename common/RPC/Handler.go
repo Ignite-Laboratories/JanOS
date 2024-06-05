@@ -12,6 +12,13 @@ type Handler[Tapi any] struct {
 	Address string
 }
 
+func NewHandler[Tapi any](network, address string) *Handler[Tapi] {
+	return &Handler[Tapi]{
+		Network: network,
+		Address: address,
+	}
+}
+
 func (h *Handler[Tapi]) StartClient() *rpc.Client {
 	log.Printf("[RPC] Launching RPC client")
 

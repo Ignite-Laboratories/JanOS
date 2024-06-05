@@ -1,4 +1,4 @@
-package TestAPI
+package SampleAPI
 
 import (
 	"Common/RPC"
@@ -7,16 +7,18 @@ import (
 )
 
 type Client struct {
-	client *rpc.Client
+	handler *RPC.Handler[API]
+	client  *rpc.Client
 }
 
 func NewClient(address string) *Client {
-	h := new(RPC.Handler[API])
-	h.Network = "tcp"
-	h.Address = address
-	c := h.StartClient()
+	return &Client{
+		handler: RPC.NewHandler[API]("tcp", address),
+	}
+}
 
-	return &Client{client: c}
+func (a *Client) Start() {
+	a.client = a.handler.StartClient()
 }
 
 func (a *Client) Echo(value string) string {

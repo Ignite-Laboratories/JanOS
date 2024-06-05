@@ -1,10 +1,10 @@
 package main
 
 import (
-	"Common/RPC/TestAPI"
+	"Common/RPC/SampleAPI"
 )
 
 func main() {
-	s := TestAPI.NewServer("localhost:420")
+	s := SampleAPI.NewServer("localhost:420")
 	s.Start()
 }
