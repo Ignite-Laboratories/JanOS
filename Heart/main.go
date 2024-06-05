@@ -3,25 +3,18 @@ package main
 import (
 	"Common/RPC/PerceptionAPI"
 	"github.com/google/uuid"
-	"time"
+	"log"
 )
 
 var ThisComponent = PerceptionAPI.NewComponent(uuid.New().String(), "tcp", "localhost:421")
 
 func main() {
-	c1 := ThisComponent.ConnectRemote("tcp", "localhost:420")
-	c2 := ThisComponent.ConnectRemote("tcp", "localhost:420")
-	c3 := ThisComponent.ConnectRemote("tcp", "localhost:420")
+	remote := ThisComponent.ConnectRemote("tcp", "localhost:420")
 
-	go ProduceData(c1)
-	go ProduceData(c2)
-	go ProduceData(c3)
-	select {}
-}
-
-func ProduceData(c *PerceptionAPI.Client) {
-	for {
-		c.ProcessPacket(c.ID + " Packet")
-		time.Sleep(time.Second / 2)
+	// Look at the incoming packets
+	for msg := range ThisComponent.Server.PacketChannel {
+		log.Printf("[RPC] [%s] [Message] - %s", ThisComponent.Server.ID, msg)
+		// Send them out the remote
+		remote.ProcessPacket(msg)
 	}
 }
