@@ -1,4 +1,4 @@
-package Ganglia
+package main
 
 type Ganglia struct {
 }

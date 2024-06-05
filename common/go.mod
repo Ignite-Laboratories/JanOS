@@ -1,3 +1,3 @@
-module github.com/Ignite-Laboratories/JanOS/Common
+module Common
 
 go 1.22

@@ -1,7 +1,10 @@
-package Ganglia
+package main
 
-import "github.com/Ignite-Laboratories/JanOS/Common"
+import "Common/RPC"
 
 func main() {
-	r := Common.NewRPC()
+	h := new(RPC.StdRPCHandler[RPC.TestAPI])
+	h.Network = "tcp"
+	h.Address = "localhost:420"
+	h.StartServer()
 }
