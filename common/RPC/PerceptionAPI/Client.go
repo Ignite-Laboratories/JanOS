@@ -11,9 +11,9 @@ type Client struct {
 	client  *rpc.Client
 }
 
-func NewClient(address string) *Client {
+func NewClient(network string, address string) *Client {
 	return &Client{
-		handler: RPC.NewHandler[API]("tcp", address),
+		handler: RPC.NewHandler[API](network, address),
 	}
 }
 

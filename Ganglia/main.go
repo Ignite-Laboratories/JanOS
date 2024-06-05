@@ -7,17 +7,12 @@ import (
 )
 
 func main() {
-	s := PerceptionAPI.NewServer("localhost:420")
+	//s := PerceptionAPI.NewServer("unix", "/tmp/perception.sock")
+	s := PerceptionAPI.NewServer("tcp", "localhost:420")
 	go s.Start()
 
 	time.Sleep(time.Second)
 
-	for msg := range s.PacketChannel {
-		log.Println("[PACKET] " + msg)
-	}
-}
-
-func HandlePackets(s *PerceptionAPI.Server) {
 	for msg := range s.PacketChannel {
 		log.Println("[PACKET] " + msg)
 	}

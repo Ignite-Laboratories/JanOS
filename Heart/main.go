@@ -10,13 +10,12 @@ func main() {
 	go AddClient("B")
 	go AddClient("C")
 
-	for {
-
-	}
+	select {}
 }
 
 func AddClient(id string) {
-	c := PerceptionAPI.NewClient("localhost:420")
+	//c := PerceptionAPI.NewClient("unix", "/tmp/perception.sock")
+	c := PerceptionAPI.NewClient("tcp", "localhost:420")
 	go c.Start()
 
 	time.Sleep(time.Second)
