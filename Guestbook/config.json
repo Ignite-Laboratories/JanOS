@@ -1,0 +1,7 @@
+{
+  "id": "c903062c-19ad-413d-9f82-e201bab8ece6",
+  "title": "Guestbook",
+  "description": "The main ledger source of all active components in this system",
+  "network": "tcp",
+  "address": "127.0.0.1:420"
+}

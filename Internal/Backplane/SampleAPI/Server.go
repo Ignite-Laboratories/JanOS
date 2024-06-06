@@ -1,6 +1,6 @@
 package SampleAPI
 
-import "Common/RPC"
+import "github.com/Ignite-Laboratories/JanOS/Internal/Backplane"
 
 type Server struct {
 	Address string
@@ -13,5 +13,5 @@ func NewServer(address string) *Server {
 }
 
 func (s *Server) Start() {
-	RPC.NewHandler[API]("tcp", s.Address).StartServer()
+	Backplane.NewHandler[API]("tcp", s.Address).StartServer()
 }

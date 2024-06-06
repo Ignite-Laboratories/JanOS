@@ -1,19 +1,17 @@
 package main
 
 import (
-	"Common/RPC/PerceptionAPI"
-	"github.com/google/uuid"
+	"github.com/Ignite-Laboratories/JanOS/Internal/Component"
 	"log"
 )
 
-var ThisComponent = PerceptionAPI.NewComponent(uuid.New().String(), "tcp", "localhost:421")
-
 func main() {
-	remote := ThisComponent.ConnectRemote("tcp", "localhost:420")
+	Component.Setup()
+	remote := Component.This.ConnectRemote("tcp", "127.0.0.1:421")
 
 	// Look at the incoming packets
-	for msg := range ThisComponent.Server.PacketChannel {
-		log.Printf("[RPC] [%s] [Message] - %s", ThisComponent.Server.ID, msg)
+	for msg := range Component.This.Server.PacketChannel {
+		log.Printf("[Backplane] [%s] [Message] - %s", Component.This.Server.ID, msg)
 		// Send them out the remote
 		remote.ProcessPacket(msg)
 	}

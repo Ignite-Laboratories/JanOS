@@ -1,4 +1,4 @@
-package RPC
+package Backplane
 
 import (
 	"log"
@@ -22,21 +22,21 @@ func NewHandler[Tapi any](network, address string) *Handler[Tapi] {
 }
 
 func (h *Handler[Tapi]) StartClient() *rpc.Client {
-	log.Printf("[RPC] Launching RPC client")
+	log.Printf("[Backplane] Launching Backplane client")
 
 	client, err := rpc.DialHTTP(h.Network, h.Address)
 	if err != nil {
-		log.Fatal("[RPC] Connection error: ", err)
+		log.Fatal("[Backplane] Connection error: ", err)
 	}
 
 	return client
 }
 
 func (h *Handler[Tapi]) StartServer() {
-	log.Printf("[RPC] Launching RPC server")
+	log.Printf("[Backplane] Launching Backplane server")
 	err := rpc.Register(h.API)
 	if err != nil {
-		log.Fatal("[RPC] Error registering API", err)
+		log.Fatal("[Backplane] Error registering API", err)
 	}
 
 	rpc.HandleHTTP()
@@ -45,11 +45,11 @@ func (h *Handler[Tapi]) StartServer() {
 	if err != nil {
 		log.Fatal("Error listening on "+h.Address, err)
 	}
-	log.Printf("[RPC] Listening on [%s]", h.Address)
+	log.Printf("[Backplane] Listening on [%s]", h.Address)
 
 	err = http.Serve(listener, nil)
 	if err != nil {
 		log.Fatal("Error serving", err)
 	}
-	log.Printf("[RPC] Server Terminated")
+	log.Printf("[Backplane] Server Terminated")
 }

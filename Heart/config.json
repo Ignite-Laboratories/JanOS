@@ -1,0 +1,7 @@
+{
+  "id": "e0295f20-b686-44b3-9459-6aa64fbce2ae",
+  "title": "Heart",
+  "description": "A heartbeat pulse generator",
+  "network": "tcp",
+  "address": "127.0.0.1:422"
+}
