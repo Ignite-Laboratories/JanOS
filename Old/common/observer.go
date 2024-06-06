@@ -29,7 +29,7 @@ func NewStdInObserver() *Observer {
 			m.OutputStream <- scanner.Text()
 		}
 		if err := scanner.Err(); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}(s)
 

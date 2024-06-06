@@ -7,7 +7,7 @@ import (
 
 func main() {
 	Component.Setup()
-	remote := Component.This.ConnectRemote("tcp", "127.0.0.1:421")
+	remote := Component.This.ConnectRemote(Component.This.Server.PacketChannel, "tcp", "127.0.0.1:421")
 
 	// Look at the incoming packets
 	for msg := range Component.This.Server.PacketChannel {

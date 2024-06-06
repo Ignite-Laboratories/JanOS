@@ -43,7 +43,7 @@ func Initialize(filename string) {
 func createConfigFile(filename string) {
 	jsonFile, err := os.Create(filename)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	defer func(jsonFile *os.File) {
 		_ = jsonFile.Close()
@@ -53,14 +53,14 @@ func createConfigFile(filename string) {
 	err = encoder.Encode(Current)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }
 
 func loadConfigFile(filename string) {
 	jsonFile, err := os.Open(filename)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	defer func(jsonFile *os.File) {
 		_ = jsonFile.Close()
@@ -72,7 +72,7 @@ func loadConfigFile(filename string) {
 	err = decoder.Decode(&config)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	Current = config

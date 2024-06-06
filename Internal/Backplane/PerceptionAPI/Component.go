@@ -23,10 +23,10 @@ func NewComponent(id string, network string, address string) *Component {
 	return &c
 }
 
-func (c *Component) ConnectRemote(network string, address string) *Client {
+func (c *Component) ConnectRemote(channel chan string, network string, address string) *Client {
 	log.Printf("[Backplane] Connecting to remote [%s]\n", address)
 	client := NewClient(network, address)
-	client.Start()
+	client.Start(channel)
 
 	c.Clients[client.ID] = client
 	log.Printf("[Backplane] Remote Connected [%s]\n", client.ID)
