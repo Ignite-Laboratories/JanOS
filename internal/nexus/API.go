@@ -1,4 +1,4 @@
-package PerceptionAPI
+package nexus
 
 type API struct {
 	Server *Server

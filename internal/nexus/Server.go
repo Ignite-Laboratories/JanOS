@@ -1,8 +1,7 @@
-package PerceptionAPI
+package nexus
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Internal/Backplane"
-	"github.com/Ignite-Laboratories/JanOS/Internal/Config"
+	"github.com/Ignite-Laboratories/JanOS/internal/common"
 )
 
 type Server struct {
@@ -14,7 +13,7 @@ type Server struct {
 
 func NewServer(network string, address string) *Server {
 	return &Server{
-		ID:            Config.Current.ID,
+		ID:            common.Current.ID,
 		Network:       network,
 		Address:       address,
 		PacketChannel: make(chan string),
@@ -22,7 +21,7 @@ func NewServer(network string, address string) *Server {
 }
 
 func (s *Server) Start() {
-	h := Backplane.NewHandler[API](s.Network, s.Address)
+	h := NewHandler[API](s.Network, s.Address)
 	h.API.Server = s
 	go h.StartServer()
 }

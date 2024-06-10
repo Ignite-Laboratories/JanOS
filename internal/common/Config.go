@@ -1,43 +1,33 @@
-package Config
+package common
 
 import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"log"
 	"os"
+	"path/filepath"
 )
 
-var Current Configuration
+var Current Config
 
-type Configuration struct {
+type Config struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Network     string `json:"network"`
-	Address     string `json:"address"`
 }
 
-func fileExists(filename string) bool {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
-}
+func Initialize() {
+	fullPath := filepath.Join(GetSystemDirectory(), GetComponentName()) + ".cmp"
 
-func Initialize(filename string) {
-	if !fileExists(filename) {
-		Current = Configuration{
-			ID:          uuid.New().String(),
-			Title:       "Unknown",
-			Description: "This is a newly instantiated component",
-			Network:     "tcp",
-			Address:     "0.0.0.0:0",
+	if !FileExists(fullPath) {
+		Current = Config{
+			ID:    uuid.New().String(),
+			Title: GetComponentName(),
 		}
-		createConfigFile(filename)
+		createConfigFile(fullPath)
 	}
 
-	loadConfigFile(filename)
+	loadConfigFile(fullPath)
 }
 
 func createConfigFile(filename string) {
@@ -66,7 +56,7 @@ func loadConfigFile(filename string) {
 		_ = jsonFile.Close()
 	}(jsonFile)
 
-	var config Configuration
+	var config Config
 
 	decoder := json.NewDecoder(jsonFile)
 	err = decoder.Decode(&config)

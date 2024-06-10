@@ -1,8 +1,7 @@
-package PerceptionAPI
+package nexus
 
 import (
 	"errors"
-	"github.com/Ignite-Laboratories/JanOS/Internal/Backplane"
 	"github.com/google/uuid"
 	"log"
 	"net/rpc"
@@ -11,14 +10,14 @@ import (
 
 type Client struct {
 	ID      string
-	handler *Backplane.Handler[API]
+	handler *Handler[API]
 	client  *rpc.Client
 }
 
 func NewClient(network string, address string) *Client {
 	return &Client{
 		ID:      uuid.New().String(),
-		handler: Backplane.NewHandler[API](network, address),
+		handler: NewHandler[API](network, address),
 	}
 }
 
@@ -34,7 +33,7 @@ func (a *Client) Start(channel chan string) {
 
 func (a *Client) wireChannel(channel chan string) {
 	for msg := range channel {
-		log.Printf("[Backplane] Outputting message [%s]\n", msg)
+		log.Printf("[nexus] Outputting message [%s]\n", msg)
 		// Send them out the remote
 		a.ProcessPacket(msg)
 	}
@@ -45,7 +44,7 @@ func (a *Client) keepClientAlive(channel chan string) {
 		time.Sleep(time.Second)
 		_, err := a.Ping("Is this connection active?")
 		if err != nil {
-			log.Println("[Backplane] Client disconnected, reconnecting")
+			log.Println("[nexus] Client disconnected, reconnecting")
 			break
 		}
 	}
@@ -59,7 +58,7 @@ func (a *Client) Ping(value string) (string, error) {
 	}
 	err := a.client.Call("API.Ping", value, &str)
 	if err != nil {
-		log.Println("[Backplane] Error: ", err)
+		log.Println("[nexus] Error: ", err)
 		return str, err
 	}
 	return str, nil
@@ -70,7 +69,7 @@ func (a *Client) ProcessPacket(value string) {
 	if a.client != nil {
 		err := a.client.Call("API.ProcessPacket", value, &str)
 		if err != nil {
-			log.Println("[Backplane] Error: ", err)
+			log.Println("[nexus] Error: ", err)
 		}
 	}
 }

@@ -1,7 +1,0 @@
-{
-  "id": "aaa84a3f-f57a-48e0-a940-2c9b1b1f13c9",
-  "title": "Ganglia",
-  "description": "A collection of neurons for computation",
-  "network": "tcp",
-  "address": "127.0.0.1:421"
-}

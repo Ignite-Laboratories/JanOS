@@ -1,20 +1,10 @@
 package main
 
 import (
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-	"log"
+	"github.com/Ignite-Laboratories/JanOS/internal/state"
 )
 
 func main() {
-	//Component.Setup()
-	db, err := sql.Open("sqlite3", "./guestbook.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-	//db.Exec("create table foo (id integer not null primary key, name text);")
-
-	for {
-	}
+	state.Incept()
+	select {}
 }
