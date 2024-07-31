@@ -4,11 +4,16 @@ go 1.23rc2
 
 require github.com/hajimehoshi/ebiten/v2 v2.6.3
 
+require github.com/go-audio/audio v1.0.0
+
+require github.com/go-audio/wav v1.1.0
+
 require (
 	dmitri.shuralyov.com/gpu/mtl v0.0.0-20221208032759-85de2813cf6b // indirect
 	github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802 // indirect
 	github.com/ebitengine/oto/v3 v3.1.0 // indirect
 	github.com/ebitengine/purego v0.5.0 // indirect
+	github.com/go-audio/riff v1.0.0 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20231223183121-56fa3ac82ce7 // indirect
 	github.com/go-text/typesetting v0.0.0-20230905121921-abdbcca6e0eb // indirect
 	github.com/go-text/typesetting-utils v0.0.0-20230616150549-2a7df14b6a22 // indirect

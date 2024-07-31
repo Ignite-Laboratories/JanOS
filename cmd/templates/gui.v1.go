@@ -1,15 +1,13 @@
-package main
+package templates
 
 import (
 	"fmt"
 	"github.com/Ignite-Laboratories/JanOS/entities"
 	"github.com/Ignite-Laboratories/JanOS/systems"
-	"github.com/go-audio/wav"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"image/color"
 	"log"
-	"os"
 )
 
 const (
@@ -23,44 +21,6 @@ type World struct {
 	Components struct {
 	}
 	Systems []any
-}
-
-func main() {
-	f, err := os.Open("c:\\Source\\Arwen-Source\\JanOS\\cmd\\waveform\\assets\\1k sine.wav")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	d := wav.NewDecoder(f)
-
-	pcmBuffer, err := d.FullPCMBuffer()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-
-	fmt.Println(pcmBuffer.Data)
-
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
-	world := &World{}
-
-	// Setup the Systems
-
-	inputSystem := &systems.InputSystem{}
-
-	world.Systems = []any{
-		inputSystem,
-	}
-
-	world.Init()
-
-	ebiten.SetWindowSize(screenWidth*4, screenHeight*4)
-	ebiten.SetWindowTitle("JanOS")
-	if err := ebiten.RunGame(world); err != nil {
-		log.Fatal(err)
-	}
 }
 
 func (g *World) Init() {
@@ -99,4 +59,26 @@ func (g *World) Draw(screen *ebiten.Image) {
 
 func (g *World) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
+}
+
+func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	world := &World{}
+
+	// Setup the Systems
+
+	inputSystem := &systems.InputSystem{}
+
+	world.Systems = []any{
+		inputSystem,
+	}
+
+	world.Init()
+
+	ebiten.SetWindowSize(screenWidth*4, screenHeight*4)
+	ebiten.SetWindowTitle("JanOS")
+	if err := ebiten.RunGame(world); err != nil {
+		log.Fatal(err)
+	}
 }
