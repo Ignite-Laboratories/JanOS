@@ -1,4 +1,4 @@
-package entities
+package core
 
 var lastEntity int
 
