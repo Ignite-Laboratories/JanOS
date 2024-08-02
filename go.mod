@@ -5,6 +5,8 @@ go 1.22
 require (
 	github.com/EngoEngine/ecs v1.0.5
 	github.com/EngoEngine/engo v1.0.8
+	github.com/go-audio/audio v1.0.0
+	github.com/go-audio/wav v1.1.0
 )
 
 require (
@@ -12,6 +14,8 @@ require (
 	github.com/EngoEngine/math v1.0.4 // indirect
 	github.com/Noofbiz/sdlMojaveFix v0.0.1 // indirect
 	github.com/Noofbiz/tmx v0.2.0 // indirect
+	github.com/go-audio/aiff v1.1.0 // indirect
+	github.com/go-audio/riff v1.0.0 // indirect
 	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20220806181222-55e207c401ad // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
