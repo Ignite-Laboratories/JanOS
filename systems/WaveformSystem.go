@@ -1,6 +1,7 @@
 package systems
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/EngoEngine/ecs"
 	"github.com/EngoEngine/engo"
@@ -37,8 +38,12 @@ func (ws *WaveformSystem) New(w *ecs.World) {
 func (*WaveformSystem) Remove(ecs.BasicEntity) {}
 
 func (ws *WaveformSystem) Update(dt float32) {
+	if engo.Input.Button("LoadFile").JustPressed() {
+		engo.Mailbox.Dispatch(AssetMessage{Value: "Test"})
+	}
 	if engo.Input.Button("Analyze").JustPressed() {
-		d := wav.NewDecoder(ws.assetSystem.files["sine.1k"])
+		readSeeker := bytes.NewReader(ws.assetSystem.files["sine.1k"].Data)
+		d := wav.NewDecoder(readSeeker)
 
 		pcmBuffer, err := d.FullPCMBuffer()
 		if err != nil {

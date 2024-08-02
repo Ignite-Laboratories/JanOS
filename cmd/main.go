@@ -20,6 +20,7 @@ func (*myScene) Setup(u engo.Updater) {
 	common.SetBackground(color.White)
 
 	engo.Input.RegisterButton("Analyze", engo.KeyF1)
+	engo.Input.RegisterButton("LoadFile", engo.KeyF2)
 
 	world.AddSystem(&common.RenderSystem{})
 	world.AddSystem(&common.AudioSystem{})
