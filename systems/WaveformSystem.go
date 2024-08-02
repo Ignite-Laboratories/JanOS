@@ -3,6 +3,7 @@ package systems
 import (
 	"fmt"
 	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
 	"github.com/Ignite-Laboratories/JanOS/util"
 	"github.com/go-audio/wav"
 	"os"
@@ -18,39 +19,36 @@ type Waveform struct {
 var waveform *Waveform = &Waveform{}
 
 type WaveformSystem struct {
-	world *ecs.World
+	world       *ecs.World
+	assetSystem *AssetSystem
 }
 
 func (ws *WaveformSystem) New(w *ecs.World) {
 	ws.world = w
+
+	for _, system := range w.Systems() {
+		switch sys := system.(type) {
+		case *AssetSystem:
+			ws.assetSystem = sys
+		}
+	}
 }
 
 func (*WaveformSystem) Remove(ecs.BasicEntity) {}
 
-var processing = false
-
 func (ws *WaveformSystem) Update(dt float32) {
-	if processing {
-		return
+	if engo.Input.Button("Analyze").JustPressed() {
+		d := wav.NewDecoder(ws.assetSystem.files["sine.1k"])
+
+		pcmBuffer, err := d.FullPCMBuffer()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+
+		waveform.RawData = pcmBuffer.Data
+		waveform.ProcessData()
 	}
-	processing = true
-
-	f, err := os.Open("C:\\source\\ignite\\janos\\assets\\audio\\sine.1k.wav")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	d := wav.NewDecoder(f)
-
-	pcmBuffer, err := d.FullPCMBuffer()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return
-	}
-
-	waveform.RawData = pcmBuffer.Data
-	waveform.ProcessData()
 }
 
 func (w *Waveform) ProcessData() {

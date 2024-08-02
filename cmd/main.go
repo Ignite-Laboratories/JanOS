@@ -19,12 +19,17 @@ func (*myScene) Setup(u engo.Updater) {
 	world, _ := u.(*ecs.World)
 	common.SetBackground(color.White)
 
-	engo.Input.RegisterButton("AddCity", engo.KeyF1)
+	engo.Input.RegisterButton("Analyze", engo.KeyF1)
 
 	world.AddSystem(&common.RenderSystem{})
 	world.AddSystem(&common.AudioSystem{})
 	world.AddSystem(&common.MouseSystem{})
 
+	world.AddSystem(&systems.AssetSystem{
+		FilesToLoad: map[string]string{
+			"sine.1k": "audio\\sine.1k.wav",
+		},
+	})
 	world.AddSystem(&systems.WaveformSystem{})
 }
 
