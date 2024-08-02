@@ -27,7 +27,7 @@ func (*myScene) Setup(u engo.Updater) {
 	world.AddSystem(&common.MouseSystem{})
 
 	world.AddSystem(&systems.AssetSystem{
-		FilesToLoad: map[string]string{
+		ToLoad: map[string]string{
 			"sine.1k": "audio\\sine.1k.wav",
 		},
 	})

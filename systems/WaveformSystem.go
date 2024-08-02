@@ -39,10 +39,17 @@ func (*WaveformSystem) Remove(ecs.BasicEntity) {}
 
 func (ws *WaveformSystem) Update(dt float32) {
 	if engo.Input.Button("LoadFile").JustPressed() {
-		engo.Mailbox.Dispatch(AssetMessage{Value: "Test"})
+		var msg = NewLoadAssetMsg()
+		msg.Load("asdf1", "audio\\sine.1k.wav")
+		msg.Load("asdf2", "audio\\sine.1k.wav")
+		msg.Load("asdf3", "audio\\sine.1k.wav")
+		msg.Load("asdf4", "audio\\sine.1k.wav")
+		msg.Load("asdf5", "audio\\sine.1k.wav")
+		engo.Mailbox.Dispatch(msg)
 	}
 	if engo.Input.Button("Analyze").JustPressed() {
-		readSeeker := bytes.NewReader(ws.assetSystem.files["sine.1k"].Data)
+		asset := ws.assetSystem.Assets["sine.1k"]
+		readSeeker := bytes.NewReader(asset.FileData.Contents)
 		d := wav.NewDecoder(readSeeker)
 
 		pcmBuffer, err := d.FullPCMBuffer()
