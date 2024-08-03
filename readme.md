@@ -1,7 +1,7 @@
 # Welcome
 
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/janos-logo-light.png#gh-light-mode-only" width="400" />
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/janos-logo-dark.png#gh-dark-mode-only" width="400" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Logo%20-%20JanOS%20-%20Light.png#gh-light-mode-only" width="400" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Logo%20-%20JanOS%20-%20Dark.png#gh-dark-mode-only" width="400" />
 
 Welcome to JanOS - a resonant frequency ecosystem!
 
@@ -18,16 +18,16 @@ stretch time in comparison to others - not _against_ the universal clock, just i
 mature we gain higher level predictive modeling of our future actions, but everything still _fundamentally_ operates
 off of learned _behaviors_.
 
-That has a wonderful side effect - we theoretically could _score_ our entities decisions _musically_ and then utilize 
-machine learning to coalesce the groove of reality and her entities. 
+That has a wonderful side effect - we theoretically could _score_ our entities decisions _musically_ and then utilize
+machine learning to coalesce the groove of reality and her entities.
 
 ### Puzzle Piece 1 - The Oscillator
 
 As all components operate off of a carrier signal, we must first implement a way to create such a signal.  Luckily, that
 has a formulaic solution:
 
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/oscillator-1-light.png#gh-light-mode-only" width="800" />
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/oscillator-1-dark.png#gh-dark-mode-only" width="800" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Light.png#gh-light-mode-only" width="1000" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Dark.png#gh-dark-mode-only" width="1000" />
 
 Each entity will process encoded data applied to waveforms - either by placing or perceiving anomalies in relation to
 the carrier waveform. Pattern matching different ways this data is represented across time allows us to learn _when_
@@ -35,5 +35,5 @@ to perform actions or behaviors.  The entities cursor over chunks of an incoming
 width, depending on the complexity of the encoded data.
 
 
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/oscillator-anomaly-light.png#gh-light-mode-only" width="800" />
-<img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/oscillator-anomaly-dark.png#gh-dark-mode-only" width="800" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Anomaly_Light.png#gh-light-mode-only" width="1000" />
+<img src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Anomaly_Dark.png#gh-dark-mode-only" width="1000" />
