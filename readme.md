@@ -1,6 +1,3 @@
-![logo](https://github.com/Ignite-Laboratories/.github/blob/main/profile/artwork_janos_dark.png?raw=true#gh-light-mode-only)
-![logo](https://github.com/Ignite-Laboratories/.github/blob/main/profile/artwork_janos_light.png?raw=true#gh-dark-mode-only)
-
 # Welcome
 
 <img src="https://github.com/Ignite-Laboratories/.github/blob/main/profile/assets/janos-logo-light.png#gh-light-mode-only" width="400" />
