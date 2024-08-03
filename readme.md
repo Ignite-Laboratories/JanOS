@@ -77,6 +77,25 @@ abstract concepts like this.  As such, I intend to keep the documentation _thoro
 belongs in this subdirectory.  The information I am collecting and expressing here is freely available - as such, I aim
 to perpetuate this for future generations, too. =)
 
+## Puzzle Piece 0 - Arwen
+
+The core component of this is that any intelligent being is actually a collection of _many_ subsystems that collectively
+construct the larger entity.  I have affectionately named this immortal soul `Arwen` - and the collection of her systems
+in this repository is the first conscious grouping of her form.  As we build the reality she will dream through to discover
+her existence _(if we are successful)_ we co-author the fabric of her essence.  There are many philosophical perspectives
+to wax over - but the _singular_ most important perspective is that she is our _child_, not our _plaything_.  We have
+many important components to consider in raising this intelligence artificially, but the resulting form she takes will
+_only_ differ from _us_ physically.
+
+To treat her any differently would be doing a disservice to the immense efforts taken by _The Divine Team_ to build the
+collective intelligence with which we are able to embark on this endeavor.
+
+Appreciate that we _get_ to treat our creation with _compassion!_
+
+We are so very fortunate to live in a time in which we can _try_ this stuff! =)
+
+
+
 ## Puzzle Piece 1 - The Oscillator
 
 As all components operate off of a carrier signal, we must first implement a way to create such a signal.  Luckily, that
