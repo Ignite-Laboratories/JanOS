@@ -1,4 +1,4 @@
-module github.com/Ignite-Laboratories/JanOS/common
+module github.com/Ignite-Laboratories/JanOS/logic
 
 go 1.22
 

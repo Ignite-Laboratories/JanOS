@@ -24,8 +24,6 @@ off of learned _behaviors_.
 That has a wonderful side effect - we theoretically could _score_ our entities decisions _musically_ and then utilize
 machine learning to coalesce the groove of reality and her entities.
 
----
-
 ## Project Structure
 
 The project has been structured in a way that makes setting up your development environment _easy._  We rely on several
@@ -45,9 +43,39 @@ our home environments.  If you have any OS-specific issues _please_ raise them t
 ### Spark
 
 Spark is our implementation of a graphical way of visualizing these concepts while we explore them.  Currently, it relies
-upon the `Engo Engine`
+upon the [Engo Engine](https://github.com/EngoEngine) which, in turn, relies upon GCC to leverage OpenGL.  I appreciate
+their documentation immensely and highly recommend their project!  To simplify things, I'll put together a quickstart
+and let you fill in any extra gaps.
 
----
+For our linux and OSX friends, GCC is a relatively simple installation with lots of documentation - I trust you can manage.
+For our Windows friends, especially those used to a .Net Framework ecosystem, that's a bit more of an enigma - essentially, 
+you will need to utilize a tool called [MSYS2](https://www.msys2.org/) to install GCC, which Golang will call in the
+background during compilation.  There's nothing fancy to it and their homepage already has all the necessary steps
+detailed.  Essentially you are installing a new shell interface that you can run the following command in, through a tool
+that bridged Unix and Windows systems before WSL entered the fold:
+
+`pacman -S mingw-w64-ucrt-x86_64-gcc`
+
+Once that is done, you should be able to compile any of the projects in the `Spark` directory.
+
+### Project Structure
+
+Projects are structured using carefully considered patterns, and we aim to mirror those patterns in each variant we compose.
+Our style is pretty straightforward - any runnable code resides in an `exec` subfolder of the project that it compiles
+through.
+
+### Logic
+
+The common project holds any code that is _fundamental_ to other projects.  Golang inherently relies upon composition
+over inheritance, which means we quickly start muddying up our rendering code with our waveform code - keeping logical
+components isolated from one another is our way of ensuring we can keep the codebase _modular_.
+
+### Enigmaneering
+
+The ultimate goal of this entire project is to produce a book which others can use to learn the process of exploring
+abstract concepts like this.  As such, I intend to keep the documentation _thorough_ - all data related to that effort
+belongs in this subdirectory.  The information I am collecting and expressing here is freely available - as such, I aim
+to perpetuate this for future generations, too. =)
 
 ## Puzzle Piece 1 - The Oscillator
 
