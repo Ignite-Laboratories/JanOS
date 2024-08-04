@@ -1,4 +1,4 @@
-package logic
+package Logic
 
 import (
 	"sync/atomic"

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/logic"
-	"github.com/Ignite-Laboratories/JanOS/spark/systems"
+	"github.com/Ignite-Laboratories/JanOS/Logic"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Assets"
 	"github.com/hajimehoshi/ebiten/v2"
 	"log"
 )
@@ -16,7 +16,7 @@ const (
 	screenHeight = 768
 )
 
-var assetSystem = &systems.AssetSystem{
+var assetSystem = &Assets.AssetSystem{
 	BaseDirectory: "c:\\source\\ignite\\janos\\Assets",
 	ToLoad: map[string]string{
 		"sine.1k":     "audio\\sine.1k.wav",
@@ -28,7 +28,7 @@ var assetSystem = &systems.AssetSystem{
 RUN
 */
 
-var world *logic.World
+var world *Logic.World
 
 func main() {
 	game := &Game{}

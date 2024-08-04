@@ -1,4 +1,4 @@
-module github.com/Ignite-Laboratories/JanOS/arwen
+module github.com/Ignite-Laboratories/JanOS/Arwen
 
 go 1.22
 

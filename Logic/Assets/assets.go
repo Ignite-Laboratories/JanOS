@@ -10,7 +10,7 @@ import (
 )
 
 type Asset struct {
-	ID   logic.Entity
+	ID   Logic.Entity
 	Name string
 }
 
@@ -25,15 +25,15 @@ type FileDataComponent struct {
 }
 
 type AssetSystem struct {
-	World *logic.World
+	World *Logic.World
 
 	BaseDirectory string
 	ToLoad        map[string]string
 	Assets        map[string]*Asset
 
 	components struct {
-		BinaryData *logic.Components[BinaryDataComponent]
-		FileData   *logic.Components[FileDataComponent]
+		BinaryData *Logic.Components[BinaryDataComponent]
+		FileData   *Logic.Components[FileDataComponent]
 	}
 }
 
@@ -44,13 +44,13 @@ func NewAssetSystem() *AssetSystem {
 	}
 }
 
-func (as *AssetSystem) Initialize(w *logic.World) {
+func (as *AssetSystem) Initialize(w *Logic.World) {
 	as.World = w
 
 	loadFiles(as)
 }
 
-func (as *AssetSystem) Tick(w *logic.World) {
+func (as *AssetSystem) Tick(w *Logic.World) {
 
 }
 
@@ -92,7 +92,7 @@ func loadFile(name string, path string, resultChan chan *Asset, wg *sync.WaitGro
 
 	// Build the entity metadata and store it in memory
 	asset := &Asset{
-		ID:   logic.NewEntity(),
+		ID:   Logic.NewEntity(),
 		Name: name,
 	}
 	fileData := FileDataComponent{

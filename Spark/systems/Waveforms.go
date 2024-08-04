@@ -2,7 +2,7 @@ package systems
 
 import (
 	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/logic/Util"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Util"
 )
 
 type Waveform struct {

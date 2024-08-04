@@ -1,4 +1,4 @@
-module github.com/Ignite-Laboratories/JanOS/spark
+module github.com/Ignite-Laboratories/JanOS/Spark
 
 go 1.22
 
