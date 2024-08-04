@@ -43,9 +43,8 @@ our home environments.  If you have any OS-specific issues _please_ raise them t
 ### Spark
 
 Spark is our implementation of a graphical way of visualizing these concepts while we explore them.  Currently, it relies
-upon the [Engo Engine](https://github.com/EngoEngine) which, in turn, relies upon GCC to leverage OpenGL.  I appreciate
-their documentation immensely and highly recommend their project!  To simplify things, I'll put together a quickstart
-and let you fill in any extra gaps.
+upon [ebiten](https://github.com/hajimehoshi/ebiten) - however, an older version relied upon GCC to leverage OpenGL.  For
+posterity sake, in case we will require this in the future, here are the steps for installing GCC:
 
 For our linux and OSX friends, GCC is a relatively simple installation with lots of documentation - I trust you can manage.
 For our Windows friends, especially those used to a .Net Framework ecosystem, that's a bit more of an enigma - essentially, 
