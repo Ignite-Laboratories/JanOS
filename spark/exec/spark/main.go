@@ -1,49 +1,59 @@
 package main
 
 import (
-	"github.com/EngoEngine/ecs"
-	"github.com/EngoEngine/engo"
-	"github.com/EngoEngine/engo/common"
+	"github.com/Ignite-Laboratories/JanOS/logic"
 	"github.com/Ignite-Laboratories/JanOS/spark/systems"
-	"image/color"
+	"github.com/hajimehoshi/ebiten/v2"
+	"log"
 )
 
-type myScene struct{}
+/**
+SETUP
+*/
 
-func (*myScene) Type() string { return "JanOS" }
-
-func (*myScene) Preload() {
-}
+const (
+	screenWidth  = 1024
+	screenHeight = 768
+)
 
 var assetSystem = &systems.AssetSystem{
-	BaseDirectory: "c:\\source\\ignite\\janos\\assets",
+	BaseDirectory: "c:\\source\\ignite\\janos\\Assets",
 	ToLoad: map[string]string{
-		"sine.1k": "audio\\sine.1k.wav",
+		"sine.1k":     "audio\\sine.1k.wav",
+		"segoe-print": "fonts\\segoepr.ttf",
 	},
 }
 
-func (*myScene) Setup(u engo.Updater) {
-	world, _ := u.(*ecs.World)
-	common.SetBackground(color.White)
+/**
+RUN
+*/
 
-	engo.Input.RegisterButton("Analyze", engo.KeyF1)
-	engo.Input.RegisterButton("LoadFile", engo.KeyF2)
-
-	world.AddSystem(&common.RenderSystem{})
-	world.AddSystem(&common.AudioSystem{})
-	world.AddSystem(&common.MouseSystem{})
-
-	world.AddSystem(assetSystem)
-	world.AddSystem(&systems.WaveformSystem{})
-	world.AddSystem(&systems.InstrumentViewerSystem{})
-}
+var world *logic.World
 
 func main() {
-	opts := engo.RunOptions{
-		Title:          "JanOS",
-		Width:          640,
-		Height:         480,
-		StandardInputs: true,
+	game := &Game{}
+	ebiten.SetWindowSize(screenWidth, screenHeight)
+	ebiten.SetWindowTitle("Spark")
+	if err := ebiten.RunGame(game); err != nil {
+		log.Fatal(err)
 	}
-	engo.Run(opts, &myScene{})
+}
+
+/**
+SUPPORT
+*/
+
+type Game struct {
+}
+
+func (g *Game) Update() error {
+	return nil
+}
+
+func (g *Game) Draw(screen *ebiten.Image) {
+
+}
+
+func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
+	return screenWidth, screenHeight
 }
