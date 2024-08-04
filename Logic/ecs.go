@@ -69,8 +69,7 @@ func (c *Components[T]) AcceptEmpty(entity Entity, fn func(e Entity)) {
 SYSTEM
 */
 
-type System struct {
-	World *World
+type System interface {
 	SystemInitializer
 	SystemTicker
 }

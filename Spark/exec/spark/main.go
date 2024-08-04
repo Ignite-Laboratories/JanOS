@@ -2,58 +2,30 @@ package main
 
 import (
 	"github.com/Ignite-Laboratories/JanOS/Logic"
-	"github.com/Ignite-Laboratories/JanOS/Logic/Assets"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Systems"
+	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/hajimehoshi/ebiten/v2"
-	"log"
 )
-
-/**
-SETUP
-*/
-
-const (
-	screenWidth  = 1024
-	screenHeight = 768
-)
-
-var assetSystem = &Assets.AssetSystem{
-	BaseDirectory: "c:\\source\\ignite\\janos\\Assets",
-	ToLoad: map[string]string{
-		"sine.1k":     "audio\\sine.1k.wav",
-		"segoe-print": "fonts\\segoepr.ttf",
-	},
-}
-
-/**
-RUN
-*/
-
-var world *Logic.World
 
 func main() {
-	game := &Game{}
-	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("Spark")
-	if err := ebiten.RunGame(game); err != nil {
-		log.Fatal(err)
+	game := Spark.Game{
+		WindowTitle:  "Spark",
+		ScreenWidth:  1024,
+		ScreenHeight: 768,
+		World: &Logic.World{
+			Systems: []Logic.System{
+				Systems.NewAssetSystem("c:\\source\\ignite\\janos\\Assets", map[string]string{
+					"sine.1k":     "audio\\sine.1k.wav",
+					"segoe-print": "fonts\\segoepr.ttf",
+				}),
+			},
+		},
+		OnUpdate: func() {
+
+		},
+		OnDraw: func(screen *ebiten.Image) {
+
+		},
 	}
-}
-
-/**
-SUPPORT
-*/
-
-type Game struct {
-}
-
-func (g *Game) Update() error {
-	return nil
-}
-
-func (g *Game) Draw(screen *ebiten.Image) {
-
-}
-
-func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return screenWidth, screenHeight
+	game.Run()
 }

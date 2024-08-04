@@ -1,7 +1,7 @@
 package Assets
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/logic"
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"io"
 	"log"
 	"os"
@@ -24,33 +24,38 @@ type FileDataComponent struct {
 	Extension string
 }
 
-type AssetSystem struct {
-	World *Logic.World
+type AssetSystemComponents struct {
+	BinaryData *Logic.Components[BinaryDataComponent]
+	FileData   *Logic.Components[FileDataComponent]
+}
 
+type AssetSystem struct {
+	World         *Logic.World
 	BaseDirectory string
 	ToLoad        map[string]string
 	Assets        map[string]*Asset
 
-	components struct {
-		BinaryData *Logic.Components[BinaryDataComponent]
-		FileData   *Logic.Components[FileDataComponent]
+	components AssetSystemComponents
+}
+
+func NewAssetSystem(baseDir string, toLoad map[string]string) AssetSystem {
+	return AssetSystem{
+		BaseDirectory: baseDir,
+		ToLoad:        toLoad,
+		Assets:        make(map[string]*Asset),
+		components: AssetSystemComponents{
+			BinaryData: &Logic.Components[BinaryDataComponent]{},
+			FileData:   &Logic.Components[FileDataComponent]{},
+		},
 	}
 }
 
-func NewAssetSystem() *AssetSystem {
-	return &AssetSystem{
-		ToLoad: make(map[string]string),
-		Assets: make(map[string]*Asset),
-	}
-}
-
-func (as *AssetSystem) Initialize(w *Logic.World) {
+func (as AssetSystem) Initialize(w *Logic.World) {
 	as.World = w
-
-	loadFiles(as)
+	loadFiles(&as)
 }
 
-func (as *AssetSystem) Tick(w *Logic.World) {
+func (as AssetSystem) Tick(w *Logic.World) {
 
 }
 
