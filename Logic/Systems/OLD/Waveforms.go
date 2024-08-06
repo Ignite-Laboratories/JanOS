@@ -43,8 +43,8 @@ func (ws *WaveformSystem) Update(dt float32) {
 	//	engo.Mailbox.Dispatch(msg)
 	//}
 	//if engo.Input.Button("Analyze").JustPressed() {
-	//	asset := ws.assetSystem.Assets["sine.1k"]
-	//	readSeeker := bytes.NewReader(asset.FileData.Contents)
+	//	asset := ws.assetSystem.assets["sine.1k"]
+	//	readSeeker := bytes.NewReader(asset.FileMetaData.Contents)
 	//	d := wav.NewDecoder(readSeeker)
 	//
 	//	pcmBuffer, err := d.FullPCMBuffer()

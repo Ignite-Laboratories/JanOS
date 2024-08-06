@@ -11,23 +11,30 @@ var AssetsToLoad = map[string]string{
 	"segoe-print": "fonts\\segoepr.ttf",
 }
 
+var world = &Logic.World{
+	Assets: Logic.NetAssetManager("c:\\source\\ignite\\janos\\assets", AssetsToLoad),
+	Systems: []Logic.System{
+		Systems.NewAudioSystem(),
+		Systems.NewInputSystem(),
+		Systems.NewWaveformVisualizerSystem(),
+	},
+}
+
 func main() {
 	game := Logic.Game{
 		WindowTitle:  "Spark",
 		ScreenWidth:  1024,
 		ScreenHeight: 768,
-		World: &Logic.World{
-			Systems: []Logic.System{
-				Systems.NewAssetSystem("c:\\source\\ignite\\janos\\Assets", AssetsToLoad),
-				Systems.NewAudioSystem(),
-				Systems.NewInputSystem(),
-			},
-		},
+		World:        world,
 		OnUpdate: func() {
 
 		},
 		OnDraw: func(screen *ebiten.Image) {
-
+			for _, s := range world.Systems {
+				if d, ok := s.(Logic.SystemDrawer); ok {
+					d.Draw(screen)
+				}
+			}
 		},
 	}
 	game.Run()

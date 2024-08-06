@@ -21,7 +21,7 @@ func (ts *TextSystem) New(w int) { //*ecs.World) {
 	//	}
 	//}
 	//
-	//err := engo.Files.LoadReaderData("segoepr.ttf", bytes.NewReader(ts.assetSystem.Assets["segoe-print"].FileData.Contents))
+	//err := engo.Files.LoadReaderData("segoepr.ttf", bytes.NewReader(ts.assetSystem.assets["segoe-print"].FileMetaData.Contents))
 	//if err != nil {
 	//	log.Fatal(err)
 	//}

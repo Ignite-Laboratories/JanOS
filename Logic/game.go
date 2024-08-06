@@ -27,8 +27,8 @@ func (g *Game) Run() {
 func (g *Game) Update() error {
 	// On the first tick, we initialize all the OLD
 	if !g.isInitialized {
-		g.World.Entities = make(map[Entity]any)
-		g.World.Nexus = NewNexus()
+		g.World.Messaging = NewNexus()
+		g.World.Assets.Initialize(g.World)
 		for _, system := range g.World.Systems {
 			log.Printf("%s System Initializing", system.GetName())
 			system.Initialize(g.World)
@@ -46,7 +46,7 @@ func (g *Game) Update() error {
 	g.OnUpdate()
 
 	// Update the message queue last
-	g.World.Nexus.Clear()
+	g.World.Messaging.Cycle()
 	return nil
 }
 

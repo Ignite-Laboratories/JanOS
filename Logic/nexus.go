@@ -19,34 +19,34 @@ func NewNexus() Nexus {
 
 // Subscribe takes in a subject and a subscribing entity to register for messages of the provided subject
 func (w *World) Subscribe(subscriber Entity, subject string) {
-	if w.Nexus.subscribers[subscriber] == nil {
-		w.Nexus.subscribers[subscriber] = make([]string, 0)
+	if w.Messaging.subscribers[subscriber] == nil {
+		w.Messaging.subscribers[subscriber] = make([]string, 0)
 	}
-	w.Nexus.subscribers[subscriber] = append(w.Nexus.subscribers[subscriber], subject)
+	w.Messaging.subscribers[subscriber] = append(w.Messaging.subscribers[subscriber], subject)
 }
 
 // Unsubscribe takes in a subject and a subscribing entity to remove from messages of the provided subject
 func (w *World) Unsubscribe(subscriber Entity, subject string) {
 	var newSubjects []string
-	for _, sub := range w.Nexus.subscribers[subscriber] {
+	for _, sub := range w.Messaging.subscribers[subscriber] {
 		if sub != subject {
 			newSubjects = append(newSubjects, sub)
 		}
 	}
-	w.Nexus.subscribers[subscriber] = newSubjects
+	w.Messaging.subscribers[subscriber] = newSubjects
 }
 
 // Publish takes in a subject and a message
 func (w *World) Publish(subject string, message any) {
-	w.Nexus.queued[subject] = append(w.Nexus.queued[subject], message)
+	w.Messaging.queued[subject] = append(w.Messaging.queued[subject], message)
 }
 
 // GetMessages takes in the subscribing entity to retrieve messages for and returns its pending messages
 func (w *World) GetMessages(subscriber Entity) Inbox {
 	inbox := Inbox{make(map[string][]any)}
 
-	for _, subscription := range w.Nexus.subscribers[subscriber] {
-		messages := w.Nexus.messages[subscription]
+	for _, subscription := range w.Messaging.subscribers[subscriber] {
+		messages := w.Messaging.messages[subscription]
 		if len(messages) > 0 {
 			inbox.Subjects[subscription] = messages
 		}
@@ -54,8 +54,8 @@ func (w *World) GetMessages(subscriber Entity) Inbox {
 	return inbox
 }
 
-// Clear empties the message queue for the next iteration of the loop
-func (n *Nexus) Clear() {
+// Cycle empties the message queue for the next iteration of the loop
+func (n *Nexus) Cycle() {
 	n.messages = n.queued
 	n.queued = make(map[string][]any)
 }

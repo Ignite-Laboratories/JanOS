@@ -2,7 +2,6 @@ package Systems
 
 import (
 	"github.com/Ignite-Laboratories/JanOS/Logic"
-	"github.com/Ignite-Laboratories/JanOS/Logic/Common"
 )
 
 type OscillationSystem struct {
@@ -12,13 +11,13 @@ type OscillationSystem struct {
 }
 
 type OscillationSystemComponents struct {
-	BinaryData *Common.BinaryDataSet
+	BinaryData *Logic.BinaryDataSet
 }
 
 func NewAudioSystem() OscillationSystem {
 	return OscillationSystem{
 		components: OscillationSystemComponents{
-			BinaryData: &Common.BinaryDataSet{},
+			BinaryData: &Logic.BinaryDataSet{},
 		},
 	}
 }

@@ -2,6 +2,7 @@ package Logic
 
 import (
 	"fmt"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 /**
@@ -88,16 +89,21 @@ type SystemTicker interface {
 	Tick(world *World, inbox Inbox)
 }
 
+type SystemDrawer interface {
+	Draw(img *ebiten.Image)
+}
+
 /**
 WORLD
 */
 
 type World struct {
-	Nexus
-	Entities map[Entity]any
-	Systems  []System
+	Messaging Nexus
+	Assets    AssetManager
+	Entities  []Entity
+	Systems   []System
 }
 
-func (w *World) AddEntity(e Entity, obj any) {
-	w.Entities[e] = obj
+func (w *World) AddEntity(e Entity) {
+	w.Entities = append(w.Entities, e)
 }
