@@ -1,11 +1,11 @@
 package Systems
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Logic"
+	"github.com/Ignite-Laboratories/JanOS/Spark"
 )
 
 type InputSystem struct {
-	Logic.Entity
+	Spark.Entity
 
 	components InputSystemComponents
 }
@@ -20,10 +20,10 @@ func NewInputSystem() InputSystem {
 }
 
 func (sys InputSystem) GetName() string         { return "Input" }
-func (sys InputSystem) GetEntity() Logic.Entity { return sys.Entity }
+func (sys InputSystem) GetEntity() Spark.Entity { return sys.Entity }
 
-func (sys InputSystem) Initialize(world *Logic.World) {
+func (sys InputSystem) Initialize() {
 }
 
-func (sys InputSystem) Tick(world *Logic.World, inbox Logic.Inbox) {
+func (sys InputSystem) Tick(inbox Spark.Inbox) {
 }

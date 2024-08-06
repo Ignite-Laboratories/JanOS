@@ -1,21 +1,20 @@
-package UUID
+package Util
 
 import (
-	"math/rand"
-
 	"github.com/google/uuid"
+	"math/rand"
 )
 
-// New returns a new UUID from the Google UUID library.
+// NewUUID returns a new UUID from the Google UUID library.
 // This is merely for convenience.
-func New() uuid.UUID {
+func NewUUID() uuid.UUID {
 	return uuid.New()
 }
 
-// NewSeeded returns a new UUID from the Google UUID library,
+// NewUUIDSeeded returns a new UUID from the Google UUID library,
 // but from a seeded integer value.  This allows a complex
 // hash of a known identifier - likely to be used to add entropy.
-func NewSeeded(seed int64) (uuid.UUID, error) {
+func NewUUIDSeeded(seed int64) (uuid.UUID, error) {
 	var id uuid.UUID
 	r := rand.New(rand.NewSource(seed))
 	randomizer := make([]byte, 16)

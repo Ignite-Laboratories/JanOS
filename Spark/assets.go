@@ -1,4 +1,4 @@
-package Logic
+package Spark
 
 import (
 	"io"
@@ -28,7 +28,7 @@ type AssetSystemComponents struct {
 	FileMetaData *FileMetaDataSet
 }
 
-func NetAssetManager(baseDir string, toLoad map[string]string) AssetManager {
+func NewAssetManager(baseDir string, toLoad map[string]string) AssetManager {
 	return AssetManager{
 		BaseDirectory: baseDir,
 		InitiallyLoad: toLoad,
@@ -40,8 +40,8 @@ func NetAssetManager(baseDir string, toLoad map[string]string) AssetManager {
 	}
 }
 
-func (am AssetManager) Initialize(world *World) {
-	am.LoadFiles(am.InitiallyLoad, world)
+func (am AssetManager) Initialize() {
+	am.LoadFiles(am.InitiallyLoad)
 	am.IsInitialized = true
 }
 
@@ -49,42 +49,42 @@ func (am AssetManager) Initialize(world *World) {
 LOGIC
 */
 
-func (am AssetManager) Get(name string) (*Asset, bool) {
+func (am AssetManager) Get(name string) (Asset, bool) {
 	asset, ok := am.assets[name]
 	if !ok {
-		return nil, false
+		return Asset{}, false
 	}
-	return &asset, true
+	return asset, true
 }
 
-func (am AssetManager) GetBinaryData(name string) (*BinaryData, bool) {
+func (am AssetManager) GetBinaryData(name string) (BinaryData, bool) {
 	var asset, ok = am.Get(name)
 	if !ok {
-		return nil, false
+		return BinaryData{}, false
 	}
 	binaryData, ok := am.components.BinaryData.Get(asset.Entity)
-	return &binaryData, ok
+	return binaryData, ok
 }
 
-func (am AssetManager) GetFileMetaData(name string) (*FileMetaData, bool) {
+func (am AssetManager) GetFileMetaData(name string) (FileMetaData, bool) {
 	var asset, ok = am.Get(name)
 	if !ok {
-		return nil, false
+		return FileMetaData{}, false
 	}
 	fileMetaData, ok := am.components.FileMetaData.Get(asset.Entity)
-	return &fileMetaData, ok
+	return fileMetaData, ok
 }
 
-func (am AssetManager) LoadFile(name string, path string, world *World) *Asset {
+func (am AssetManager) LoadFile(name string, path string) *Asset {
 	var toLoad = map[string]string{name: path}
-	var result = am.LoadFiles(toLoad, world)
+	var result = am.LoadFiles(toLoad)
 	if len(result) == 0 {
 		return nil
 	}
 	return result[0]
 }
 
-func (am AssetManager) LoadFiles(files map[string]string, world *World) []*Asset {
+func (am AssetManager) LoadFiles(files map[string]string) []*Asset {
 	log.Printf("Loading %d asset(s)", len(files))
 	var wg sync.WaitGroup
 	var loaded = make([]*Asset, 0)
@@ -92,7 +92,7 @@ func (am AssetManager) LoadFiles(files map[string]string, world *World) []*Asset
 	for name, path := range files {
 		wg.Add(1)
 		resultChan := make(chan Asset)
-		go am.loadFile(name, filepath.Join(am.BaseDirectory, path), resultChan, &wg, world)
+		go am.loadFile(name, filepath.Join(am.BaseDirectory, path), resultChan, &wg)
 		if resultChan != nil {
 			var result = <-resultChan
 			am.assets[name] = result
@@ -105,7 +105,7 @@ func (am AssetManager) LoadFiles(files map[string]string, world *World) []*Asset
 	return loaded
 }
 
-func (am AssetManager) loadFile(name string, path string, resultChan chan Asset, wg *sync.WaitGroup, world *World) {
+func (am AssetManager) loadFile(name string, path string, resultChan chan Asset, wg *sync.WaitGroup) {
 	// Open the file
 	f, err := os.Open(path)
 	if err != nil {
@@ -135,7 +135,6 @@ func (am AssetManager) loadFile(name string, path string, resultChan chan Asset,
 	}
 	am.components.FileMetaData.Set(asset.Entity, fileData)
 	am.components.BinaryData.Set(asset.Entity, content)
-	world.AddEntity(asset.Entity)
 
 	// Close the file
 	err = f.Close()

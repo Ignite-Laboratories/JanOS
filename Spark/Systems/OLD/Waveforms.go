@@ -2,7 +2,7 @@ package OLD
 
 import (
 	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/Logic/Util"
+	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
 )
 
 type Waveform struct {

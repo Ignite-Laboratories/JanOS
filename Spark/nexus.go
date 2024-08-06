@@ -1,4 +1,4 @@
-package Logic
+package Spark
 
 type Inbox struct {
 	Subjects map[string][]any

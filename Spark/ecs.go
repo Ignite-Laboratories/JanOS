@@ -1,9 +1,19 @@
-package Logic
+package Spark
 
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
+	"sync/atomic"
 )
+
+/**
+UTILITY FUNCTIONS
+*/
+
+var masterCount uint64
+
+// NextId increments the internal master count maintained since execution and then returns the value
+func NextId() uint64 { return atomic.AddUint64(&masterCount, 1) }
 
 /**
 ENTITY
@@ -82,15 +92,15 @@ type SystemIdentifier interface {
 }
 
 type SystemInitializer interface {
-	Initialize(world *World)
+	Initialize()
 }
 
 type SystemTicker interface {
-	Tick(world *World, inbox Inbox)
+	Tick(inbox Inbox)
 }
 
 type SystemDrawer interface {
-	Draw(img *ebiten.Image)
+	OnDraw(entity Entity, screen *ebiten.Image)
 }
 
 /**
@@ -102,6 +112,12 @@ type World struct {
 	Assets    AssetManager
 	Entities  []Entity
 	Systems   []System
+}
+
+func (w *World) CreateEntity() Entity {
+	entity := NewEntity()
+	w.AddEntity(entity)
+	return entity
 }
 
 func (w *World) AddEntity(e Entity) {
