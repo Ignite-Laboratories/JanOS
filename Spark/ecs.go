@@ -28,20 +28,20 @@ COMPONENT
 */
 
 type Components[T any] struct {
-	db map[Entity]T
+	DB map[Entity]T
 }
 
 func (c *Components[T]) Delete(e Entity) {
-	delete(c.db, e)
+	delete(c.DB, e)
 }
 
 func (c *Components[T]) Get(e Entity) (T, bool) {
-	v, ok := c.db[e]
+	v, ok := c.DB[e]
 	return v, ok
 }
 
 func (c *Components[T]) MustGet(e Entity) T {
-	v, ok := c.db[e]
+	v, ok := c.DB[e]
 	if !ok {
 		panic(fmt.Sprintf("no component for entity %d", e))
 	}
@@ -49,29 +49,29 @@ func (c *Components[T]) MustGet(e Entity) T {
 }
 
 func (c *Components[T]) Set(e Entity, d T) {
-	if c.db == nil {
-		c.db = map[Entity]T{}
+	if c.DB == nil {
+		c.DB = map[Entity]T{}
 	}
-	c.db[e] = d
+	c.DB[e] = d
 }
 func (c *Components[T]) SetIfAbsent(e Entity, d T) {
-	if c.db == nil {
-		c.db = map[Entity]T{}
+	if c.DB == nil {
+		c.DB = map[Entity]T{}
 	}
-	if _, ok := c.db[e]; !ok {
-		c.db[e] = d
+	if _, ok := c.DB[e]; !ok {
+		c.DB[e] = d
 	}
 }
 
 func (c *Components[T]) Accept(entity Entity, fn func(e Entity, c T)) {
-	if c, ok := c.db[entity]; ok {
+	if c, ok := c.DB[entity]; ok {
 		fn(entity, c)
 	}
 }
 
 // AcceptEmpty only accept if empty
 func (c *Components[T]) AcceptEmpty(entity Entity, fn func(e Entity)) {
-	if _, ok := c.db[entity]; !ok {
+	if _, ok := c.DB[entity]; !ok {
 		fn(entity)
 	}
 }
