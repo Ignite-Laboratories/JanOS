@@ -70,16 +70,22 @@ SYSTEM
 */
 
 type System interface {
+	SystemIdentifier
 	SystemInitializer
 	SystemTicker
 }
 
+type SystemIdentifier interface {
+	GetName() string
+	GetEntity() Entity
+}
+
 type SystemInitializer interface {
-	Initialize(w *World)
+	Initialize(world *World)
 }
 
 type SystemTicker interface {
-	Tick(w *World)
+	Tick(world *World, inbox Inbox)
 }
 
 /**
@@ -87,6 +93,11 @@ WORLD
 */
 
 type World struct {
-	Entities []Entity
+	Nexus
+	Entities map[Entity]any
 	Systems  []System
+}
+
+func (w *World) AddEntity(e Entity, obj any) {
+	w.Entities[e] = obj
 }

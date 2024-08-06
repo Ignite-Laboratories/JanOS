@@ -1,4 +1,4 @@
-package systems
+package OLD
 
 type TextEntity struct {
 	//ecs.BasicEntity
@@ -62,7 +62,7 @@ func (ts *TextSystem) Update(dt float32) {
 func (ts *TextSystem) Remove(basic int) { //ecs.BasicEntity) {
 	//del := -1
 	//for index, e := range ts.entities {
-	//	if e.BasicEntity.ID() == basic.ID() {
+	//	if e.BasicEntity.Entity() == basic.Entity() {
 	//		del = index
 	//		break
 	//	}

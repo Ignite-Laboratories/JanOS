@@ -1,7 +1,6 @@
-package Spark
+package Logic
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"github.com/hajimehoshi/ebiten/v2"
 	"log"
 )
@@ -10,7 +9,8 @@ type Game struct {
 	WindowTitle   string
 	ScreenWidth   int
 	ScreenHeight  int
-	World         *Logic.World
+	Nexus         *Nexus
+	World         *World
 	OnUpdate      func()
 	OnDraw        func(screen *ebiten.Image)
 	isInitialized bool
@@ -25,20 +25,28 @@ func (g *Game) Run() {
 }
 
 func (g *Game) Update() error {
-	// On the first tick, we initialize all the systems
+	// On the first tick, we initialize all the OLD
 	if !g.isInitialized {
+		g.World.Entities = make(map[Entity]any)
+		g.World.Nexus = NewNexus()
 		for _, system := range g.World.Systems {
+			log.Printf("%s System Initializing", system.GetName())
 			system.Initialize(g.World)
+			log.Printf("%s System Initialized", system.GetName())
 		}
 		g.isInitialized = true
 	} else {
 		// On subsequent ticks, we fire the tick function
 		for _, system := range g.World.Systems {
-			system.Tick(g.World)
+			messages := g.World.GetMessages(system.GetEntity())
+			system.Tick(g.World, messages)
 		}
 	}
 
 	g.OnUpdate()
+
+	// Update the message queue last
+	g.World.Nexus.Clear()
 	return nil
 }
 
