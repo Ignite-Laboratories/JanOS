@@ -58,26 +58,22 @@ func (sys CursoringSystem) Initialize() {
 
 func (sys CursoringSystem) Tick(inbox Spark.Inbox) {
 	for _, cursor := range sys.components.Cursors.DB {
-		for _, system := range Spark.Universe.Systems {
-			if oscillationSystem, ok := system.(OscillationSystem); ok {
-				o, ok2 := oscillationSystem.GetOscillator(cursor.OscillatorEntity)
-				if ok2 {
-					now := time.Now().UnixNano()
-					timeSinceLastStep := time.Duration(now - cursor.LastUpdate).Nanoseconds()
-					resolutionInterval := cursor.DutyCycle.Nanoseconds() / cursor.Resolution
+		if oscillationSystem, ok := Spark.Universe.GetSystem(OscillationSystem{}).(OscillationSystem); ok {
+			o, _ := oscillationSystem.GetOscillator(cursor.OscillatorEntity)
+			now := time.Now().UnixNano()
+			timeSinceLastStep := time.Duration(now - cursor.LastUpdate).Nanoseconds()
+			resolutionInterval := cursor.DutyCycle.Nanoseconds() / cursor.Resolution
 
-					if timeSinceLastStep > resolutionInterval {
-						cursor.Buffer[cursor.Index] = o.Value
-						cursor.Index++
-					}
-					if cursor.Index >= cursor.Resolution {
-						cursor.Index = 0
-						log.Println(fmt.Sprint(cursor.Buffer))
-					}
-					cursor.LastUpdate = now
-					sys.components.Cursors.Set(cursor.Entity, cursor)
-				}
+			if timeSinceLastStep > resolutionInterval {
+				cursor.Buffer[cursor.Index] = o.Value
+				cursor.Index++
 			}
+			if cursor.Index >= cursor.Resolution {
+				cursor.Index = 0
+				log.Println(fmt.Sprint(cursor.Buffer))
+			}
+			cursor.LastUpdate = now
+			sys.components.Cursors.Set(cursor.Entity, cursor)
 		}
 	}
 }

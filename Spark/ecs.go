@@ -3,6 +3,7 @@ package Spark
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
+	"reflect"
 	"sync/atomic"
 )
 
@@ -112,6 +113,16 @@ type World struct {
 	Assets    AssetManager
 	Entities  []Entity
 	Systems   []System
+}
+
+func (w *World) GetSystem(match System) System {
+	matchType := reflect.TypeOf(match)
+	for _, system := range w.Systems {
+		if reflect.TypeOf(system) == matchType {
+			return system
+		}
+	}
+	return nil
 }
 
 func (w *World) CreateEntity() Entity {

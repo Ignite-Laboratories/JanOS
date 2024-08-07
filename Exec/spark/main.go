@@ -25,6 +25,9 @@ func main() {
 		},
 	}
 
+	os := Spark.Universe.Systems[0].(Systems.OscillationSystem)
+	os.GetName()
+
 	o1 := oscillation.StartOscillator(1, 1, time.Duration(10)*time.Second)
 	oscillation.StartOscillator(1, 1, time.Duration(5)*time.Second)
 	oscillation.StartOscillator(1, 1, time.Duration(1)*time.Second)
