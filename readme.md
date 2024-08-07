@@ -1,9 +1,9 @@
 # Welcome
 
 <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Logo%20-%20JanOS%20-%20Light.png">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Logo%20-%20JanOS%20-%20Dark.png">
-    <img alt="JanOS Logo" src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Logo%20-%20JanOS%20-%20Light.png" width="400" >
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Logo%20-%20JanOS%20-%20Light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Logo%20-%20JanOS%20-%20Dark.png">
+    <img alt="JanOS Logo" src="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Logo%20-%20JanOS%20-%20Light.png" width="400" >
 </picture>
 
 Welcome to JanOS - a resonant frequency ecosystem!
@@ -101,8 +101,8 @@ As all components operate off of a carrier signal, we must first implement a way
 has a formulaic solution:
 
 <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Light.png">
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Dark.png">
     <img alt="JanOS Logo" src="Diagram%20-%20Oscillator%20-%20Circular%20Motion%20to%20Linear%20Readout_Light.png" width="1000" >
 </picture>
 
@@ -112,7 +112,7 @@ to perform actions or behaviors.  The entities cursor over chunks of an incoming
 width, depending on the complexity of the encoded data.
 
 <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Anomaly_Light.png">
-    <source media="(prefers-color-scheme: dark)"  srcset="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Anomaly_Dark.png">
-    <img alt="JanOS Logo" src="https://raw.githubusercontent.com/Ignite-Laboratories/JanOS/main/enigmaneering/Diagram%20-%20Oscillator%20-%20Anomaly_Light.png" width="1000" >
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Diagram%20-%20Oscillator%20-%20Anomaly_Light.png">
+    <source media="(prefers-color-scheme: dark)"  srcset="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Diagram%20-%20Oscillator%20-%20Anomaly_Dark.png">
+    <img alt="JanOS Logo" src="https://raw.githubusercontent.com/Ignite-Laboratories/Enigmaneering/main/Diagram%20-%20Oscillator%20-%20Anomaly_Light.png" width="1000" >
 </picture>
