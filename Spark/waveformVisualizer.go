@@ -1,7 +1,6 @@
-package Systems
+package Spark
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -10,39 +9,39 @@ import (
 )
 
 type WavVizSystem struct {
-	Spark.Entity
+	Entity
 
 	components WavVizSystemComponents
 }
 
 type WavVizSystemComponents struct {
-	Renderable *Spark.RenderableSet
-	BinaryData *Spark.BinaryDataSet
+	Renderable *RenderableSet
+	BinaryData *BinaryDataSet
 	Waveforms  *WaveformSet
 }
 
 func NewWaveformVisualizerSystem() WavVizSystem {
 	return WavVizSystem{
 		components: WavVizSystemComponents{
-			Renderable: &Spark.RenderableSet{},
-			BinaryData: &Spark.BinaryDataSet{},
+			Renderable: &RenderableSet{},
+			BinaryData: &BinaryDataSet{},
 			Waveforms:  &WaveformSet{},
 		},
 	}
 }
 
 type Waveform struct {
-	Entity Spark.Entity
-	Cursor Spark.Entity
+	Entity Entity
+	Cursor Entity
 	Values []int
 }
 
 type WaveformSet struct {
-	Spark.Components[Waveform]
+	Components[Waveform]
 }
 
-func (sys WavVizSystem) GetName() string         { return "Waveform Visualizer" }
-func (sys WavVizSystem) GetEntity() Spark.Entity { return sys.Entity }
+func (sys WavVizSystem) GetName() string   { return "Waveform Visualizer" }
+func (sys WavVizSystem) GetEntity() Entity { return sys.Entity }
 
 func (sys WavVizSystem) Initialize() {
 
@@ -50,21 +49,20 @@ func (sys WavVizSystem) Initialize() {
 
 var gotSine bool
 
-func (sys WavVizSystem) Visualize(cursor Spark.Entity) {
+func (sys WavVizSystem) Visualize(cursor Entity) {
 	waveform := Waveform{
-		Entity: Spark.Universe.CreateEntity(),
+		Entity: Universe.CreateEntity(),
 		Cursor: cursor,
 	}
 	sys.components.Waveforms.Set(waveform.Entity, waveform)
 }
 
-func (sys WavVizSystem) Tick(inbox Spark.Inbox) {
+func (sys WavVizSystem) Tick(inbox Inbox) {
 }
 
-func (sys WavVizSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
+func (sys WavVizSystem) OnDraw(entity Entity, screen *ebiten.Image) {
 	waveform, ok := sys.components.Waveforms.Get(entity)
-	cursorSystem, _ := Spark.Universe.GetSystem(CursoringSystem{}).(CursoringSystem)
-	buffer := cursorSystem.GetCursorBuffer(waveform.Cursor)
+	buffer := Universe.Cursoring.GetCursorBuffer(waveform.Cursor)
 	if ok {
 		var path vector.Path
 		var verticalCenter = float32(screen.Bounds().Max.Y) / 2
@@ -72,7 +70,7 @@ func (sys WavVizSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
 		var xSpacing = xMax / float32(len(buffer))
 		var yMax = float32(250)
 		var yScaleFactor = yMax / float32(Util.GetLargest(buffer))
-		path.MoveTo(0, verticalCenter)
+		path.MoveTo(0, verticalCenter+(float32(buffer[0])*yScaleFactor))
 		for i, value := range buffer {
 			x := float32(i) * xSpacing
 			y := verticalCenter + (float32(value) * yScaleFactor)

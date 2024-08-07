@@ -3,7 +3,6 @@ package Spark
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
-	"reflect"
 	"sync/atomic"
 )
 
@@ -109,20 +108,13 @@ WORLD
 */
 
 type World struct {
-	Messaging Nexus
-	Assets    AssetManager
-	Entities  []Entity
-	Systems   []System
-}
-
-func (w *World) GetSystem(match System) System {
-	matchType := reflect.TypeOf(match)
-	for _, system := range w.Systems {
-		if reflect.TypeOf(system) == matchType {
-			return system
-		}
-	}
-	return nil
+	Messaging             Nexus
+	Assets                AssetManager
+	Entities              []Entity
+	Systems               []System
+	Cursoring             CursoringSystem
+	Oscillation           OscillationSystem
+	WaveformVisualization WavVizSystem
 }
 
 func (w *World) CreateEntity() Entity {

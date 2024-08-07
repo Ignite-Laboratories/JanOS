@@ -8,16 +8,16 @@ import (
 var Universe *World
 
 type Game struct {
-	WindowTitle   string
-	ScreenWidth   int
-	ScreenHeight  int
-	OnUpdate      func()
-	PreDraw       func(screen *ebiten.Image)
-	PostDraw      func(screen *ebiten.Image)
-	isInitialized bool
+	WindowTitle  string
+	ScreenWidth  int
+	ScreenHeight int
+	OnUpdate     func()
+	PreDraw      func(screen *ebiten.Image)
+	PostDraw     func(screen *ebiten.Image)
 }
 
 func (g *Game) Run() {
+	go Tick()
 	ebiten.SetWindowSize(g.ScreenWidth, g.ScreenHeight)
 	ebiten.SetWindowTitle(g.WindowTitle)
 	if err := ebiten.RunGame(g); err != nil {
@@ -25,29 +25,35 @@ func (g *Game) Run() {
 	}
 }
 
-func (g *Game) Update() error {
-	// On the first tick, we initialize all the OLD
-	if !g.isInitialized {
-		Universe.Messaging = NewNexus()
-		Universe.Assets.Initialize()
-		for _, system := range Universe.Systems {
-			log.Printf("%s System Initializing", system.GetName())
-			system.Initialize()
-			log.Printf("%s System Initialized", system.GetName())
+var isInitialized bool
+
+func Tick() {
+	for {
+		// On the first tick, we initialize all the OLD
+		if !isInitialized {
+			Universe.Messaging = NewNexus()
+			Universe.Assets.Initialize()
+			for _, system := range Universe.Systems {
+				log.Printf("%s System Initializing", system.GetName())
+				system.Initialize()
+				log.Printf("%s System Initialized", system.GetName())
+			}
+			isInitialized = true
+		} else {
+			// On subsequent ticks, we fire the tick function
+			for _, system := range Universe.Systems {
+				messages := Universe.GetMessages(system.GetEntity())
+				system.Tick(messages)
+			}
 		}
-		g.isInitialized = true
-	} else {
-		// On subsequent ticks, we fire the tick function
-		for _, system := range Universe.Systems {
-			messages := Universe.GetMessages(system.GetEntity())
-			system.Tick(messages)
-		}
+
+		// Update the message queue last
+		Universe.Messaging.Cycle()
 	}
+}
 
+func (g *Game) Update() error {
 	g.OnUpdate()
-
-	// Update the message queue last
-	Universe.Messaging.Cycle()
 	return nil
 }
 

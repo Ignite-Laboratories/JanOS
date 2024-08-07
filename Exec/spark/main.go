@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/Ignite-Laboratories/JanOS/Spark"
-	"github.com/Ignite-Laboratories/JanOS/Spark/Systems"
 	"github.com/hajimehoshi/ebiten/v2"
 	"time"
 )
@@ -13,20 +12,19 @@ var AssetsToLoad = map[string]string{
 }
 
 func main() {
-	cursoring := Systems.NewCursoringSystem()
-	oscillation := Systems.NewOscillationSystem()
-	waveform := Systems.NewWaveformVisualizerSystem()
+	cursoring := Spark.NewCursoringSystem()
+	oscillation := Spark.NewOscillationSystem()
+	waveform := Spark.NewWaveformVisualizerSystem()
 
 	Spark.Universe = &Spark.World{
-		Assets: Spark.NewAssetManager("c:\\source\\ignite\\janos\\Assets", AssetsToLoad),
-		Systems: []Spark.System{
-			oscillation,
-			cursoring,
-			waveform,
-		},
+		Assets:                Spark.NewAssetManager("c:\\source\\ignite\\janos\\Assets", AssetsToLoad),
+		Systems:               []Spark.System{cursoring, oscillation, waveform},
+		Cursoring:             cursoring,
+		Oscillation:           oscillation,
+		WaveformVisualization: waveform,
 	}
 
-	o1 := oscillation.StartOscillator(1, 10, time.Duration(1)*time.Second)
+	o1 := oscillation.StartOscillator(1, 1, time.Duration(1)*time.Second)
 	c1 := cursoring.StartCursor(o1, 100, time.Duration(1)*time.Second)
 	waveform.Visualize(c1)
 

@@ -1,34 +1,33 @@
-package Systems
+package Spark
 
 import (
 	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"time"
 )
 
 type CursoringSystem struct {
-	Spark.Entity
+	Entity
 
 	components CursoringSystemComponents
 }
 
 type CursoringSystemComponents struct {
-	Cursors *Spark.Components[Cursor]
+	Cursors *Components[Cursor]
 }
 
 func NewCursoringSystem() CursoringSystem {
 	return CursoringSystem{
 		components: CursoringSystemComponents{
-			Cursors: &Spark.Components[Cursor]{},
+			Cursors: &Components[Cursor]{},
 		},
 	}
 }
 
 type Cursor struct {
-	Entity           Spark.Entity
-	OscillatorEntity Spark.Entity
+	Entity           Entity
+	OscillatorEntity Entity
 	LastUpdate       time.Time
 	Buffer           []float64
 	BufferSize       int64
@@ -36,14 +35,14 @@ type Cursor struct {
 	interval         time.Duration
 }
 
-func (sys CursoringSystem) GetCursorBuffer(entity Spark.Entity) []float64 {
+func (sys CursoringSystem) GetCursorBuffer(entity Entity) []float64 {
 	c, _ := sys.components.Cursors.Get(entity)
 	return c.Buffer
 }
 
-func (sys CursoringSystem) StartCursor(oscillator Spark.Entity, bufferSize int64, duration time.Duration) Spark.Entity {
+func (sys CursoringSystem) StartCursor(oscillator Entity, bufferSize int64, duration time.Duration) Entity {
 	cursor := Cursor{
-		Entity:           Spark.Universe.CreateEntity(),
+		Entity:           Universe.CreateEntity(),
 		OscillatorEntity: oscillator,
 		LastUpdate:       time.Now(),
 		Buffer:           make([]float64, bufferSize),
@@ -55,31 +54,29 @@ func (sys CursoringSystem) StartCursor(oscillator Spark.Entity, bufferSize int64
 	return cursor.Entity
 }
 
-func (sys CursoringSystem) GetName() string         { return "Cursoring" }
-func (sys CursoringSystem) GetEntity() Spark.Entity { return sys.Entity }
+func (sys CursoringSystem) GetName() string   { return "Cursoring" }
+func (sys CursoringSystem) GetEntity() Entity { return sys.Entity }
 
 func (sys CursoringSystem) Initialize() {
 }
 
-func (sys CursoringSystem) Tick(inbox Spark.Inbox) {
+func (sys CursoringSystem) Tick(inbox Inbox) {
 	for _, cursor := range sys.components.Cursors.DB {
-		if oscillationSystem, ok := Spark.Universe.GetSystem(OscillationSystem{}).(OscillationSystem); ok {
-			o, _ := oscillationSystem.GetOscillator(cursor.OscillatorEntity)
+		o, _ := Universe.Oscillation.GetOscillator(cursor.OscillatorEntity)
 
-			now := time.Now()
-			timeSinceLastUpdate := now.Sub(cursor.LastUpdate)
+		now := time.Now()
+		timeSinceLastUpdate := now.Sub(cursor.LastUpdate)
 
-			if timeSinceLastUpdate.Nanoseconds() > cursor.interval.Nanoseconds() {
-				cursor.Buffer = append(cursor.Buffer[1:], o.Value)
-				cursor.LastUpdate = now
+		if timeSinceLastUpdate.Nanoseconds() > cursor.interval.Nanoseconds() {
+			cursor.Buffer = append(cursor.Buffer[1:], o.Value)
+			cursor.LastUpdate = now
 
-				sys.components.Cursors.Set(cursor.Entity, cursor)
-			}
+			sys.components.Cursors.Set(cursor.Entity, cursor)
 		}
 	}
 }
 
-func (sys CursoringSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
+func (sys CursoringSystem) OnDraw(entity Entity, screen *ebiten.Image) {
 	cursor, ok := sys.components.Cursors.Get(entity)
 	if ok {
 		value := fmt.Sprintf("%f", cursor.Buffer)

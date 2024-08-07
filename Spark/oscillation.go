@@ -1,35 +1,31 @@
-package Systems
+package Spark
 
 import (
-	"fmt"
-	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"math"
 	"time"
 )
 
 type OscillationSystem struct {
-	Spark.Entity
+	Entity
 
 	components OscillationSystemComponents
 }
 
 type OscillationSystemComponents struct {
-	Oscillators *Spark.Components[Oscillator]
+	Oscillators *Components[Oscillator]
 }
 
 func NewOscillationSystem() OscillationSystem {
 	return OscillationSystem{
 		components: OscillationSystemComponents{
-			Oscillators: &Spark.Components[Oscillator]{},
+			Oscillators: &Components[Oscillator]{},
 		},
 	}
 }
 
 type Oscillator struct {
-	Entity       Spark.Entity
+	Entity       Entity
 	LastUpdate   int64
 	Value        float64
 	Amplitude    float64
@@ -38,9 +34,9 @@ type Oscillator struct {
 	PhaseDegrees float64
 }
 
-func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float64, duration time.Duration) Spark.Entity {
+func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float64, duration time.Duration) Entity {
 	oscillator := Oscillator{
-		Entity:     Spark.Universe.CreateEntity(),
+		Entity:     Universe.CreateEntity(),
 		LastUpdate: time.Now().UnixNano(),
 		Amplitude:  amplitude,
 		Frequency:  frequency,
@@ -50,17 +46,17 @@ func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float6
 	return oscillator.Entity
 }
 
-func (sys OscillationSystem) GetOscillator(entity Spark.Entity) (Oscillator, bool) {
+func (sys OscillationSystem) GetOscillator(entity Entity) (Oscillator, bool) {
 	return sys.components.Oscillators.Get(entity)
 }
 
-func (sys OscillationSystem) GetName() string         { return "Oscillation" }
-func (sys OscillationSystem) GetEntity() Spark.Entity { return sys.Entity }
+func (sys OscillationSystem) GetName() string   { return "Oscillation" }
+func (sys OscillationSystem) GetEntity() Entity { return sys.Entity }
 
 func (sys OscillationSystem) Initialize() {
 }
 
-func (sys OscillationSystem) Tick(inbox Spark.Inbox) {
+func (sys OscillationSystem) Tick(inbox Inbox) {
 	for _, oscillator := range sys.components.Oscillators.DB {
 		now := time.Now().UnixNano()
 		timeSinceLastStep := time.Duration(now - oscillator.LastUpdate)
@@ -68,19 +64,19 @@ func (sys OscillationSystem) Tick(inbox Spark.Inbox) {
 		if oscillator.PhaseDegrees > 360 {
 			oscillator.PhaseDegrees -= 360
 		}
-		phaseShift := Util.DegreesToRadians(oscillator.PhaseDegrees)
+		phaseShift := Util.DegreesToRadians(oscillator.PhaseDegrees * oscillator.Frequency)
 
-		value := oscillator.Amplitude * math.Sin(((2*math.Pi)/oscillator.Frequency)*oscillator.Duration.Seconds()+phaseShift)
+		value := oscillator.Amplitude * math.Sin(((2*math.Pi)*oscillator.Frequency)*oscillator.Duration.Seconds()+phaseShift)
 		oscillator.LastUpdate = now
 		oscillator.Value = value
 		sys.components.Oscillators.Set(oscillator.Entity, oscillator)
 	}
 }
 
-func (sys OscillationSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
-	oscillator, ok := sys.components.Oscillators.Get(entity)
-	if ok {
-		value := fmt.Sprintf("%f", oscillator.Value)
-		ebitenutil.DebugPrintAt(screen, value, 5, int(oscillator.Entity)*10)
-	}
-}
+//func (sys OscillationSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
+//	oscillator, ok := sys.components.Oscillators.Get(entity)
+//	if ok {
+//		value := fmt.Sprintf("%f", oscillator.Value)
+//		ebitenutil.DebugPrintAt(screen, value, 5, int(oscillator.Entity)*10)
+//	}
+//}
