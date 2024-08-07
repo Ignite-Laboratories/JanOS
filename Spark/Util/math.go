@@ -6,7 +6,7 @@ func DiffSigns(a int, b int) bool {
 	return a*b < 0
 }
 
-func GetLargest(s []int) int {
+func GetLargest(s []float64) float64 {
 	maxValue := s[0]
 	for _, v := range s {
 		if v > maxValue {

@@ -11,7 +11,6 @@ type Game struct {
 	WindowTitle   string
 	ScreenWidth   int
 	ScreenHeight  int
-	Nexus         *Nexus
 	OnUpdate      func()
 	PreDraw       func(screen *ebiten.Image)
 	PostDraw      func(screen *ebiten.Image)

@@ -15,26 +15,20 @@ var AssetsToLoad = map[string]string{
 func main() {
 	cursoring := Systems.NewCursoringSystem()
 	oscillation := Systems.NewOscillationSystem()
+	waveform := Systems.NewWaveformVisualizerSystem()
 
 	Spark.Universe = &Spark.World{
-		Assets: Spark.NewAssetManager("c:\\source\\ignite\\janos\\assets", AssetsToLoad),
+		Assets: Spark.NewAssetManager("c:\\source\\ignite\\janos\\Assets", AssetsToLoad),
 		Systems: []Spark.System{
 			oscillation,
 			cursoring,
-			Systems.NewWaveformVisualizerSystem(),
+			waveform,
 		},
 	}
 
-	os := Spark.Universe.Systems[0].(Systems.OscillationSystem)
-	os.GetName()
-
-	o1 := oscillation.StartOscillator(1, 1, time.Duration(10)*time.Second)
-	oscillation.StartOscillator(1, 1, time.Duration(5)*time.Second)
-	oscillation.StartOscillator(1, 1, time.Duration(1)*time.Second)
-	oscillation.StartOscillator(1, 1, time.Duration(5)*time.Second)
-	oscillation.StartOscillator(1, 1, time.Duration(10)*time.Second)
-
-	cursoring.StartCursor(o1, 100, time.Duration(1)*time.Second)
+	o1 := oscillation.StartOscillator(1, 10, time.Duration(1)*time.Second)
+	c1 := cursoring.StartCursor(o1, 100, time.Duration(1)*time.Second)
+	waveform.Visualize(c1)
 
 	game := Spark.Game{
 		WindowTitle:  "Spark",

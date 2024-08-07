@@ -1,15 +1,12 @@
 package Systems
 
 import (
-	"bytes"
 	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
-	"github.com/go-audio/wav"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image"
 	"image/color"
-	"log"
 )
 
 type WavVizSystem struct {
@@ -35,6 +32,8 @@ func NewWaveformVisualizerSystem() WavVizSystem {
 }
 
 type Waveform struct {
+	Entity Spark.Entity
+	Cursor Spark.Entity
 	Values []int
 }
 
@@ -51,48 +50,34 @@ func (sys WavVizSystem) Initialize() {
 
 var gotSine bool
 
-func (sys WavVizSystem) Tick(inbox Spark.Inbox) {
-	binaryData, ok := Spark.Universe.Assets.GetBinaryData("sine.1k")
-
-	if ok && !gotSine {
-		gotSine = true
-
-		readSeeker := bytes.NewReader(binaryData.Data)
-		d := wav.NewDecoder(readSeeker)
-
-		pcmBuffer, err := d.FullPCMBuffer()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		entity := Spark.Universe.CreateEntity()
-		sys.components.Waveforms.Set(entity, Waveform{
-			Values: pcmBuffer.Data[:1000],
-		})
+func (sys WavVizSystem) Visualize(cursor Spark.Entity) {
+	waveform := Waveform{
+		Entity: Spark.Universe.CreateEntity(),
+		Cursor: cursor,
 	}
+	sys.components.Waveforms.Set(waveform.Entity, waveform)
+}
+
+func (sys WavVizSystem) Tick(inbox Spark.Inbox) {
 }
 
 func (sys WavVizSystem) OnDraw(entity Spark.Entity, screen *ebiten.Image) {
 	waveform, ok := sys.components.Waveforms.Get(entity)
+	cursorSystem, _ := Spark.Universe.GetSystem(CursoringSystem{}).(CursoringSystem)
+	buffer := cursorSystem.GetCursorBuffer(waveform.Cursor)
 	if ok {
 		var path vector.Path
 		var verticalCenter = float32(screen.Bounds().Max.Y) / 2
 		var xMax = float32(screen.Bounds().Max.X)
-		var xSpacing = xMax / float32(len(waveform.Values))
+		var xSpacing = xMax / float32(len(buffer))
 		var yMax = float32(250)
-		var yScaleFactor = yMax / float32(Util.GetLargest(waveform.Values))
+		var yScaleFactor = yMax / float32(Util.GetLargest(buffer))
 		path.MoveTo(0, verticalCenter)
-		for i, value := range waveform.Values {
-			// Draw the waveform on the image
-			// Use the value to determine the height of the waveform at each point
-			// Use the index (i) to determine the x-coordinate of each point
-			// Use screen.Set(x, y, color) to set the color of each point on the image
+		for i, value := range buffer {
 			x := float32(i) * xSpacing
 			y := verticalCenter + (float32(value) * yScaleFactor)
 			path.LineTo(x, y)
 		}
-		//path.LineTo(float32(screen.Bounds().Max.X), float32(screen.Bounds().Max.Y))
-		//path.LineTo(0, float32(screen.Bounds().Max.Y))
 
 		var vs []ebiten.Vertex
 		var is []uint16

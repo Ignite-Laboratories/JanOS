@@ -5,7 +5,6 @@ import (
 	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"log"
 	"time"
 )
 
@@ -30,24 +29,30 @@ func NewCursoringSystem() CursoringSystem {
 type Cursor struct {
 	Entity           Spark.Entity
 	OscillatorEntity Spark.Entity
-	LastUpdate       int64
-	Buffer           []any
-	Index            int64
-	Resolution       int64
-	DutyCycle        time.Duration
+	LastUpdate       time.Time
+	Buffer           []float64
+	BufferSize       int64
+	Duration         time.Duration
+	interval         time.Duration
 }
 
-func (sys CursoringSystem) StartCursor(oscillator Spark.Entity, resolution int64, dutyCycle time.Duration) {
+func (sys CursoringSystem) GetCursorBuffer(entity Spark.Entity) []float64 {
+	c, _ := sys.components.Cursors.Get(entity)
+	return c.Buffer
+}
+
+func (sys CursoringSystem) StartCursor(oscillator Spark.Entity, bufferSize int64, duration time.Duration) Spark.Entity {
 	cursor := Cursor{
 		Entity:           Spark.Universe.CreateEntity(),
 		OscillatorEntity: oscillator,
-		LastUpdate:       time.Now().UnixNano(),
-		Buffer:           make([]any, resolution),
-		Index:            0,
-		Resolution:       resolution,
-		DutyCycle:        dutyCycle,
+		LastUpdate:       time.Now(),
+		Buffer:           make([]float64, bufferSize),
+		BufferSize:       bufferSize,
+		Duration:         duration,
+		interval:         time.Duration(duration.Nanoseconds() / bufferSize),
 	}
 	sys.components.Cursors.Set(cursor.Entity, cursor)
+	return cursor.Entity
 }
 
 func (sys CursoringSystem) GetName() string         { return "Cursoring" }
@@ -60,20 +65,16 @@ func (sys CursoringSystem) Tick(inbox Spark.Inbox) {
 	for _, cursor := range sys.components.Cursors.DB {
 		if oscillationSystem, ok := Spark.Universe.GetSystem(OscillationSystem{}).(OscillationSystem); ok {
 			o, _ := oscillationSystem.GetOscillator(cursor.OscillatorEntity)
-			now := time.Now().UnixNano()
-			timeSinceLastStep := time.Duration(now - cursor.LastUpdate).Nanoseconds()
-			resolutionInterval := cursor.DutyCycle.Nanoseconds() / cursor.Resolution
 
-			if timeSinceLastStep > resolutionInterval {
-				cursor.Buffer[cursor.Index] = o.Value
-				cursor.Index++
+			now := time.Now()
+			timeSinceLastUpdate := now.Sub(cursor.LastUpdate)
+
+			if timeSinceLastUpdate.Nanoseconds() > cursor.interval.Nanoseconds() {
+				cursor.Buffer = append(cursor.Buffer[1:], o.Value)
+				cursor.LastUpdate = now
+
+				sys.components.Cursors.Set(cursor.Entity, cursor)
 			}
-			if cursor.Index >= cursor.Resolution {
-				cursor.Index = 0
-				log.Println(fmt.Sprint(cursor.Buffer))
-			}
-			cursor.LastUpdate = now
-			sys.components.Cursors.Set(cursor.Entity, cursor)
 		}
 	}
 }
