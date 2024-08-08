@@ -35,11 +35,11 @@ func (*WaveformSystem) Remove() {} //ecs.BasicEntity) {}
 func (ws *WaveformSystem) Update(dt float32) {
 	//if engo.Input.Button("LoadFile").JustPressed() {
 	//	var msg = NewLoadAssetMsg()
-	//	msg.Load("asdf1", "audio\\sine.1k.wav")
-	//	msg.Load("asdf2", "audio\\sine.1k.wav")
-	//	msg.Load("asdf3", "audio\\sine.1k.wav")
-	//	msg.Load("asdf4", "audio\\sine.1k.wav")
-	//	msg.Load("asdf5", "audio\\sine.1k.wav")
+	//	msg.Load("asdf1", "Audio\\sine.1k.wav")
+	//	msg.Load("asdf2", "Audio\\sine.1k.wav")
+	//	msg.Load("asdf3", "Audio\\sine.1k.wav")
+	//	msg.Load("asdf4", "Audio\\sine.1k.wav")
+	//	msg.Load("asdf5", "Audio\\sine.1k.wav")
 	//	engo.Mailbox.Dispatch(msg)
 	//}
 	//if engo.Input.Button("Analyze").JustPressed() {
