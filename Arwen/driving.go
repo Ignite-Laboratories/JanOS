@@ -19,10 +19,6 @@ func NewDriver(interval time.Duration, toDrive ...Drivable) *Driver {
 	return d
 }
 
-type Drivable interface {
-	Tick()
-}
-
 // Start is a blocking method to fire off goroutines that perform sampling at a fixed interval.
 func (d *Driver) Start() {
 	// On a fixed interval...
