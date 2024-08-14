@@ -23,3 +23,12 @@ func Unique[T any](data []T) []T {
 	}
 	return list
 }
+
+func MapContains[T any](data map[string]T, entry string) bool {
+	for key, _ := range data {
+		if key == entry {
+			return true
+		}
+	}
+	return false
+}
