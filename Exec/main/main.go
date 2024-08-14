@@ -5,6 +5,7 @@ import (
 	"JanOS/Arwen"
 	"JanOS/Arwen/AI_Music"
 	"JanOS/Logic"
+	"JanOS/Logic/Symbol"
 	"JanOS/Spark"
 	"time"
 )
@@ -16,15 +17,18 @@ var ecsWorld = Logic.NewECSWorld("Logic", waveformSys, aiMusicSys)
 var sparkWorld = Spark.NewSparkWorld("Spark")
 
 func main() {
-	JanOS.Universe.Start(tick, ecsWorld, sparkWorld)
+	JanOS.Universe.Start(preflight, tick, ecsWorld, sparkWorld)
 }
 
-var test bool
+var performance AI_Music.Performance
+var binaryData AI_Music.BinaryData
+var omega *JanOS.Dimension
+
+func preflight() {
+	performance, _ = aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
+	binaryData, _ = aiMusicSys.GetBinaryData(performance.Entity)
+	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 42)
+}
 
 func tick(delta time.Duration) {
-	if !test {
-		p := aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
-		JanOS.Universe.Println(aiMusicSys, string(p.Name))
-		test = true
-	}
 }

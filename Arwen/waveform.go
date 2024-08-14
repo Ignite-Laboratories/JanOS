@@ -1,7 +1,7 @@
 package Arwen
 
 import (
-	"JanOS/Logic"
+	"JanOS"
 	"time"
 )
 
@@ -12,11 +12,11 @@ func NewWaveformSystem() *waveformSystem {
 	return &waveformSystem{}
 }
 
-func (sys *waveformSystem) Initialize() {
+//func (sys *waveformSystem) Initialize() {
+//
+//}
 
-}
-
-func (sys *waveformSystem) Tick(entity Logic.Entity, delta time.Duration) {
+func (sys *waveformSystem) Tick(entity JanOS.Entity, delta time.Duration) {
 
 }
 

@@ -14,8 +14,9 @@ import (
 // operatingSystem Represents the core components available globally
 type operatingSystem struct {
 	Assets            *assetManager
-	masterCount       uint64
+	Dimensions        *dimensionManager
 	Terminate         bool
+	masterCount       uint64
 	worlds            []World
 	terminationSignal chan os.Signal
 }
@@ -23,6 +24,7 @@ type operatingSystem struct {
 // Universe The single entry point to the entire operating system
 var Universe = &operatingSystem{
 	Assets:            newAssetManager(),
+	Dimensions:        NewDimensionManager(),
 	worlds:            make([]World, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
@@ -33,9 +35,16 @@ type Named interface {
 
 type World interface {
 	Named
-	Initialize()
 	Start()
 }
+
+type Initializable interface {
+	Initialize()
+}
+
+type Entity int
+
+func NewEntity() Entity { return Entity(Universe.NextId()) }
 
 // NextId increments the internal master count maintained since execution and then returns the value.
 // This happens as an atomic operation to ensure uniqueness across threads.
@@ -48,10 +57,10 @@ func (os *operatingSystem) Printf(named Named, format string, v ...any) {
 }
 
 func (os *operatingSystem) Println(named Named, str string) {
-	log.Printf("[%s] %s", named.GetName(), str)
+	log.Printf("[%s] %s\n", named.GetName(), str)
 }
 
-func (os *operatingSystem) Start(tick func(delta time.Duration), worlds ...World) {
+func (os *operatingSystem) Start(preflight func(), tick func(delta time.Duration), worlds ...World) {
 	Universe.Println(os, "Hello, world")
 	os.worlds = worlds
 	wg := sync.WaitGroup{}
@@ -59,8 +68,11 @@ func (os *operatingSystem) Start(tick func(delta time.Duration), worlds ...World
 	for _, w := range os.worlds {
 		wg.Add(1)
 		go func() {
-			Universe.Println(w, "Initializing")
-			w.Initialize()
+			if init, ok := w.(Initializable); ok {
+				Universe.Println(w, "Initializing")
+				init.Initialize()
+			}
+
 			Universe.Println(w, "Starting")
 			wg.Done()
 			w.Start()
@@ -79,7 +91,10 @@ func (os *operatingSystem) Start(tick func(delta time.Duration), worlds ...World
 		os.Terminate = true
 	}()
 
-	Universe.Println(os, "Starting Reality Loop")
+	Universe.Println(os, "Running pre-flight routine")
+	preflight()
+
+	Universe.Println(os, "Taking off")
 	lastUpdate := time.Now()
 	for {
 		if os.Terminate {

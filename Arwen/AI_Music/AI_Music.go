@@ -14,10 +14,12 @@ import (
 )
 
 type ai_musicSystem struct {
-	Entries []Performance
+	performances Logic.Components[Performance]
+	binaryData   Logic.Components[BinaryData]
 }
 
 type Performance struct {
+	Entity           JanOS.Entity
 	Path             string
 	PathID           int
 	Family           Family
@@ -32,22 +34,49 @@ type Performance struct {
 	InstanceID       int
 	StringID         int
 	DigitallyReTuned bool
-	Asset            JanOS.Asset
 }
 
-func (sys *ai_musicSystem) LookupPerformance(family Family, name InstrumentName, pitch Pitch, dynamic Dynamic) Performance {
-	var performance Performance
-	for _, v := range sys.Entries {
+func (p *Performance) GetAssetName() string {
+	return fmt.Sprintf("AI_Music.Audio.%s.%s.%s.%s", p.Family, p.Name, p.Pitch, p.Dynamic)
+}
+
+type BinaryData struct {
+	Entity     JanOS.Entity
+	BinaryData []byte
+}
+
+func (sys *ai_musicSystem) LookupPerformance(family Family, name InstrumentName, pitch Pitch, dynamic Dynamic) (Performance, bool) {
+	for _, v := range sys.performances.DB {
 		if v.Family == family && v.Name == name && v.Pitch == pitch && v.Dynamic == dynamic {
-			performance = v
-			assetName := fmt.Sprintf("AI_Music.Audio.%s.%s.%s.%s", family, name, pitch, dynamic)
-			JanOS.Universe.Assets.LoadAsset(assetName, fmt.Sprintf("./Assets/Training/AI_Music/%s", performance.Path))
-			asset := JanOS.Universe.Assets.GetAsset(assetName)
-			performance.Asset = asset
-			return performance
+			return v, true
 		}
 	}
-	panic("No performance found!")
+	return Performance{}, false
+}
+
+func (sys *ai_musicSystem) GetBinaryData(entity JanOS.Entity) (BinaryData, bool) {
+	bd, ok := sys.binaryData.Get(entity)
+	if ok {
+		return bd, ok
+	}
+
+	p, ok := sys.performances.Get(entity)
+	if !ok {
+		return BinaryData{}, false
+	}
+
+	assetName := p.GetAssetName()
+	asset, err := JanOS.Universe.Assets.LoadAsset(assetName, fmt.Sprintf("./Assets/Training/AI_Music/%s", p.Path))
+	if err != nil {
+		panic(err)
+	}
+
+	bd = BinaryData{
+		Entity:     entity,
+		BinaryData: asset.Data.([]byte),
+	}
+	sys.binaryData.Set(entity, bd)
+	return bd, true
 }
 
 func NewAI_MusicSystem() *ai_musicSystem {
@@ -56,8 +85,10 @@ func NewAI_MusicSystem() *ai_musicSystem {
 
 func (sys *ai_musicSystem) Initialize() {
 	metadataName := "AI_Music.Audio.Metadata"
-	JanOS.Universe.Assets.LoadAsset(metadataName, "./Assets/Training/AI_Music/audio.csv")
-	metadataAsset := JanOS.Universe.Assets.GetAsset(metadataName)
+	metadataAsset, err := JanOS.Universe.Assets.LoadAsset(metadataName, "./Assets/Training/AI_Music/audio.csv")
+	if err != nil {
+		JanOS.Universe.Println(sys, err.Error())
+	}
 
 	csvReader := csv.NewReader(bytes.NewReader(metadataAsset.Data.([]byte)))
 	records, err := csvReader.ReadAll()
@@ -68,8 +99,7 @@ func (sys *ai_musicSystem) Initialize() {
 	// Skip the header
 	records = records[1:]
 
-	performances := make([]Performance, len(records))
-	for i, r := range records {
+	for _, r := range records {
 		pathID, _ := strconv.Atoi(r[1])
 		pitchID, _ := strconv.Atoi(r[8])
 		dynamicID, _ := strconv.Atoi(r[10])
@@ -77,7 +107,9 @@ func (sys *ai_musicSystem) Initialize() {
 		stringID, _ := strconv.Atoi(r[12])
 		digitallyReTuned, _ := strconv.ParseBool(r[13])
 
-		performances[i] = Performance{
+		entity := JanOS.NewEntity()
+		p := Performance{
+			Entity:           entity,
 			Path:             r[0],
 			PathID:           pathID,
 			Family:           Family(r[2]),
@@ -93,11 +125,11 @@ func (sys *ai_musicSystem) Initialize() {
 			StringID:         stringID,
 			DigitallyReTuned: digitallyReTuned,
 		}
+		sys.performances.Set(entity, p)
 	}
-	sys.Entries = performances
 }
 
-func (sys *ai_musicSystem) Tick(entity Logic.Entity, delta time.Duration) {
+func (sys *ai_musicSystem) Tick(entity JanOS.Entity, delta time.Duration) {
 
 }
 

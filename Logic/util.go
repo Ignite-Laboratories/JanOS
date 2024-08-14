@@ -32,3 +32,17 @@ func MapContains[T any](data map[string]T, entry string) bool {
 	}
 	return false
 }
+
+func DiffSigns(a int, b int) bool {
+	return a*b < 0
+}
+
+func GetLargest(s []float64) float64 {
+	maxValue := s[0]
+	for _, v := range s {
+		if v > maxValue {
+			maxValue = v
+		}
+	}
+	return maxValue
+}
