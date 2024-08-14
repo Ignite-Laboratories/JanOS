@@ -1,4 +1,4 @@
-package Arwen
+package Logic
 
 import (
 	"github.com/Ignite-Laboratories/JanOS/Logic/Math"

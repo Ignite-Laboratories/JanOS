@@ -1,51 +1,43 @@
 package Arwen
 
 import (
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"github.com/Ignite-Laboratories/JanOS/Logic/Math"
 	"math"
 	"time"
 )
 
-func NewStdOscillator(amplitude float64, frequency float64) *Oscillator {
-	return NewOscillator(
-		NewDimension("Output", Math.Y),
-		NewDimension("Amplitude", Math.Alpha, amplitude),
-		NewDimension("Frequency", Math.Omega, frequency),
-	)
-}
-
 type Oscillator struct {
 	LastUpdate   int64
-	Output       *Dimension
-	Amplitude    *Dimension
-	Frequency    *Dimension
-	phaseDegrees *Dimension
+	Output       *Logic.Dimension
+	Amplitude    *Logic.Dimension
+	Frequency    *Logic.Dimension
+	phaseDegrees *Logic.Dimension
 }
 
-func NewOscillator(output *Dimension, amplitude *Dimension, frequency *Dimension) *Oscillator {
+func NewOscillator(amplitude float64, frequency float64) *Oscillator {
 	return &Oscillator{
 		LastUpdate:   time.Now().UnixNano(),
-		Output:       output,
-		Amplitude:    amplitude,
-		Frequency:    frequency,
-		phaseDegrees: NewDimension("Phase Degrees", Math.Phi),
+		Output:       Logic.NewDimension("Output", Math.Y),
+		Amplitude:    Logic.NewDimension("Amplitude", Math.Alpha, amplitude),
+		Frequency:    Logic.NewDimension("Frequency", Math.Omega, frequency),
+		phaseDegrees: Logic.NewDimension("Phase Degrees", Math.Phi),
 	}
 }
 
-func (o *Oscillator) Tick() {
+func (o *Oscillator) Calculate(resolution int) []float64 {
 	amplitude := o.Amplitude.Value
 	frequency := o.Frequency.Value
-	phaseDegrees := o.phaseDegrees.Value
+	stepDegrees := 360 / resolution
+	result := make([]float64, resolution)
 
-	now := time.Now().UnixNano()
-	elapsedTime := time.Duration(now - o.LastUpdate).Seconds()
+	for i := 0; i < resolution; i++ {
+		phaseShiftInRadians := (float64(stepDegrees*i) * frequency) * math.Pi / 180
+		angularFrequency := 2 * math.Pi * frequency
+		value := amplitude * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
+		result[i] = value
+		i++
+	}
 
-	phaseDegrees += (elapsedTime / time.Second.Seconds()) * 360
-	phaseShiftInRadians := (phaseDegrees * frequency) * math.Pi / 180
-	angularFrequency := 2 * math.Pi * frequency
-	value := amplitude * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
-
-	o.Output.Value = value
-	o.phaseDegrees.Value = phaseDegrees
-	o.LastUpdate = now
+	return result
 }

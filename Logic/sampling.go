@@ -1,6 +1,8 @@
-package Arwen
+package Logic
 
-import "gonum.org/v1/gonum/mat"
+import (
+	"gonum.org/v1/gonum/mat"
+)
 
 // Sampler is used to record a snapshot of readings across time.
 type Sampler struct {

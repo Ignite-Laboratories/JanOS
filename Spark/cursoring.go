@@ -2,32 +2,33 @@ package Spark
 
 import (
 	"fmt"
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"time"
 )
 
 type CursoringSystem struct {
-	Entity
+	Logic.Entity
 
 	components CursoringSystemComponents
 }
 
 type CursoringSystemComponents struct {
-	Cursors *Components[Cursor]
+	Cursors *Logic.Components[Cursor]
 }
 
 func NewCursoringSystem() CursoringSystem {
 	return CursoringSystem{
 		components: CursoringSystemComponents{
-			Cursors: &Components[Cursor]{},
+			Cursors: &Logic.Components[Cursor]{},
 		},
 	}
 }
 
 type Cursor struct {
-	Entity           Entity
-	OscillatorEntity Entity
+	Entity           Logic.Entity
+	OscillatorEntity Logic.Entity
 	LastUpdate       time.Time
 	Buffer           []float64
 	BufferSize       int64
@@ -35,12 +36,12 @@ type Cursor struct {
 	interval         time.Duration
 }
 
-func (sys CursoringSystem) GetCursorBuffer(entity Entity) []float64 {
+func (sys CursoringSystem) GetCursorBuffer(entity Logic.Entity) []float64 {
 	c, _ := sys.components.Cursors.Get(entity)
 	return c.Buffer
 }
 
-func (sys CursoringSystem) StartCursor(oscillator Entity, bufferSize int64, duration time.Duration) Entity {
+func (sys CursoringSystem) StartCursor(oscillator Logic.Entity, bufferSize int64, duration time.Duration) Logic.Entity {
 	cursor := Cursor{
 		Entity:           Universe.CreateEntity(),
 		OscillatorEntity: oscillator,
@@ -54,8 +55,8 @@ func (sys CursoringSystem) StartCursor(oscillator Entity, bufferSize int64, dura
 	return cursor.Entity
 }
 
-func (sys CursoringSystem) GetName() string   { return "Cursoring" }
-func (sys CursoringSystem) GetEntity() Entity { return sys.Entity }
+func (sys CursoringSystem) GetName() string         { return "Cursoring" }
+func (sys CursoringSystem) GetEntity() Logic.Entity { return sys.Entity }
 
 func (sys CursoringSystem) Initialize() {
 }
@@ -76,7 +77,7 @@ func (sys CursoringSystem) Tick(inbox Inbox) {
 	}
 }
 
-func (sys CursoringSystem) OnDraw(entity Entity, screen *ebiten.Image) {
+func (sys CursoringSystem) OnDraw(entity Logic.Entity, screen *ebiten.Image) {
 	cursor, ok := sys.components.Cursors.Get(entity)
 	if ok {
 		value := fmt.Sprintf("%f", cursor.Buffer)

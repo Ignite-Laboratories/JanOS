@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/hajimehoshi/ebiten/v2"
 	"time"
@@ -16,9 +17,9 @@ func main() {
 	oscillation := Spark.NewOscillationSystem()
 	waveform := Spark.NewWaveformVisualizerSystem()
 
-	Spark.Universe = &Spark.World{
+	Spark.Universe = &Logic.World{
 		Assets:                Spark.NewAssetManager("c:\\source\\ignite\\janos\\Assets", AssetsToLoad),
-		Systems:               []Spark.System{cursoring, oscillation, waveform},
+		Systems:               []Logic.System{cursoring, oscillation, waveform},
 		Cursoring:             cursoring,
 		Oscillation:           oscillation,
 		WaveformVisualization: waveform,

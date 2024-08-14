@@ -1,6 +1,7 @@
 package Spark
 
 import (
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"io"
 	"log"
 	"os"
@@ -9,7 +10,7 @@ import (
 )
 
 type AssetManager struct {
-	Entity
+	Logic.Entity
 	BaseDirectory string
 	InitiallyLoad map[string]string
 	assets        map[string]Asset
@@ -19,7 +20,7 @@ type AssetManager struct {
 }
 
 type Asset struct {
-	Entity Entity
+	Entity Logic.Entity
 	Name   string
 }
 
@@ -122,7 +123,7 @@ func (am AssetManager) loadFile(name string, path string, resultChan chan Asset,
 
 	// Build the entity metadata and store it in memory
 	asset := Asset{
-		Entity: NewEntity(),
+		Entity: Logic.NewEntity(),
 		Name:   name,
 	}
 	fileData := FileMetaData{

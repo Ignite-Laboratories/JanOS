@@ -1,11 +1,13 @@
 package Spark
 
+import "github.com/Ignite-Laboratories/JanOS/Logic"
+
 /**
 BinaryData
 */
 
 type BinaryDataSet struct {
-	Components[BinaryData]
+	Logic.Components[BinaryData]
 }
 
 type BinaryData struct {
@@ -17,7 +19,7 @@ FileMetaData
 */
 
 type FileMetaDataSet struct {
-	Components[FileMetaData]
+	Logic.Components[FileMetaData]
 }
 
 type FileMetaData struct {
@@ -31,7 +33,7 @@ Renderable
 */
 
 type RenderableSet struct {
-	Components[Renderable]
+	Logic.Components[Renderable]
 }
 
 type Renderable struct {

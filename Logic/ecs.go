@@ -1,7 +1,8 @@
-package Spark
+package Logic
 
 import (
 	"fmt"
+	"github.com/Ignite-Laboratories/JanOS/Spark"
 	"github.com/hajimehoshi/ebiten/v2"
 	"sync/atomic"
 )
@@ -96,7 +97,7 @@ type SystemInitializer interface {
 }
 
 type SystemTicker interface {
-	Tick(inbox Inbox)
+	Tick(inbox Spark.Inbox)
 }
 
 type SystemDrawer interface {
@@ -108,13 +109,13 @@ WORLD
 */
 
 type World struct {
-	Messaging             Nexus
-	Assets                AssetManager
+	Messaging             Spark.Nexus
+	Assets                Spark.AssetManager
 	Entities              []Entity
 	Systems               []System
-	Cursoring             CursoringSystem
-	Oscillation           OscillationSystem
-	WaveformVisualization WavVizSystem
+	Cursoring             Spark.CursoringSystem
+	Oscillation           Spark.OscillationSystem
+	WaveformVisualization Spark.WavVizSystem
 }
 
 func (w *World) CreateEntity() Entity {

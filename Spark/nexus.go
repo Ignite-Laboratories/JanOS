@@ -1,24 +1,26 @@
 package Spark
 
+import "github.com/Ignite-Laboratories/JanOS/Logic"
+
 type Inbox struct {
 	Subjects map[string][]any
 }
 
 type Nexus struct {
-	subscribers map[Entity][]string
+	subscribers map[Logic.Entity][]string
 	messages    map[string][]any
 	queued      map[string][]any
 }
 
 func NewNexus() Nexus {
 	return Nexus{
-		subscribers: make(map[Entity][]string),
+		subscribers: make(map[Logic.Entity][]string),
 		messages:    make(map[string][]any),
 	}
 }
 
 // Subscribe takes in a subject and a subscribing entity to register for messages of the provided subject
-func (w *World) Subscribe(subscriber Entity, subject string) {
+func (w *Logic.World) Subscribe(subscriber Logic.Entity, subject string) {
 	if w.Messaging.subscribers[subscriber] == nil {
 		w.Messaging.subscribers[subscriber] = make([]string, 0)
 	}
@@ -26,7 +28,7 @@ func (w *World) Subscribe(subscriber Entity, subject string) {
 }
 
 // Unsubscribe takes in a subject and a subscribing entity to remove from messages of the provided subject
-func (w *World) Unsubscribe(subscriber Entity, subject string) {
+func (w *Logic.World) Unsubscribe(subscriber Logic.Entity, subject string) {
 	var newSubjects []string
 	for _, sub := range w.Messaging.subscribers[subscriber] {
 		if sub != subject {
@@ -37,12 +39,12 @@ func (w *World) Unsubscribe(subscriber Entity, subject string) {
 }
 
 // Publish takes in a subject and a message
-func (w *World) Publish(subject string, message any) {
+func (w *Logic.World) Publish(subject string, message any) {
 	w.Messaging.queued[subject] = append(w.Messaging.queued[subject], message)
 }
 
 // GetMessages takes in the subscribing entity to retrieve messages for and returns its pending messages
-func (w *World) GetMessages(subscriber Entity) Inbox {
+func (w *Logic.World) GetMessages(subscriber Logic.Entity) Inbox {
 	inbox := Inbox{make(map[string][]any)}
 
 	for _, subscription := range w.Messaging.subscribers[subscriber] {

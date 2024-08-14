@@ -1,31 +1,32 @@
 package Spark
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
+	"github.com/Ignite-Laboratories/JanOS/Logic"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Math"
 	"math"
 	"time"
 )
 
 type OscillationSystem struct {
-	Entity
+	Logic.Entity
 
 	components OscillationSystemComponents
 }
 
 type OscillationSystemComponents struct {
-	Oscillators *Components[Oscillator]
+	Oscillators *Logic.Components[Oscillator]
 }
 
 func NewOscillationSystem() OscillationSystem {
 	return OscillationSystem{
 		components: OscillationSystemComponents{
-			Oscillators: &Components[Oscillator]{},
+			Oscillators: &Logic.Components[Oscillator]{},
 		},
 	}
 }
 
 type Oscillator struct {
-	Entity       Entity
+	Entity       Logic.Entity
 	LastUpdate   int64
 	Value        float64
 	Amplitude    float64
@@ -34,7 +35,7 @@ type Oscillator struct {
 	PhaseDegrees float64
 }
 
-func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float64, duration time.Duration) Entity {
+func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float64, duration time.Duration) Logic.Entity {
 	oscillator := Oscillator{
 		Entity:     Universe.CreateEntity(),
 		LastUpdate: time.Now().UnixNano(),
@@ -46,12 +47,12 @@ func (sys OscillationSystem) StartOscillator(amplitude float64, frequency float6
 	return oscillator.Entity
 }
 
-func (sys OscillationSystem) GetOscillator(entity Entity) (Oscillator, bool) {
+func (sys OscillationSystem) GetOscillator(entity Logic.Entity) (Oscillator, bool) {
 	return sys.components.Oscillators.Get(entity)
 }
 
-func (sys OscillationSystem) GetName() string   { return "Oscillation" }
-func (sys OscillationSystem) GetEntity() Entity { return sys.Entity }
+func (sys OscillationSystem) GetName() string         { return "Oscillation" }
+func (sys OscillationSystem) GetEntity() Logic.Entity { return sys.Entity }
 
 func (sys OscillationSystem) Initialize() {
 }
@@ -64,7 +65,7 @@ func (sys OscillationSystem) Tick(inbox Inbox) {
 		if oscillator.PhaseDegrees > 360 {
 			oscillator.PhaseDegrees -= 360
 		}
-		phaseShift := Util.DegreesToRadians(oscillator.PhaseDegrees * oscillator.Frequency)
+		phaseShift := Math.DegreesToRadians(oscillator.PhaseDegrees * oscillator.Frequency)
 
 		value := oscillator.Amplitude * math.Sin(((2*math.Pi)*oscillator.Frequency)*oscillator.Duration.Seconds()+phaseShift)
 		oscillator.LastUpdate = now

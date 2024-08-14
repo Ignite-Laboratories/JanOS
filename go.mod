@@ -3,10 +3,11 @@ module github.com/Ignite-Laboratories/JanOS
 go 1.22
 
 require (
-	github.com/go-gota/gota v0.12.0
 	github.com/google/uuid v1.6.0
 	github.com/hajimehoshi/ebiten/v2 v2.7.8
+	github.com/pkg/errors v0.9.1
 	gonum.org/v1/gonum v0.15.0
+	gopkg.in/cheggaaa/pb.v1 v1.0.28
 	gorgonia.org/gorgonia v0.9.18
 	gorgonia.org/tensor v0.9.24
 )
@@ -24,10 +25,10 @@ require (
 	github.com/google/flatbuffers v2.0.6+incompatible // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
 	github.com/leesper/go_rng v0.0.0-20190531154944-a612b043e353 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
+	github.com/mattn/go-runewidth v0.0.13 // indirect
+	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/xtgo/set v1.0.0 // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20220617031537-928513b29760 // indirect
-	golang.org/x/net v0.0.0-20220401154927-543a649e0bdd // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect

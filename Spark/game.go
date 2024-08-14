@@ -1,11 +1,12 @@
 package Spark
 
 import (
+	"github.com/Ignite-Laboratories/JanOS/Logic"
 	"github.com/hajimehoshi/ebiten/v2"
 	"log"
 )
 
-var Universe *World
+var Universe *Logic.World
 
 type Game struct {
 	WindowTitle  string
@@ -61,7 +62,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.PreDraw(screen)
 	for _, e := range Universe.Entities {
 		for _, s := range Universe.Systems {
-			if d, ok := s.(SystemDrawer); ok {
+			if d, ok := s.(Logic.SystemDrawer); ok {
 				d.OnDraw(e, screen)
 			}
 		}

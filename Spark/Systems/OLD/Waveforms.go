@@ -2,6 +2,7 @@ package OLD
 
 import (
 	"fmt"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Math"
 	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
 )
 
@@ -70,7 +71,7 @@ func (w *Waveform) ProcessData() {
 			continue
 		}
 
-		if Util.DiffSigns(lastPoint, currentPoint) {
+		if Math.DiffSigns(lastPoint, currentPoint) {
 			w.InflectionPoints = append(w.InflectionPoints, Util.NewTimeRecord(i, w.DiscreteDerivative[lastInflectionPoint:i]))
 			lastInflectionPoint = i
 		}

@@ -1,7 +1,8 @@
 package Spark
 
 import (
-	"github.com/Ignite-Laboratories/JanOS/Spark/Util"
+	"github.com/Ignite-Laboratories/JanOS/Logic"
+	"github.com/Ignite-Laboratories/JanOS/Logic/Math"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image"
@@ -9,7 +10,7 @@ import (
 )
 
 type WavVizSystem struct {
-	Entity
+	Logic.Entity
 
 	components WavVizSystemComponents
 }
@@ -31,17 +32,17 @@ func NewWaveformVisualizerSystem() WavVizSystem {
 }
 
 type Waveform struct {
-	Entity Entity
-	Cursor Entity
+	Entity Logic.Entity
+	Cursor Logic.Entity
 	Values []int
 }
 
 type WaveformSet struct {
-	Components[Waveform]
+	Logic.Components[Waveform]
 }
 
-func (sys WavVizSystem) GetName() string   { return "Waveform Visualizer" }
-func (sys WavVizSystem) GetEntity() Entity { return sys.Entity }
+func (sys WavVizSystem) GetName() string         { return "Waveform Visualizer" }
+func (sys WavVizSystem) GetEntity() Logic.Entity { return sys.Entity }
 
 func (sys WavVizSystem) Initialize() {
 
@@ -49,7 +50,7 @@ func (sys WavVizSystem) Initialize() {
 
 var gotSine bool
 
-func (sys WavVizSystem) Visualize(cursor Entity) {
+func (sys WavVizSystem) Visualize(cursor Logic.Entity) {
 	waveform := Waveform{
 		Entity: Universe.CreateEntity(),
 		Cursor: cursor,
@@ -60,7 +61,7 @@ func (sys WavVizSystem) Visualize(cursor Entity) {
 func (sys WavVizSystem) Tick(inbox Inbox) {
 }
 
-func (sys WavVizSystem) OnDraw(entity Entity, screen *ebiten.Image) {
+func (sys WavVizSystem) OnDraw(entity Logic.Entity, screen *ebiten.Image) {
 	waveform, ok := sys.components.Waveforms.Get(entity)
 	buffer := Universe.Cursoring.GetCursorBuffer(waveform.Cursor)
 	if ok {
@@ -69,7 +70,7 @@ func (sys WavVizSystem) OnDraw(entity Entity, screen *ebiten.Image) {
 		var xMax = float32(screen.Bounds().Max.X)
 		var xSpacing = xMax / float32(len(buffer))
 		var yMax = float32(250)
-		var yScaleFactor = yMax / float32(Util.GetLargest(buffer))
+		var yScaleFactor = yMax / float32(Math.GetLargest(buffer))
 		path.MoveTo(0, verticalCenter+(float32(buffer[0])*yScaleFactor))
 		for i, value := range buffer {
 			x := float32(i) * xSpacing
