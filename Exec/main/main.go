@@ -28,6 +28,7 @@ var binaryData AI_Music.BinaryData
 var alpha *JanOS.Dimension
 var omega *JanOS.Dimension
 var theta *JanOS.Dimension
+var gamma *JanOS.BufferDimension
 
 func preflight() {
 	performance, _ = aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
@@ -35,6 +36,7 @@ func preflight() {
 	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
 	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
 	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega)
+	gamma = JanOS.Universe.Dimensions.NewBufferDimension("Gamma", Symbol.Gamma, time.Second*10)
 }
 
 func tick(delta time.Duration) {
