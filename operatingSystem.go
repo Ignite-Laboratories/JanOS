@@ -15,6 +15,7 @@ import (
 type operatingSystem struct {
 	Assets            *assetManager
 	Dimensions        *dimensionManager
+	Window            *Window
 	Terminate         bool
 	masterCount       uint64
 	worlds            []World
@@ -29,12 +30,12 @@ var Universe = &operatingSystem{
 	terminationSignal: make(chan os.Signal, 1),
 }
 
-type Named interface {
+type named interface {
 	GetName() string
 }
 
 type World interface {
-	Named
+	named
 	Start()
 }
 
@@ -52,16 +53,17 @@ func (os *operatingSystem) NextId() uint64 { return atomic.AddUint64(&os.masterC
 
 func (os *operatingSystem) GetName() string { return "JanOS" }
 
-func (os *operatingSystem) Printf(named Named, format string, v ...any) {
+func (os *operatingSystem) Printf(named named, format string, v ...any) {
 	os.Println(named, fmt.Sprintf(format, v...))
 }
 
-func (os *operatingSystem) Println(named Named, str string) {
+func (os *operatingSystem) Println(named named, str string) {
 	log.Printf("[%s] %s\n", named.GetName(), str)
 }
 
-func (os *operatingSystem) Start(preflight func(), tick func(delta time.Duration), worlds ...World) {
+func (os *operatingSystem) Start(window *Window, preflight func(), tick func(delta time.Duration), worlds ...World) {
 	Universe.Println(os, "Hello, world")
+	os.Window = window
 	os.worlds = worlds
 	wg := sync.WaitGroup{}
 
@@ -95,14 +97,8 @@ func (os *operatingSystem) Start(preflight func(), tick func(delta time.Duration
 	preflight()
 
 	Universe.Println(os, "Taking off")
-	lastUpdate := time.Now()
-	for {
-		if os.Terminate {
-			break
-		}
-		tick(time.Since(lastUpdate))
-		time.Sleep(time.Nanosecond)
-	}
+
+	os.Window.Open()
 
 	Universe.Println(os, "Exiting")
 }

@@ -31,6 +31,6 @@ func (mgr *dimensionManager) NewDimension(name string, symbol Symbol, defaultVal
 		Value:  defaultValue,
 	}
 	mgr.dimensions[name] = d
-	Universe.Printf(mgr, "'%s' [%s] set to: %f", name, string(symbol), defaultValue)
+	Universe.Printf(mgr, "Let '%s' [%s] = %f", name, string(symbol), defaultValue)
 	return d
 }

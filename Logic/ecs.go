@@ -72,25 +72,25 @@ type System interface {
 WORLD
 */
 
-type ECSWorld struct {
+type ecsWorld struct {
 	Name     string
 	Entities []JanOS.Entity
 	Systems  []System
 }
 
 func NewECSWorld(name string, systems ...System) JanOS.World {
-	return &ECSWorld{
+	return &ecsWorld{
 		Name:     name,
 		Entities: make([]JanOS.Entity, 0),
 		Systems:  systems,
 	}
 }
 
-func (w *ECSWorld) GetName() string {
+func (w *ecsWorld) GetName() string {
 	return w.Name
 }
 
-func (w *ECSWorld) Initialize() {
+func (w *ecsWorld) Initialize() {
 	for _, system := range w.Systems {
 		if init, ok := system.(JanOS.Initializable); ok {
 			JanOS.Universe.Printf(w, "[%s] Initializing", system.GetName())
@@ -100,7 +100,7 @@ func (w *ECSWorld) Initialize() {
 	}
 }
 
-func (w *ECSWorld) Start() {
+func (w *ecsWorld) Start() {
 	lastNow := time.Now()
 	for {
 		if JanOS.Universe.Terminate {
