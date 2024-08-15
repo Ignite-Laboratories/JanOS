@@ -7,14 +7,17 @@ import (
 
 // NewOscillatingDimension creates a dimension that oscillates over the period
 // of one second and updates at the specified resolution interval per second.
-func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol, amplitude float64, frequency float64, resolution int64) *Dimension {
+func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol, amplitude *Dimension, frequency *Dimension, resolution int64) *Dimension {
 	d := Universe.Dimensions.NewDimension(name, symbol, 0)
-	Universe.Printf(mgr, "Oscillating [%s] at %fhz, amplitude %f, resolution %d steps/sec", string(symbol), frequency, amplitude, resolution)
+	Universe.Printf(mgr, "Oscillating [%s] at %fhz, amplitude %f, resolution %d steps/sec", string(symbol), frequency.Value, amplitude.Value, resolution)
 	resolutionStep := time.Duration(time.Second.Nanoseconds() / resolution)
 
 	go func() {
 		lastUpdate := time.Now()
 		lastCycle := time.Now()
+		// Grab these immediately so the values don't change
+		f := frequency.Value
+		a := amplitude.Value
 
 		for {
 			if Universe.Terminate {
@@ -22,14 +25,21 @@ func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol,
 			}
 
 			if time.Since(lastUpdate) > resolutionStep {
+				frequencyStep := time.Duration(float64(time.Second.Nanoseconds()) / f).Nanoseconds()
+				frequencyOffset := time.Since(lastCycle).Nanoseconds()
 				periodOffset := time.Since(lastUpdate).Seconds()
 
-				phaseShiftInRadians := (360.0 * periodOffset * frequency) * math.Pi / 180
-				angularFrequency := 2 * math.Pi * frequency
-				d.Value = amplitude * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
+				phaseShiftInRadians := (360.0 * periodOffset * f) * math.Pi / 180
+				angularFrequency := 2 * math.Pi * f
+				d.Value = a * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
 
-				if periodOffset > 1 {
-					lastCycle = lastCycle.Add(time.Second)
+				// This ensures that we wait until as close to the current frequency time away from the last cycle
+				// before updating the inputs.  It isn't perfect, but fuzzy logic is okay.a
+				if frequencyOffset > frequencyStep {
+					lastCycle = time.Now()
+					// Update these at the start of every cycle for smooth transition on change
+					f = frequency.Value
+					a = amplitude.Value
 				}
 			}
 		}

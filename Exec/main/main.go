@@ -24,14 +24,16 @@ func main() {
 
 var performance AI_Music.Performance
 var binaryData AI_Music.BinaryData
+var alpha *JanOS.Dimension
 var omega *JanOS.Dimension
 var theta *JanOS.Dimension
 
 func preflight() {
 	performance, _ = aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
 	binaryData, _ = aiMusicSys.GetBinaryData(performance.Entity)
-	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 42)
-	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, 100, 1, 1000)
+	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
+	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
+	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega, 1000)
 }
 
 func tick(delta time.Duration) {
@@ -43,11 +45,19 @@ func onDraw(screen *ebiten.Image) {
 }
 
 func Update(window *JanOS.Window) error {
+	if ebiten.IsKeyPressed(ebiten.KeyA) {
+		omega.Value = omega.Value * 0.9
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyS) {
+		omega.Value = omega.Value * 1.1
+	}
 	return nil
 }
 
 func OnDraw(window *JanOS.Window, screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Value))
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Value), 0, 0)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", alpha.Name, alpha.Value), 0, 15)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", omega.Name, omega.Value), 0, 30)
 }
 
 func Layout(window *JanOS.Window, outsideWidth, outsideHeight int) (int, int) {
