@@ -10,13 +10,13 @@ type Dimension struct {
 
 type dimensionManager struct {
 	dimensions       map[string]*Dimension
-	bufferDimensions map[string]*BufferDimension
+	bufferDimensions map[string]*PerceptionBuffer
 }
 
 func NewDimensionManager() *dimensionManager {
 	return &dimensionManager{
 		dimensions:       make(map[string]*Dimension),
-		bufferDimensions: make(map[string]*BufferDimension),
+		bufferDimensions: make(map[string]*PerceptionBuffer),
 	}
 }
 
@@ -28,7 +28,7 @@ func (mgr *dimensionManager) GetDimension(name string) *Dimension {
 	return mgr.dimensions[name]
 }
 
-func (mgr *dimensionManager) GetBufferDimension(name string) *BufferDimension {
+func (mgr *dimensionManager) GetBufferDimension(name string) *PerceptionBuffer {
 	return mgr.bufferDimensions[name]
 }
 
