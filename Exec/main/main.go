@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"time"
 )
 
@@ -33,7 +34,7 @@ func preflight() {
 	binaryData, _ = aiMusicSys.GetBinaryData(performance.Entity)
 	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
 	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
-	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega, 1000)
+	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega)
 }
 
 func tick(delta time.Duration) {
@@ -45,10 +46,10 @@ func onDraw(screen *ebiten.Image) {
 }
 
 func Update(window *JanOS.Window) error {
-	if ebiten.IsKeyPressed(ebiten.KeyA) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		omega.Value = omega.Value * 0.9
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyS) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
 		omega.Value = omega.Value * 1.1
 	}
 	return nil

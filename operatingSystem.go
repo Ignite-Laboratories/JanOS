@@ -17,6 +17,7 @@ type operatingSystem struct {
 	Dimensions        *dimensionManager
 	Window            *Window
 	Terminate         bool
+	Resolution        float64
 	masterCount       uint64
 	worlds            []World
 	terminationSignal chan os.Signal
@@ -26,6 +27,7 @@ type operatingSystem struct {
 var Universe = &operatingSystem{
 	Assets:            newAssetManager(),
 	Dimensions:        NewDimensionManager(),
+	Resolution:        44000,
 	worlds:            make([]World, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
@@ -63,6 +65,7 @@ func (os *operatingSystem) Println(named named, str string) {
 
 func (os *operatingSystem) Start(window *Window, preflight func(), tick func(delta time.Duration), worlds ...World) {
 	Universe.Println(os, "Hello, world")
+	Universe.Printf(os, "Operating Resolution %dhz", int64(os.Resolution))
 	os.Window = window
 	os.worlds = worlds
 	wg := sync.WaitGroup{}

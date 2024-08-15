@@ -38,10 +38,13 @@ func (w *Window) Open() {
 	if err := ebiten.RunGame(w); err != nil {
 		log.Panic(err)
 	}
-	Universe.Printf(w, "Ebiten window '%s' closed", w.WindowTitle)
+	Universe.Printf(w, "ebiten window '%s' closed", w.WindowTitle)
 }
 
 func (w *Window) Update() error {
+	if Universe.Terminate {
+		return ebiten.Termination
+	}
 	return w.OnUpdate(w)
 }
 
