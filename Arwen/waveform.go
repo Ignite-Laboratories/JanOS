@@ -20,4 +20,4 @@ func (sys *waveformSystem) Tick(entity JanOS.Entity, delta time.Duration) {
 
 }
 
-func (sys *waveformSystem) GetName() string { return "Waveform System" }
+func (sys *waveformSystem) GetNamedValue() string { return "Waveform System" }

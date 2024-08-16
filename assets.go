@@ -18,14 +18,17 @@ type asset struct {
 	Data any
 }
 
-func (mgr *assetManager) GetName() string {
+// GetNamedValue returns the assigned name to this instance.
+func (mgr *assetManager) GetNamedValue() string {
 	return "Assets"
 }
 
+// GetAsset returns the asset for the provided name.
 func (mgr *assetManager) GetAsset(name string) *asset {
 	return mgr.assets[name]
 }
 
+// LoadAsset opens the file at the provided location and loads its contents.
 func (mgr *assetManager) LoadAsset(name string, path string) (*asset, error) {
 	Universe.Printf(mgr, "Loading asset '%s' from '%s'", name, path)
 	f, err := os.Open(path)

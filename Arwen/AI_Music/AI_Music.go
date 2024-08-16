@@ -132,7 +132,7 @@ func (sys *ai_musicSystem) Tick(entity JanOS.Entity, delta time.Duration) {
 
 }
 
-func (sys *ai_musicSystem) GetName() string { return "AI_Music System" }
+func (sys *ai_musicSystem) GetNamedValue() string { return "AI_Music System" }
 
 func LoadWaveform(path string) []int {
 	f, err := os.Open("./data/audio/" + path)

@@ -6,7 +6,7 @@ import (
 )
 
 // NOTE:
-// This system is meant to be performant and carefully exposed.
+// This system is meant to be performant and has been very carefully exposed.
 // We intentionally fail hard - if you are trying to look too far into the future or past then
 // you need to restructure your model!  Look at the Universe.BufferLength to know what the practical
 // boundaries are in your simulation and modify it if you need a different stretch of time.
@@ -106,7 +106,7 @@ func (tl *timeline) setValue(instant time.Time, value float64) {
 	tl.data = append(tl.data[:startIndex], newData...)
 }
 
-// newTimeline creates a buffer.
+// newTimeline creates a timeline buffer.
 // The duration represents the total amount of time to buffer, with now being considered relative to
 // the midpoint of the buffer.  The frequency tells it how often to trim/append the buffer in time.
 func (mgr *dimensionManager) newTimeline(name string, symbol Symbol, defaultValue float64, duration time.Duration) *timeline {

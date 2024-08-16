@@ -6,6 +6,16 @@ import (
 )
 
 /**
+ENTITY
+*/
+
+// Entity represents an ID attributable to an abstract object.
+type Entity int
+
+// NewEntity creates a new entity using the Universe's master ID counter
+func NewEntity() Entity { return Entity(Universe.NextId()) }
+
+/**
 COMPONENT
 */
 
@@ -63,7 +73,7 @@ SYSTEM
 */
 
 type System interface {
-	GetName() string
+	named
 	Tick(entity Entity, delta time.Duration)
 }
 
@@ -77,7 +87,7 @@ type ecsWorld struct {
 	Systems  []System
 }
 
-func NewECSWorld(name string, systems ...System) World {
+func NewECSWorld(name string, systems ...System) world {
 	return &ecsWorld{
 		Name:     name,
 		Entities: make([]Entity, 0),
@@ -85,17 +95,18 @@ func NewECSWorld(name string, systems ...System) World {
 	}
 }
 
-func (w *ecsWorld) GetName() string {
+// GetNamedValue returns the assigned name to this instance.
+func (w *ecsWorld) GetNamedValue() string {
 	return w.Name
 }
 
 func (w *ecsWorld) Initialize() {
 	for _, system := range w.Systems {
-		if init, ok := system.(Initializable); ok {
-			Universe.Printf(w, "[%s] Initializing", system.GetName())
+		if init, ok := system.(initializable); ok {
+			Universe.Printf(w, "[%s] Initializing", system.GetNamedValue())
 			init.Initialize()
 		}
-		Universe.Printf(w, "[%s] Initialized", system.GetName())
+		Universe.Printf(w, "[%s] Initialized", system.GetNamedValue())
 	}
 }
 
@@ -112,6 +123,6 @@ func (w *ecsWorld) Start() {
 			}
 		}
 
-		time.Sleep(time.Second)
+		time.Sleep(1)
 	}
 }

@@ -4,8 +4,10 @@ import (
 	"time"
 )
 
+// Symbol represents a mathematical symbol.
 type Symbol string
 
+// Dimension represents a mathematical value and its associated historical timeline.
 type Dimension struct {
 	Name     string
 	Symbol   Symbol
@@ -22,8 +24,8 @@ func newDimensionManager() *dimensionManager {
 	}
 }
 
-// GetName returns the colloquial name of this entity
-func (mgr *dimensionManager) GetName() string {
+// GetNamedValue returns the assigned name to this instance.
+func (mgr *dimensionManager) GetNamedValue() string {
 	return "Dimensions"
 }
 

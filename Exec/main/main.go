@@ -16,10 +16,11 @@ var waveformSys = Arwen.NewWaveformSystem()
 var aiMusicSys = AI_Music.NewAI_MusicSystem()
 
 var ecsWorld = JanOS.NewECSWorld("Logic", waveformSys, aiMusicSys)
-var window = JanOS.NewWindow("Spark", "JanOS", 1024, 768, Update, Layout, OnDraw)
+var window = JanOS.NewWindow("Spark", "JanOS", 1024, 768, onTick, onDraw)
 
 func main() {
-	JanOS.Universe.Start(window, preflight, tick, ecsWorld)
+	JanOS.Universe.Resolution.Frequency = 60
+	JanOS.Universe.Start(window, preflight, onRealityUpdate, ecsWorld)
 }
 
 var performance AI_Music.Performance
@@ -43,6 +44,7 @@ var rho *JanOS.Dimension
 func preflight() {
 	performance, _ = aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
 	binaryData, _ = aiMusicSys.GetBinaryData(performance.Entity)
+
 	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
 	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
 	mu = JanOS.Universe.Dimensions.NewDimension("Mu", Symbol.Mu, 1.1)
@@ -61,14 +63,10 @@ func preflight() {
 	psi = JanOS.Universe.Dimensions.NewOscillatingDimension("Psi", Symbol.Psi, alpha, rho)
 }
 
-func tick(delta time.Duration) {
+func onRealityUpdate(delta time.Duration) {
 }
 
-func onDraw(screen *ebiten.Image) {
-
-}
-
-func Update(window *JanOS.Window) error {
+func onTick(window *JanOS.Window) error {
 	now := time.Now()
 	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		omega.SetValue(now, omega.GetValue(now)*0.9)
@@ -92,7 +90,7 @@ func Update(window *JanOS.Window) error {
 	return nil
 }
 
-func OnDraw(window *JanOS.Window, screen *ebiten.Image) {
+func onDraw(window *JanOS.Window, screen *ebiten.Image) {
 	now := time.Now()
 	offset := 15
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", alpha.Name, alpha.GetValue(now)), 0, 0*offset)
@@ -112,8 +110,4 @@ func OnDraw(window *JanOS.Window, screen *ebiten.Image) {
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", phi.Name, phi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 13*offset)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", chi.Name, chi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 14*offset)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", psi.Name, psi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 15*offset)
-}
-
-func Layout(window *JanOS.Window, outsideWidth, outsideHeight int) (int, int) {
-	return window.ScreenWidth, window.ScreenHeight
 }

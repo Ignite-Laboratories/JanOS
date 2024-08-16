@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-// operatingSystem Represents the core components available globally
+// operatingSystem Represents the core components available globally to JanOS.
 type operatingSystem struct {
 	Assets            *assetManager
 	Dimensions        *dimensionManager
@@ -22,7 +22,7 @@ type operatingSystem struct {
 	BufferLength      time.Duration
 	BufferFrequency   time.Duration
 	masterCount       uint64
-	worlds            []World
+	worlds            []world
 	terminationSignal chan os.Signal
 }
 
@@ -32,7 +32,7 @@ type resolution struct {
 	Duration    time.Duration
 }
 
-// Universe The single entry point to the entire operating system
+// Universe The single entry point to the entire operating system.
 var Universe = &operatingSystem{
 	Assets:     newAssetManager(),
 	Dimensions: newDimensionManager(),
@@ -42,43 +42,31 @@ var Universe = &operatingSystem{
 	},
 	BufferLength:      time.Second * 5,
 	BufferFrequency:   time.Millisecond * 10,
-	worlds:            make([]World, 0),
+	worlds:            make([]world, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
-
-type named interface {
-	GetName() string
-}
-
-type World interface {
-	named
-	Start()
-}
-
-type Initializable interface {
-	Initialize()
-}
-
-type Entity int
-
-func NewEntity() Entity { return Entity(Universe.NextId()) }
 
 // NextId increments the internal master count maintained since execution and then returns the value.
 // This happens as an atomic operation to ensure uniqueness across threads.
 func (os *operatingSystem) NextId() uint64 { return atomic.AddUint64(&os.masterCount, 1) }
 
-func (os *operatingSystem) GetName() string { return "JanOS" }
+// GetNamedValue returns the assigned name to this instance.
+func (os *operatingSystem) GetNamedValue() string { return "JanOS" }
 
+// Printf calls log.Print and captures the event on the os.LogManager
 func (os *operatingSystem) Printf(named named, format string, v ...any) {
 	os.Println(named, fmt.Sprintf(format, v...))
 }
 
+// Println calls log.Println and captures the event on the os.LogManager
 func (os *operatingSystem) Println(named named, str string) {
 	os.LogManager.AddEntry(named, str)
-	log.Printf("[%s] %s\n", named.GetName(), str)
+	log.Printf("[%s] %s\n", named.GetNamedValue(), str)
 }
 
-func (os *operatingSystem) Start(window *Window, preflight func(), tick func(delta time.Duration), worlds ...World) {
+// Start initializes all the provided worlds, which initialize their systems, and then
+// starts the appropriate loops to maintain the system.
+func (os *operatingSystem) Start(window *Window, preflight func(), onRealityUpdate func(delta time.Duration), worlds ...world) {
 	Universe.Println(os, "Hello, world")
 	Universe.Printf(os, "Operating Resolution %dhz", int64(os.Resolution.Frequency))
 	os.Window = window
@@ -88,7 +76,7 @@ func (os *operatingSystem) Start(window *Window, preflight func(), tick func(del
 	for _, w := range os.worlds {
 		wg.Add(1)
 		go func() {
-			if init, ok := w.(Initializable); ok {
+			if init, ok := w.(initializable); ok {
 				Universe.Println(w, "Initializing")
 				init.Initialize()
 			}
@@ -122,10 +110,11 @@ func (os *operatingSystem) Start(window *Window, preflight func(), tick func(del
 				break
 			}
 			now := time.Now()
-			tick(now.Sub(lastUpdate))
+			onRealityUpdate(now.Sub(lastUpdate))
 			os.Resolution.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / os.Resolution.Frequency)
 			os.Resolution.Duration = time.Duration(os.Resolution.Nanoseconds + 1)
 			lastUpdate = now
+			time.Sleep(1)
 		}
 		Universe.Println(os, "Reality loop stopped")
 	}

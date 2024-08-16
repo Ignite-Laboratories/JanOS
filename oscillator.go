@@ -5,8 +5,7 @@ import (
 	"time"
 )
 
-// NewOscillatingDimension creates a dimension that oscillates over the period
-// of one second and updates at the specified resolution interval per second.
+// NewOscillatingDimension creates a dimension that oscillates over time.
 func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol, amplitude *Dimension, frequency *Dimension) *Dimension {
 	now := time.Now()
 	// Grab these immediately so the values don't change
