@@ -19,7 +19,7 @@ var ecsWorld = JanOS.NewECSWorld("Logic", waveformSys, aiMusicSys)
 var window = JanOS.NewWindow("Spark", "JanOS", 1024, 768, Update, Layout, OnDraw)
 
 func main() {
-	JanOS.Universe.Start(nil, preflight, tick, ecsWorld)
+	JanOS.Universe.Start(window, preflight, tick, ecsWorld)
 }
 
 var performance AI_Music.Performance
