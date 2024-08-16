@@ -2,7 +2,6 @@ package AI_Music
 
 import (
 	"JanOS"
-	"JanOS/Logic"
 	"bytes"
 	"encoding/csv"
 	"fmt"
@@ -14,8 +13,8 @@ import (
 )
 
 type ai_musicSystem struct {
-	performances Logic.Components[Performance]
-	binaryData   Logic.Components[BinaryData]
+	performances JanOS.Components[Performance]
+	binaryData   JanOS.Components[BinaryData]
 }
 
 type Performance struct {

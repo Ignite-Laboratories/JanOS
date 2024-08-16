@@ -15,19 +15,33 @@ import (
 type operatingSystem struct {
 	Assets            *assetManager
 	Dimensions        *dimensionManager
+	LogManager        *logManager
 	Window            *Window
 	Terminate         bool
-	Resolution        float64
+	Resolution        *resolution
+	BufferLength      time.Duration
+	BufferFrequency   time.Duration
 	masterCount       uint64
 	worlds            []World
 	terminationSignal chan os.Signal
 }
 
+type resolution struct {
+	Frequency   float64
+	Nanoseconds int64
+	Duration    time.Duration
+}
+
 // Universe The single entry point to the entire operating system
 var Universe = &operatingSystem{
-	Assets:            newAssetManager(),
-	Dimensions:        NewDimensionManager(),
-	Resolution:        44000,
+	Assets:     newAssetManager(),
+	Dimensions: newDimensionManager(),
+	LogManager: newLogManager(),
+	Resolution: &resolution{
+		Frequency: 44000,
+	},
+	BufferLength:      time.Second * 5,
+	BufferFrequency:   time.Millisecond * 10,
 	worlds:            make([]World, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
@@ -60,12 +74,13 @@ func (os *operatingSystem) Printf(named named, format string, v ...any) {
 }
 
 func (os *operatingSystem) Println(named named, str string) {
+	os.LogManager.AddEntry(named, str)
 	log.Printf("[%s] %s\n", named.GetName(), str)
 }
 
 func (os *operatingSystem) Start(window *Window, preflight func(), tick func(delta time.Duration), worlds ...World) {
 	Universe.Println(os, "Hello, world")
-	Universe.Printf(os, "Operating Resolution %dhz", int64(os.Resolution))
+	Universe.Printf(os, "Operating Resolution %dhz", int64(os.Resolution.Frequency))
 	os.Window = window
 	os.worlds = worlds
 	wg := sync.WaitGroup{}
@@ -99,9 +114,32 @@ func (os *operatingSystem) Start(window *Window, preflight func(), tick func(del
 	Universe.Println(os, "Running pre-flight routine")
 	preflight()
 
-	Universe.Println(os, "Taking off")
+	realityLoop := func() {
+		Universe.Println(os, "Starting reality loop")
+		lastUpdate := time.Now()
+		for {
+			if Universe.Terminate {
+				break
+			}
+			now := time.Now()
+			tick(now.Sub(lastUpdate))
+			os.Resolution.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / os.Resolution.Frequency)
+			os.Resolution.Duration = time.Duration(os.Resolution.Nanoseconds + 1)
+			lastUpdate = now
+		}
+		Universe.Println(os, "Reality loop stopped")
+	}
 
-	os.Window.Open()
+	if os.Window != nil {
+		Universe.Println(os, "Requesting a window")
+		// Fork off the reality thread to give ebiten the main thread
+		go realityLoop()
+		os.Window.Open()
+	} else {
+		Universe.Println(os, "Running without a window")
+		// Keep the main thread since ebiten isn't in use
+		realityLoop()
+	}
 
 	Universe.Println(os, "Exiting")
 }

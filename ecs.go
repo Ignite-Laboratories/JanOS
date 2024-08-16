@@ -1,7 +1,6 @@
-package Logic
+package JanOS
 
 import (
-	"JanOS"
 	"fmt"
 	"time"
 )
@@ -11,19 +10,19 @@ COMPONENT
 */
 
 type Components[T any] struct {
-	DB map[JanOS.Entity]T
+	DB map[Entity]T
 }
 
-func (c *Components[T]) Delete(e JanOS.Entity) {
+func (c *Components[T]) Delete(e Entity) {
 	delete(c.DB, e)
 }
 
-func (c *Components[T]) Get(e JanOS.Entity) (T, bool) {
+func (c *Components[T]) Get(e Entity) (T, bool) {
 	v, ok := c.DB[e]
 	return v, ok
 }
 
-func (c *Components[T]) MustGet(e JanOS.Entity) T {
+func (c *Components[T]) MustGet(e Entity) T {
 	v, ok := c.DB[e]
 	if !ok {
 		panic(fmt.Sprintf("no component for entity %d", e))
@@ -31,29 +30,29 @@ func (c *Components[T]) MustGet(e JanOS.Entity) T {
 	return v
 }
 
-func (c *Components[T]) Set(e JanOS.Entity, d T) {
+func (c *Components[T]) Set(e Entity, d T) {
 	if c.DB == nil {
-		c.DB = map[JanOS.Entity]T{}
+		c.DB = map[Entity]T{}
 	}
 	c.DB[e] = d
 }
-func (c *Components[T]) SetIfAbsent(e JanOS.Entity, d T) {
+func (c *Components[T]) SetIfAbsent(e Entity, d T) {
 	if c.DB == nil {
-		c.DB = map[JanOS.Entity]T{}
+		c.DB = map[Entity]T{}
 	}
 	if _, ok := c.DB[e]; !ok {
 		c.DB[e] = d
 	}
 }
 
-func (c *Components[T]) Accept(entity JanOS.Entity, fn func(e JanOS.Entity, c T)) {
+func (c *Components[T]) Accept(entity Entity, fn func(e Entity, c T)) {
 	if c, ok := c.DB[entity]; ok {
 		fn(entity, c)
 	}
 }
 
 // AcceptEmpty only accept if empty
-func (c *Components[T]) AcceptEmpty(entity JanOS.Entity, fn func(e JanOS.Entity)) {
+func (c *Components[T]) AcceptEmpty(entity Entity, fn func(e Entity)) {
 	if _, ok := c.DB[entity]; !ok {
 		fn(entity)
 	}
@@ -65,7 +64,7 @@ SYSTEM
 
 type System interface {
 	GetName() string
-	Tick(entity JanOS.Entity, delta time.Duration)
+	Tick(entity Entity, delta time.Duration)
 }
 
 /**
@@ -74,14 +73,14 @@ WORLD
 
 type ecsWorld struct {
 	Name     string
-	Entities []JanOS.Entity
+	Entities []Entity
 	Systems  []System
 }
 
-func NewECSWorld(name string, systems ...System) JanOS.World {
+func NewECSWorld(name string, systems ...System) World {
 	return &ecsWorld{
 		Name:     name,
-		Entities: make([]JanOS.Entity, 0),
+		Entities: make([]Entity, 0),
 		Systems:  systems,
 	}
 }
@@ -92,18 +91,18 @@ func (w *ecsWorld) GetName() string {
 
 func (w *ecsWorld) Initialize() {
 	for _, system := range w.Systems {
-		if init, ok := system.(JanOS.Initializable); ok {
-			JanOS.Universe.Printf(w, "[%s] Initializing", system.GetName())
+		if init, ok := system.(Initializable); ok {
+			Universe.Printf(w, "[%s] Initializing", system.GetName())
 			init.Initialize()
 		}
-		JanOS.Universe.Printf(w, "[%s] Initialized", system.GetName())
+		Universe.Printf(w, "[%s] Initialized", system.GetName())
 	}
 }
 
 func (w *ecsWorld) Start() {
 	lastNow := time.Now()
 	for {
-		if JanOS.Universe.Terminate {
+		if Universe.Terminate {
 			break
 		}
 

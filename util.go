@@ -1,4 +1,4 @@
-package Logic
+package JanOS
 
 func SelectUnique[TIn any, TOut any](data []TIn, selector func(TIn) TOut) []TOut {
 	return Unique(Select(data, selector))
@@ -45,4 +45,12 @@ func GetLargest(s []float64) float64 {
 		}
 	}
 	return maxValue
+}
+
+func NewInitializedArray[T any](value T, size int) []T {
+	newArray := make([]T, size)
+	for i := range newArray {
+		newArray[i] = value
+	}
+	return newArray
 }
