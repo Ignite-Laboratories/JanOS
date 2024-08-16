@@ -6,15 +6,15 @@ import (
 )
 
 // NewOscillatingDimension creates a dimension that oscillates over time.
-func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol, amplitude *Dimension, frequency *Dimension) *Dimension {
+func (mgr *dimensionManager) NewOscillatingDimension(name string, symbol Symbol, amplitude *Dimension, frequency *Dimension, bufferLength time.Duration, resolutionFrequency int) *Dimension {
 	now := time.Now()
 	// Grab these immediately so the values don't change
 	f := frequency.GetValue(now)
 	a := amplitude.GetValue(now)
 
-	d := Universe.Dimensions.NewDimension(name, symbol, 0)
+	d := Universe.Dimensions.NewDimension(name, symbol, 0, bufferLength, resolutionFrequency)
 	Universe.Printf(mgr, "Oscillating [%s] at %fhz, amplitude %f", string(symbol), f, a)
-	resolutionStep := time.Duration(1 / Universe.Resolution.Frequency)
+	resolutionStep := time.Duration(1 / d.Timeline.Resolution.Frequency)
 
 	go func() {
 		lastUpdate := time.Now()

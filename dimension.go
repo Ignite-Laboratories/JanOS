@@ -49,12 +49,12 @@ func (d *Dimension) GetValue(instant time.Time) float64 {
 }
 
 // NewDimension creates a new dimension and sets its timeline to the provided default value.
-func (mgr *dimensionManager) NewDimension(name string, symbol Symbol, defaultValue float64) *Dimension {
+func (mgr *dimensionManager) NewDimension(name string, symbol Symbol, defaultValue float64, bufferLength time.Duration, resolutionFrequency int) *Dimension {
 	Universe.Printf(mgr, "Let '%s' [%s] = %f", name, string(symbol), defaultValue)
 	d := &Dimension{
 		Name:     name,
 		Symbol:   symbol,
-		Timeline: mgr.newTimeline(name, symbol, defaultValue, Universe.BufferLength),
+		Timeline: mgr.newTimeline(name, symbol, defaultValue, bufferLength, resolutionFrequency),
 	}
 	mgr.dimensions[name] = d
 	return d

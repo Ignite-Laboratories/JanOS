@@ -18,30 +18,16 @@ type operatingSystem struct {
 	LogManager        *logManager
 	Window            *Window
 	Terminate         bool
-	Resolution        *resolution
-	BufferLength      time.Duration
-	BufferFrequency   time.Duration
 	masterCount       uint64
 	worlds            []world
 	terminationSignal chan os.Signal
 }
 
-type resolution struct {
-	Frequency   float64
-	Nanoseconds int64
-	Duration    time.Duration
-}
-
 // Universe The single entry point to the entire operating system.
 var Universe = &operatingSystem{
-	Assets:     newAssetManager(),
-	Dimensions: newDimensionManager(),
-	LogManager: newLogManager(),
-	Resolution: &resolution{
-		Frequency: 44000,
-	},
-	BufferLength:      time.Second * 5,
-	BufferFrequency:   time.Millisecond * 10,
+	Assets:            newAssetManager(),
+	Dimensions:        newDimensionManager(),
+	LogManager:        newLogManager(),
 	worlds:            make([]world, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
@@ -68,7 +54,6 @@ func (os *operatingSystem) Println(named named, str string) {
 // starts the appropriate loops to maintain the system.
 func (os *operatingSystem) Start(window *Window, preflight func(), onRealityUpdate func(delta time.Duration), worlds ...world) {
 	Universe.Println(os, "Hello, world")
-	Universe.Printf(os, "Operating Resolution %dhz", int64(os.Resolution.Frequency))
 	os.Window = window
 	os.worlds = worlds
 	wg := sync.WaitGroup{}
@@ -111,8 +96,6 @@ func (os *operatingSystem) Start(window *Window, preflight func(), onRealityUpda
 			}
 			now := time.Now()
 			onRealityUpdate(now.Sub(lastUpdate))
-			os.Resolution.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / os.Resolution.Frequency)
-			os.Resolution.Duration = time.Duration(os.Resolution.Nanoseconds + 1)
 			lastUpdate = now
 			time.Sleep(1)
 		}

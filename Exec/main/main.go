@@ -19,7 +19,6 @@ var ecsWorld = JanOS.NewECSWorld("Logic", waveformSys, aiMusicSys)
 var window = JanOS.NewWindow("Spark", "JanOS", 1024, 768, onTick, onDraw)
 
 func main() {
-	JanOS.Universe.Resolution.Frequency = 60
 	JanOS.Universe.Start(window, preflight, onRealityUpdate, ecsWorld)
 }
 
@@ -45,22 +44,25 @@ func preflight() {
 	performance, _ = aiMusicSys.LookupPerformance(AI_Music.FamilyBrass, AI_Music.NameTrumpetInC, AI_Music.PitchA5, AI_Music.DynamicFortissimo)
 	binaryData, _ = aiMusicSys.GetBinaryData(performance.Entity)
 
-	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100)
-	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1)
-	mu = JanOS.Universe.Dimensions.NewDimension("Mu", Symbol.Mu, 1.1)
-	nu = JanOS.Universe.Dimensions.NewDimension("Nu", Symbol.Nu, 1.2)
-	xi = JanOS.Universe.Dimensions.NewDimension("Xi", Symbol.Xi, 1.3)
-	omicron = JanOS.Universe.Dimensions.NewDimension("Omicron", Symbol.Omicron, 1.4)
-	pi = JanOS.Universe.Dimensions.NewDimension("Pi", Symbol.Pi, 1.5)
-	rho = JanOS.Universe.Dimensions.NewDimension("Rho", Symbol.Rho, 1.6)
+	bufferLength := time.Duration(time.Second * 5)
+	frequency := 44000
 
-	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega)
-	sigma = JanOS.Universe.Dimensions.NewOscillatingDimension("Sigma", Symbol.Sigma, alpha, mu)
-	tau = JanOS.Universe.Dimensions.NewOscillatingDimension("Tau", Symbol.Tau, alpha, nu)
-	upsilon = JanOS.Universe.Dimensions.NewOscillatingDimension("Upsilon", Symbol.Upsilon, alpha, xi)
-	phi = JanOS.Universe.Dimensions.NewOscillatingDimension("Phi", Symbol.Phi, alpha, omicron)
-	chi = JanOS.Universe.Dimensions.NewOscillatingDimension("Chi", Symbol.Chi, alpha, pi)
-	psi = JanOS.Universe.Dimensions.NewOscillatingDimension("Psi", Symbol.Psi, alpha, rho)
+	alpha = JanOS.Universe.Dimensions.NewDimension("Alpha", Symbol.Alpha, 100, bufferLength, frequency)
+	omega = JanOS.Universe.Dimensions.NewDimension("Omega", Symbol.Omega, 1, bufferLength, frequency)
+	mu = JanOS.Universe.Dimensions.NewDimension("Mu", Symbol.Mu, 1.1, bufferLength, frequency)
+	nu = JanOS.Universe.Dimensions.NewDimension("Nu", Symbol.Nu, 1.2, bufferLength, frequency)
+	xi = JanOS.Universe.Dimensions.NewDimension("Xi", Symbol.Xi, 1.3, bufferLength, frequency)
+	omicron = JanOS.Universe.Dimensions.NewDimension("Omicron", Symbol.Omicron, 1.4, bufferLength, frequency)
+	pi = JanOS.Universe.Dimensions.NewDimension("Pi", Symbol.Pi, 1.5, bufferLength, frequency)
+	rho = JanOS.Universe.Dimensions.NewDimension("Rho", Symbol.Rho, 1.6, bufferLength, frequency)
+
+	theta = JanOS.Universe.Dimensions.NewOscillatingDimension("Theta", Symbol.Theta, alpha, omega, bufferLength, frequency)
+	sigma = JanOS.Universe.Dimensions.NewOscillatingDimension("Sigma", Symbol.Sigma, alpha, mu, bufferLength, frequency)
+	tau = JanOS.Universe.Dimensions.NewOscillatingDimension("Tau", Symbol.Tau, alpha, nu, bufferLength, frequency)
+	upsilon = JanOS.Universe.Dimensions.NewOscillatingDimension("Upsilon", Symbol.Upsilon, alpha, xi, bufferLength, frequency)
+	phi = JanOS.Universe.Dimensions.NewOscillatingDimension("Phi", Symbol.Phi, alpha, omicron, bufferLength, frequency)
+	chi = JanOS.Universe.Dimensions.NewOscillatingDimension("Chi", Symbol.Chi, alpha, pi, bufferLength, frequency)
+	psi = JanOS.Universe.Dimensions.NewOscillatingDimension("Psi", Symbol.Psi, alpha, rho, bufferLength, frequency)
 }
 
 func onRealityUpdate(delta time.Duration) {
@@ -103,11 +105,11 @@ func onDraw(window *JanOS.Window, screen *ebiten.Image) {
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", pi.Name, pi.GetValue(now)), 0, 7*offset)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", rho.Name, rho.GetValue(now)), 0, 8*offset)
 
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 9*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", sigma.Name, sigma.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 10*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", tau.Name, tau.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 11*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", upsilon.Name, upsilon.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 12*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", phi.Name, phi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 13*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", chi.Name, chi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 14*offset)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", psi.Name, psi.Timeline.SliceFuture(now, JanOS.Universe.Resolution.Duration*10).Data), 0, 15*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", theta.Name, theta.Timeline.SliceFuture(now, theta.Timeline.Resolution.Duration*10).Data), 0, 9*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", sigma.Name, sigma.Timeline.SliceFuture(now, sigma.Timeline.Resolution.Duration*10).Data), 0, 10*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", tau.Name, tau.Timeline.SliceFuture(now, tau.Timeline.Resolution.Duration*10).Data), 0, 11*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", upsilon.Name, upsilon.Timeline.SliceFuture(now, upsilon.Timeline.Resolution.Duration*10).Data), 0, 12*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", phi.Name, phi.Timeline.SliceFuture(now, phi.Timeline.Resolution.Duration*10).Data), 0, 13*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", chi.Name, chi.Timeline.SliceFuture(now, chi.Timeline.Resolution.Duration*10).Data), 0, 14*offset)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s - %f", psi.Name, psi.Timeline.SliceFuture(now, psi.Timeline.Resolution.Duration*10).Data), 0, 15*offset)
 }
