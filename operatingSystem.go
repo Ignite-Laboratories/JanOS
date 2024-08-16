@@ -17,6 +17,7 @@ type operatingSystem struct {
 	Dimensions        *dimensionManager
 	LogManager        *logManager
 	Window            *Window
+	RelativePath      string
 	Terminate         bool
 	masterCount       uint64
 	worlds            []world
@@ -28,6 +29,7 @@ var Universe = &operatingSystem{
 	Assets:            newAssetManager(),
 	Dimensions:        newDimensionManager(),
 	LogManager:        newLogManager(),
+	RelativePath:      "../Assets/",
 	worlds:            make([]world, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }

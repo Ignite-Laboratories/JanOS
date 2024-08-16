@@ -30,6 +30,7 @@ func (mgr *assetManager) GetAsset(name string) *asset {
 
 // LoadAsset opens the file at the provided location and loads its contents.
 func (mgr *assetManager) LoadAsset(name string, path string) (*asset, error) {
+	path = Universe.RelativePath + path
 	Universe.Printf(mgr, "Loading asset '%s' from '%s'", name, path)
 	f, err := os.Open(path)
 	if err != nil {

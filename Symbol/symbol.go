@@ -1,6 +1,6 @@
 package Symbol
 
-import "JanOS"
+import "github.com/ignite-laboratories/JanOS"
 
 const (
 	A       JanOS.Symbol = "a"

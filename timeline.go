@@ -41,6 +41,30 @@ type timeSlice struct {
 	Resolution resolution
 }
 
+//func (ts *timeSlice) Upsample(frequency int) timeSlice {
+//
+//	toReturn := timeSlice{
+//		StartTime:  ts.StartTime,
+//		Data:       make([]float64, 0),
+//		Resolution: newResolution(frequency),
+//	}
+//
+//	lastDataPoint := ts.Data[0]
+//
+//	for i := 1; i < len(ts.Data); i++ {
+//		currentDataPoint := ts.Data[i]
+//		indicesToInterpolate := frequency - ts.Resolution.Frequency
+//		stride := (math.Abs(currentDataPoint) - math.Abs(lastDataPoint)) / float64(indicesToInterpolate)
+//
+//		toReturn.Data = append(toReturn.Data, currentDataPoint)
+//		for x := 0; x < indicesToInterpolate; x++ {
+//
+//		}
+//		lastDataPoint = currentDataPoint
+//	}
+//	return toReturn
+//}
+
 // Sample returns back a less resolute version of an existing timeSlice.
 // NOTE: You cannot sample more data than is available in the system, by
 // design.  This method provides a way to convert higher resolution data
@@ -144,6 +168,15 @@ func (tl *timeline) AddValues(instant time.Time, data ...float64) {
 	tl.lock.Lock()
 	defer tl.lock.Unlock()
 	startIndex := tl.GetRelativeIndex(instant)
+
+	// If the buffer has no data between the end of its current prediction and the start of this data...
+	tlDataLen := len(tl.data)
+	if startIndex >= tlDataLen {
+		// ...fill the gap with initialized data to the current value of the timeline
+		toFill := startIndex - tlDataLen
+		initialized := NewInitializedArray(tl.value, toFill)
+		tl.data = append(tl.data, initialized...)
+	}
 
 	for x := 0; x < len(data); x++ {
 		// If we are out of bounds of the underlying buffer...
