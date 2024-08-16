@@ -14,6 +14,11 @@ type Dimension struct {
 	Timeline *timeline
 }
 
+// GetNamedValue returns the assigned name to this instance.
+func (d *Dimension) GetNamedValue() string {
+	return d.Name
+}
+
 type dimensionManager struct {
 	dimensions map[string]*Dimension
 }
@@ -48,14 +53,19 @@ func (d *Dimension) GetValue(instant time.Time) float64 {
 	return d.Timeline.GetInstant(instant)
 }
 
-// NewDimension creates a new dimension and sets its timeline to the provided default value.
-func (mgr *dimensionManager) NewDimension(name string, symbol Symbol, defaultValue float64) *Dimension {
+// NewDimension creates a new dimension and sets its timeline to 0.
+func (mgr *dimensionManager) NewDimension(name string, symbol Symbol) *Dimension {
+	return mgr.NewDimensionWithValue(name, symbol, 0)
+}
+
+// NewDimensionWithValue creates a new dimension and sets its timeline to the provided default value.
+func (mgr *dimensionManager) NewDimensionWithValue(name string, symbol Symbol, defaultValue float64) *Dimension {
 	Universe.Printf(mgr, "Let '%s' [%s] = %f", name, string(symbol), defaultValue)
 	d := &Dimension{
-		Name:     name,
-		Symbol:   symbol,
-		Timeline: mgr.newTimeline(name, symbol, defaultValue),
+		Name:   name,
+		Symbol: symbol,
 	}
+	d.Timeline = d.newTimeline(defaultValue)
 	mgr.dimensions[name] = d
 	return d
 }

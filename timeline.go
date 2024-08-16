@@ -39,7 +39,12 @@ func newResolution(frequency int) resolution {
 // shrink the existing timeline.  As such, the best practice is to set this before
 // starting to put data on the timeline - but that doesn't mean you shouldn't try!
 func (tl *timeline) SetResolution(frequency int) {
-	tl.resolution = newResolution(frequency)
+	tl.lock.Lock()
+	defer tl.lock.Unlock()
+	calculatedResolution := newResolution(frequency)
+	tl.resolution.Frequency = calculatedResolution.Frequency
+	tl.resolution.Nanoseconds = calculatedResolution.Nanoseconds
+	tl.resolution.Duration = calculatedResolution.Duration
 }
 
 // GetResolution returns the current resolution information for the provided timeline.
@@ -244,7 +249,7 @@ func (tl *timeline) setValue(instant time.Time, value float64) {
 // newTimeline creates a timeline buffer.
 // The duration represents the total amount of time to buffer, with now being considered relative to
 // the midpoint of the buffer.  The frequency tells it how often to trim/append the buffer in time.
-func (mgr *dimensionManager) newTimeline(name string, symbol Symbol, defaultValue float64) *timeline {
+func (d *Dimension) newTimeline(defaultValue float64) *timeline {
 	nanoStep := float64(time.Second.Nanoseconds()) / float64(Universe.StdResolution)
 	durationInIndex := int(float64(Universe.StdBufferLength.Nanoseconds()) / nanoStep)
 	tl := &timeline{
@@ -284,7 +289,7 @@ func (mgr *dimensionManager) newTimeline(name string, symbol Symbol, defaultValu
 			}
 			time.Sleep(5)
 		}
-		Universe.Printf(mgr, "%s [%s] timeline stopped", name, string(symbol))
+		Universe.Printf(d, "%s [%s] timeline stopped", d.Name, string(d.Symbol))
 	}()
 
 	return tl
