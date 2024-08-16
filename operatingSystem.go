@@ -16,7 +16,6 @@ type operatingSystem struct {
 	Assets            *assetManager
 	Dimensions        *dimensionManager
 	LogManager        *logManager
-	Window            *Window
 	RelativePath      string
 	Terminate         bool
 	masterCount       uint64
@@ -54,9 +53,8 @@ func (os *operatingSystem) Println(named named, str string) {
 
 // Start initializes all the provided worlds, which initialize their systems, and then
 // starts the appropriate loops to maintain the system.
-func (os *operatingSystem) Start(window *Window, preflight func(), onRealityUpdate func(delta time.Duration), worlds ...world) {
+func (os *operatingSystem) Start(preflight func(), realityLoop func(delta time.Duration), worlds ...world) {
 	Universe.Println(os, "Hello, world")
-	os.Window = window
 	os.worlds = worlds
 	wg := sync.WaitGroup{}
 
@@ -89,31 +87,17 @@ func (os *operatingSystem) Start(window *Window, preflight func(), onRealityUpda
 	Universe.Println(os, "Running pre-flight routine")
 	preflight()
 
-	realityLoop := func() {
-		Universe.Println(os, "Starting reality loop")
-		lastUpdate := time.Now()
-		for {
-			if Universe.Terminate {
-				break
-			}
-			now := time.Now()
-			onRealityUpdate(now.Sub(lastUpdate))
-			lastUpdate = now
-			time.Sleep(1)
+	Universe.Println(os, "Starting reality loop")
+	lastUpdate := time.Now()
+	for {
+		if Universe.Terminate {
+			break
 		}
-		Universe.Println(os, "Reality loop stopped")
+		now := time.Now()
+		realityLoop(now.Sub(lastUpdate))
+		lastUpdate = now
+		time.Sleep(1)
 	}
-
-	if os.Window != nil {
-		Universe.Println(os, "Requesting a window")
-		// Fork off the reality thread to give ebiten the main thread
-		go realityLoop()
-		os.Window.Open()
-	} else {
-		Universe.Println(os, "Running without a window")
-		// Keep the main thread since ebiten isn't in use
-		realityLoop()
-	}
-
+	Universe.Println(os, "Reality loop stopped")
 	Universe.Println(os, "Exiting")
 }
