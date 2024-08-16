@@ -25,10 +25,45 @@ type resolution struct {
 	Duration    time.Duration
 }
 
-// TimeSlice represents a slice of data relative to a moment in time.
-type TimeSlice struct {
-	StartTime time.Time
-	Data      []float64
+func newResolution(frequency int) resolution {
+	r := resolution{
+		Frequency: frequency,
+	}
+	r.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / float64(r.Frequency))
+	r.Duration = time.Duration(r.Nanoseconds + 1)
+	return r
+}
+
+// timeSlice represents a slice of data relative to a moment in time.
+type timeSlice struct {
+	StartTime  time.Time
+	Data       []float64
+	Resolution resolution
+}
+
+// Sample returns back a less resolute version of an existing timeSlice.
+// NOTE: You cannot sample more data than is available in the system, by
+// design.  This method provides a way to convert higher resolution data
+// into lower resolution data for different kinds of mathematical calculations.
+func (ts *timeSlice) Sample(frequency int) timeSlice {
+	stride := int(float64(time.Second.Nanoseconds()) / float64(frequency))
+
+	toReturn := timeSlice{
+		StartTime:  ts.StartTime,
+		Data:       make([]float64, 0),
+		Resolution: newResolution(frequency),
+	}
+
+	for i, _ := range ts.Data {
+		// if we are at a sample index...
+		if i == 0 || i%stride == 0 {
+			tsIndex := i * stride
+			if tsIndex < len(ts.Data) {
+				toReturn.Data = append(toReturn.Data, ts.Data[i*stride])
+			}
+		}
+	}
+	return toReturn
 }
 
 // ToIndexCount returns an index representation of the duration of time provided.
@@ -59,44 +94,48 @@ func (tl *timeline) GetInstant(instant time.Time) float64 {
 }
 
 // SliceEntireFuture returns the remainder of the buffer from the provided instant in time.
-func (tl *timeline) SliceEntireFuture(instant time.Time) TimeSlice {
+func (tl *timeline) SliceEntireFuture(instant time.Time) timeSlice {
 	instantIndex := tl.GetRelativeIndex(instant)
-	return TimeSlice{
-		StartTime: instant,
-		Data:      tl.data[instantIndex:],
+	return timeSlice{
+		StartTime:  instant,
+		Data:       tl.data[instantIndex:],
+		Resolution: tl.Resolution,
 	}
 }
 
 // SliceEntirePast returns the entire buffer up to the provided instant in time.
-func (tl *timeline) SliceEntirePast(instant time.Time) TimeSlice {
+func (tl *timeline) SliceEntirePast(instant time.Time) timeSlice {
 	// We capture the head time here to ensure all calculations
 	// are relative to the execution of this line of code in time.
 	headTime := tl.headTime
 	headIndex := tl.GetRelativeIndex(headTime)
 	instantIndex := tl.GetRelativeIndex(instant)
-	return TimeSlice{
-		StartTime: headTime,
-		Data:      tl.data[headIndex:instantIndex],
+	return timeSlice{
+		StartTime:  headTime,
+		Data:       tl.data[headIndex:instantIndex],
+		Resolution: tl.Resolution,
 	}
 }
 
 // SliceFuture returns a slice of the future from an instant in time.
-func (tl *timeline) SliceFuture(instant time.Time, duration time.Duration) TimeSlice {
+func (tl *timeline) SliceFuture(instant time.Time, duration time.Duration) timeSlice {
 	instantIndex := tl.GetRelativeIndex(instant)
 	futureIndex := instantIndex + tl.ToIndexCount(duration)
-	return TimeSlice{
-		StartTime: instant,
-		Data:      tl.data[instantIndex:futureIndex],
+	return timeSlice{
+		StartTime:  instant,
+		Data:       tl.data[instantIndex:futureIndex],
+		Resolution: tl.Resolution,
 	}
 }
 
 // SlicePast returns a slice of the past from an instant in time.
-func (tl *timeline) SlicePast(instant time.Time, duration time.Duration) TimeSlice {
+func (tl *timeline) SlicePast(instant time.Time, duration time.Duration) timeSlice {
 	instantIndex := tl.GetRelativeIndex(instant)
 	pastIndex := instantIndex - tl.ToIndexCount(duration)
-	return TimeSlice{
-		StartTime: instant.Add(-duration),
-		Data:      tl.data[pastIndex:instantIndex],
+	return timeSlice{
+		StartTime:  instant.Add(-duration),
+		Data:       tl.data[pastIndex:instantIndex],
+		Resolution: tl.Resolution,
 	}
 }
 
@@ -145,15 +184,11 @@ func (mgr *dimensionManager) newTimeline(name string, symbol Symbol, defaultValu
 	tl := &timeline{
 		// Set the head time relative to the midpoint of the buffer
 		// (we initialize with the past being empty, essentially)
-		headTime: time.Now().Add(-(duration / 2)),
-		data:     NewInitializedArray(defaultValue, durationInIndex),
-		value:    defaultValue,
-		Resolution: resolution{
-			Frequency: resolutionFrequency,
-		},
+		headTime:   time.Now().Add(-(duration / 2)),
+		data:       NewInitializedArray(defaultValue, durationInIndex),
+		value:      defaultValue,
+		Resolution: newResolution(resolutionFrequency),
 	}
-	tl.Resolution.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / float64(tl.Resolution.Frequency))
-	tl.Resolution.Duration = time.Duration(tl.Resolution.Nanoseconds + 1)
 
 	// Spin off the loop for this dimension's timeline
 	go func() {
