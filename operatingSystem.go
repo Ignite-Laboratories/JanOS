@@ -18,6 +18,8 @@ type operatingSystem struct {
 	LogManager        *logManager
 	RelativePath      string
 	Terminate         bool
+	StdBufferLength   time.Duration
+	StdResolution     int
 	masterCount       uint64
 	worlds            []world
 	terminationSignal chan os.Signal
@@ -29,6 +31,8 @@ var Universe = &operatingSystem{
 	Dimensions:        newDimensionManager(),
 	LogManager:        newLogManager(),
 	RelativePath:      "../Assets/",
+	StdBufferLength:   time.Duration(time.Second * 5),
+	StdResolution:     44000,
 	worlds:            make([]world, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
