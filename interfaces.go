@@ -14,7 +14,7 @@ type initializable interface {
 	Initialize()
 }
 
-// Observer represents anything that can take an observed slice of time from a signal.
-type Observer interface {
-	OnObservation(*Signal, TimeSlice)
+// Sampler represents anything that can take an observed slice of time from a signal.
+type Sampler interface {
+	OnSample(*Signal, TimeSlice)
 }
