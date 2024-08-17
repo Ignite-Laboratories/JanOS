@@ -30,6 +30,7 @@ const (
 	X       Symbol = "x"
 	Y       Symbol = "y"
 	Z       Symbol = "z"
+	Florin  Symbol = "ƒ"
 	Prime   Symbol = "`"
 	Alpha   Symbol = "α"
 	Beta    Symbol = "β"

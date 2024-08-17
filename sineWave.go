@@ -1,7 +1,6 @@
 package JanOS
 
 import (
-	"github.com/ignite-laboratories/JanOS/Symbols"
 	"math"
 	"time"
 )
@@ -13,7 +12,7 @@ func (signal *Signal) SineWave(amplitude *Signal, frequency *Signal) *Signal {
 	f := frequency.GetValue(now).Value
 	a := amplitude.GetValue(now).Value
 
-	Universe.Printf(signal, "Sine Wave %s => y = %f * sin(%f * t + %s)", string(signal.Symbol), a, f, Symbols.Phi)
+	Universe.Printf(signal, "Sine Wave ƒ(%s) => y = %s * sin(%s * t)", string(signal.Symbol), string(amplitude.Symbol), string(frequency.Symbol))
 	go func() {
 		lastUpdate := time.Now()
 

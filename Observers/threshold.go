@@ -7,14 +7,21 @@ import (
 // ThresholdObserver samples a signal then calls the OnTrigger method whenever
 // the derivative of the observed data crosses above a threshold.
 type ThresholdObserver struct {
+	Name      string
 	threshold float64
-	onTrigger func(signal *JanOS.Signal, foundValues []JanOS.InstantaneousValue)
+	onTrigger func(observation JanOS.Observation)
+}
+
+// GetNamedValue returns the assigned name to this instance.
+func (o *ThresholdObserver) GetNamedValue() string {
+	return o.Name
 }
 
 // NewThresholdObserver samples a signal and calls the OnTrigger method whenever
 // the derivative of the observed data crosses above a threshold.
-func NewThresholdObserver(threshold float64, onTrigger func(signal *JanOS.Signal, foundValues []JanOS.InstantaneousValue)) *ThresholdObserver {
+func NewThresholdObserver(name string, threshold float64, onTrigger func(observation JanOS.Observation)) *ThresholdObserver {
 	return &ThresholdObserver{
+		Name:      name,
 		threshold: threshold,
 		onTrigger: onTrigger,
 	}
@@ -32,5 +39,11 @@ func (o *ThresholdObserver) OnSample(signal *JanOS.Signal, ts JanOS.TimeSlice) {
 		}
 	}
 
-	o.onTrigger(signal, foundValues)
+	observation := JanOS.Observation{
+		Observer: o,
+		Signal:   signal,
+		Values:   foundValues,
+	}
+
+	o.onTrigger(observation)
 }
