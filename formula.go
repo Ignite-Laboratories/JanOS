@@ -1,8 +1,6 @@
 package JanOS
 
-import "time"
-
 type Formula struct {
 	Operator  string
-	Operation func(instant time.Time, sourceSignal *Signal, otherSignals ...*Signal) float64
+	Operation func(source float64, variables ...float64) float64
 }

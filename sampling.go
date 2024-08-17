@@ -25,10 +25,10 @@ func (signal *Signal) Sample(frequency int, duration time.Duration, sampler Samp
 	go signal.sample(r, duration, sampler)
 }
 
-func (signal *Signal) sample(r resolution, duration time.Duration, observer Sampler) {
+func (signal *Signal) sample(r resolution, duration time.Duration, sampler Sampler) {
 	lastUpdate := time.Now()
 	headTime := lastUpdate
-	buffer := make([]PointValue, r.ToIndexCount(duration))
+	buffer := make([]PointValue, r.ToIndex(duration))
 	i := 0
 
 	for {
@@ -38,8 +38,8 @@ func (signal *Signal) sample(r resolution, duration time.Duration, observer Samp
 		}
 
 		// Sample after the approximate amount of time has passed
-		if time.Since(lastUpdate) >= r.Duration {
-			buffer[i] = signal.GetValue(now)
+		if now.Sub(lastUpdate) >= r.Duration {
+			buffer[i] = signal.GetInstantValue(now)
 			lastUpdate = now
 			i++
 		}
@@ -52,11 +52,11 @@ func (signal *Signal) sample(r resolution, duration time.Duration, observer Samp
 				Data:       buffer,
 				Resolution: r,
 			}
-			go observer.OnSample(signal, output)
+			go sampler.OnSample(signal, output)
 
 			// ...and reset the buffer
 			headTime = now
-			buffer = make([]PointValue, r.ToIndexCount(duration))
+			buffer = make([]PointValue, r.ToIndex(duration))
 			i = 0
 		}
 	}

@@ -2,7 +2,6 @@ package Formula
 
 import (
 	"github.com/ignite-laboratories/JanOS"
-	"time"
 )
 
 var Additive = JanOS.Formula{
@@ -10,11 +9,11 @@ var Additive = JanOS.Formula{
 	Operation: additive,
 }
 
-func additive(instant time.Time, sourceSignal *JanOS.Signal, otherSignals ...*JanOS.Signal) float64 {
-	val := sourceSignal.GetValue(instant).Value
+func additive(source float64, variables ...float64) float64 {
+	val := source
 
-	for _, otherSignal := range otherSignals {
-		val += otherSignal.GetValue(instant).Value
+	for _, variable := range variables {
+		val += variable
 	}
 
 	return val
@@ -25,11 +24,11 @@ var Subtractive = JanOS.Formula{
 	Operation: subtractive,
 }
 
-func subtractive(instant time.Time, sourceSignal *JanOS.Signal, otherSignals ...*JanOS.Signal) float64 {
-	val := sourceSignal.GetValue(instant).Value
+func subtractive(source float64, variables ...float64) float64 {
+	val := source
 
-	for _, otherSignal := range otherSignals {
-		val -= otherSignal.GetValue(instant).Value
+	for _, variable := range variables {
+		val -= variable
 	}
 
 	return val
@@ -40,11 +39,11 @@ var Multiplicative = JanOS.Formula{
 	Operation: multiplicative,
 }
 
-func multiplicative(instant time.Time, sourceSignal *JanOS.Signal, otherSignals ...*JanOS.Signal) float64 {
-	val := sourceSignal.GetValue(instant).Value
+func multiplicative(source float64, variables ...float64) float64 {
+	val := source
 
-	for _, otherSignal := range otherSignals {
-		val *= otherSignal.GetValue(instant).Value
+	for _, variable := range variables {
+		val *= variable
 	}
 
 	return val
@@ -55,11 +54,11 @@ var Divisive = JanOS.Formula{
 	Operation: divisive,
 }
 
-func divisive(instant time.Time, sourceSignal *JanOS.Signal, otherSignals ...*JanOS.Signal) float64 {
-	val := sourceSignal.GetValue(instant).Value
+func divisive(source float64, variables ...float64) float64 {
+	val := source
 
-	for _, otherSignal := range otherSignals {
-		val /= otherSignal.GetValue(instant).Value
+	for _, variable := range variables {
+		val /= variable
 	}
 
 	return val

@@ -20,11 +20,6 @@ type Sampler interface {
 	OnSample(*Signal, TimeSlice)
 }
 
-type Observer interface {
-	named
-	OnTrigger(Observation)
-}
-
 type Observation struct {
 	Observer named
 	Signal   *Signal

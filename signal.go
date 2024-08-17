@@ -47,8 +47,8 @@ func (signal *Signal) SetValue(instant time.Time, value float64) {
 	signal.Timeline.setValue(instant, value)
 }
 
-// GetValue seeks to the appropriate position in time and gets the value on the buffer at that instant.
-func (signal *Signal) GetValue(instant time.Time) PointValue {
+// GetInstantValue seeks to the appropriate position in time and gets the value on the buffer at that instant.
+func (signal *Signal) GetInstantValue(instant time.Time) PointValue {
 	return signal.Timeline.GetInstant(instant).Value
 }
 
@@ -73,7 +73,13 @@ func (signal *Signal) Mux(name string, symbol Symbols.Symbol, formula Formula, s
 			lastUpdate := time.Now()
 			if time.Since(lastUpdate) >= signal.Timeline.resolution.Duration {
 				lastUpdate = time.Now()
-				newValue := formula.Operation(lastUpdate, signal, signals...)
+				sourceValue := signal.GetInstantValue(lastUpdate).Value
+				otherValues := make([]float64, len(signals))
+				for i, s := range signals {
+					otherValues[i] = s.GetInstantValue(lastUpdate).Value
+				}
+
+				newValue := formula.Operation(sourceValue, otherValues...)
 				outputSignal.Timeline.setValue(lastUpdate, newValue)
 			}
 		}
