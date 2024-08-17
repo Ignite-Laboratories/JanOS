@@ -20,7 +20,7 @@ func (signal *Signal) SamplePoint(frequency int, observer Sampler) {
 // before calling onObservation.  This would best be used for duty cycle processing
 // of complicated sets of data.
 func (signal *Signal) Sample(frequency int, duration time.Duration, sampler Sampler) {
-	Universe.Printf(signal, "%s Sampling at %dhz for %v", string(signal.Symbol), frequency, duration)
+	Universe.Printf(signal, "%s Sampling at %dhz on a %v duty cycle", string(signal.Symbol), frequency, duration)
 	r := newResolution(frequency)
 	go signal.sample(r, duration, sampler)
 }

@@ -85,6 +85,12 @@ type TimeSlice struct {
 	Resolution resolution
 }
 
+// InstantaneousValue represents a value at a specified point in time.
+type InstantaneousValue struct {
+	Instant time.Time
+	Value   PointValue
+}
+
 // Integrate takes a TimeSlice and for every index adds its value.
 // This gives us the area under the curve at the resolution that
 // the TimeSlice was recorded at - which acts as an integral.
@@ -168,8 +174,12 @@ func (tl *timeline) GetRelativeIndex(t time.Time) int {
 }
 
 // GetInstant returns the value on the timeline at a moment in time.
-func (tl *timeline) GetInstant(instant time.Time) PointValue {
-	return tl.data[tl.GetRelativeIndex(instant)]
+func (tl *timeline) GetInstant(instant time.Time) InstantaneousValue {
+	point := tl.data[tl.GetRelativeIndex(instant)]
+	return InstantaneousValue{
+		Instant: instant,
+		Value:   point,
+	}
 }
 
 // SliceEntireFuture returns the remainder of the buffer from the provided instant in time.

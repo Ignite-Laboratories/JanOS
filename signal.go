@@ -48,7 +48,7 @@ func (signal *Signal) SetValue(instant time.Time, value float64) {
 
 // GetValue seeks to the appropriate position in time and gets the value on the buffer at that instant.
 func (signal *Signal) GetValue(instant time.Time) PointValue {
-	return signal.Timeline.GetInstant(instant)
+	return signal.Timeline.GetInstant(instant).Value
 }
 
 // NewSignal creates a new signal and sets its timeline to 0.

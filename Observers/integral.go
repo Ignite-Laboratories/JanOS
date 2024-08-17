@@ -5,11 +5,12 @@ import (
 	"time"
 )
 
-// IntegralObserver calculates the integral of each provided TimeSlice.
+// IntegralObserver calculates the integral of each provided TimeSlice on observation.
 type IntegralObserver struct {
 	onTrigger func(signal *JanOS.Signal, instant time.Time, value float64)
 }
 
+// NewIntegralObserver calculates the integral of each provided TimeSlice on observation.
 func NewIntegralObserver(onTrigger func(signal *JanOS.Signal, instant time.Time, value float64)) *IntegralObserver {
 	return &IntegralObserver{
 		onTrigger: onTrigger,
