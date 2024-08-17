@@ -5,22 +5,23 @@ import (
 	"time"
 )
 
-type thresholdObserver struct {
+type ThresholdObserver struct {
 	threshold float64
-	onTrigger func(signal *JanOS.Signal, instant time.Time)
+	onTrigger func(signal *JanOS.Signal, instant time.Time, pointValue JanOS.PointValue)
 }
 
-func NewThresholdObserver(threshold float64, onTrigger func(signal *JanOS.Signal, instant time.Time)) *thresholdObserver {
-	return &thresholdObserver{
+func NewThresholdObserver(threshold float64, onTrigger func(signal *JanOS.Signal, instant time.Time, pointValue JanOS.PointValue)) *ThresholdObserver {
+	return &ThresholdObserver{
 		threshold: threshold,
 		onTrigger: onTrigger,
 	}
 }
 
-func (o *thresholdObserver) OnObservation(signal *JanOS.Signal, ts JanOS.TimeSlice) {
+func (o *ThresholdObserver) OnObservation(signal *JanOS.Signal, ts JanOS.TimeSlice) {
 	for i, pv := range ts.Data {
 		if pv.Derivative > o.threshold {
-			o.onTrigger(signal, ts.StartTime.Add(ts.Resolution.ToDuration(i)))
+			instant := ts.StartTime.Add(ts.Resolution.ToDuration(i))
+			o.onTrigger(signal, instant, pv)
 		}
 	}
 }
