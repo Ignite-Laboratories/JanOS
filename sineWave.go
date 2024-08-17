@@ -1,18 +1,19 @@
 package JanOS
 
 import (
+	"github.com/ignite-laboratories/JanOS/Symbols"
 	"math"
 	"time"
 )
 
-// SineWave starts a live loop that oscillates off of the source dimension using the provided input dimensions.
-func (d *Dimension) SineWave(amplitude *Dimension, frequency *Dimension) *Dimension {
+// SineWave starts a live loop that oscillates off of the source signal using the provided input signals.
+func (signal *Signal) SineWave(amplitude *Signal, frequency *Signal) *Signal {
 	now := time.Now()
 	// Grab these immediately so the values don't change
-	f := frequency.GetValue(now)
-	a := amplitude.GetValue(now)
+	f := frequency.GetValue(now).Value
+	a := amplitude.GetValue(now).Value
 
-	Universe.Printf(d, "Oscillating [%s] at %fhz, amplitude %f", string(d.Symbol), f, a)
+	Universe.Printf(signal, "Sine Wave %s => y = %f * sin(%f * t + %s)", string(signal.Symbol), a, f, Symbols.Phi)
 	go func() {
 		lastUpdate := time.Now()
 
@@ -22,18 +23,18 @@ func (d *Dimension) SineWave(amplitude *Dimension, frequency *Dimension) *Dimens
 				break
 			}
 
-			if time.Since(lastUpdate) >= d.Timeline.resolution.Duration {
-				f = frequency.GetValue(now)
-				a = amplitude.GetValue(now)
+			if time.Since(lastUpdate) >= signal.Timeline.resolution.Duration {
+				f = frequency.GetValue(now).Value
+				a = amplitude.GetValue(now).Value
 				periodOffset := time.Since(lastUpdate).Seconds()
 
 				phaseShiftInRadians := (360.0 * periodOffset * f) * math.Pi / 180
 				angularFrequency := 2 * math.Pi * f
 				calculatedValue := a * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
-				d.Timeline.setValue(now, calculatedValue)
+				signal.Timeline.setValue(now, calculatedValue)
 			}
 		}
-		Universe.Printf(d, "%s [%s] stopped oscillating", d.Name, string(d.Symbol))
+		Universe.Printf(signal, "%s stopped oscillating", string(signal.Symbol))
 	}()
-	return d
+	return signal
 }

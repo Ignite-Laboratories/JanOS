@@ -103,10 +103,10 @@ func (w *ecsWorld) GetNamedValue() string {
 func (w *ecsWorld) Initialize() {
 	for _, system := range w.Systems {
 		if init, ok := system.(initializable); ok {
-			Universe.Printf(w, "[%s] Initializing", system.GetNamedValue())
+			Universe.Printf(system, "Initializing")
 			init.Initialize()
 		}
-		Universe.Printf(w, "[%s] Initialized", system.GetNamedValue())
+		Universe.Printf(system, "Initialized")
 	}
 }
 

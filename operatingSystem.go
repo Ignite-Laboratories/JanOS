@@ -14,7 +14,7 @@ import (
 // operatingSystem Represents the core components available globally to JanOS.
 type operatingSystem struct {
 	Assets            *assetManager
-	Dimensions        *dimensionManager
+	Signals           *signalManager
 	LogManager        *logManager
 	RelativePath      string
 	Terminate         bool
@@ -28,7 +28,7 @@ type operatingSystem struct {
 // Universe The single entry point to the entire operating system.
 var Universe = &operatingSystem{
 	Assets:            newAssetManager(),
-	Dimensions:        newDimensionManager(),
+	Signals:           newSignalManager(),
 	LogManager:        newLogManager(),
 	RelativePath:      "../Assets/",
 	StdBufferLength:   time.Duration(time.Second * 5),
