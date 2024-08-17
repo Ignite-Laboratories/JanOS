@@ -8,10 +8,10 @@ import (
 // and calls onObservation with the internally stored buffer data.  This sampling
 // variant only grabs a single point of data in time on each observation.  This
 // would best be used for low resolution triggering.
-func (signal *Signal) SamplePoint(frequency int, onObservation func(ts TimeSlice)) {
+func (signal *Signal) SamplePoint(frequency int, observer Observer) {
 	Universe.Printf(signal, "Point sampling [%s] at %dhz", string(signal.Symbol), frequency)
 	r := newResolution(frequency)
-	go signal.sample(r, r.Duration, onObservation)
+	go signal.sample(r, r.Duration, observer)
 }
 
 // Sample samples the provided signal at the provided resolution frequency
@@ -19,13 +19,13 @@ func (signal *Signal) SamplePoint(frequency int, onObservation func(ts TimeSlice
 // variant samples at the provided frequency for a specified duration in time
 // before calling onObservation.  This would best be used for duty cycle processing
 // of complicated sets of data.
-func (signal *Signal) Sample(frequency int, duration time.Duration, onObservation func(ts TimeSlice)) {
+func (signal *Signal) Sample(frequency int, duration time.Duration, observer Observer) {
 	Universe.Printf(signal, "%s Sampling at %dhz for %v", string(signal.Symbol), frequency, duration)
 	r := newResolution(frequency)
-	go signal.sample(r, duration, onObservation)
+	go signal.sample(r, duration, observer)
 }
 
-func (signal *Signal) sample(r resolution, duration time.Duration, onObservation func(ts TimeSlice)) {
+func (signal *Signal) sample(r resolution, duration time.Duration, observer Observer) {
 	lastUpdate := time.Now()
 	headTime := lastUpdate
 	buffer := make([]PointValue, r.ToIndexCount(duration))
@@ -52,7 +52,7 @@ func (signal *Signal) sample(r resolution, duration time.Duration, onObservation
 				Data:       buffer,
 				Resolution: r,
 			}
-			go onObservation(output)
+			go observer.OnObservation(signal, output)
 
 			// ...and reset the buffer
 			headTime = now

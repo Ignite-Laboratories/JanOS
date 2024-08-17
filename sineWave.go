@@ -26,11 +26,13 @@ func (signal *Signal) SineWave(amplitude *Signal, frequency *Signal) *Signal {
 			if time.Since(lastUpdate) >= signal.Timeline.resolution.Duration {
 				f = frequency.GetValue(now).Value
 				a = amplitude.GetValue(now).Value
+				// Seconds() gives us a float, which acts as a scale factor
+				// for the position of the period relative to 1 second.
 				periodOffset := time.Since(lastUpdate).Seconds()
 
 				phaseShiftInRadians := (360.0 * periodOffset * f) * math.Pi / 180
 				angularFrequency := 2 * math.Pi * f
-				calculatedValue := a * math.Sin(angularFrequency*time.Second.Seconds()+phaseShiftInRadians)
+				calculatedValue := a * math.Sin(angularFrequency+phaseShiftInRadians)
 				signal.Timeline.setValue(now, calculatedValue)
 			}
 		}

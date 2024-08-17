@@ -13,3 +13,8 @@ type world interface {
 type initializable interface {
 	Initialize()
 }
+
+// Observer represents anything that can take an observed slice of time from a signal.
+type Observer interface {
+	OnObservation(*Signal, TimeSlice)
+}
