@@ -85,6 +85,17 @@ type TimeSlice struct {
 	Resolution resolution
 }
 
+// Integrate takes a TimeSlice and for every index adds its value.
+// This gives us the area under the curve at the resolution that
+// the TimeSlice was recorded at - which acts as an integral.
+func (ts *TimeSlice) Integrate() float64 {
+	area := 0.0
+	for _, val := range ts.Data {
+		area += val.Value
+	}
+	return area
+}
+
 //func (ts *TimeSlice) Upsample(frequency int) TimeSlice {
 //
 //	toReturn := TimeSlice{
