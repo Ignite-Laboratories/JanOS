@@ -1,9 +1,14 @@
 package JanOS
 
 import (
+	"log"
 	"sync"
 	"time"
 )
+
+/**
+RESOLUTION
+*/
 
 // NOTE:
 // This system is meant to be performant and has been very carefully exposed.
@@ -11,48 +16,20 @@ import (
 // you need to restructure your model!  Look at the Universe.BufferLength to know what the practical
 // boundaries are in your simulation and modify it if you need a different stretch of time.
 
-type timeline struct {
-	value      PointValue
-	data       []PointValue
-	headTime   time.Time
-	lock       sync.Mutex
-	resolution resolution
-}
-
-type PointValue struct {
-	Value      float64
-	Derivative float64
-}
-
-func ToPointValue(value float64) PointValue {
-	return PointValue{
-		Value:      value,
-		Derivative: 0,
-	}
-}
-
-// ToPointValueArray takes a slice of float64 data and converts it to a PointValue array
-func ToPointValueArray(data []float64, lastValue float64) []PointValue {
-	newArray := make([]PointValue, len(data))
-
-	for i, value := range data {
-		newArray[i] = PointValue{
-			Value:      value,
-			Derivative: value - lastValue,
-		}
-		lastValue = value
-	}
-	return newArray
-}
-
-type resolution struct {
+// Resolution represents multiple ways to represent an array of data.
+// Frequency is measured in hertz (the universal default is 44,000hz)
+// Nanoseconds represents the amount of nanoseconds that a single frequency period takes to pass.
+// Duration represents the amount of time that a single frequency period takes to pass.
+type Resolution struct {
 	Frequency   int
 	Nanoseconds int64
 	Duration    time.Duration
 }
 
-func newResolution(frequency int) resolution {
-	r := resolution{
+// NewResolution creates a structure used to represent the fidelity of time.
+// The provided frequency is in hertz (the universal default is 44,000hz)
+func NewResolution(frequency int) Resolution {
+	r := Resolution{
 		Frequency: frequency,
 	}
 	r.Nanoseconds = int64(float64(time.Second.Nanoseconds()) / float64(r.Frequency))
@@ -60,41 +37,91 @@ func newResolution(frequency int) resolution {
 	return r
 }
 
-// SetResolution updates the timeline's resolution.  Any existing data on the timeline
-// will be read in the new resolution interval - making this essentially stretch or
+// SetResolution updates the timeline's Resolution.  Any existing data on the timeline
+// will be read in the new Resolution interval - making this essentially stretch or
 // shrink the existing timeline.  As such, the best practice is to set this before
 // starting to put data on the timeline - but that doesn't mean you shouldn't try!
 func (tl *timeline) SetResolution(frequency int) {
 	tl.lock.Lock()
 	defer tl.lock.Unlock()
-	calculatedResolution := newResolution(frequency)
+	calculatedResolution := NewResolution(frequency)
 	tl.resolution.Frequency = calculatedResolution.Frequency
 	tl.resolution.Nanoseconds = calculatedResolution.Nanoseconds
 	tl.resolution.Duration = calculatedResolution.Duration
 }
 
-// GetResolution returns the current resolution information for the provided timeline.
-func (tl *timeline) GetResolution() resolution {
+// GetResolution returns the current Resolution information for the provided timeline.
+func (tl *timeline) GetResolution() Resolution {
 	return tl.resolution
 }
+
+// ToIndex returns an index representation of the duration of time provided.
+func (r *Resolution) ToIndex(duration time.Duration) int {
+	// Calculate the amount of nanoseconds per index
+	nanoStep := float64(time.Second.Nanoseconds()) / float64(r.Frequency)
+	// Divide the provided duration's nanoseconds by the step size to get the index count
+	return int(float64(duration.Nanoseconds()) / nanoStep)
+}
+
+// ToDuration returns a time.Duration representation of the amount of indices provided
+// Check Universe.Resolution for the operational frequency.
+func (r *Resolution) ToDuration(steps int) time.Duration {
+	// Calculate the amount of nanoseconds per index
+	nanoStep := float64(time.Second.Nanoseconds()) / float64(r.Frequency)
+	// Multiply the amount of nanoseconds per step by the number of steps to get the duration in nanoseconds
+	return time.Duration(nanoStep * float64(steps))
+}
+
+/**
+POINT VALUE
+*/
+
+// PointValue represents a value and its derivative (if available) at a single point in time.
+type PointValue struct {
+	Value      float64
+	Derivative float64
+}
+
+// CalculateDerivative takes a slice of float64 data and converts it to a PointValue array
+func CalculateDerivative(data []float64) []PointValue {
+	toReturn := make([]PointValue, len(data))
+	if len(data) == 0 {
+		return toReturn
+	}
+
+	lastVal := data[0]
+	for i, val := range data {
+		toReturn[i] = PointValue{val, val - lastVal}
+		lastVal = val
+	}
+	return toReturn
+}
+
+/**
+INSTANTANEOUS VALUE
+*/
+
+// InstantaneousValue represents a value at a specified point in time.
+type InstantaneousValue struct {
+	Instant time.Time
+	Point   PointValue
+}
+
+/**
+TIME SLICE
+*/
 
 // TimeSlice represents a slice of data relative to a moment in time.
 type TimeSlice struct {
 	StartTime  time.Time
 	Data       []PointValue
-	Resolution resolution
-}
-
-// InstantaneousValue represents a value at a specified point in time.
-type InstantaneousValue struct {
-	Instant time.Time
-	Value   PointValue
+	Resolution Resolution
 }
 
 // Integrate takes a TimeSlice and for every index adds its value.
-// This gives us the area under the curve at the resolution that
+// This gives us the area under the curve at the Resolution that
 // the TimeSlice was recorded at - which acts as an integral.
-func (ts *TimeSlice) Integrate() float64 {
+func (ts TimeSlice) Integrate() float64 {
 	area := 0.0
 	for _, val := range ts.Data {
 		area += val.Value
@@ -102,41 +129,21 @@ func (ts *TimeSlice) Integrate() float64 {
 	return area
 }
 
-//func (ts *TimeSlice) Upsample(frequency int) TimeSlice {
-//
-//	toReturn := TimeSlice{
-//		StartTime:  ts.StartTime,
-//		Data:       make([]float64, 0),
-//		resolution: newResolution(frequency),
-//	}
-//
-//	lastDataPoint := ts.Data[0]
-//
-//	for i := 1; i < len(ts.Data); i++ {
-//		currentDataPoint := ts.Data[i]
-//		indicesToInterpolate := frequency - ts.resolution.Frequency
-//		stride := (math.Abs(currentDataPoint) - math.Abs(lastDataPoint)) / float64(indicesToInterpolate)
-//
-//		toReturn.Data = append(toReturn.Data, currentDataPoint)
-//		for x := 0; x < indicesToInterpolate; x++ {
-//
-//		}
-//		lastDataPoint = currentDataPoint
-//	}
-//	return toReturn
-//}
+// GetTotalDuration gets the total time.Duration of the provided TimeSlice
+func (ts TimeSlice) GetTotalDuration() time.Duration {
+	return time.Duration(ts.Resolution.Duration.Nanoseconds() * int64(len(ts.Data)))
+}
 
-// Sample returns back a less resolute version of an existing TimeSlice.
-// NOTE: You cannot sample more data than is available in the system, by
-// design.  This method provides a way to convert higher resolution data
-// into lower resolution data for different kinds of mathematical calculations.
-func (ts *TimeSlice) Sample(frequency int) TimeSlice {
+// DownSample returns back a different resolute version of an existing TimeSlice.
+// In down-sampling the data is destructively lost - you can only interpolate it
+// to up-sample again.
+func (ts TimeSlice) DownSample(frequency int) TimeSlice {
 	stride := int(float64(time.Second.Nanoseconds()) / float64(frequency))
 
 	toReturn := TimeSlice{
 		StartTime:  ts.StartTime,
 		Data:       make([]PointValue, 0),
-		Resolution: newResolution(frequency),
+		Resolution: NewResolution(frequency),
 	}
 
 	for i, _ := range ts.Data {
@@ -151,153 +158,60 @@ func (ts *TimeSlice) Sample(frequency int) TimeSlice {
 	return toReturn
 }
 
-// ToIndex returns an index representation of the duration of time provided.
-func (r *resolution) ToIndex(duration time.Duration) int {
-	// Calculate the amount of nanoseconds per index
-	nanoStep := float64(time.Second.Nanoseconds()) / float64(r.Frequency)
-	// Divide the provided duration's nanoseconds by the step size to get the index count
-	return int(float64(duration.Nanoseconds()) / nanoStep)
-}
+// UpSample returns back a different resolute version of an existing TimeSlice.
+// In up-sampling it performs linear interpolation on the values between known
+// points in time.
+func (ts TimeSlice) UpSample(frequency int) TimeSlice {
+	r := NewResolution(frequency)
+	indexCount := r.ToIndex(ts.GetTotalDuration())
+	result := make([]float64, indexCount)
 
-// ToDuration returns a time.Duration representation of the amount of indices provided
-// Check Universe.Resolution for the operational frequency.
-func (r *resolution) ToDuration(steps int) time.Duration {
-	// Calculate the amount of nanoseconds per index
-	nanoStep := float64(time.Second.Nanoseconds()) / float64(r.Frequency)
-	// Multiply the amount of nanoseconds per step by the number of steps to get the duration in nanoseconds
-	return time.Duration(nanoStep * float64(steps))
-}
+	// First, we apply the old values to their found indices in the new Resolution
+	stride := indexCount / (len(ts.Data) - 1)
+	for i, _ := range ts.Data {
+		destinationIndex := stride * i
+		result[destinationIndex] = ts.Data[i].Value
+	}
 
-// GetRelativeIndex takes a moment in time and gets its index, relative to the current head time.
-func (tl *timeline) GetRelativeIndex(t time.Time) int {
-	return tl.resolution.ToIndex(t.Sub(tl.headTime))
-}
+	log.Println(result)
 
-// GetInstant returns the value on the timeline at a moment in time.
-func (tl *timeline) GetInstant(instant time.Time) InstantaneousValue {
-	instantIndex := tl.GetRelativeIndex(instant)
-	if instantIndex <= len(tl.data) {
-		point := tl.data[instantIndex]
-		return InstantaneousValue{
-			Instant: instant,
-			Value:   point,
+	i := 0
+	for i < len(result) {
+		value := result[i]
+		// Act whenever the data changes
+		if i == 0 || value != 0 {
+			nextValue := 0.0
+			stepsForward := 0
+			nextSampleIndex := i
+			// From i...do we have new data?
+			for nextValue == 0 && stepsForward+i < len(result)-1 { // (unless we reach the end of the data)
+				// ...walk forward
+				stepsForward++
+				nextSampleIndex++
+				// ...grab its value
+				nextValue = result[nextSampleIndex]
+			}
+
+			delta := nextValue - value
+			for x := 0; x < stepsForward; x++ {
+				scaleFactor := float64(x) / float64(stepsForward)
+				newValue := value + (delta * scaleFactor)
+				result[i] = newValue
+				i++
+			}
+		} else {
+			i++
 		}
 	}
-	return InstantaneousValue{
-		Instant: instant,
-		Value:   PointValue{0, 0},
-	}
-}
 
-// SliceEntireFuture returns the remainder of the buffer from the provided instant in time.
-func (tl *timeline) SliceEntireFuture(instant time.Time) TimeSlice {
-	instantIndex := tl.GetRelativeIndex(instant)
-	if instantIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  instant,
-			Data:       tl.data[instantIndex:],
-			Resolution: tl.resolution,
-		}
-	}
 	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
+		StartTime:  ts.StartTime,
+		Data:       CalculateDerivative(result),
+		Resolution: r,
 	}
 }
 
-// SliceEntirePast returns the entire buffer up to the provided instant in time.
-func (tl *timeline) SliceEntirePast(instant time.Time) TimeSlice {
-	// We capture the head time here to ensure all calculations
-	// are relative to the execution of this line of code in time.
-	headTime := tl.headTime
-	headIndex := tl.GetRelativeIndex(headTime)
-	instantIndex := tl.GetRelativeIndex(instant)
-	if instantIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  headTime,
-			Data:       tl.data[headIndex:instantIndex],
-			Resolution: tl.resolution,
-		}
-	}
-	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
-	}
-}
-
-// SliceFutureDuration returns a slice of the future from an instant in time utilizing a time.Duration.
-func (tl *timeline) SliceFutureDuration(instant time.Time, duration time.Duration) TimeSlice {
-	instantIndex := tl.GetRelativeIndex(instant)
-	futureIndex := instantIndex + tl.resolution.ToIndex(duration)
-	if futureIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  instant,
-			Data:       tl.data[instantIndex:futureIndex],
-			Resolution: tl.resolution,
-		}
-	}
-	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
-	}
-}
-
-// SliceFutureIndices returns an indexCount length slice of the future from an instant in time.
-func (tl *timeline) SliceFutureIndices(instant time.Time, indexCount int) TimeSlice {
-	instantIndex := tl.GetRelativeIndex(instant)
-	if instantIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  instant,
-			Data:       tl.data[instantIndex : instantIndex+indexCount],
-			Resolution: tl.resolution,
-		}
-	}
-	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
-	}
-}
-
-// SlicePastDuration returns an indexCount length slice of the past up to an instant in time.
-func (tl *timeline) SlicePastDuration(instant time.Time, duration time.Duration) TimeSlice {
-	instantIndex := tl.GetRelativeIndex(instant)
-	pastIndex := instantIndex - tl.resolution.ToIndex(duration)
-	if instantIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  instant.Add(-duration),
-			Data:       tl.data[pastIndex:instantIndex],
-			Resolution: tl.resolution,
-		}
-	}
-	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
-	}
-}
-
-// SlicePastIndices returns a indexCount length slice of the past up to an instant in time.
-func (tl *timeline) SlicePastIndices(instant time.Time, indexCount int) TimeSlice {
-	instantIndex := tl.GetRelativeIndex(instant)
-	if instantIndex <= len(tl.data) {
-		return TimeSlice{
-			StartTime:  instant,
-			Data:       tl.data[instantIndex-indexCount : instantIndex],
-			Resolution: tl.resolution,
-		}
-	}
-	return TimeSlice{
-		StartTime:  instant,
-		Data:       make([]PointValue, 0),
-		Resolution: tl.resolution,
-	}
-}
-
-func (ts *TimeSlice) Mux(formula Formula, otherSlices ...TimeSlice) TimeSlice {
+func (ts TimeSlice) Mux(formula Formula, otherSlices ...TimeSlice) TimeSlice {
 	outputSlice := TimeSlice{
 		StartTime:  ts.StartTime,
 		Data:       make([]PointValue, len(ts.Data)),
@@ -328,12 +242,157 @@ func (ts *TimeSlice) Mux(formula Formula, otherSlices ...TimeSlice) TimeSlice {
 		}
 
 		// Update the new value and calculate its derivative
-		outputSlice.Data[x].Value = newVal
-		outputSlice.Data[x].Derivative = newVal - oldVal
+		outputSlice.Data[x] = PointValue{newVal, newVal - oldVal}
 		oldVal = newVal
 	}
 
 	return outputSlice
+}
+
+/**
+TIME LINE
+*/
+
+// timeline represents rolling data in time.
+// headTime is the referential point the data currently starts at
+// Resolution is the details of how to relate time a single index value
+// lock is used to ensure the buffer data is only manipulated in scoped contexts.
+// (i.e. any operation that modifies the data buffer should request a lock on it while running)
+type timeline struct {
+	data       []float64
+	headTime   time.Time
+	resolution Resolution
+	lastValue  float64
+	lock       sync.Mutex
+}
+
+// GetRelativeIndex takes a moment in time and gets its index, relative to the current head time.
+func (tl *timeline) GetRelativeIndex(t time.Time) int {
+	return tl.resolution.ToIndex(t.Sub(tl.headTime))
+}
+
+// GetInstant returns the value on the timeline at a moment in time.
+func (tl *timeline) GetInstant(instant time.Time) InstantaneousValue {
+	instantIndex := tl.GetRelativeIndex(instant)
+	if instantIndex <= len(tl.data) {
+		value := tl.data[instantIndex]
+		return InstantaneousValue{
+			Instant: instant,
+			Point:   PointValue{value, 0},
+		}
+	}
+	return InstantaneousValue{
+		Instant: instant,
+		Point:   PointValue{0, 0},
+	}
+}
+
+// SliceEntireFuture returns the remainder of the buffer from the provided instant in time.
+func (tl *timeline) SliceEntireFuture(instant time.Time) TimeSlice {
+	instantIndex := tl.GetRelativeIndex(instant)
+	if instantIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  instant,
+			Data:       CalculateDerivative(tl.data[instantIndex:]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
+}
+
+// SliceEntirePast returns the entire buffer up to the provided instant in time.
+func (tl *timeline) SliceEntirePast(instant time.Time) TimeSlice {
+	// We capture the head time here to ensure all calculations
+	// are relative to the execution of this line of code in time.
+	headTime := tl.headTime
+	headIndex := tl.GetRelativeIndex(headTime)
+	instantIndex := tl.GetRelativeIndex(instant)
+	if instantIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  headTime,
+			Data:       CalculateDerivative(tl.data[headIndex:instantIndex]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
+}
+
+// SliceFutureDuration returns a slice of the future from an instant in time utilizing a time.Duration.
+func (tl *timeline) SliceFutureDuration(instant time.Time, duration time.Duration) TimeSlice {
+	instantIndex := tl.GetRelativeIndex(instant)
+	futureIndex := instantIndex + tl.resolution.ToIndex(duration)
+	if futureIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  instant,
+			Data:       CalculateDerivative(tl.data[instantIndex:futureIndex]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
+}
+
+// SliceFutureIndices returns an indexCount length slice of the future from an instant in time.
+func (tl *timeline) SliceFutureIndices(instant time.Time, indexCount int) TimeSlice {
+	instantIndex := tl.GetRelativeIndex(instant)
+	if instantIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  instant,
+			Data:       CalculateDerivative(tl.data[instantIndex : instantIndex+indexCount]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
+}
+
+// SlicePastDuration returns an indexCount length slice of the past up to an instant in time.
+func (tl *timeline) SlicePastDuration(instant time.Time, duration time.Duration) TimeSlice {
+	instantIndex := tl.GetRelativeIndex(instant)
+	pastIndex := instantIndex - tl.resolution.ToIndex(duration)
+	if instantIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  instant.Add(-duration),
+			Data:       CalculateDerivative(tl.data[pastIndex:instantIndex]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
+}
+
+// SlicePastIndices returns a indexCount length slice of the past up to an instant in time.
+func (tl *timeline) SlicePastIndices(instant time.Time, indexCount int) TimeSlice {
+	instantIndex := tl.GetRelativeIndex(instant)
+	if instantIndex <= len(tl.data) {
+		return TimeSlice{
+			StartTime:  instant,
+			Data:       CalculateDerivative(tl.data[instantIndex-indexCount : instantIndex]),
+			Resolution: tl.resolution,
+		}
+	}
+	return TimeSlice{
+		StartTime:  instant,
+		Data:       make([]PointValue, 0),
+		Resolution: tl.resolution,
+	}
 }
 
 // AddValues seeks to the appropriate position in time and additively introduces the provided data to the buffer
@@ -347,24 +406,23 @@ func (tl *timeline) AddValues(instant time.Time, data ...float64) {
 	if startIndex >= tlDataLen {
 		// ...fill the gap with initialized data to the current value of the timeline
 		toFill := startIndex - tlDataLen
-		initialized := NewInitializedArray(tl.value, toFill)
+		initialized := NewInitializedArray(tl.data[len(tl.data)-1], toFill)
 		tl.data = append(tl.data, initialized...)
 	}
 
 	for x := 0; x < len(data); x++ {
+		currentIndex := startIndex + x
 		// If we are out of bounds of the underlying buffer...
-		if startIndex+x > len(tl.data) {
+		if currentIndex > len(tl.data) {
 			// ...append the remaining data to the buffer and exit the loop
 			toAppend := data[x:]
-			pointValues := ToPointValueArray(toAppend, tl.data[startIndex-1].Value)
-			tl.data = append(tl.data, pointValues...)
+			tl.data = append(tl.data, toAppend...)
 			break
 		}
 
 		// Otherwise, just add the data to the existing data
-		newVal := tl.data[startIndex+x].Value + data[x]
-		tl.data[startIndex+x].Value = newVal
-		tl.data[startIndex+x].Derivative = newVal - tl.data[startIndex-1].Value
+		newVal := tl.data[currentIndex] + data[x]
+		tl.data[currentIndex] = newVal
 	}
 }
 
@@ -375,6 +433,10 @@ func (tl *timeline) AddValues(instant time.Time, data ...float64) {
 func (tl *timeline) setValue(instant time.Time, value float64) {
 	tl.lock.Lock()
 	defer tl.lock.Unlock()
+	tl.setValueWithoutLock(instant, value)
+}
+
+func (tl *timeline) setValueWithoutLock(instant time.Time, value float64) {
 	startIndex := tl.GetRelativeIndex(instant)
 
 	// Buffer the future timeline with its last known value if it isn't long enough
@@ -385,33 +447,30 @@ func (tl *timeline) setValue(instant time.Time, value float64) {
 	}
 
 	// Otherwise, set the value on the timeline
-	lastValue := tl.data[startIndex-1]
-	tl.value.Value = value
-	tl.value.Derivative = value - lastValue.Value
+	result := value
 
 	// Then grab the remaining length of the timeline...
 	remainingLen := len(tl.data) - startIndex
 	// ...and initialize it to the new value
-	newData := NewInitializedArray(tl.value, remainingLen)
-	tl.data = append(tl.data[:startIndex], newData...)
+	tl.data = append(tl.data[:startIndex], NewInitializedArray(result, remainingLen)...)
 }
 
 // newTimeline creates a timeline buffer.
 // The duration represents the total amount of time to buffer, with now being considered relative to
 // the midpoint of the buffer.  The frequency tells it how often to trim/append the buffer in time.
-func (signal *Signal) newTimeline(defaultValue float64) *timeline {
+// onStep can be nil if you do not need that functionality.
+func (signal *Signal) newTimeline(defaultValue float64, onStep func(*Signal, InstantaneousValue) float64) *timeline {
 	nanoStep := float64(time.Second.Nanoseconds()) / float64(Universe.StdResolution)
 	durationInIndex := int(float64(Universe.StdBufferLength.Nanoseconds()) / nanoStep)
 	tl := &timeline{
 		// Set the head time relative to the midpoint of the buffer
 		// (we initialize with the past being empty, essentially)
 		headTime:   time.Now().Add(-(Universe.StdBufferLength / 2)),
-		data:       ToPointValueArray(NewInitializedArray(defaultValue, durationInIndex), defaultValue),
-		value:      ToPointValue(defaultValue),
-		resolution: newResolution(Universe.StdResolution),
+		data:       NewInitializedArray(defaultValue, durationInIndex),
+		resolution: NewResolution(Universe.StdResolution),
 	}
 
-	// Spin off the loop for this signal's timeline
+	// Spin off the loop for this timeline
 	go func() {
 		lastUpdate := time.Now()
 		for {
@@ -421,9 +480,10 @@ func (signal *Signal) newTimeline(defaultValue float64) *timeline {
 
 			// Save off now so the logic operates on the same instant during this routine
 			now := time.Now()
+			elapsedTime := now.Sub(lastUpdate)
 
-			// If we are above the minimum cycle time (arbitrarily 10ms)
-			if now.Sub(lastUpdate) > time.Millisecond*10 {
+			// If we are above the resolution time for this timeline...
+			if elapsedTime > tl.resolution.Duration {
 				tl.lock.Lock()
 				// Calculate new head time
 				newHead := now.Add(-(Universe.StdBufferLength / 2))
@@ -431,13 +491,43 @@ func (signal *Signal) newTimeline(defaultValue float64) *timeline {
 				// Update the head time
 				tl.headTime = newHead
 				// Slice off the past that has passed
-				tl.data = tl.data[delta:]
+				if delta < len(tl.data) {
+					tl.data = tl.data[delta:]
+				}
 				// Append new data to replace the old data
-				newData := NewInitializedArray(tl.value, delta)
+				newData := NewInitializedArray(tl.data[len(tl.data)-1], delta)
 				tl.data = append(tl.data, newData...)
+
+				// ...Get the current value of this signal and calculate it's derivative
+				currentInstant := tl.GetInstant(now)
+				currentValue := currentInstant.Point.Value
+				currentInstant.Point.Derivative = currentValue - tl.lastValue
+
+				// If there is a function to perform on this logical step in time...
+				if onStep != nil {
+					// ...send off the calculated data
+					currentValue = onStep(signal, currentInstant)
+
+					// ...update the timeline with the calculated result from onStep
+					tl.setValueWithoutLock(now, currentValue)
+
+					// -------- NOTE:
+					// The derivative is only relevant to the observer's perspective!
+					// That means that we are ensuring that any function that operates in the
+					// current -chain- will know the appropriate derived change, but any external
+					// observers (such as samplers) will gain a different perspective of the
+					// derivative of this signal.  This is a part of temporality and observation
+					// of numbers within space and time.  The value intrinsically exists, but it
+					// may have a different representation to different observers based on the
+					// context with which they view the value.
+				}
+
+				// Save off the loop logic values
+				tl.lastValue = currentValue
+				lastUpdate = now
 				tl.lock.Unlock()
 			}
-			time.Sleep(5)
+			time.Sleep(time.Nanosecond * 100)
 		}
 		Universe.Printf(signal, "%s timeline stopped", string(signal.Symbol))
 	}()

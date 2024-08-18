@@ -14,10 +14,10 @@ func NewPrintingObserver(name string) *printingObserver {
 }
 
 // GetNamedValue returns the assigned name to this instance.
-func (observer *printingObserver) GetNamedValue() string {
+func (observer *printingObserver) GetName() string {
 	return observer.Name
 }
 
 func (observer *printingObserver) OnSample(signal *JanOS.Signal, ts JanOS.TimeSlice) {
-	JanOS.Universe.Printf(observer, "%s Observation: %v", signal.Symbol, ts.Data)
+	JanOS.Universe.Printf(observer, "%s Sample: %v", signal.Symbol, ts.Data)
 }

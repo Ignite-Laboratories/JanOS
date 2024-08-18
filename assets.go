@@ -19,7 +19,7 @@ type asset struct {
 }
 
 // GetNamedValue returns the assigned name to this instance.
-func (mgr *assetManager) GetNamedValue() string {
+func (mgr *assetManager) GetName() string {
 	return "Assets"
 }
 

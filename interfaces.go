@@ -2,7 +2,7 @@ package JanOS
 
 type named interface {
 	// GetNamedValue returns the assigned name to this instance.
-	GetNamedValue() string
+	GetName() string
 }
 
 type world interface {
@@ -20,7 +20,7 @@ type Sampler interface {
 	OnSample(*Signal, TimeSlice)
 }
 
-type Observation struct {
+type Sample struct {
 	Observer named
 	Signal   *Signal
 	Values   []InstantaneousValue

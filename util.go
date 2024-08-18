@@ -62,3 +62,16 @@ func NewInitializedArray[T any](value T, size int) []T {
 	}
 	return newArray
 }
+
+func SpacedStringSet(delimeter string, values ...string) string {
+	if len(values) == 0 {
+		return ""
+	}
+	toReturn := values[0]
+	i := 1
+	for i < len(values) {
+		toReturn = toReturn + " " + delimeter + " " + values[i]
+		i++
+	}
+	return toReturn
+}

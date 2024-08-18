@@ -96,7 +96,7 @@ func NewECSWorld(name string, systems ...System) world {
 }
 
 // GetNamedValue returns the assigned name to this instance.
-func (w *ecsWorld) GetNamedValue() string {
+func (w *ecsWorld) GetName() string {
 	return w.Name
 }
 

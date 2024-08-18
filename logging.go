@@ -22,7 +22,7 @@ func newLogManager() *logManager {
 }
 
 // GetNamedValue returns the assigned name to this instance.
-func (mgr *logManager) GetNamedValue() string {
+func (mgr *logManager) GetName() string {
 	return "Log"
 }
 

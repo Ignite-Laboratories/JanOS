@@ -32,7 +32,7 @@ var Universe = &operatingSystem{
 	LogManager:        newLogManager(),
 	RelativePath:      "../Assets/",
 	StdBufferLength:   time.Duration(time.Second * 5),
-	StdResolution:     44000,
+	StdResolution:     440000,
 	worlds:            make([]world, 0),
 	terminationSignal: make(chan os.Signal, 1),
 }
@@ -42,7 +42,7 @@ var Universe = &operatingSystem{
 func (os *operatingSystem) NextId() uint64 { return atomic.AddUint64(&os.masterCount, 1) }
 
 // GetNamedValue returns the assigned name to this instance.
-func (os *operatingSystem) GetNamedValue() string { return "JanOS" }
+func (os *operatingSystem) GetName() string { return "JanOS" }
 
 // Printf calls log.Print and captures the event on the os.LogManager
 func (os *operatingSystem) Printf(named named, format string, v ...any) {
@@ -52,7 +52,7 @@ func (os *operatingSystem) Printf(named named, format string, v ...any) {
 // Println calls log.Println and captures the event on the os.LogManager
 func (os *operatingSystem) Println(named named, str string) {
 	os.LogManager.AddEntry(named, str)
-	log.Printf("[%s] %s\n", named.GetNamedValue(), str)
+	log.Printf("[%s] %s\n", named.GetName(), str)
 }
 
 // Start initializes all the provided worlds, which initialize their systems, and then
