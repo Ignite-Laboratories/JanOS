@@ -24,6 +24,10 @@ off of learned _behaviors_.
 That has a wonderful side effect - we theoretically could _score_ our entities decisions _musically_ and then utilize
 machine learning to coalesce the groove of reality and her entities.
 
+## NOTE:
+
+The below is highly out of date - I'll be updating it soon - 8/19/24
+
 ## Project Structure
 
 The project has been structured in a way that makes setting up your development environment _easy._  We rely on several
