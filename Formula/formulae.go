@@ -1,10 +1,10 @@
 package Formula
 
 import (
-	"github.com/ignite-laboratories/JanOS"
+	"github.com/ignite-laboratories/JanOS/util"
 )
 
-var Additive = JanOS.Formula{
+var Additive = util.Formula{
 	Operator:  "+",
 	Operation: additive,
 }
@@ -19,7 +19,7 @@ func additive(source float64, variables ...float64) float64 {
 	return val
 }
 
-var Subtractive = JanOS.Formula{
+var Subtractive = util.Formula{
 	Operator:  "-",
 	Operation: subtractive,
 }
@@ -34,7 +34,7 @@ func subtractive(source float64, variables ...float64) float64 {
 	return val
 }
 
-var Multiplicative = JanOS.Formula{
+var Multiplicative = util.Formula{
 	Operator:  "*",
 	Operation: multiplicative,
 }
@@ -49,7 +49,7 @@ func multiplicative(source float64, variables ...float64) float64 {
 	return val
 }
 
-var Divisive = JanOS.Formula{
+var Divisive = util.Formula{
 	Operator:  "/",
 	Operation: divisive,
 }

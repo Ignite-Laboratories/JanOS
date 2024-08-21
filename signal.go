@@ -1,118 +1,117 @@
 package JanOS
 
 import (
-	"github.com/ignite-laboratories/JanOS/Symbols"
+	"github.com/ignite-laboratories/JanOS/util"
+	"log"
 	"math"
+	"sync"
 	"time"
 )
 
-// Signal represents a mathematical value and its associated historical timeline.
 type Signal struct {
-	Name     string
-	Symbol   Symbols.Symbol
-	Timeline *timeline
-	OnStep   func(signal *Signal, iv InstantaneousValue) float64
+	util.Named
+	Name       string
+	Symbol     string
+	Value      float64
+	Derivative float64
+	function   func(value float64, derivative float64) float64
+
+	lock        sync.Mutex
+	newValue    float64
+	hasNewValue bool
 }
 
-// GetNamedValue returns the assigned name to this instance.
-func (signal *Signal) GetName() string {
-	return signal.Name
+func (signal *Signal) SetValue(value float64) *Signal {
+	signal.newValue = value
+	signal.hasNewValue = true
+	return signal
 }
 
-type signalManager struct {
-	signals map[string]*Signal
-}
+// onStep is called on every resolution step by the main timekeeper
+func (signal *Signal) onStep() {
+	signal.lock.Lock()
+	defer signal.lock.Unlock()
 
-func newSignalManager() *signalManager {
-	return &signalManager{
-		signals: make(map[string]*Signal),
+	oldValue := signal.Value
+
+	// Check if we have a new value and set it
+	if signal.hasNewValue {
+		signal.Derivative = signal.newValue - oldValue
+		signal.Value = signal.newValue
+		signal.hasNewValue = false
+	}
+
+	// If this signal has a function, call it
+	if signal.function != nil {
+		newValue := signal.function(signal.Value, signal.Derivative)
+		signal.Derivative = newValue - oldValue
+		signal.Value = newValue
 	}
 }
 
-// GetNamedValue returns the assigned name to this instance.
-func (mgr *signalManager) GetName() string {
-	return "Signal"
+// WithFunction sets the function to perform on this signal whenever a time step occurs.
+// This is a destructive operation as signals are meant to only have one function or
+// none - if you would like to perform more operations create a new function that
+// performs the steps you desire.
+func (signal *Signal) WithFunction(function func(value float64, derivative float64) float64) *Signal {
+	signal.function = function
+	return signal
 }
 
-// GetSignal references a previously stored signal.
-func (mgr *signalManager) GetSignal(name string) *Signal {
-	return mgr.signals[name]
-}
-
-// SetValue seeks to the appropriate position in time and replaces the values on the remainder of the buffer.
-// The mentality is that when you set a value in time it will hold that value until it is changed.  We take
-// time for granted in our environment, meaning that the setting of a value should always assume the future
-// will hold that value ad infinitum.
-func (signal *Signal) SetValue(instant time.Time, value float64) {
-	Universe.Printf(Universe.Signals, "Set '%s' [%s] = %f", signal.Name, string(signal.Symbol), value)
-	signal.Timeline.setValue(instant, value)
-}
-
-// GetInstantValue seeks to the appropriate position in time and gets the value on the buffer at that instant.
-func (signal *Signal) GetInstantValue(instant time.Time) InstantaneousValue {
-	return signal.Timeline.GetInstant(instant)
-}
-
-// NewToggleSignal creates a signal that toggles between a positive and negative value at the provided frequency.
-// You can adjust its value to directly control how frequently the system "toggles" between "high" and "low".
-func (mgr *signalManager) NewToggleSignal(name string, symbol Symbols.Symbol, frequency int) *Signal {
-	lastPeriod := time.Now()
-
-	outputSignal := mgr.NewSignalWithValue(name, symbol, float64(frequency), func(signal *Signal, iv InstantaneousValue) float64 {
-		// Recalculate the resolution in case the signal changed
-		newFrequency := int(math.Abs(iv.Point.Value))
-		resolution := NewResolution(newFrequency)
-
-		// Return the inverse if it is time
-		if iv.Instant.Sub(lastPeriod) > resolution.Duration {
-			lastPeriod = iv.Instant
-			return iv.Point.Value * -1
-		}
-
-		// Return no change if it's not time
-		return iv.Point.Value
-	})
-
-	Universe.Printf(outputSignal, "Let ƒ(%s) => -%s | %v", string(symbol), string(symbol), NewResolution(frequency).Duration)
-
-	return outputSignal
-}
-
-// Mux creates a signal that uses the provided formula to mux the provided signals together.
-func (mgr *signalManager) Mux(name string, symbol Symbols.Symbol, formula Formula, signals ...*Signal) *Signal {
-	outputSignal := Universe.Signals.NewSignal(name, symbol, func(signal *Signal, iv InstantaneousValue) float64 {
-		sourceValue := 0.0
+// CreateMux creates a new signal that uses the provided formula to mux the provided signals together.
+func (signal *Signal) CreateMux(formula util.Formula, signals ...*Signal) *Signal {
+	outputSignal := Signals.Create().WithFunction(func(value float64, derivative float64) float64 {
+		sourceValue := signal.Value
 		otherValues := make([]float64, len(signals))
 		for i, s := range signals {
-			otherValues[i] = s.GetInstantValue(iv.Instant).Point.Value
+			otherValues[i] = s.Value
 		}
 
 		return formula.Operation(sourceValue, otherValues...)
 	})
 
-	symbols := SpacedStringSet(formula.Operator, Select(signals, func(s *Signal) string { return string(s.Symbol) })...)
-	Universe.Printf(outputSignal, "Let ƒ(%s) => y = %s", string(symbol), symbols)
+	//symbols := util.SpacedStringSet(formula.Operator, util.Select(signals, func(s *Signal) string { return s.Symbol })...)
+	//Logging.Printf(outputSignal, "ƒ(%s) => y = %s", symbol, symbols)
 	return outputSignal
 }
 
-// NewSignal creates a new signal and sets its timeline to 0.
-func (mgr *signalManager) NewSignal(name string, symbol Symbols.Symbol, onStep func(*Signal, InstantaneousValue) float64) *Signal {
-	return mgr.NewSignalWithValue(name, symbol, 0, onStep)
+// Toggle causes the signal to toggle between a positive and negative value at the provided frequency.
+// The periodicity of this is determined by the inherent value of the signal, in Hz.
+func (signal *Signal) Toggle() *Signal {
+	lastPeriod := time.Now()
+
+	return signal.WithFunction(func(value float64, derivative float64) float64 {
+		now := time.Now()
+
+		// We calculate the periodicity as a function of the current value on the signal
+		nanoSecs := int64((1 / math.Abs(value)) * float64(time.Second))
+		period := time.Duration(nanoSecs)
+
+		// If we are above the currently calculated period...
+		if now.Sub(lastPeriod) > period {
+			lastPeriod = now
+			// ...flip the sign
+			return -value
+		}
+
+		// ...otherwise, send the same value back
+		return value
+	})
 }
 
-// NewSignalWithValue creates a new signal and sets its timeline to the provided default value.
-func (mgr *signalManager) NewSignalWithValue(name string, symbol Symbols.Symbol, defaultValue float64, onStep func(*Signal, InstantaneousValue) float64) *Signal {
-	s := &Signal{
-		Name:   name,
-		Symbol: symbol,
-		OnStep: onStep,
-	}
-	s.Timeline = s.newTimeline(defaultValue, onStep)
-	mgr.signals[name] = s
-	if defaultValue != 0 {
-		Universe.Printf(s, "Let %s = %f | %dhz", string(symbol), defaultValue, s.Timeline.resolution.Frequency)
-	} else {
-		Universe.Printf(s, "Let %s exist | %dhz", string(symbol), s.Timeline.resolution.Frequency)
-	}
-	return s
+// AbsoluteValue creates a new signal that maintains the absolute value of the source signal.
+func (signal *Signal) AbsoluteValue() *Signal {
+	lastTime := time.Now()
+
+	outputSignal := Signals.Create().WithFunction(func(value float64, derivative float64) float64 {
+		if signal.Derivative != 0 {
+			log.Println(time.Since(lastTime))
+			lastTime = time.Now()
+		}
+
+		return math.Abs(signal.Value)
+	})
+
+	//	Logging.Printf(outputSignal, "ƒ(%s) => y = |y| (Absolute Value)", outputSignal.Symbol)
+	return outputSignal
 }

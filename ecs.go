@@ -13,7 +13,7 @@ ENTITY
 type Entity int
 
 // NewEntity creates a new entity using the Universe's master ID counter
-func NewEntity() Entity { return Entity(Universe.NextId()) }
+func NewEntity() Entity { return Entity(NextId()) }
 
 /**
 COMPONENT
@@ -103,17 +103,17 @@ func (w *ecsWorld) GetName() string {
 func (w *ecsWorld) Initialize() {
 	for _, system := range w.Systems {
 		if init, ok := system.(initializable); ok {
-			Universe.Printf(system, "Initializing")
+			Logging.Printf(system, "Initializing")
 			init.Initialize()
 		}
-		Universe.Printf(system, "Initialized")
+		Logging.Printf(system, "Initialized")
 	}
 }
 
 func (w *ecsWorld) Start() {
 	lastNow := time.Now()
 	for {
-		if Universe.Terminate {
+		if Terminate {
 			break
 		}
 

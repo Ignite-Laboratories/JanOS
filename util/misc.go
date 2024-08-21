@@ -1,4 +1,4 @@
-package JanOS
+package util
 
 // SelectUnique returns the unique values found by the predicate
 func SelectUnique[TIn any, TOut any](data []TIn, predicate func(TIn) TOut) []TOut {
