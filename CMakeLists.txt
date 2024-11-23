@@ -3,7 +3,9 @@ project(JanOS CUDA)
 
 set(CMAKE_CUDA_STANDARD 20)
 
-add_executable(JanOS main.cu)
+add_executable(JanOS main.cu
+        janos.cuh
+        janos.cu)
 
 set_target_properties(JanOS PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

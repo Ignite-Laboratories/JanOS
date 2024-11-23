@@ -1,6 +1,5 @@
-#include <iostream>
+#include "janos.cuh"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    return Boot();
 }
