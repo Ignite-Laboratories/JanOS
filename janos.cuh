@@ -4,9 +4,6 @@
 typedef uint64_t Identifier;
 typedef uint64_t Instant;
 
-extern __device__ Identifier MasterCount;
-extern __device__ int Clock;
-
 struct Dimension {
     Identifier ID;
     void *Value[];
@@ -18,9 +15,8 @@ struct Observation {
     void *Dimension[];
 };
 
-/**
- * @brief Initializes the JanOS environment.
- */
-int Boot();
+struct ControlStructure {
+    int Bits[];
+};
 
 #endif
