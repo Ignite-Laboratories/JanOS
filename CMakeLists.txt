@@ -13,16 +13,6 @@ project(TogglePrimaryBit CUDA)
 add_executable(TogglePrimaryBit exec_togglePrimaryBit.cu)
 set_target_properties(TogglePrimaryBit PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
-# PULSE GENERATION
-project(PulseGeneration CUDA)
-add_executable(PulseGeneration exec_pulseGeneration.cu)
-set_target_properties(PulseGeneration PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
-# SET PACE
-project(SetPace CUDA)
-add_executable(SetPace exec_setPace.cu)
-set_target_properties(SetPace PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
 # OBSERVER
 project(Observer CUDA)
 add_executable(Observer exec_observe.cu)

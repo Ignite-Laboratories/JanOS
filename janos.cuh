@@ -33,7 +33,6 @@ struct ControlStructure {
     int MeasureWidth = 64;
     int Beat = 0;
     int CoreBit;
-    float Pace;
     int Bits[];
 };
 
@@ -74,8 +73,7 @@ cudaIpcMemHandle_t CreateControlStructure()
     cudaIpcMemHandle_t handle;
     ControlStructure *d_cs;
     constexpr ControlStructure h_cs = {
-        .KeepAlive = true,
-        .Pace = 1.0
+        .KeepAlive = true
     };
 
     HANDLE_CUDA_ERROR(cudaMalloc(&d_cs, sizeof(ControlStructure)));
@@ -106,16 +104,6 @@ inline volatile ControlStructure* LoadControlStructure()
  * KERNELS
  */
 
-__global__ void _setPace(volatile ControlStructure *control, const float value)
-{
-    control->Pace = value;
-}
-inline void SetPace(const float value)
-{
-    _setPace<<<1,1>>>(LoadControlStructure(),value);
-    cudaDeviceSynchronize();
-}
-
 __global__ void _observe(volatile ControlStructure *control)
 {
     int lastState = 0;
@@ -124,7 +112,7 @@ __global__ void _observe(volatile ControlStructure *control)
         if (control->CoreBit != lastState)
         {
             lastState = control->CoreBit;
-            printf("Pace: %f, Master Count: %lld, Measure Beat: %d/%d\n", control->Pace, control->MasterCount, control->Beat, control->MeasureWidth);
+            printf("Master Count: %lld, Measure Beat: %d/%d\n", control->MasterCount, control->Beat, control->MeasureWidth);
         }
     } while (control->KeepAlive);
 }
@@ -140,43 +128,19 @@ __global__ void _togglePrimaryBit(volatile ControlStructure *control)
     {
         // KEY NOTE:
         // This is how we observe faster than we increment.
-
-        // The 'Pace' can be adjusted in real time to control
-        // the master frequency of execution.  A Pace of 1.0
-        // is roughly 1hz, whereas a Pace of 0 is "as fast as
-        // possible."
-
-        int z = 0;
-
         for (int i = 0; i < INT_MAX; i++)
         {
-            // While z is less than our pacing value...
-            // Key Values:
-            // 0 - No throttle
-            // 10000000 - ~1hz
-            if (z < 10000000 * control->Pace)
+            if (control->Beat >= control->MeasureWidth)
             {
-                // ...keep incrementing
-                z++;
+                control->Beat = 0;
             }
             else
             {
-                // ...otherwise, we are ready to "step"
-                z = 0;
-
-                if (control->Beat >= control->MeasureWidth)
-                {
-                    control->Beat = 0;
-                }
-                else
-                {
-                    control->Beat++;
-                }
-
-                control->CoreBit ^= 1;
-                control->MasterCount++;
-
+                control->Beat++;
             }
+
+            control->CoreBit ^= 1;
+            control->MasterCount++;
         }
     } while(control->KeepAlive);
 }
