@@ -8,6 +8,7 @@
 */
 
 inline auto ipcFilePath = "/home/rpetz/source/ignite/JanOS/ipc_handle.bin";
+constexpr int measureWidth = 4096;
 
 /**
 * DATA STRUCTURES
@@ -30,10 +31,9 @@ struct Observation {
 struct ControlStructure {
     bool KeepAlive;
     long long MasterCount;
-    int MeasureWidth = 64;
-    int Beat = 0;
     int CoreBit;
-    int Bits[];
+    int Beat;
+    int Buffer[measureWidth];
 };
 
 /**
@@ -46,40 +46,6 @@ inline void HandleError(const cudaError_t err, const char *file, const int line)
         std::cerr << "CUDA Error: " << cudaGetErrorString(err) << " in file " << file << " at line " << line << std::endl;
         exit(EXIT_FAILURE);
     }
-}
-
-inline void PrintIPCHandle(cudaIpcMemHandle_t handle) {
-    printf("IPC Handle: ");
-    for (size_t i = 0; i < sizeof(handle); ++i) {
-        printf("%02x", ((unsigned char*)&handle)[i]);
-    }
-    printf("\n");
-}
-
-inline void WriteToFile(const char *filename, const cudaIpcMemHandle_t& handle) {
-    if (FILE *fptr = fopen(filename, "w"); fptr != nullptr)
-    {
-        fwrite(&handle, sizeof(handle), 1, fptr);
-        fclose(fptr);
-    }
-}
-
-/**
-* GENERAL FUNCTIONS
-*/
-
-cudaIpcMemHandle_t CreateControlStructure()
-{
-    cudaIpcMemHandle_t handle;
-    ControlStructure *d_cs;
-    constexpr ControlStructure h_cs = {
-        .KeepAlive = true
-    };
-
-    HANDLE_CUDA_ERROR(cudaMalloc(&d_cs, sizeof(ControlStructure)));
-    HANDLE_CUDA_ERROR(cudaMemcpy(d_cs, &h_cs, sizeof(ControlStructure), cudaMemcpyHostToDevice));
-    HANDLE_CUDA_ERROR(cudaIpcGetMemHandle(&handle, d_cs));
-    return handle;
 }
 
 inline volatile ControlStructure* LoadControlStructure()
@@ -102,54 +68,89 @@ inline volatile ControlStructure* LoadControlStructure()
 
 /**
  * KERNELS
- */
+*/
 
-__global__ void _observe(volatile ControlStructure *control)
-{
-    int lastState = 0;
-    do
-    {
-        if (control->CoreBit != lastState)
-        {
-            lastState = control->CoreBit;
-            printf("Master Count: %lld, Measure Beat: %d/%d\n", control->MasterCount, control->Beat, control->MeasureWidth);
-        }
-    } while (control->KeepAlive);
-}
-inline void Observe()
-{
-    _observe<<<1,1>>>(LoadControlStructure());
-    cudaDeviceSynchronize();
-}
-
-__global__ void _togglePrimaryBit(volatile ControlStructure *control)
+__global__ void toggle(volatile ControlStructure *control)
 {
     do
     {
         // KEY NOTE:
         // This is how we observe faster than we increment.
+        int x = 0;
         for (int i = 0; i < INT_MAX; i++)
         {
-            if (control->Beat >= control->MeasureWidth)
+            if (x == 40000000)
             {
-                control->Beat = 0;
+                control->CoreBit ^= 1;
+                control->MasterCount++;
+                control->KeepAlive = true;
+                x = 0;
             }
-            else
-            {
-                control->Beat++;
-            }
-
-            control->CoreBit ^= 1;
-            control->MasterCount++;
+            x++;
         }
     } while(control->KeepAlive);
 }
-inline void TogglePrimaryBit()
+
+__global__ void loop(volatile ControlStructure *control)
 {
-    printf("Toggling\n");
-    _togglePrimaryBit<<<1,1>>>(LoadControlStructure());
-    cudaDeviceSynchronize();
-    printf("Terminated\n");
+    int lastState = control->CoreBit;
+    do
+    {
+        if (control->CoreBit != lastState)
+        {
+            lastState == control->CoreBit;
+
+            control->Beat++;
+            if (control->Beat == measureWidth)
+            {
+                printf("Looping\n");
+                control->Beat = 0;
+            }
+        }
+    } while (control->KeepAlive);
+}
+
+__global__ void readOneMeasure(volatile ControlStructure *control, int* output)
+{
+    // Wait until one measure has passed...
+    int end = control->Beat - 1;
+    if (end < 0)
+    { end = measureWidth; }
+    printf("Waiting until %d\n", end);
+
+
+    while (control->Beat != end)
+    {
+    }
+    printf("Done!\n");
+
+    // ...then copy the buffer and return control to the host
+    for (int i = 0; i < measureWidth; i++)
+    {
+        output[i] = control->Buffer[i];
+    }
+}
+
+__global__ void writeOnBeat(volatile ControlStructure *control, int beat)
+{
+    bool gotValue = false;
+    do
+    {
+        if (control->Beat == beat && !gotValue)
+        {
+            control->Buffer[beat] = control->CoreBit;
+            gotValue = true;
+        }
+        else
+        {
+            gotValue = false;
+        }
+    } while (control->KeepAlive);
+}
+
+__global__ void shutdown(volatile ControlStructure *control)
+{
+    control->KeepAlive = false;
 }
 
 #endif
