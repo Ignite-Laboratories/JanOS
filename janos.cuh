@@ -66,6 +66,23 @@ inline volatile ControlStructure* LoadControlStructure()
     return device_cs;
 }
 
+void NumberToWavelet(unsigned long long num, int* wavelet) {
+    for (int i = 15; i >= 0; i--) {
+        wavelet[i] = num % 16;
+        num /= 16;
+    }
+}
+
+unsigned long long WaveletToNumber(int* wavelet) {
+    unsigned long long num = 0;
+
+    for ( int i = 0; i <16; i++) {
+        num = num * 16 + wavelet[i];
+    }
+
+    return num;
+}
+
 /**
  * KERNELS
 */
