@@ -1,3 +1,2 @@
-Output/**
-.idea/**
-.DS_Store
+# Ignore folders, this is just to build a workspace for the ecosystem
+*/
