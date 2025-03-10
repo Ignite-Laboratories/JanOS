@@ -1,10 +1,10 @@
 go 1.23.4
 
 use (
+	core
 	fugue
 	glitter
 	spark
 	support
 	tiny
-	core
 )
