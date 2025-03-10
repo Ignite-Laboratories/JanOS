@@ -6,4 +6,5 @@ use (
 	spark
 	support
 	tiny
+	core
 )
