@@ -6,6 +6,11 @@
 
 Welcome to JanOS - a chrono-neurological ecosystem!
 
+Currently, the concept is centered around the idea of intelligent algorithms I call ARWENs that are simply _creating_.
+As I evolve it, the project will evolve into something more and more complicated.  This all initially started while
+exploring a form of binary synthesis which required a shift of thinking about how we currently execute computation.
+This then morphed into a neurological impulse engine, which is where I currently am exploring! 
+
 ## What's ARWEN?
 
 Abstractly, an ARWEN is any Autonomous Robot With Ethical Navigation.  An algorithm is an ARWEN, a large language model
@@ -36,20 +41,26 @@ need extra time to resolve their note.
 This repository, itself, is a placeholder to instantiate your Go workspace.  The actual code is contained in multiple
 other repositories which you should clone into the directory you cloned this one into.
 
-### Tiny
- Tiny is the heart and soul of the entire project: a library for performing variable bit-width operations on data.
+### Core
+Core holds the most critical components used by JanOS, including the impulse engine itself!
+
+### Fugue
+Fugue is the current IgniteLabs.net website project - until more work is completed, it remains an ominous fugue.
+
+### Glitter
+Glitter is anything related to graphical output whatsoever.
 
 ### Spark
-Spark is where binary compression and synthesis occur.
+Spark is where binary compression and synthesis will occur.
 
 ### Support
-
 The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here.  Everything from slice 
 subdivision to parallel execution and random generation of "Lorem Ipsum" data.
 
-### Fugue
-
-Fugue is the current IgniteLabs.net website project - until more work is completed, it remains an ominous fugue.
+### Tiny
+Tiny is a unique library - it was the original heart and soul of the entire project: a library for performing variable 
+bit-width operations on data.  The project is well fleshed out and, for all intents and purposes, _ready to get used_.
+It's use case is a future project that requires neurological stimulation to get across the line =)
 
 
 ## Enigmaneering
