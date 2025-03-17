@@ -9,7 +9,8 @@ Welcome to JanOS - a chrono-neurological ecosystem!
 Currently, the concept is centered around the idea of intelligent algorithms I call ARWENs that are simply _creating_.
 As I evolve it, the project will evolve into something more and more complicated.  This all initially started while
 exploring a form of binary synthesis which required a shift of thinking about how we currently execute computation.
-This then morphed into a neurological impulse engine, which is where I currently am exploring! 
+This then morphed into a neurological impulse engine, and now I'm exploring how to build orchestrations with such
+a computational model.
 
 ## What's ARWEN?
 
@@ -36,13 +37,23 @@ By perceiving the binary data using concepts from _**music theory**_.  If data c
 key changes to compose movements of information.  Even then, some bytes just don't sound right when sped up and might
 need extra time to resolve their note.
 
+But _how_ do we create a system that can react to these changes instinctively?  One that can literally groove with
+the language of machines?  
+
+Well, by reflecting inward to our own neurological machinery =)
+
 ## Project Structure
 
 This repository, itself, is a placeholder to instantiate your Go workspace.  The actual code is contained in multiple
 other repositories which you should clone into the directory you cloned this one into.
 
 ### Core
-Core holds the most critical components used by JanOS, including the impulse engine itself!
+Core holds the most critical components used by all JanOS libraries - critically, this is where the impulse engine lives.
+It also contains helper libraries all other libraries can use for testing.
+
+### Enigmaneering
+The ultimate goal of this entire project is to produce a book which others can use to learn the process of exploring
+abstract concepts like this.  As such, I intend to keep the documentation _thorough!_
 
 ### Fugue
 Fugue is the current IgniteLabs.net website project - until more work is completed, it remains an ominous fugue.
@@ -50,20 +61,17 @@ Fugue is the current IgniteLabs.net website project - until more work is complet
 ### Glitter
 Glitter is anything related to graphical output whatsoever.
 
+### Life
+Life houses neurological simulations.
+
 ### Spark
-Spark is where binary compression and synthesis will occur.
+Spark is the home of the neuron and cortex - the next level of abstraction from an impulse engine.
 
 ### Support
-The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here.  Everything from slice 
-subdivision to parallel execution and random generation of "Lorem Ipsum" data.
+The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here.  Everything from 
+thread-safe helper functions to random generation of "Lorem Ipsum" data.
 
 ### Tiny
 Tiny is a unique library - it was the original heart and soul of the entire project: a library for performing variable 
-bit-width operations on data.  The project is well fleshed out and, for all intents and purposes, _ready to get used_.
+bit-width operations on data.  The project is well fleshed out and, for all intents and purposes, _ready to be used_.
 It's use case is a future project that requires neurological stimulation to get across the line =)
-
-
-## Enigmaneering
-
-The ultimate goal of this entire project is to produce a book which others can use to learn the process of exploring
-abstract concepts like this.  As such, I intend to keep the documentation _thorough_. =)
