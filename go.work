@@ -4,6 +4,7 @@ use (
 	core
 	fugue
 	glitter
+	life
 	spark
 	support
 	tiny
