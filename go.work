@@ -4,6 +4,7 @@ use (
 	core
 	fugue
 	glitter
+	host
 	life
 	spark
 	support
