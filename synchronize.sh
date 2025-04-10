@@ -1,17 +1,22 @@
 echo "Synchronizing JanOS"
 echo "Ignite Laboratories"
 
-echo "- JanOS"
-git pull
+echo "[janos]"
+if [ -d ".git" ]; then
+  git pull
+else
+  git clone "https://github.com/ignite-laboratories/JanOS"
+fi
 
 synchronize() {
   if [ -d "$1/.git" ]; then
     (
       cd "$1" || exit
-      echo "- $1"
+      echo "[$1]"
       git pull
     )
   else
+    echo "[$1]"
     git clone "https://github.com/ignite-laboratories/$1"
   fi
 }

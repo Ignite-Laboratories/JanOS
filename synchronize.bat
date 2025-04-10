@@ -1,34 +1,33 @@
 @echo off
-setlocal enabledelayedexpansion
+echo Synchronizing JanOS
+echo Ignite Laboratories
 
-echo "Synchronizing JanOS"
-echo "Ignite Laboratories"
+echo [janos]
+if exist .git (
+    git pull
+) else (
+    git clone "https://github.com/ignite-laboratories/JanOS"
+)
 
-echo "- JanOS"
-git pull
-
-:: Function-like logic to synchronize repositories
-:sync
+:: Function-like structure for synchronizing repositories
+:Synchronize
 if exist "%~1\.git" (
+    echo [%~1]
     pushd "%~1"
-    echo "- %~1"
     git pull
     popd
 ) else (
+    echo [%~1]
     git clone "https://github.com/ignite-laboratories/%~1"
 )
 goto :eof
 
-:: Synchronize multiple repositories
-call :sync core
-call :sync fugue
-call :sync glitter
-call :sync host
-call :sync life
-call :sync spark
-call :sync support
-call :sync tiny
-
-:end
-echo Synchronization completed!
-exit /b
+:: Call the 'Synchronize' subroutine for multiple repositories
+call :Synchronize core
+call :Synchronize fugue
+call :Synchronize glitter
+call :Synchronize host
+call :Synchronize life
+call :Synchronize spark
+call :Synchronize support
+call :Synchronize tiny
