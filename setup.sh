@@ -1,8 +1,20 @@
-git clone https://github.com/ignite-laboratories/core
-git clone https://github.com/ignite-laboratories/fugue
-git clone https://github.com/ignite-laboratories/glitter
-git clone https://github.com/ignite-laboratories/host
-git clone https://github.com/ignite-laboratories/life
-git clone https://github.com/ignite-laboratories/spark
-git clone https://github.com/ignite-laboratories/support
-git clone https://github.com/ignite-laboratories/tiny
+synchronize() {
+  if [ -d "$1/.git" ]; then
+    (
+      cd "$1" || exit
+      git pull
+    )
+  else
+    git clone "https://github.com/ignite-laboratories/$1"
+  fi
+}
+
+# Call the function for multiple repositories
+synchronize core
+synchronize fugue
+synchronize glitter
+synchronize host
+synchronize life
+synchronize spark
+synchronize support
+synchronize tiny
