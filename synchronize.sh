@@ -11,6 +11,7 @@ else
 fi
 
 synchronize() {
+  echo
   if [ -d "$1/.git" ]; then
     (
       cd "$1" || exit
@@ -21,7 +22,6 @@ synchronize() {
     echo "[$1]"
     git clone "https://github.com/ignite-laboratories/$1"
   fi
-  echo
 }
 
 # Call the function for multiple repositories

@@ -2,6 +2,8 @@
 echo Synchronizing JanOS
 echo Ignite Laboratories
 
+echo
+
 echo [janos]
 if exist .git (
     git pull
@@ -11,6 +13,7 @@ if exist .git (
 
 :: Function-like structure for synchronizing repositories
 :Synchronize
+echo
 if exist "%~1\.git" (
     echo [%~1]
     pushd "%~1"
