@@ -1,3 +1,5 @@
+git pull
+
 synchronize() {
   if [ -d "$1/.git" ]; then
     (

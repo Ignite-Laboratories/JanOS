@@ -1,6 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
+git pull
+
 :: Function-like logic to synchronize repositories
 :sync
 if exist "%~1\.git" (
