@@ -1,17 +1,20 @@
 @echo off
 setlocal enabledelayedexpansion
 
+echo "Synchronizing JanOS"
+echo "Ignite Laboratories"
+
+echo "- JanOS"
 git pull
 
 :: Function-like logic to synchronize repositories
 :sync
 if exist "%~1\.git" (
-    echo Opening directory %~1 and pulling the latest changes...
     pushd "%~1"
+    echo "- %~1"
     git pull
     popd
 ) else (
-    echo Cloning repository https://github.com/ignite-laboratories/%~1 ...
     git clone "https://github.com/ignite-laboratories/%~1"
 )
 goto :eof

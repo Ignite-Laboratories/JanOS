@@ -1,9 +1,14 @@
+echo "Synchronizing JanOS"
+echo "Ignite Laboratories"
+
+echo "- JanOS"
 git pull
 
 synchronize() {
   if [ -d "$1/.git" ]; then
     (
       cd "$1" || exit
+      echo "- $1"
       git pull
     )
   else
