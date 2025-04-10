@@ -1,6 +1,6 @@
-SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
 (
-  cd "$0" || exit
+  cd "$SCRIPT_DIR" || exit
 
   echo "Synchronizing JanOS"
   echo "Ignite Laboratories"
