@@ -1,6 +1,8 @@
 echo "Synchronizing JanOS"
 echo "Ignite Laboratories"
 
+echo
+
 echo "[janos]"
 if [ -d ".git" ]; then
   git pull
@@ -19,6 +21,7 @@ synchronize() {
     echo "[$1]"
     git clone "https://github.com/ignite-laboratories/$1"
   fi
+  echo
 }
 
 # Call the function for multiple repositories
