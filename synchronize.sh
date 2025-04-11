@@ -34,7 +34,6 @@ SCRIPT_DIR=$(dirname "$(realpath "$0")")
   synchronize glitter
   synchronize host
   synchronize life
-  synchronize scribe
   synchronize spark
   synchronize support
   synchronize tiny

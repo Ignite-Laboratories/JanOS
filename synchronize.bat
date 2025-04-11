@@ -39,7 +39,6 @@ call :sync fugue
 call :sync glitter
 call :sync host
 call :sync life
-call :sync scribe
 call :sync spark
 call :sync support
 call :sync tiny
