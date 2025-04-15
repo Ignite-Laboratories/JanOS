@@ -5,6 +5,7 @@ use (
 	fugue
 	glitter
 	host
+	hydra
 	life
 	spark
 	support

@@ -33,6 +33,7 @@ SCRIPT_DIR=$(dirname "$(realpath "$0")")
   synchronize fugue
   synchronize glitter
   synchronize host
+  synchronize hydra
   synchronize life
   synchronize spark
   synchronize support

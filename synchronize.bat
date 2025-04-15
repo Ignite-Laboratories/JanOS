@@ -38,6 +38,7 @@ call :sync core
 call :sync fugue
 call :sync glitter
 call :sync host
+call :sync hydra
 call :sync life
 call :sync spark
 call :sync support
