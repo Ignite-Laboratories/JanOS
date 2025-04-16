@@ -34,6 +34,7 @@ if exist ".git" (
 )
 
 :: Call the sync function for multiple repositories
+call :sync arwen
 call :sync core
 call :sync fugue
 call :sync glitter
