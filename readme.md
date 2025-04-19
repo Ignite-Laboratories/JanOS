@@ -45,33 +45,43 @@ Well, by reflecting inward to our own neurological machinery =)
 ## Project Structure
 
 This repository, itself, is a placeholder to instantiate your Go workspace.  The actual code is contained in multiple
-other repositories which you should clone into the directory you cloned this one into.
+other repositories which you should clone into the directory you cloned this one into.  As a convenience, I've included
+`synchronize` scripts for CMD and Bash to both instantiate the repositories and ensure they are up to date.  Simply
+execute the scripts and you're good to go!
+
+### Arwen
+This is the heart of waveform analysis, which is the foundation of binary synthesis.
 
 ### Core
 Core holds the most critical components used by all JanOS libraries - critically, this is where the impulse engine lives.
-It also contains helper libraries all other libraries can use for testing.
-
-### Enigmaneering
-The ultimate goal of this entire project is to produce a book which others can use to learn the process of exploring
-abstract concepts like this.  As such, I intend to keep the documentation _thorough!_
+It also contains some helper libraries the other modules can use for testing.
 
 ### Fugue
 Fugue is the current IgniteLabs.net website project - until more work is completed, it remains an ominous fugue.
 
 ### Glitter
-Glitter is anything related to graphical output whatsoever.
+Glitter is the source of all graphical rendering.
+
+### Hydra
+Hydra provides a toolkit for working with parallel systems, currently acting as the window manager for JanOS.
 
 ### Life
 Life houses neurological simulations.
 
 ### Spark
-Spark is the home of the neuron and cortex - the next level of abstraction from an impulse engine.
+Spark contains orchestrations of neural architectures.  This will include things such as cascading activations
+and processors.
 
 ### Support
-The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here.  Everything from 
+The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here - everything from 
 thread-safe helper functions to random generation of "Lorem Ipsum" data.
 
 ### Tiny
 Tiny is a unique library - it was the original heart and soul of the entire project: a library for performing variable 
 bit-width operations on data.  The project is well fleshed out and, for all intents and purposes, _ready to be used_.
 It's use case is a future project that requires neurological stimulation to get across the line =)
+
+In addition to the above repositories, there is also a non-JanOS repository documenting its creation:
+### 🔗 [Enigmaneering](https://github.com/ignite-Laboratories/enigmaneering) 
+The ultimate goal of this entire project is to produce a book which others can use to learn the process of exploring
+abstract concepts like this.  As such, I intend to keep the documentation _thorough!_
