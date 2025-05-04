@@ -4,6 +4,7 @@ use (
 	arwen
 	core
 	fugue
+	fuzzy
 	glitter
 	host
 	hydra
