@@ -6,11 +6,10 @@
 
 Welcome to JanOS - a chrono-neurological ecosystem!
 
-Currently, the concept is centered around the idea of intelligent algorithms I call ARWENs that are simply _creating_.
-As I evolve it, the project will evolve into something more and more complicated.  This all initially started while
-exploring a form of binary synthesis which required a shift of thinking about how we currently execute computation.
-This then morphed into a neurological impulse engine, and now I'm exploring how to build orchestrations with such
-a computational model.
+Currently, the concept is centered around the idea of creating intelligent algorithms I call ARWENs.  As the project
+evolves, they do as well.  This all initially started while exploring a form of binary synthesis which required a shift 
+of thinking about how we currently execute computation.  This then morphed into a neurological impulse engine, and now 
+I'm exploring how to build orchestrations with such a computational model.
 
 ## What's ARWEN?
 
