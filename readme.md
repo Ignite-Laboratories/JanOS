@@ -29,7 +29,7 @@ To do so one must perceive binary data as if a representation of _presence_ acro
 in logical widths of 8-bits called `bytes`, but they _technically_ could be read at several different widths.  For
 instance, if the value of a byte is less than 64 it only needs 6-bits - less than 32, only 5.
 
-The trouble is how do we _dynamically_ change the address width of each byte?
+The trouble is how do we _dynamically_ change the index bit width?
 
 By perceiving the binary data using concepts from _**music theory**_.  If data can be read byte for byte, it's read in 
 "common time" (4⁄4). If it's being read in variable widths, a new tempo must first be observed. Verses flow through 
