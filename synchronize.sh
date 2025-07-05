@@ -29,14 +29,10 @@ SCRIPT_DIR=$(dirname "$(realpath "$0")")
   }
 
   # Call the function for multiple repositories
-  synchronize arwen
   synchronize core
-  synchronize fugue
   synchronize glitter
   synchronize host
   synchronize hydra
-  synchronize life
-  synchronize spark
   synchronize support
   synchronize tiny
 )

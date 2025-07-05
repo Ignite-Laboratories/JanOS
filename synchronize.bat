@@ -18,14 +18,10 @@ if exist .git (
 )
 
 :: Define the synchronize function
-call :synchronize arwen
 call :synchronize core
-call :synchronize fugue
 call :synchronize glitter
 call :synchronize host
 call :synchronize hydra
-call :synchronize life
-call :synchronize spark
 call :synchronize support
 call :synchronize tiny
 
