@@ -48,37 +48,36 @@ other repositories which you should clone into the directory you cloned this one
 `synchronize` scripts for CMD and Bash to both instantiate the repositories and ensure they are up to date.  Simply
 execute the scripts and you're good to go!
 
-### Arwen
-This is the heart of waveform analysis, which is the foundation of binary synthesis.
+----
 
-### Core
-Core holds the most critical components used by all JanOS libraries - critically, this is where the impulse engine lives.
-It also contains some helper libraries the other modules can use for testing.
+**Core** - Core holds the most critical components used by all JanOS libraries - critically, this is where the impulse 
+engine lives. 
 
-### Fugue
-Fugue is the current IgniteLabs.net website project - until more work is completed, it remains an ominous fugue.
+- [🗎 The Neural Impulse Engine](https://github.com/Ignite-Laboratories/Enigmaneering/tree/main/enigma0)
+- [🗎 Temporal Analysis](https://github.com/Ignite-Laboratories/Enigmaneering/tree/main/enigma1)
 
-### Glitter
-Glitter is the source of all graphical rendering.
+----
 
-### Hydra
-Hydra provides a toolkit for working with parallel systems, currently acting as the window manager for JanOS.
+**Glitter** - Glitter is the artist behind all graphical rendering.
 
-### Life
-Life houses neurological simulations.
+----
 
-### Spark
-Spark contains orchestrations of neural architectures.  This will include things such as cascading activations
-and processors.
+**Hydra** - Hydra provides a toolkit for working with concurrently parallel systems, currently acting as the window 
+and graphics manager for JanOS.
 
-### Support
-The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here - everything from 
-thread-safe helper functions to random generation of "Lorem Ipsum" data.
+----
 
-### Tiny
-Tiny is a unique library - it was the original heart and soul of the entire project: a library for performing variable 
-bit-width operations on data.  The project is well fleshed out and, for all intents and purposes, _ready to be used_.
-It's use case is a future project that requires neurological stimulation to get across the line =)
+**Support** - The "junk drawer" of JanOS:  If it's too general for the other repositories, it belongs here - everything 
+from thread-safe helper functions to random generation of "Lorem Ipsum" data.
+
+----
+
+**Tiny** - Tiny is what facilitates binary synthesis =)
+
+- [🗎 Binary Synthesis](https://github.com/Ignite-Laboratories/Enigmaneering/tree/main/enigma2)
+
+----
+
 
 In addition to the above repositories, there is also a non-JanOS repository documenting its creation:
 ### 🔗 [Enigmaneering](https://github.com/ignite-Laboratories/enigmaneering) 

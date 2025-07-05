@@ -1,13 +1,10 @@
 go 1.24.1
 
 use (
-	arwen
 	core
 	glitter
 	host
 	hydra
-	life
-	spark
 	support
 	tiny
 )
