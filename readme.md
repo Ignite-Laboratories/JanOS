@@ -1,7 +1,5 @@
 <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://ignite-laboratories.github.io/assets/Logo%20-%20JanOS%20-%20Light.png">
-    <source media="(prefers-color-scheme: dark)" srcset="https://ignite-laboratories.github.io/assets/Logo%20-%20JanOS%20-%20Dark.png">
-    <img alt="JanOS Logo" src="https://ignite-laboratories.github.io/assets/Logo%20-%20JanOS%20-%20Light.png" width="400" >
+    <img alt="JanOS Logo" src="https://ignite-laboratories.github.io/assets/Logo%20-%20JanOS.png" width="400" >
 </picture>
 
 Welcome to JanOS - a chrono-neurological ecosystem!
