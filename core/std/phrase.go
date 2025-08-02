@@ -6,7 +6,7 @@ import (
 
 // Phrase represents a collection of raw binary measurements at the time of recording.
 type Phrase[T any] struct {
-	Name string
+	Entity
 	Data []Measurement[T]
 }
 
@@ -14,8 +14,9 @@ type Phrase[T any] struct {
 Methods
 */
 
+// Named sets the 'Name' value to the provided string.
 func (a Phrase[T]) Named(name string) Phrase[T] {
-	a.Name = name
+	a.GivenName.Name = name
 	return a
 }
 

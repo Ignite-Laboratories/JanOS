@@ -2,7 +2,7 @@ package std
 
 // Neuron is a logical unit of execution.
 type Neuron struct {
-	NamedEntity
+	Entity
 
 	// Muted can be used to explicitly suppress neural activation.
 	Muted bool

@@ -12,7 +12,7 @@ import (
 
 // Engine is a neural impulse driver.
 type Engine struct {
-	NamedEntity
+	Entity
 
 	// Active indicates if the engine is currently firing activations or not.
 	Active bool
@@ -51,10 +51,17 @@ type Engine struct {
 // NewEngine creates and configures a new neural impulse engine instance.
 //
 // You may optionally provide a name whilst creating your engine.
-func NewEngine(named ...name.Given[name.AnyDatabase]) *Engine {
-	NewEngine(name.New[name.NameDB]("asdf"))
+func NewEngine(named ...name.Given) *Engine {
+	var n name.Given
+	if len(named) > 0 {
+		n = named[0]
+	} else {
+		n = name.Random[name.Default]()
+	}
+
+	NewEngine(n)
 	e := Engine{}
-	e.NamedEntity = NewNamedEntity(named...)
+	e.Entity = NewEntity[name.Default](named...)
 	e.MaxFrequency = math.MaxFloat64
 
 	// Make the neural map
@@ -84,7 +91,7 @@ func (e *Engine) Stop() {
 	if !e.Active {
 		return
 	}
-	log.Verbosef(core.ModuleName, "stopping impulse engine [%d] %v\n", e.ID, e.Name)
+	log.Verbosef(core.ModuleName, "stopping impulse engine [%d] %v\n", e.ID, e.GivenName)
 
 	e.Active = false
 	if e.OnStop != nil {
@@ -144,7 +151,7 @@ func (e *Engine) Range() []*Neuron {
 // If 'muted' is true, the neuron is lies dormant until un-muted.
 func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
 	var n Neuron
-	n.NamedEntity = NewNamedEntity()
+	n.Entity = NewEntity[name.Default]()
 	n.engine = e
 	n.Action = func(ctx Context) {
 		n.executing = true
@@ -164,7 +171,7 @@ func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
 func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neuron {
 	// NOTE: The trick here is that it never sets 'Executing' =)
 	var n Neuron
-	n.NamedEntity = NewNamedEntity()
+	n.Entity = NewEntity[name.Default]()
 	n.engine = e
 	n.Action = func(ctx Context) {
 		go action(ctx)
@@ -183,7 +190,7 @@ func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neur
 // If 'muted' is true, the neuron is lies dormant until un-muted.
 func (e *Engine) Loop(action Action, potential Potential, muted bool) *Neuron {
 	var n Neuron
-	n.NamedEntity = NewNamedEntity()
+	n.Entity = NewEntity[name.Default]()
 	n.engine = e
 	n.Action = func(ctx Context) {
 		n.executing = true
@@ -221,7 +228,7 @@ func (e *Engine) Trigger(action Action, potential Potential, async bool) {
 
 	// Build the neuron
 	var n Neuron
-	n.NamedEntity = NewNamedEntity()
+	n.Entity = NewEntity[name.Default]()
 	n.engine = e
 	n.Action = func(ctx Context) {
 		if async {

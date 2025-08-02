@@ -6,11 +6,12 @@ import (
 	"github.com/ignite-laboratories/core/std/name"
 )
 
-func newPhrase[T any]() std.Phrase[T] {
-	return std.Phrase[T]{
-		Name: name.Tiny().Name,
-		Data: make([]std.Measurement[T], 0),
+func newPhrase[TMmt any, TName name.Format]() std.Phrase[TMmt] {
+	p := std.Phrase[TMmt]{
+		Data: make([]std.Measurement[TMmt], 0),
 	}
+	p.GivenName = name.Random[TName]()
+	return p
 }
 
 /**
@@ -18,7 +19,7 @@ Creation
 */
 
 func Of[T any](data ...T) std.Phrase[T] {
-	p := newPhrase[T]()
+	p := newPhrase[T, name.Default]()
 	for _, d := range data {
 		p = p.AppendMeasurement(measurement.Of(d))
 	}
@@ -26,23 +27,21 @@ func Of[T any](data ...T) std.Phrase[T] {
 }
 
 func OfMeasurements[T any](m ...std.Measurement[T]) std.Phrase[T] {
-	p := newPhrase[T]()
+	p := newPhrase[T, name.Default]()
 	p.Data = m
 	return p
 }
 
 // OfBytes creates a named Phrase of the provided bytes and name.
-func OfBytes(name string, bytes ...byte) std.Phrase[any] {
-	p := newPhrase[any]()
-	p.Name = name
+func OfBytes(bytes ...byte) std.Phrase[any] {
+	p := newPhrase[any, name.Default]()
 	p.Data = []std.Measurement[any]{measurement.OfBytes(bytes...)}
 	return p
 }
 
 // OfBits creates a named Phrase of the provided bits and name.
-func OfBits(name string, bits ...std.Bit) std.Phrase[any] {
-	p := newPhrase[any]()
-	p.Name = name
+func OfBits(bits ...std.Bit) std.Phrase[any] {
+	p := newPhrase[any, name.Default]()
 	p.Data = []std.Measurement[any]{measurement.OfBits(bits...)}
 	return p
 }

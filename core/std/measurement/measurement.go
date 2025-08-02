@@ -6,15 +6,18 @@ import (
 	"github.com/ignite-laboratories/core/enum/endian"
 	"github.com/ignite-laboratories/core/enum/traveling"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/name"
 )
 
 // OfZeros creates a new std.Measurement[any] of the provided bit-width consisting entirely of 0s.
 func OfZeros(width int) std.Measurement[any] {
-	return std.Measurement[any]{
+	m := std.Measurement[any]{
 		Bytes:      make([]byte, width/8),
 		Bits:       make([]std.Bit, width%8),
 		Endianness: endian.Big,
 	}.RollUp()
+	m.GivenName = name.Random[name.Default]()
+	return m
 }
 
 // OfOnes creates a new std.Measurement[any] of the provided bit-width consisting entirely of 1s.
@@ -37,18 +40,22 @@ func Of[T any](data T) std.Measurement[T] {
 // OfBits creates a new std.Measurement[any] of the provided std.Bit slice.
 func OfBits(bits ...std.Bit) std.Measurement[any] {
 	std.BitSanityCheck(bits...)
-	return std.Measurement[any]{
+	m := std.Measurement[any]{
 		Bits:       bits,
 		Endianness: endian.Big,
 	}.RollUp()
+	m.GivenName = name.Random[name.Default]()
+	return m
 }
 
 // OfBytes creates a new std.Measurement[any] of the provided byte slice.
 func OfBytes(bytes ...byte) std.Measurement[any] {
-	return std.Measurement[any]{
+	m := std.Measurement[any]{
 		Bytes:      bytes,
 		Endianness: endian.Big,
 	}.RollUp()
+	m.GivenName = name.Random[name.Default]()
+	return m
 }
 
 // OfPattern creates a new std.Measurement[T] of the provided bit-width consisting of the pattern emitted across it in the direction.Direction of travel.Traveling.

@@ -121,12 +121,12 @@ func Random[T Format]() Given {
 		}
 	case Tiny:
 		for {
-			name := Random[T]()
+			name := Random[NameDB]()
 			if tinyNameFilter(name) {
 				return name
 			}
 		}
-	case Multi:
+	case Multi, Default: // NOTE: Default can be moved between case statements
 		name := nameDB[rand.Intn(len(nameDB))]
 		last := surnameDB[rand.Intn(len(surnameDB))]
 		name.Name += " " + last

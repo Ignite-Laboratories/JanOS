@@ -18,6 +18,8 @@ import (
 // ALSO capture the original endianness of the stored value.  It's ENTIRELY informational and can be ignored - but
 // it's still quite interesting if you care to investigate =)
 type Measurement[T any] struct {
+	Entity
+
 	// Endianness indicates the endian.Endianness of the data as it was originally stored before being measured in standard endian.Big form.
 	//
 	// NOTE: Don't get too caught up here - it's purely informational and has absolutely no bearing on tiny operations.
