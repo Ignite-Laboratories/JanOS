@@ -6,7 +6,7 @@ import (
 )
 
 // XYZW is a general structure for holding generic (x,y,z,w) coordinate values.
-type XYZW[T math.Numeric] struct {
+type XYZW[T number.Numeric] struct {
 	X T
 	Y T
 	Z T

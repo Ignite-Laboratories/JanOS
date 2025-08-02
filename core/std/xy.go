@@ -6,7 +6,7 @@ import (
 )
 
 // XY is a general structure for holding generic (x,y) coordinate values.
-type XY[T math.Numeric] struct {
+type XY[T number.Numeric] struct {
 	X T
 	Y T
 }

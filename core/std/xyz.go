@@ -6,7 +6,7 @@ import (
 )
 
 // XYZ is a general structure for holding generic (x,y,z) coordinate values.
-type XYZ[T math.Numeric] struct {
+type XYZ[T number.Numeric] struct {
 	X T
 	Y T
 	Z T

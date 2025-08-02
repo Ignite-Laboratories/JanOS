@@ -32,16 +32,16 @@ func FromHex(value uint32, alpha ...byte) std.RGBA[byte] {
 // the provided type.
 //
 // The alpha channel can optionally be provided, otherwise it defaults to 0.
-func Random[T math.Numeric](alpha ...T) std.RGBA[T] {
+func Random[T number.Numeric](alpha ...T) std.RGBA[T] {
 	a := T(0)
 	if len(alpha) > 0 {
 		a = alpha[0]
 	}
 
 	return std.RGBA[T]{
-		R: math.RandomNumber[T](),
-		G: math.RandomNumber[T](),
-		B: math.RandomNumber[T](),
+		R: number.RandomNumber[T](),
+		G: number.RandomNumber[T](),
+		B: number.RandomNumber[T](),
 		A: a,
 	}
 }
@@ -49,31 +49,31 @@ func Random[T math.Numeric](alpha ...T) std.RGBA[T] {
 // RandomUpTo returns a pseudo-random RGB[T] of the provided type bounded in the closed interval [0, max].
 //
 // The alpha channel can optionally be provided, otherwise it defaults to 0.
-func RandomUpTo[T math.Numeric](rUpper T, gUpper T, bUpper T, alpha ...T) std.RGBA[T] {
+func RandomUpTo[T number.Numeric](rUpper T, gUpper T, bUpper T, alpha ...T) std.RGBA[T] {
 	a := T(0)
 	if len(alpha) > 0 {
 		a = alpha[0]
 	}
 
 	return std.RGBA[T]{
-		R: math.RandomNumberRange[T](math.Tuple[T]{B: rUpper}),
-		G: math.RandomNumberRange[T](math.Tuple[T]{B: gUpper}),
-		B: math.RandomNumberRange[T](math.Tuple[T]{B: bUpper}),
+		R: number.RandomNumberRange[T](number.Tuple[T]{B: rUpper}),
+		G: number.RandomNumberRange[T](number.Tuple[T]{B: gUpper}),
+		B: number.RandomNumberRange[T](number.Tuple[T]{B: bUpper}),
 		A: a,
 	}
 }
 
 // RandomRange returns a pseudo-random RGB[T] of the provided type bounded in the closed interval [min, max].
-func RandomRange[T math.Numeric](rRange math.Tuple[T], gRange math.Tuple[T], bRange math.Tuple[T], alpha ...T) std.RGBA[T] {
+func RandomRange[T number.Numeric](rRange number.Tuple[T], gRange number.Tuple[T], bRange number.Tuple[T], alpha ...T) std.RGBA[T] {
 	a := T(0)
 	if len(alpha) > 0 {
 		a = alpha[0]
 	}
 
 	return std.RGBA[T]{
-		R: math.RandomNumberRange[T](rRange),
-		G: math.RandomNumberRange[T](gRange),
-		B: math.RandomNumberRange[T](bRange),
+		R: number.RandomNumberRange[T](rRange),
+		G: number.RandomNumberRange[T](gRange),
+		B: number.RandomNumberRange[T](bRange),
 		A: a,
 	}
 }

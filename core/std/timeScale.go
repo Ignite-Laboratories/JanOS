@@ -6,7 +6,7 @@ import (
 )
 
 // TimeScale represents a pairing of duration and an abstract "height."
-type TimeScale[T math.Numeric] struct {
+type TimeScale[T number.Numeric] struct {
 	Duration time.Duration
 	Height   T
 }

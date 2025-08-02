@@ -6,7 +6,7 @@ import (
 )
 
 // RGBA is a structure for holding red, green, and blue color values.
-type RGBA[T math.Numeric] struct {
+type RGBA[T number.Numeric] struct {
 	// R is the red channel.
 	R T
 
@@ -23,49 +23,49 @@ type RGBA[T math.Numeric] struct {
 // NormalizeToFloat32 returns an RGBA[float32] ranging from 0.0-1.0.
 func (c RGBA[T]) NormalizeToFloat32() RGBA[float32] {
 	return RGBA[float32]{
-		R: math.NormalizeToFloat32(c.R),
-		G: math.NormalizeToFloat32(c.G),
-		B: math.NormalizeToFloat32(c.B),
-		A: math.NormalizeToFloat32(c.A),
+		R: number.NormalizeToFloat32(c.R),
+		G: number.NormalizeToFloat32(c.G),
+		B: number.NormalizeToFloat32(c.B),
+		A: number.NormalizeToFloat32(c.A),
 	}
 }
 
 // NormalizeToFloat64 returns an RGBA[float64] ranging from 0.0-1.0.
 func (c RGBA[T]) NormalizeToFloat64() RGBA[float64] {
 	return RGBA[float64]{
-		R: math.NormalizeToFloat64(c.R),
-		G: math.NormalizeToFloat64(c.G),
-		B: math.NormalizeToFloat64(c.B),
-		A: math.NormalizeToFloat64(c.A),
+		R: number.NormalizeToFloat64(c.R),
+		G: number.NormalizeToFloat64(c.G),
+		B: number.NormalizeToFloat64(c.B),
+		A: number.NormalizeToFloat64(c.A),
 	}
 }
 
 // ScaleToTypeRGBA32 returns a scaled value of the provided type in the range [0, T.MaxValue].
 //
 // NOTE: This will panic if the provided value is greater than the maximum value of the provided type.
-func ScaleToTypeRGBA32[TOut math.Integer](source RGBA[float32]) RGBA[TOut] {
+func ScaleToTypeRGBA32[TOut number.Integer](source RGBA[float32]) RGBA[TOut] {
 	return RGBA[TOut]{
-		R: math.ScaleFloat32ToType[TOut](source.R),
-		G: math.ScaleFloat32ToType[TOut](source.G),
-		B: math.ScaleFloat32ToType[TOut](source.B),
-		A: math.ScaleFloat32ToType[TOut](source.A),
+		R: number.ScaleFloat32ToType[TOut](source.R),
+		G: number.ScaleFloat32ToType[TOut](source.G),
+		B: number.ScaleFloat32ToType[TOut](source.B),
+		A: number.ScaleFloat32ToType[TOut](source.A),
 	}
 }
 
 // ScaleToTypeRGBA64 returns a scaled value of the provided type in the range [0, T.MaxValue].
 //
 // NOTE: This will panic if the provided value is greater than the maximum value of the provided type.
-func ScaleToTypeRGBA64[TOut math.Integer](source RGBA[float64]) RGBA[TOut] {
+func ScaleToTypeRGBA64[TOut number.Integer](source RGBA[float64]) RGBA[TOut] {
 	return RGBA[TOut]{
-		R: math.ScaleFloat64ToType[TOut](source.R),
-		G: math.ScaleFloat64ToType[TOut](source.G),
-		B: math.ScaleFloat64ToType[TOut](source.B),
-		A: math.ScaleFloat64ToType[TOut](source.A),
+		R: number.ScaleFloat64ToType[TOut](source.R),
+		G: number.ScaleFloat64ToType[TOut](source.G),
+		B: number.ScaleFloat64ToType[TOut](source.B),
+		A: number.ScaleFloat64ToType[TOut](source.A),
 	}
 }
 
 // RGBAComparator returns if the two RGBA values are equal in values.
-func RGBAComparator[T math.Numeric](a RGBA[T], b RGBA[T]) bool {
+func RGBAComparator[T number.Numeric](a RGBA[T], b RGBA[T]) bool {
 	return a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A
 }
 
