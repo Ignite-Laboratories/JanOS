@@ -178,25 +178,17 @@ tiny
 
 var usedTinyNames = make(map[string]*Given)
 
-// tinyNameFilter is a standard function for returning a name which satisfies tiny's requirements for implicit naming.
-// Currently, these are our explicit filters -
-//
-//   - Only the standard 26 letters of the English alphabet (case-insensitive)
-//   - No whitespace or special characters (meaning only single word alpha-explicit names)
-//   - At least three characters in length
-//   - At least 2¹⁴ unique names before beginning to recycling names
-//   - Names are case-sensitive in uniqueness.
-//
-// These filters will never be reduced - if any changes are made, they will only be augmented.
+// !!!CRITICAL NOTE: Please update Tiny if you make a change to this!
 func tinyNameFilter(name Given) bool {
+	lower := strings.ToLower(name.Name)
 	var nonAlphaRegex = regexp.MustCompile(`^[a-zA-Z]+$`)
 
 	if len(usedTinyNames) >= 1<<14 {
 		usedTinyNames = make(map[string]*Given)
 	}
 
-	if nonAlphaRegex.MatchString(string(name.Name)) && usedTinyNames[string(name.Name)] == nil && len(name.Name) > 2 {
-		usedTinyNames[string(name.Name)] = &name
+	if nonAlphaRegex.MatchString(lower) && usedTinyNames[lower] == nil && len(name.Name) > 2 {
+		usedTinyNames[lower] = &name
 		return true
 	}
 	return false
