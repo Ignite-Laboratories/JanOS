@@ -1,4 +1,4 @@
-package real
+package tiny
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 	"github.com/ignite-laboratories/core/std/measurement"
 	"github.com/ignite-laboratories/core/std/name"
 	"github.com/ignite-laboratories/core/std/phrase"
-	"github.com/ignite-laboratories/core/sys/tiny/natural"
 	"math"
 	"math/big"
 	"strings"
@@ -84,9 +83,9 @@ func NewRealNamed[T std.Primitive](name string, value T, precision ...uint) Real
 	out := Real{
 		Name:       name,
 		Precision:  p,
-		Whole:      natural.From(0),
-		Fractional: natural.From(0),
-		Periodic:   natural.From(0), // *pushes glasses up nose* - "technically," all numbers fractionally end in infinitely repeating zeros =)
+		Whole:      NaturalFrom(0),
+		Fractional: NaturalFrom(0),
+		Periodic:   NaturalFrom(0), // *pushes glasses up nose* - "technically," all numbers fractionally end in infinitely repeating zeros =)
 	}
 
 	switch operand := any(value).(type) {
@@ -141,7 +140,7 @@ func NewRealNamed[T std.Primitive](name string, value T, precision ...uint) Real
 			v = uint(u)
 		}
 
-		out.Whole = natural.From(v)
+		out.Whole = NaturalFrom(v)
 	case int8, int16, int32, int64, int:
 		var v int
 		switch i := operand.(type) {
@@ -158,7 +157,7 @@ func NewRealNamed[T std.Primitive](name string, value T, precision ...uint) Real
 		}
 
 		out.Negative = v < 0
-		out.Whole = natural.From(uint(v))
+		out.Whole = NaturalFrom(uint(v))
 	case float32, float64:
 		var v float64
 		switch f := operand.(type) {
@@ -193,9 +192,9 @@ func NewRealNamed[T std.Primitive](name string, value T, precision ...uint) Real
 		out = NewRealNamed(name, real(operand), precision...)
 	case bool:
 		if operand {
-			out.Whole = natural.From(1)
+			out.Whole = NaturalFrom(1)
 		} else {
-			out.Whole = natural.From(0)
+			out.Whole = NaturalFrom(0)
 		}
 	default:
 		panic(fmt.Errorf("cannot create real from primitive type '%T'", operand))

@@ -1,12 +1,12 @@
 package rgba
 
 import (
-	"github.com/ignite-laboratories/core/math"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/number"
 )
 
-// FromHex converts the provided RGBA hex values into a std.std.RGBA[byte].
-func FromHex(value uint32) std.RGBA[byte] {
+// From converts the provided RGBA value into a std.std.RGBA[byte].
+func From(value uint32) std.RGBA[byte] {
 	return std.RGBA[byte]{
 		R: byte((value >> 24) & 0xFF),
 		G: byte((value >> 16) & 0xFF),

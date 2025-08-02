@@ -1,4 +1,4 @@
-package natural
+package tiny
 
 import (
 	"github.com/ignite-laboratories/core/internal"
@@ -39,8 +39,8 @@ func (a Natural) Text(base byte) string {
 	return ""
 }
 
-// From takes a Measurement of the provided unsigned integer value as a Natural number.
-func From(value uint) Natural {
+// NaturalFrom takes a Measurement of the provided unsigned integer value as a Natural number.
+func NaturalFrom(value uint) Natural {
 	return Natural{
 		Measurement: measurement.OfBytes(internal.Measure(value)[0]...),
 	}

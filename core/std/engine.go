@@ -51,9 +51,10 @@ type Engine struct {
 // NewEngine creates and configures a new neural impulse engine instance.
 //
 // You may optionally provide a name whilst creating your engine.
-func NewEngine(name ...name.Given) *Engine {
+func NewEngine(named ...name.Given[name.AnyDatabase]) *Engine {
+	NewEngine(name.New[name.NameDB]("asdf"))
 	e := Engine{}
-	e.NamedEntity = NewNamedEntity(name...)
+	e.NamedEntity = NewNamedEntity(named...)
 	e.MaxFrequency = math.MaxFloat64
 
 	// Make the neural map

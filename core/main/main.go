@@ -9,5 +9,5 @@ import (
 func main() {
 	fmt.Println(greek.Lower.SigmaFinal)
 	name.New("bob")
-	name.Tiny()
+	name.Random[name.Tiny]()
 }

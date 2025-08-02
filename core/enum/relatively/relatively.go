@@ -1,3 +1,6 @@
+// Package relatively provides a linguistic shorthand for describing the intention of relative logical order.
+//
+// See Relatively
 package relatively
 
 // Relatively represents the abstract logical relationship of two entities, 𝑎 and 𝑏.

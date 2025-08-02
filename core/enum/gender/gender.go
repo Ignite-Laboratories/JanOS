@@ -7,7 +7,12 @@ package gender
 type Gender int
 
 const (
+	// Female represents the colloquially 'female' gender.
 	Female Gender = iota
+
+	// Male represents the colloquially 'male' gender.
 	Male
+	
+	// NonBinary represents the colloquial 'any' gender.
 	NonBinary
 )

@@ -1,14 +1,14 @@
 package rgb
 
 import (
-	"github.com/ignite-laboratories/core/math"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/number"
 )
 
-// FromHex converts the provided RGB hex values into a std.RGBA[byte].
+// From converts the provided RGB value into a std.RGBA[byte].
 //
 // The alpha channel can optionally be provided, otherwise it defaults to 0.
-func FromHex(value uint32, alpha ...byte) std.RGBA[byte] {
+func From(value uint32, alpha ...byte) std.RGBA[byte] {
 	a := byte(0)
 	if len(alpha) > 0 {
 		a = alpha[0]

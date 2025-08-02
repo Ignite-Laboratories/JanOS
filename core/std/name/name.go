@@ -13,8 +13,45 @@ import (
 
 var moduleName = "name"
 
+//go:embed nameDB.tsv
+var nameDBRaw string
+var nameDB = make([]Given, 0, 8888)
+
+//go:embed surnameDB.txt
+var surnameDBRaw string
+var surnameDB = make([]string, 0, 8888)
+
 func init() {
-	reader := csv.NewReader(strings.NewReader(nameDB))
+	initNameDB()
+	initSurnameDB()
+
+	log.Verbosef(moduleName, "name database loaded\n")
+}
+
+func initSurnameDB() {
+	reader := csv.NewReader(strings.NewReader(surnameDBRaw))
+	reader.Comma = '\t'
+
+	i := 0
+	for {
+		record, err := reader.Read() // Read a single line
+		if err != nil {
+			if err.Error() == "EOF" {
+				break // End of file
+			}
+
+			log.Verbosef(moduleName, "error reading surname database: %v\n", err)
+			panic(err)
+		}
+
+		surnameDB = append(surnameDB, strings.TrimSpace(record[0]))
+
+		i++
+	}
+}
+
+func initNameDB() {
+	reader := csv.NewReader(strings.NewReader(nameDBRaw))
 	reader.Comma = '\t'
 
 	i := 0
@@ -50,24 +87,11 @@ func init() {
 				Gender: genderFunc(strings.TrimSpace(record[2])),
 			},
 		}
-		Database = append(Database, entry)
+		nameDB = append(nameDB, entry)
 
 		i++
 	}
-
-	log.Verbosef(moduleName, "name database loaded\n")
 }
-
-//go:embed names.csv
-var nameDB string
-
-// Database provides a collection of cultural names for seeding identifiers with.
-//
-// All credit goes to Kevin MacLeod of Incompetech for such a wonderful source database!
-// https://incompetech.com
-//
-// Please check his stuff out, he's quite clever!
-var Database = make([]Given, 0, 8888)
 
 // New creates a new Given name.  You may optionally provide a description during creation.
 func New(name string, description ...string) Given {
@@ -82,39 +106,66 @@ func New(name string, description ...string) Given {
 	}
 }
 
-// Random returns a random name from the Database.
+// Random generates a random name using the provided type format.
 //
-// If you'd prefer a random name from your own name database, provide it as a parameter.
-func Random(database ...[]Given) Given {
-	if len(database) > 0 {
-		names := database[0]
-		return names[rand.Intn(len(names))]
-	}
-	return Database[rand.Intn(len(Database))]
-}
-
-// Filtered returns a random name from the Database which passes the provided predicate check.
+// If you'd prefer a random name from your own name database, provide it as a parameter
 //
-// If you'd prefer a random name from your own name database, provide it as a parameter.
-func Filtered(predicate func(Given) bool, database ...[]Given) Given {
-	for {
-		name := Random(database...)
-		if predicate(name) {
-			return name
+// See Format.
+func Random[T Format]() Given {
+	switch any(T("")).(type) {
+	case NameDB:
+		return nameDB[rand.Intn(len(nameDB))]
+	case SurnameDB:
+		return Given{
+			Name: surnameDB[rand.Intn(len(surnameDB))],
 		}
+	case Tiny:
+		for {
+			name := Random[T]()
+			if tinyNameFilter(name) {
+				return name
+			}
+		}
+	case Multi:
+		name := nameDB[rand.Intn(len(nameDB))]
+		last := surnameDB[rand.Intn(len(surnameDB))]
+		name.Name += " " + last
+		return name
+	default:
+		// Just return a random name from the NameDB
+		return Random[NameDB]()
 	}
 }
 
-// Lookup finds the provided name in the Database, otherwise it returns nil.
-func Lookup(name string, caseInsensitive ...bool) (Given, error) {
-	for _, n := range Database {
-		if len(caseInsensitive) > 0 && caseInsensitive[0] {
-			if strings.EqualFold(n.Name, name) {
-				return n, nil
+// Lookup finds the provided name in the provided database, otherwise it returns nil and an error.
+//
+// NOTE: This will only look up names from the NameDB and SurnameDB databases.
+//
+// See Format.
+func Lookup[T Format](name string, caseInsensitive ...bool) (Given, error) {
+	switch any(T("")).(type) {
+	case NameDB:
+		for _, n := range nameDB {
+			if len(caseInsensitive) > 0 && caseInsensitive[0] {
+				if strings.EqualFold(string(n.Name), name) {
+					return n, nil
+				}
+			} else {
+				if string(n.Name) == name {
+					return n, nil
+				}
 			}
-		} else {
-			if n.Name == name {
-				return n, nil
+		}
+	case SurnameDB:
+		for _, n := range surnameDB {
+			if len(caseInsensitive) > 0 && caseInsensitive[0] {
+				if strings.EqualFold(n, name) {
+					return Given{Name: n}, nil
+				}
+			} else {
+				if n == name {
+					return Given{Name: n}, nil
+				}
 			}
 		}
 	}
@@ -124,15 +175,6 @@ func Lookup(name string, caseInsensitive ...bool) (Given, error) {
 /**
 tiny
 */
-
-// Tiny is a standard function for returning a name from the Database which satisfies tiny's requirements for implicit naming.
-//
-// If you'd prefer a random name from your own name database, provide it as a parameter.
-//
-// See tiny.NameFilter for the explicit details in use.
-func Tiny(database ...[]Given) Given {
-	return Filtered(tinyNameFilter)
-}
 
 var usedTinyNames = make(map[string]*Given)
 
@@ -153,8 +195,8 @@ func tinyNameFilter(name Given) bool {
 		usedTinyNames = make(map[string]*Given)
 	}
 
-	if nonAlphaRegex.MatchString(name.Name) && usedTinyNames[name.Name] == nil && len(name.Name) > 2 {
-		usedTinyNames[name.Name] = &name
+	if nonAlphaRegex.MatchString(string(name.Name)) && usedTinyNames[string(name.Name)] == nil && len(name.Name) > 2 {
+		usedTinyNames[string(name.Name)] = &name
 		return true
 	}
 	return false

@@ -1,4 +1,4 @@
-package index
+package tiny
 
 import "github.com/ignite-laboratories/core/std"
 

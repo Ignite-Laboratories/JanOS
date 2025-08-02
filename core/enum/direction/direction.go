@@ -1,4 +1,3 @@
-// noinspection GoStructureTemplates
 // Package direction provides access to the Direction enumeration.
 package direction
 
