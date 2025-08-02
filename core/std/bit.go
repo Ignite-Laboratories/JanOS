@@ -5,7 +5,7 @@ import "fmt"
 // Bit represents one binary place. [0 - 1]
 type Bit byte
 
-// BitSanityCheck checks if the provided bytes are either 0, 1, or Nil (219) - otherwise, it panics.
+// BitSanityCheck ensures the provided bytes are either 0, 1, or Nil (219) - otherwise, it panics.
 func BitSanityCheck(bits ...Bit) {
 	for _, b := range bits {
 		if b != 0 && b != 1 {

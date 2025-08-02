@@ -2,12 +2,12 @@ package rgba
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/sys/number"
-	"github.com/ignite-laboratories/core/sys/number/normalize"
+	"github.com/ignite-laboratories/core/std/normalize"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 // Normalize returns an RGBA[TOut] ranging from 0.0-1.0.
-func Normalize[TIn number.Numeric, TOut number.Float](c std.RGBA[TIn]) std.RGBA[TOut] {
+func Normalize[TIn num.ExtendedPrimitive, TOut num.Float](c std.RGBA[TIn]) std.RGBA[TOut] {
 	return std.RGBA[TOut]{
 		R: normalize.To[TIn, TOut](c.R),
 		G: normalize.To[TIn, TOut](c.G),
@@ -17,7 +17,7 @@ func Normalize[TIn number.Numeric, TOut number.Float](c std.RGBA[TIn]) std.RGBA[
 }
 
 // ReScale returns an RGBA[TOut] scaled up to [0, TIn.Max] from an input bounded in the fully closed interval [0.0, 1.0].
-func ReScale[TIn number.Float, TOut number.Integer](c std.RGBA[TIn]) std.RGBA[TOut] {
+func ReScale[TIn num.Float, TOut num.ExtendedInteger](c std.RGBA[TIn]) std.RGBA[TOut] {
 	return std.RGBA[TOut]{
 		R: normalize.From[TIn, TOut](c.R),
 		G: normalize.From[TIn, TOut](c.G),
@@ -27,23 +27,56 @@ func ReScale[TIn number.Float, TOut number.Integer](c std.RGBA[TIn]) std.RGBA[TO
 }
 
 // Comparator returns if the two RGBA values are equal in values.
-func Comparator[T number.Numeric](a std.RGBA[T], b std.RGBA[T]) bool {
+func Comparator[T num.ExtendedPrimitive](a std.RGBA[T], b std.RGBA[T]) bool {
 	return a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A
 }
 
-// From converts the provided value into a std.RGBA[byte].  For example:
+// From converts the provided value into a std.RGBA[TInt].  For example:
 //
 //	rgba.From(0xaabbccdd):
 //	    R: 170 [0xAA]
 //	    G: 187 [0xBB]
 //	    B: 204 [0xCC]
 //	    A: 221 [0xDD]
-func From(value uint32) std.RGBA[byte] {
-	return std.RGBA[byte]{
-		R: byte((value >> 24) & 0xFF),
-		G: byte((value >> 16) & 0xFF),
-		B: byte((value >> 8) & 0xFF),
-		A: byte(value & 0xFF),
+func From[TInt num.ExtendedInteger](value uint32) std.RGBA[TInt] {
+	overflow := uint64(0)
+	var zero TInt
+	switch any(zero).(type) {
+	case num.Crumb:
+		overflow = 1 << 2
+	case num.Note:
+		overflow = 1 << 3
+	case num.Nibble:
+		overflow = 1 << 4
+	case num.Flake:
+		overflow = 1 << 5
+	case num.Morsel:
+		overflow = 1 << 6
+	case num.Shred:
+		overflow = 1 << 7
+	case num.Run:
+		overflow = 1 << 10
+	case num.Scale:
+		overflow = 1 << 12
+	case num.Riff:
+		overflow = 1 << 24
+	case num.Hook:
+		overflow = 1 << 48
+	}
+
+	if overflow > 0 {
+		return std.RGBA[TInt]{
+			R: TInt(uint64((value>>24)&0xFF) % overflow),
+			G: TInt(uint64((value>>16)&0xFF) % overflow),
+			B: TInt(uint64((value>>8)&0xFF) % overflow),
+			A: TInt(uint64(value&0xFF) % overflow),
+		}
+	}
+	return std.RGBA[TInt]{
+		R: TInt((value >> 24) & 0xFF),
+		G: TInt((value >> 16) & 0xFF),
+		B: TInt((value >> 8) & 0xFF),
+		A: TInt(value & 0xFF),
 	}
 }
 
@@ -55,31 +88,31 @@ func From(value uint32) std.RGBA[byte] {
 // If requesting an integer type, the resulting number will be bounded
 // in the fully closed interval [0, n] - where n is the maximum value of
 // the provided type.
-func Random[T number.Numeric]() std.RGBA[T] {
+func Random[T num.ExtendedPrimitive]() std.RGBA[T] {
 	return std.RGBA[T]{
-		R: number.Random[T](),
-		G: number.Random[T](),
-		B: number.Random[T](),
-		A: number.Random[T](),
+		R: std.Random[T](),
+		G: std.Random[T](),
+		B: std.Random[T](),
+		A: std.Random[T](),
 	}
 }
 
 // RandomUpTo returns a pseudo-random std.RGBA[T] of the provided type with each channel bounded within its provided closed interval of [0, max].
-func RandomUpTo[T number.Numeric](rUpper T, gUpper T, bUpper T, aUpper T) std.RGBA[T] {
+func RandomUpTo[T num.ExtendedPrimitive](rUpper T, gUpper T, bUpper T, aUpper T) std.RGBA[T] {
 	return std.RGBA[T]{
-		R: number.RandomBounded[T](0, rUpper),
-		G: number.RandomBounded[T](0, gUpper),
-		B: number.RandomBounded[T](0, bUpper),
-		A: number.RandomBounded[T](0, aUpper),
+		R: std.RandomBounded[T](0, rUpper),
+		G: std.RandomBounded[T](0, gUpper),
+		B: std.RandomBounded[T](0, bUpper),
+		A: std.RandomBounded[T](0, aUpper),
 	}
 }
 
 // RandomRange returns a pseudo-random std.RGBA[T] of the provided type bounded in the closed interval [min, max].
-func RandomRange[T number.Numeric](minimum, maximum T) std.RGBA[T] {
+func RandomRange[T num.ExtendedPrimitive](minimum, maximum T) std.RGBA[T] {
 	return std.RGBA[T]{
-		R: number.RandomBounded[T](minimum, maximum),
-		G: number.RandomBounded[T](minimum, maximum),
-		B: number.RandomBounded[T](minimum, maximum),
-		A: number.RandomBounded[T](minimum, maximum),
+		R: std.RandomBounded[T](minimum, maximum),
+		G: std.RandomBounded[T](minimum, maximum),
+		B: std.RandomBounded[T](minimum, maximum),
+		A: std.RandomBounded[T](minimum, maximum),
 	}
 }

@@ -97,18 +97,16 @@ func initNameDB() {
 func New(name string, description ...string) Given {
 	if len(description) > 0 {
 		return Given{
-			Name: name,
+			Name:        name,
+			Description: description[0],
 		}
 	}
 	return Given{
-		Name:        name,
-		Description: description[0],
+		Name: name,
 	}
 }
 
 // Random generates a random name using the provided type format.
-//
-// If you'd prefer a random name from your own name database, provide it as a parameter
 //
 // See Format.
 func Random[T Format]() Given {

@@ -67,14 +67,14 @@ type Real struct {
 // NewReal creates a new instance of a Real number from the provided Primitive value.
 //
 // NOTE: You may also set the desired precision at this point, though it defaults to 256.
-func NewReal[T std.Primitive](value T, precision ...uint) Real {
-	return NewRealNamed(name.Tiny().Name, value, precision...)
+func NewReal[T std.BigPrimitive](value T, precision ...uint) Real {
+	return NewRealNamed(name.Random[name.Tiny]().Name, value, precision...)
 }
 
 // NewRealNamed creates a new instance of a named Real number from the provided Primitive value and name.
 //
 // NOTE: You may also set the desired precision at this point, though it defaults to 256.
-func NewRealNamed[T std.Primitive](name string, value T, precision ...uint) Real {
+func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) Real {
 	p := uint(256)
 	if len(precision) > 0 {
 		p = precision[0]

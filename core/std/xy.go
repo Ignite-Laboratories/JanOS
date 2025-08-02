@@ -2,11 +2,11 @@ package std
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/sys/number"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 // XY is a general structure for holding generic (x,y) coordinate values.
-type XY[T number.Numeric] struct {
+type XY[T num.ExtendedPrimitive] struct {
 	X T
 	Y T
 }

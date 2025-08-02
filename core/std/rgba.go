@@ -2,11 +2,11 @@ package std
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/sys/number"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 // RGBA is a structure for holding red, green, and blue color values.
-type RGBA[T number.Numeric] struct {
+type RGBA[T num.ExtendedPrimitive] struct {
 	// R is the red channel.
 	R T
 

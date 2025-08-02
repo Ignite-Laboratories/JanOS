@@ -1,6 +1,7 @@
 package std
 
 import (
+	"github.com/ignite-laboratories/core/std/name"
 	"strings"
 )
 
@@ -14,9 +15,18 @@ type Phrase[T any] struct {
 Methods
 */
 
-// Named sets the 'Name' value to the provided string.
-func (a Phrase[T]) Named(name string) Phrase[T] {
-	a.GivenName.Name = name
+// Named sets the 'Name' value to the provided string.  If no description is provided, an empty description is used.
+//
+// NOTE: This removes the original name's implicit cultural information.
+func (a Phrase[T]) Named(n string, description ...string) Phrase[T] {
+	var d string
+	if len(description) > 0 {
+		d = description[0]
+	}
+
+	a.GivenName.Name = n
+	a.GivenName.Description = d
+	a.GivenName.Details = name.Details{}
 	return a
 }
 
