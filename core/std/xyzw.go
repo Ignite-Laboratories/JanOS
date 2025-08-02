@@ -2,7 +2,7 @@ package std
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/math"
+	"github.com/ignite-laboratories/core/sys/number"
 )
 
 // XYZW is a general structure for holding generic (x,y,z,w) coordinate values.

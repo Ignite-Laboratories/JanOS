@@ -1,7 +1,7 @@
 package std
 
 import (
-	"github.com/ignite-laboratories/core/math"
+	"github.com/ignite-laboratories/core/sys/number"
 	"time"
 )
 

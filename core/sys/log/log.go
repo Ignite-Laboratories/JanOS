@@ -2,7 +2,7 @@ package log
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/sys/core"
+	"github.com/ignite-laboratories/core"
 )
 
 // Verbose sets whether the system should emit more verbose logs or not.
@@ -23,13 +23,11 @@ func Printf(module string, format string, a ...any) {
 // Fatalf prepends the provided string format with a module identifier, prints it to the console, and then calls core.ShutdownNow(1).
 func Fatalf(module string, format string, a ...any) {
 	fmt.Printf("[%v] %v", module, fmt.Sprintf(format, a...))
-	core.core.ShutdownNow()
-	core.Exit(1)
+	core.ShutdownNow(1)
 }
 
 // FatalfCode prepends the provided string format with a module identifier, prints it to the console, and then calls core.ShutdownNow(exitCode).
 func FatalfCode(exitCode int, module string, format string, a ...any) {
 	fmt.Printf("[%v] %v", module, fmt.Sprintf(format, a...))
-	core.ShutdownNow()
-	core.Exit(exitCode)
+	core.ShutdownNow(exitCode)
 }

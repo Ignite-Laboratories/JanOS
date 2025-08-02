@@ -137,9 +137,10 @@ func Random[T Format]() Given {
 	}
 }
 
-// Lookup finds the provided name in the provided database, otherwise it returns nil and an error.
+// Lookup finds the provided name in the provided database, otherwise it returns nil and an error.  You may optionally
+// provide whether the search should be case sensitive.
 //
-// NOTE: This will only look up names from the NameDB and SurnameDB databases.
+// NOTE: This will only look up names from the NameDB and SurnameDB databases as all others are dynamically generated.
 //
 // See Format.
 func Lookup[T Format](name string, caseInsensitive ...bool) (Given, error) {

@@ -33,16 +33,20 @@ var Alive = true
 // Inception provides the moment this operating system was initialized.
 var Inception = time.Now()
 
-// Shutdown waits a period of time before calling ShutdownNow
+// Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
+// '0' is implied.
+//
+// NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func Shutdown(period time.Duration, exitCode ...int) {
 	fmt.Sprintf("[core] shutting down in %v\n", period)
 	time.Sleep(period)
-	ShutdownNow()
+	ShutdownNow(exitCode...)
 }
 
-// ShutdownNow immediately sets Alive to false, then pauses for a second before calling os.Exit
+// ShutdownNow immediately sets Alive to false, then pauses for a second before calling os.Exit. You may optionally
+// provide an OS exit code, otherwise '0' is implied.
 //
-// You may optionally provide an OS exit code, otherwise '0' is implied.
+// NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func ShutdownNow(exitCode ...int) {
 	fmt.Sprintf("[core] shutting down\n")
 	Alive = false

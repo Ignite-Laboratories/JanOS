@@ -2,7 +2,7 @@ package std
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/math"
+	"github.com/ignite-laboratories/core/sys/number"
 )
 
 // RGBA is a structure for holding red, green, and blue color values.
@@ -18,55 +18,6 @@ type RGBA[T number.Numeric] struct {
 
 	// A is the alpha channel.
 	A T
-}
-
-// NormalizeToFloat32 returns an RGBA[float32] ranging from 0.0-1.0.
-func (c RGBA[T]) NormalizeToFloat32() RGBA[float32] {
-	return RGBA[float32]{
-		R: number.NormalizeToFloat32(c.R),
-		G: number.NormalizeToFloat32(c.G),
-		B: number.NormalizeToFloat32(c.B),
-		A: number.NormalizeToFloat32(c.A),
-	}
-}
-
-// NormalizeToFloat64 returns an RGBA[float64] ranging from 0.0-1.0.
-func (c RGBA[T]) NormalizeToFloat64() RGBA[float64] {
-	return RGBA[float64]{
-		R: number.NormalizeToFloat64(c.R),
-		G: number.NormalizeToFloat64(c.G),
-		B: number.NormalizeToFloat64(c.B),
-		A: number.NormalizeToFloat64(c.A),
-	}
-}
-
-// ScaleToTypeRGBA32 returns a scaled value of the provided type in the range [0, T.MaxValue].
-//
-// NOTE: This will panic if the provided value is greater than the maximum value of the provided type.
-func ScaleToTypeRGBA32[TOut number.Integer](source RGBA[float32]) RGBA[TOut] {
-	return RGBA[TOut]{
-		R: number.ScaleFloat32ToType[TOut](source.R),
-		G: number.ScaleFloat32ToType[TOut](source.G),
-		B: number.ScaleFloat32ToType[TOut](source.B),
-		A: number.ScaleFloat32ToType[TOut](source.A),
-	}
-}
-
-// ScaleToTypeRGBA64 returns a scaled value of the provided type in the range [0, T.MaxValue].
-//
-// NOTE: This will panic if the provided value is greater than the maximum value of the provided type.
-func ScaleToTypeRGBA64[TOut number.Integer](source RGBA[float64]) RGBA[TOut] {
-	return RGBA[TOut]{
-		R: number.ScaleFloat64ToType[TOut](source.R),
-		G: number.ScaleFloat64ToType[TOut](source.G),
-		B: number.ScaleFloat64ToType[TOut](source.B),
-		A: number.ScaleFloat64ToType[TOut](source.A),
-	}
-}
-
-// RGBAComparator returns if the two RGBA values are equal in values.
-func RGBAComparator[T number.Numeric](a RGBA[T], b RGBA[T]) bool {
-	return a.R == b.R && a.G == b.G && a.B == b.B && a.A == b.A
 }
 
 func (c RGBA[T]) String() string {

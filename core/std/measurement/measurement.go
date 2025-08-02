@@ -5,9 +5,88 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core/enum/endian"
 	"github.com/ignite-laboratories/core/enum/traveling"
+	"github.com/ignite-laboratories/core/internal"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/name"
+	"reflect"
+	"unsafe"
 )
+
+// To attempts to convert a std.Measurement[any] of binary information into the specified type T.
+func To[T any](m std.Measurement[any]) T {
+	bits := m.GetAllBits()
+	var zero T
+	typeOf := reflect.TypeOf(zero)
+
+	// Handle slices
+	if typeOf.Kind() == reflect.Slice {
+		elemType := typeOf.Elem()
+		elemSize := elemType.Size()
+
+		numElements := len(bits) / (8 * int(elemSize))
+		if numElements == 0 {
+			return zero
+		}
+
+		sliceVal := reflect.MakeSlice(typeOf, numElements, numElements)
+		slicePtr := unsafe.Pointer(sliceVal.UnsafePointer())
+		resultBytes := unsafe.Slice((*byte)(slicePtr), numElements*int(elemSize))
+
+		byteI := (len(bits) / 8) - 1
+		i := len(bits) - 1
+		for i > 0 {
+			var currentByte byte
+			for ii := 0; ii < 8; ii++ {
+				if bits[i] == 1 {
+					currentByte |= 1 << ii
+				}
+				i--
+			}
+
+			resultBytes[byteI] = currentByte
+			byteI--
+		}
+
+		return sliceVal.Interface().(T)
+	}
+
+	// Handle non-slices
+	size := typeOf.Size()
+	if len(bits) > int(size)*8 {
+		panic("bit slice too large for target type")
+	}
+
+	result := zero
+	resultPtr := unsafe.Pointer(&result)
+	resultBytes := unsafe.Slice((*byte)(resultPtr), size)
+
+	byteI := (len(bits) / 8) - 1
+	i := len(bits) - 1
+	for i > 0 {
+		var currentByte byte
+		for ii := 0; ii < 8; ii++ {
+			if bits[i] == 1 {
+				currentByte |= 1 << ii
+			}
+			i--
+		}
+
+		resultBytes[byteI] = currentByte
+		byteI--
+	}
+
+	return result
+}
+
+// Of creates a new std.Measurement[T] of the provided input data by reading it directly from memory.
+func Of[T any](data T) std.Measurement[T] {
+	m := std.Measurement[T]{
+		Bytes:      internal.Measure[T](data)[0],
+		Endianness: internal.GetArchitectureEndianness(),
+	}
+	m.GivenName = name.Random[name.Default]()
+	return m
+}
 
 // OfZeros creates a new std.Measurement[any] of the provided bit-width consisting entirely of 0s.
 func OfZeros(width int) std.Measurement[any] {
@@ -30,11 +109,6 @@ func OfOnes(width int) std.Measurement[any] {
 		zeros.Bits[i] = 1
 	}
 	return zeros.RollUp()
-}
-
-// Of creates a new std.Measurement[T] of the provided input data by reading it directly from memory.
-func Of[T any](data T) std.Measurement[T] {
-
 }
 
 // OfBits creates a new std.Measurement[any] of the provided std.Bit slice.

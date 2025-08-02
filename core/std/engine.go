@@ -251,7 +251,7 @@ func (e *Engine) Spark() {
 	}
 	e.Active = true
 
-	log.Verbosef(core.ModuleName, "sparking impulse [%d] engine: %v\n", e.ID, e.Given)
+	log.Verbosef(core.ModuleName, "sparking impulse [%d] engine: %v\n", e.ID, e.GivenName)
 
 	// Set up a wait group for blocking operations
 	var wg sync.WaitGroup
@@ -273,6 +273,8 @@ func (e *Engine) Spark() {
 
 		// Get the current impulse wave of neurons
 		e.mutex.Lock()
+
+		// Check for execution to reset the beat count
 		neurons := make([]*Neuron, 0, len(e.neurons))
 		var hasExecution bool
 		for _, n := range e.neurons {
