@@ -1,5 +1,4 @@
 # Ignore folders, this is just to build a workspace for the ecosystem
-*/
 go.work
 go.work.sum
 **/go.sum
