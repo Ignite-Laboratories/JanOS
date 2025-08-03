@@ -9,6 +9,7 @@ import (
 	"github.com/ignite-laboratories/core/std/phrase"
 	"github.com/ignite-laboratories/core/std/rgba"
 	"github.com/ignite-laboratories/core/std/xyzw"
+	"github.com/ignite-laboratories/core/sys/atlas"
 )
 
 func main() {
@@ -26,7 +27,9 @@ func main() {
 	fmt.Println(ff.ABGR())
 	ffN := rgba.Normalize[num.Note, float32](ff)
 	fmt.Println(ffN)
-	fmt.Println(rgba.ReScale[float32, num.Note](ffN))
+	fmt.Println(rgba.ReScale[float32, num.Morsel](ffN))
 
 	std.BitSanityCheck()
+
+	fmt.Println(atlas.PrintPreamble)
 }

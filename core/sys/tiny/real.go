@@ -55,13 +55,13 @@ type Real struct {
 	Negative bool
 
 	// Whole represents the whole part of the real number.
-	Whole Natural
+	Whole std.Natural
 
 	// Fractional represents the decimal portion of the real number.
-	Fractional Natural
+	Fractional std.Natural
 
 	// Periodic represents the periodic end of the fractional portion of the real number and may or may not be present.
-	Periodic Natural
+	Periodic std.Natural
 }
 
 // NewReal creates a new instance of a Real number from the provided Primitive value.
@@ -83,15 +83,15 @@ func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) R
 	out := Real{
 		Name:       name,
 		Precision:  p,
-		Whole:      NaturalFrom(0),
-		Fractional: NaturalFrom(0),
-		Periodic:   NaturalFrom(0), // *pushes glasses up nose* - "technically," all numbers fractionally end in infinitely repeating zeros =)
+		Whole:      std.NaturalFrom(0),
+		Fractional: std.NaturalFrom(0),
+		Periodic:   std.NaturalFrom(0), // *pushes glasses up nose* - "technically," all numbers fractionally end in infinitely repeating zeros =)
 	}
 
 	switch operand := any(value).(type) {
 	case *big.Int:
 		out.Negative = operand.Sign() < 0
-		out.Whole = Natural{
+		out.Whole = std.Natural{
 			Measurement: measurement.OfString(operand.Text(2)),
 		}
 	case *big.Float:
@@ -107,19 +107,19 @@ func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) R
 			// No decimal place - this is a whole number
 
 			whole, _ := new(big.Int).SetString(entire, 10)
-			out.Whole = Natural{
+			out.Whole = std.Natural{
 				Measurement: measurement.OfString(whole.Text(2)),
 			}
 		} else {
 			// A decimal place was found - this is a fractional number
 
 			whole, _ := new(big.Int).SetString(entire[:pointPos], 10)
-			out.Whole = Natural{
+			out.Whole = std.Natural{
 				Measurement: measurement.OfString(whole.Text(2)),
 			}
 
 			fractional, _ := new(big.Int).SetString(entire[pointPos+1:], 10)
-			out.Fractional = Natural{
+			out.Fractional = std.Natural{
 				Measurement: measurement.OfString(fractional.Text(2)),
 			}
 		}
@@ -140,7 +140,7 @@ func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) R
 			v = uint(u)
 		}
 
-		out.Whole = NaturalFrom(v)
+		out.Whole = std.NaturalFrom(v)
 	case int8, int16, int32, int64, int:
 		var v int
 		switch i := operand.(type) {
@@ -157,7 +157,7 @@ func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) R
 		}
 
 		out.Negative = v < 0
-		out.Whole = NaturalFrom(uint(v))
+		out.Whole = std.NaturalFrom(uint(v))
 	case float32, float64:
 		var v float64
 		switch f := operand.(type) {
@@ -192,9 +192,9 @@ func NewRealNamed[T std.BigPrimitive](name string, value T, precision ...uint) R
 		out = NewRealNamed(name, real(operand), precision...)
 	case bool:
 		if operand {
-			out.Whole = NaturalFrom(1)
+			out.Whole = std.NaturalFrom(1)
 		} else {
-			out.Whole = NaturalFrom(0)
+			out.Whole = std.NaturalFrom(0)
 		}
 	default:
 		panic(fmt.Errorf("cannot create real from primitive type '%T'", operand))

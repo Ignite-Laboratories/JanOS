@@ -4,27 +4,28 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/when"
 	"time"
 )
 
-var stim = core.Impulse.Loop(Stimulate, when.Frequency(std.Ref(16.0)), true)
+var stim = atlas.Impulse.Loop(Stimulate, when.Frequency(std.Ref(16.0)), true)
 
 // Make it so
 func init() {
-	go core.Impulse.Spark()
-	core.Impulse.MaxFrequency = 1
+	go atlas.Impulse.Spark()
+	atlas.Impulse.MaxFrequency = 1
 }
 
 func main() {
 	// Mute/Unmute the stimulation every three seconds
-	core.Impulse.Loop(Toggle, when.Frequency(std.Ref(0.5)), false)
+	atlas.Impulse.Loop(Toggle, when.Frequency(std.Ref(0.5)), false)
 
 	// Trim down the resistance cyclically
-	core.Impulse.Loop(AdjustFrequency, when.Always, false)
+	atlas.Impulse.Loop(AdjustFrequency, when.Always, false)
 
 	// Set the initial resistance to 10 ms
-	core.Impulse.Resistance = time.Millisecond * 10
+	atlas.Impulse.Resistance = time.Millisecond * 10
 
 	core.WhileAlive()
 }
@@ -45,5 +46,5 @@ func Stimulate(ctx core.Context) {
 func AdjustFrequency(ctx core.Context) {
 	time.Sleep(time.Second * 5)
 	fmt.Printf("[%d] Adjusting frequency\n", ctx.Beat)
-	core.Impulse.MaxFrequency += 1
+	atlas.Impulse.MaxFrequency += 1
 }

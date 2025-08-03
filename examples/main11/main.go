@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/ignite-laboratories/core"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"time"
 )
 
@@ -11,5 +12,5 @@ func main() {
 	core.Verbose = true
 	go core.Shutdown(time.Second * 3)
 
-	core.Impulse.Spark()
+	atlas.Impulse.Spark()
 }

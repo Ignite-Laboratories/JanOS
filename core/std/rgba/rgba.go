@@ -38,6 +38,8 @@ func Comparator[T num.ExtendedPrimitive](a std.RGBA[T], b std.RGBA[T]) bool {
 //	    G: 187 [0xBB]
 //	    B: 204 [0xCC]
 //	    A: 221 [0xDD]
+//
+// NOTE: If you provide a sub-byte size, each channel of the 32-bit value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
 func From[TInt num.ExtendedInteger](value uint32) std.RGBA[TInt] {
 	overflow := uint64(0)
 	var zero TInt
@@ -62,6 +64,8 @@ func From[TInt num.ExtendedInteger](value uint32) std.RGBA[TInt] {
 		overflow = 1 << 24
 	case num.Hook:
 		overflow = 1 << 48
+	case float32, float64:
+		panic("floating point types are reserved for normalized values, please create a std.RGBA using an integer")
 	}
 
 	if overflow > 0 {

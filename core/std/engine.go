@@ -10,6 +10,9 @@ import (
 	"time"
 )
 
+// Impulse is the global impulse engine.
+var Impulse *Engine = NewEngine()
+
 // Engine is a neural impulse driver.
 type Engine struct {
 	Entity
@@ -52,14 +55,6 @@ type Engine struct {
 //
 // You may optionally provide a name whilst creating your engine.
 func NewEngine(named ...name.Given) *Engine {
-	var n name.Given
-	if len(named) > 0 {
-		n = named[0]
-	} else {
-		n = name.Random[name.Default]()
-	}
-
-	NewEngine(n)
 	e := Engine{}
 	e.Entity = NewEntity[name.Default](named...)
 	e.MaxFrequency = math.MaxFloat64

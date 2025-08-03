@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/host/mouse"
 	"math"
 )
@@ -11,12 +12,12 @@ import (
 func init() {
 	//mouse.Coordinates.Unmute()
 	//temporal.Analyzer[std.XY[int], any, any](core.Impulse, when.EighthSpeed(&mouse.SampleRate), false, Print, mouse.Coordinates)
-	mouse.Reaction(core.Impulse, std.Ref(2048.0), Velocity)
-	mouse.Reaction(core.Impulse, &mouse.SampleRate, Feedback)
+	mouse.Reaction(atlas.Impulse, std.Ref(2048.0), Velocity)
+	mouse.Reaction(atlas.Impulse, &mouse.SampleRate, Feedback)
 }
 
 func main() {
-	core.Impulse.Spark()
+	atlas.Impulse.Spark()
 }
 
 func Velocity(ctx core.Context, old std.Data[std.MouseState], current std.Data[std.MouseState]) {

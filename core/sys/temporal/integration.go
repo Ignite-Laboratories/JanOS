@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/when"
 )
 
@@ -21,7 +22,7 @@ func Integration[TSource any, TValue any, TCache any](engine *core.Engine, poten
 	d := Dimension[TValue, TCache]{}
 	d.NamedEntity = core.NewNamedEntity()
 	d.Window = core.DefaultObservanceWindow
-	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&core.TrimFrequency), false)
+	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	d.lastCycle = core.Inception
 	d.Cache = new(TCache)
 

@@ -3,6 +3,7 @@ package core
 import (
 	"debug/buildinfo"
 	"fmt"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"os"
 	"strings"
 	"time"
@@ -12,17 +13,19 @@ func init() {
 	exe, _ := os.Executable()
 	exeInfo, _ := buildinfo.ReadFile(exe)
 
-	var version string
-	for _, dep := range exeInfo.Deps {
-		if strings.Contains(dep.Path, "github.com/ignite-laboratories/core") {
-			version = dep.Version
+	if atlas.PrintPreamble {
+		var version string
+		for _, dep := range exeInfo.Deps {
+			if strings.Contains(dep.Path, "github.com/ignite-laboratories/core") {
+				version = dep.Version
+			}
 		}
-	}
 
-	fmt.Printf("JanOS %v\n", version)
-	fmt.Println("© 2025, Ignite Laboratories")
-	fmt.Println("---------------------------")
-	fmt.Println("JanOS is provided as-is, without warranties or guarantees of any kind. Use at your own discretion.")
+		fmt.Printf("JanOS %v\n", version)
+		fmt.Println("© 2025, Ignite Laboratories")
+		fmt.Println("---------------------------")
+		fmt.Println("JanOS is provided as-is, without warranties or guarantees of any kind. Use at your own discretion.")
+	}
 }
 
 var ModuleName = "core"

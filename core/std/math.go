@@ -9,7 +9,7 @@ import (
 
 // MaxValue returns the maximum whole integer value of the provided type.
 //
-// NOTE: This will return 0 for unsupported types, such as floats.
+// NOTE: This will panic for non-integer types.
 func MaxValue[T num.ExtendedPrimitive]() uint64 {
 	switch any(T(0)).(type) {
 	case num.Crumb:
@@ -53,7 +53,7 @@ func MaxValue[T num.ExtendedPrimitive]() uint64 {
 	case uint:
 		return math.MaxUint
 	default:
-		return 0
+		panic("cannot provide the maximum value of a non-integer type.")
 	}
 }
 

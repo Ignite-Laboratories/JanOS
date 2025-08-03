@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/when"
 )
 
@@ -17,7 +18,7 @@ func Operator[TValue core.Numeric](engine *core.Engine, potential core.Potential
 	d := Dimension[Operation[TValue], any]{}
 	d.NamedEntity = core.NewNamedEntity()
 	d.Window = core.DefaultObservanceWindow
-	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&core.TrimFrequency), false)
+	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	f := func(ctx core.Context) {
 		operation := Operation[TValue]{
 			A: *a.Current,

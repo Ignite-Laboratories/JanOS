@@ -1,16 +1,12 @@
-package tiny
+package std
 
-import (
-	"github.com/ignite-laboratories/core/internal"
-	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/measurement"
-)
+import "strings"
 
-// Natural represents a kind of Measurement with a value belonging to the set of naturally countable numbers - or all
-// positive whole numbers, including zero.
+// Natural represents a base-explicit Digit slice representing a value belonging to the set of naturally
+// countable numbers - or all positive whole numbers, including zero.
 //
 // To those who think zero shouldn't be included in the set of natural numbers, I present a counter-argument:
-// Base 1 has only one identifier, meaning it can only "represent" zero by -not- holding a value in an observable
+// base 1 has only one identifier, meaning it can only "represent" zero by -not- holding a value in an observable
 // location.  Subsequently, all bases are built upon determining the size of a value through "identification" - in
 // binary, through zeros or ones - in decimal, through the digits 0-9.
 //
@@ -26,30 +22,29 @@ import (
 // I should note this entire system hinges on one fundamental flaw - this container technically holds one additional value beyond
 // the 'natural' number set: nil! Technically, until a number occupies a location, that space holds a 'nil' value in all bases
 // above base 1, which might consider that to be 'zero'.  When factoring this trait in, I call it the "programmatic set" of
-// numbers.  I can't stop you from setting your natural phrase to it - but I can empower you with awareness of it =)
+// numbers.  I can't stop you from emptying your natural's digits and creating a 'nil' state - but I can empower you with awareness of it =)
 //
 // See Real, Complex, Index, and Operable
 type Natural struct {
-	std.Measurement[any]
+	Digits []Digit
+	Base   byte
 }
 
-// Text converts the Natural to a string of the provided base, encoded to the specification defined by Real.SetBase()
-func (a Natural) Text(base byte) string {
-	// TODO: Implement Natural.Text(base)
-	return ""
-}
+// String returns the string representation of this natural number in its current base.  As bases above 16 begin to
+// double up the hexadecimal characters to span the remainder of the address space, digits above base 16 are spaced
+// with a single whitespace character between them.
+func (a Natural) String() string {
+	str := ""
 
-// NaturalFrom takes a Measurement of the provided unsigned integer value as a Natural number.
-func NaturalFrom(value uint) Natural {
-	return Natural{
-		Measurement: measurement.OfBytes(internal.Measure(value)[0]...),
+	if a.Base > 16 {
+		for _, d := range a.Digits {
+			str += " " + d.String()
+		}
+		str = strings.TrimSpace(str)
+	} else {
+		for _, d := range a.Digits {
+			str += d.String()
+		}
 	}
-}
-
-// FromString creates a new Natural measurement that represents the provided base-encoded string.
-//
-// NOTE: The input string must be encoded as expected by Real.SetBase()
-func FromString(base byte, value string) Natural {
-	// TODO: Implement this
-	panic("unsupported")
+	return str
 }

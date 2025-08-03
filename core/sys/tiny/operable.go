@@ -6,5 +6,5 @@ import "github.com/ignite-laboratories/core/std"
 //
 // See Bit, Measurement, Phrase, Natural, Real, Complex, and Index
 type Operable interface {
-	std.Bit | byte | std.Measurement[any] | std.Phrase[any] | Natural | Real | Complex | Index
+	std.Bit | byte | std.Measurement[any] | std.Phrase[any] | std.Natural | Real | Complex | Index
 }

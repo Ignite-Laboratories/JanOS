@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/when"
 )
 
@@ -13,7 +14,7 @@ func ChannelLoop(engine *core.Engine, potential core.Potential, muted bool) *Dim
 	d := Dimension[core.Runtime, chan std.ChannelAction]{}
 	d.NamedEntity = core.NewNamedEntity()
 	d.Window = core.DefaultObservanceWindow
-	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&core.TrimFrequency), false)
+	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	c := make(chan std.ChannelAction)
 	d.Cache = &c
 	f := func(ctx core.Context) {

@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/when"
 	"time"
 )
@@ -21,7 +22,7 @@ func Bridge[TValue any](engine *core.Engine) (func(TValue), *Dimension[TValue, a
 	d := Dimension[TValue, any]{}
 	d.NamedEntity = core.NewNamedEntity()
 	d.Window = core.DefaultObservanceWindow
-	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&core.TrimFrequency), false)
+	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 
 	var beat int
 	var lastMoment time.Time
