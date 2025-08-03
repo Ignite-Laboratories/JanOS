@@ -13,6 +13,9 @@ var ObservanceWindow = 2 * time.Second
 // TrimFrequency sets the default global frequency for dimensional trimmers.
 var TrimFrequency = 1024.0 //hz
 
+// Precision is the global placeholder precision for floating point arithmetic.
+var Precision uint = 256
+
 /**
 Constant References
 */

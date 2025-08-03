@@ -31,5 +31,5 @@ func main() {
 
 	std.BitSanityCheck()
 
-	fmt.Println(atlas.PrintPreamble)
+	fmt.Println(atlas.Precision)
 }

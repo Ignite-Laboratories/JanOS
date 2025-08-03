@@ -8,6 +8,7 @@ type config struct {
 	PrintPreamble    *bool   `json:"printPreamble"`
 	ObservanceWindow string  `json:"observanceWindow"`
 	TrimFrequency    float64 `json:"trimFrequency"`
+	Precision        uint    `json:"precision"`
 }
 
 func (c config) apply() {
@@ -19,5 +20,8 @@ func (c config) apply() {
 	}
 	if c.TrimFrequency > 0 {
 		TrimFrequency = c.TrimFrequency
+	}
+	if c.Precision > 0 {
+		Precision = c.Precision
 	}
 }
