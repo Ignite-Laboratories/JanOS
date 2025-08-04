@@ -21,8 +21,8 @@ func main() {
 	fmt.Println(name.Random[name.Multi]())
 	fmt.Println(phrase.OfBits(1, 0, 1, 1).Named("asdf"))
 
-	fmt.Println(xyzw.From(byte(0), 5, 4, 3))
-	ff := rgba.From[num.Note](0xaabbccdd)
+	fmt.Println(xyzw.From[byte](0, 5, 4, 3))
+	ff := rgba.FromHex[num.Note](0xaabbccdd)
 	fmt.Println(ff)
 	fmt.Println(ff.ABGR())
 	ffN := rgba.Normalize[num.Note, float32](ff)

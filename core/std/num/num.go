@@ -47,9 +47,7 @@ type Float interface {
 //	  Riff |   24  |    2²⁴
 //	  Hook |   48  |    2⁴⁸
 //
-// # See Primitive, Float, Integer, and ExtendedInteger
-//
-// See Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
+// See Primitive, Float, Integer, ExtendedInteger, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type ExtendedPrimitive interface {
 	Primitive | Crumb | Note | Nibble | Flake | Morsel | Shred | Run | Scale | Riff | Hook
 }

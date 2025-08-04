@@ -6,19 +6,7 @@ import (
 )
 
 // RGBA is a structure for holding red, green, and blue color values.
-type RGBA[T num.ExtendedPrimitive] struct {
-	// R is the red channel.
-	R T
-
-	// G is the green channel.
-	G T
-
-	// B is the blue channel.
-	B T
-
-	// A is the alpha channel.
-	A T
-}
+type RGBA[T num.ExtendedPrimitive] RGBAGeneric[T, T, T, T]
 
 func (c RGBA[T]) String() string {
 	return fmt.Sprintf("(%v, %v, %v, %v)", c.R, c.G, c.B, c.A)
