@@ -1,4 +1,5 @@
-package rgba
+// Package rgbGeneric provides access to all std.RGBGeneric procedures.
+package rgbGeneric
 
 import (
 	"github.com/ignite-laboratories/core/std"
@@ -18,7 +19,7 @@ func overflowValue[T num.ExtendedInteger](value T) T {
 	return value
 }
 
-// From constructs an std.RGBGeneric[TR, TG, TB] from individual red, green, blue, and alpha components of their own type.
+// From constructs a std.RGBGeneric[TR, TG, TB] from individual red, green, blue, and alpha components of their own type.
 //
 // NOTE: If you provide a sub-byte size, each channel's value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
 func From[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger](r TR, g TG, b TB) std.RGBGeneric[TR, TG, TB] {
@@ -29,7 +30,7 @@ func From[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger
 	}
 }
 
-// Normalize returns an std.RGBGeneric[TOut] ranging from 0.0-1.0.
+// Normalize returns a std.RGBGeneric[TOut] ranging from 0.0-1.0.
 func Normalize[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TOut num.Float](c std.RGBGeneric[TR, TG, TB]) std.RGBGeneric[TOut, TOut, TOut] {
 	return std.RGBGeneric[TOut, TOut, TOut]{
 		R: normalize.To[TR, TOut](c.R),
@@ -38,7 +39,7 @@ func Normalize[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedIn
 	}
 }
 
-// ReScale returns an std.RGBGeneric[TR, TG, TB] scaled up to [0, TChan.Max] from an input bounded in the fully closed interval [0.0, 1.0].
+// ReScale returns a std.RGBGeneric[TR, TG, TB] scaled up to [0, TChan.Max] from an input bounded in the fully closed interval [0.0, 1.0].
 func ReScale[TIn num.Float, TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger](c std.RGBGeneric[TIn, TIn, TIn]) std.RGBGeneric[TR, TG, TB] {
 	return std.RGBGeneric[TR, TG, TB]{
 		R: normalize.From[TIn, TR](c.R),

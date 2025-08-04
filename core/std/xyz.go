@@ -6,6 +6,8 @@ import (
 )
 
 // XYZ is a general structure for holding generic (x,y,z) coordinate values.
+//
+// NOTE: This type also provides rudimentary "swizzling."
 type XYZ[T num.ExtendedPrimitive] struct {
 	X T
 	Y T

@@ -6,6 +6,8 @@ import (
 )
 
 // XYZW is a general structure for holding generic (x,y,z,w) coordinate values.
+//
+// NOTE: This type also provides rudimentary "swizzling."
 type XYZW[T num.ExtendedPrimitive] struct {
 	X T
 	Y T

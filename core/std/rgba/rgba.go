@@ -1,3 +1,4 @@
+// Package rgba provides access to all std.RGBA procedures.
 package rgba
 
 import (
@@ -6,7 +7,7 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// From constructs an std.RGBA[TInt] value from individual red, green, blue, and alpha components of type TInt.
+// From constructs a std.RGBA[TInt] value from individual red, green, blue, and alpha components of type TInt.
 //
 // NOTE: If you provide a sub-byte size, each channel's value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
 func From[TInt num.ExtendedInteger](r, g, b, a TInt) std.RGBA[TInt] {

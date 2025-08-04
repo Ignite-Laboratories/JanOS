@@ -8,6 +8,7 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 	"github.com/ignite-laboratories/core/std/phrase"
 	"github.com/ignite-laboratories/core/std/rgba"
+	"github.com/ignite-laboratories/core/std/rgbaGeneric"
 	"github.com/ignite-laboratories/core/std/xyzw"
 	"github.com/ignite-laboratories/core/sys/atlas"
 )
@@ -32,4 +33,7 @@ func main() {
 	std.BitSanityCheck()
 
 	fmt.Println(atlas.Precision)
+
+	gen := rgbaGeneric.From(num.Morsel(33), num.Flake(55), num.Crumb(22), byte(111))
+	fmt.Println(gen)
 }
