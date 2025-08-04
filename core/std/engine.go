@@ -5,13 +5,9 @@ import (
 	"github.com/ignite-laboratories/core/std/name"
 	"github.com/ignite-laboratories/core/sys/id"
 	"github.com/ignite-laboratories/core/sys/log"
-	"math"
 	"sync"
 	"time"
 )
-
-// Impulse is the global impulse engine.
-var Impulse *Engine = NewEngine()
 
 // Engine is a neural impulse driver.
 type Engine struct {
@@ -51,26 +47,10 @@ type Engine struct {
 	mutex         sync.Mutex
 }
 
-// NewEngine creates and configures a new neural impulse engine instance.
-//
-// You may optionally provide a name whilst creating your engine.
-func NewEngine(named ...name.Given) *Engine {
-	e := Engine{}
-	e.Entity = NewEntity[name.Default](named...)
-	e.MaxFrequency = math.MaxFloat64
-
-	// Make the neural map
-	e.neurons = make(map[uint64]*Neuron)
-
-	// Set up impulse regulation
-	e.Block(e.regulator, func(ctx Context) bool { return true }, false)
-
-	return &e
-}
-
-func (e *Engine) regulator(ctx Context) {
-	if e.Resistance > 0 {
-		time.Sleep(e.Resistance)
+// SanityCheck performs sanity checks upon the engine's structure, such as ensuring the internal map of neurons is not nil.
+func (e *Engine) SanityCheck() {
+	if e.neurons == nil {
+		e.neurons = make(map[uint64]*Neuron)
 	}
 }
 
@@ -78,11 +58,14 @@ func (e *Engine) regulator(ctx Context) {
 func (e *Engine) addNeuron(n *Neuron) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
+
 	e.neurons[n.ID] = n
 }
 
 // Stop causes the impulse engine to cease firing neural activations.
 func (e *Engine) Stop() {
+	e.SanityCheck()
 	if !e.Active {
 		return
 	}
@@ -103,6 +86,8 @@ func (e *Engine) StopWhen(potential Potential) {
 func (e *Engine) MuteByID(id uint64) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
+
 	for _, n := range e.neurons {
 		if n.ID == id {
 			n.Muted = true
@@ -115,6 +100,8 @@ func (e *Engine) MuteByID(id uint64) {
 func (e *Engine) UnmuteByID(id uint64) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
+
 	for _, n := range e.neurons {
 		if n.ID == id {
 			n.Muted = false
@@ -127,13 +114,17 @@ func (e *Engine) UnmuteByID(id uint64) {
 func (e *Engine) remove(id uint64) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
+
 	delete(e.neurons, id)
 }
 
-// Range provides a slice of the current neural activations.
-func (e *Engine) Range() []*Neuron {
+// GetNeurons provides a slice of the current neural activations.
+func (e *Engine) GetNeurons() []*Neuron {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
+
 	out := make([]*Neuron, len(e.neurons))
 	for _, n := range e.neurons {
 		out = append(out, n)
@@ -145,6 +136,8 @@ func (e *Engine) Range() []*Neuron {
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
 func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
+	e.SanityCheck()
+
 	var n Neuron
 	n.Entity = NewEntity[name.Default]()
 	n.engine = e
@@ -164,6 +157,8 @@ func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
 func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neuron {
+	e.SanityCheck()
+
 	// NOTE: The trick here is that it never sets 'Executing' =)
 	var n Neuron
 	n.Entity = NewEntity[name.Default]()
@@ -184,6 +179,8 @@ func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neur
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
 func (e *Engine) Loop(action Action, potential Potential, muted bool) *Neuron {
+	e.SanityCheck()
+
 	var n Neuron
 	n.Entity = NewEntity[name.Default]()
 	n.engine = e
@@ -207,6 +204,7 @@ func (e *Engine) Loop(action Action, potential Potential, muted bool) *Neuron {
 func (e *Engine) Trigger(action Action, potential Potential, async bool) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
+	e.SanityCheck()
 
 	// Grab 'now' ASAP!
 	now := time.Now()
@@ -245,6 +243,7 @@ func (e *Engine) Spark() {
 		return
 	}
 	e.Active = true
+	e.SanityCheck()
 
 	log.Verbosef(core.ModuleName, "sparking impulse [%d] engine: %v\n", e.ID, e.GivenName)
 

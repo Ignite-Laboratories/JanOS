@@ -11,10 +11,7 @@ import (
 //
 // NOTE: If you provide a sub-byte size, each channel's value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
 func From[TInt num.ExtendedInteger](r, g, b TInt) std.RGB[TInt] {
-	return FromHex[TInt](
-		(uint32(r) << 24) |
-			(uint32(g) << 16) |
-			(uint32(b) << 8))
+	return FromHex[TInt]((uint32(r) << 24) | (uint32(g) << 16) | (uint32(b) << 8))
 }
 
 // FromHex converts the provided uint32 value into a std.RGB[TInt].  For example -
@@ -26,45 +23,26 @@ func From[TInt num.ExtendedInteger](r, g, b TInt) std.RGB[TInt] {
 //
 // NOTE: If you provide a sub-byte size, each channel of the 32-bit value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
 func FromHex[TInt num.ExtendedInteger](value uint32) std.RGB[TInt] {
-	overflow := uint64(0)
-	var zero TInt
-	switch any(zero).(type) {
-	case num.Crumb, num.Note, num.Nibble, num.Flake, num.Morsel, num.Shred, num.Run, num.Scale, num.Riff, num.Hook:
-		overflow = std.MaxValue[TInt]() + 1
-	case float32, float64:
-		panic("floating point types are reserved for normalized values, please create a std.RGB.From an integer")
-	}
-
-	if overflow > 0 {
-		return std.RGB[TInt]{
-			R: TInt(uint64((value>>24)&0xFF) % overflow),
-			G: TInt(uint64((value>>16)&0xFF) % overflow),
-			B: TInt(uint64((value>>8)&0xFF) % overflow),
-		}
-	}
-	return std.RGB[TInt]{
-		R: TInt((value >> 24) & 0xFF),
-		G: TInt((value >> 16) & 0xFF),
-		B: TInt((value >> 8) & 0xFF),
-	}
+	r := TInt((value >> 24) & 0xFF)
+	g := TInt((value >> 16) & 0xFF)
+	b := TInt((value >> 8) & 0xFF)
+	return std.RGB[TInt]{}.Set(r, g, b)
 }
 
 // Normalize returns an RGBA[TOut] ranging from 0.0-1.0.
 func Normalize[TIn num.ExtendedPrimitive, TOut num.Float](c std.RGB[TIn]) std.RGB[TOut] {
-	return std.RGB[TOut]{
-		R: normalize.To[TIn, TOut](c.R),
-		G: normalize.To[TIn, TOut](c.G),
-		B: normalize.To[TIn, TOut](c.B),
-	}
+	r := normalize.To[TIn, TOut](c.Red())
+	g := normalize.To[TIn, TOut](c.Green())
+	b := normalize.To[TIn, TOut](c.Blue())
+	return std.RGB[TOut]{}.Set(r, g, b)
 }
 
 // ReScale returns an RGBA[TOut] scaled up to [0, TIn.Max] from an input bounded in the fully closed interval [0.0, 1.0].
 func ReScale[TIn num.Float, TOut num.ExtendedInteger](c std.RGB[TIn]) std.RGB[TOut] {
-	return std.RGB[TOut]{
-		R: normalize.From[TIn, TOut](c.R),
-		G: normalize.From[TIn, TOut](c.G),
-		B: normalize.From[TIn, TOut](c.B),
-	}
+	r := normalize.From[TIn, TOut](c.Red())
+	g := normalize.From[TIn, TOut](c.Green())
+	b := normalize.From[TIn, TOut](c.Blue())
+	return std.RGB[TOut]{}.Set(r, g, b)
 }
 
 // Comparator returns if the two RGBA values are equal in values.
@@ -81,27 +59,24 @@ func Comparator[T num.ExtendedPrimitive](a std.RGB[T], b std.RGB[T]) bool {
 // in the fully closed interval [0, n] - where n is the maximum value of
 // the provided type.
 func Random[T num.ExtendedPrimitive]() std.RGB[T] {
-	return std.RGB[T]{
-		R: std.Random[T](),
-		G: std.Random[T](),
-		B: std.Random[T](),
-	}
+	r := std.Random[T]()
+	g := std.Random[T]()
+	b := std.Random[T]()
+	return std.RGB[T]{}.Set(r, g, b)
 }
 
 // RandomUpTo returns a pseudo-random std.RGB[T] of the provided type with each channel bounded within its provided closed interval of [0, max].
 func RandomUpTo[T num.ExtendedPrimitive](rUpper T, gUpper T, bUpper T) std.RGB[T] {
-	return std.RGB[T]{
-		R: std.RandomBounded[T](0, rUpper),
-		G: std.RandomBounded[T](0, gUpper),
-		B: std.RandomBounded[T](0, bUpper),
-	}
+	r := std.RandomBounded[T](0, rUpper)
+	g := std.RandomBounded[T](0, gUpper)
+	b := std.RandomBounded[T](0, bUpper)
+	return std.RGB[T]{}.Set(r, g, b)
 }
 
 // RandomRange returns a pseudo-random std.RGB[T] of the provided type bounded in the closed interval [min, max].
 func RandomRange[T num.ExtendedPrimitive](minimum, maximum T) std.RGB[T] {
-	return std.RGB[T]{
-		R: std.RandomBounded[T](minimum, maximum),
-		G: std.RandomBounded[T](minimum, maximum),
-		B: std.RandomBounded[T](minimum, maximum),
-	}
+	r := std.RandomBounded[T](minimum, maximum)
+	g := std.RandomBounded[T](minimum, maximum)
+	b := std.RandomBounded[T](minimum, maximum)
+	return std.RGB[T]{}.Set(r, g, b)
 }

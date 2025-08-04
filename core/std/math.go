@@ -7,6 +7,19 @@ import (
 	"reflect"
 )
 
+// ImplicitOverflow performs any implicit type overflow operations on num.ExtendedPrimitive types.
+func ImplicitOverflow[T num.ExtendedInteger](value T) T {
+	var zero T
+	switch any(zero).(type) {
+	case num.Crumb, num.Note, num.Nibble, num.Flake, num.Morsel, num.Shred, num.Run, num.Scale, num.Riff, num.Hook:
+		overflow := MaxValue[T]() + 1
+		return T(int(value) % int(overflow))
+	case float32, float64:
+		panic("floating point types are reserved for normalized values, please create a std.RGBGeneric.From an integer")
+	}
+	return value
+}
+
 // MaxValue returns the maximum whole integer value of the provided type.
 //
 // NOTE: This will panic for non-integer types.
