@@ -5,7 +5,7 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// RGBA is a structure for holding red, green, blue, and alpha color values - as well as provides rudimentary "swizzling."
+// RGBA is a structure for holding symmetrical red, green, blue, and alpha color channel values - as well as providing rudimentary "swizzling."
 //
 // NOTE: This derives from RGBAGeneric, which allows asymmetric channel bit widths if desired =)
 type RGBA[T num.ExtendedPrimitive] RGBAGeneric[T, T, T, T]

@@ -14,7 +14,7 @@ func overflowValue[T num.ExtendedInteger](value T) T {
 		overflow := std.MaxValue[T]() + 1
 		return T(int(value) % int(overflow))
 	case float32, float64:
-		panic("floating point types are reserved for normalized values, please create a std.RGBA using an integer")
+		panic("floating point types are reserved for normalized values, please create a std.RGBAGeneric.From an integer")
 	}
 	return value
 }
