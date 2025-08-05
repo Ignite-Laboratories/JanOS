@@ -15,7 +15,7 @@ func ImplicitOverflow[T num.ExtendedInteger](value T) T {
 		overflow := MaxValue[T]() + 1
 		return T(int(value) % int(overflow))
 	case float32, float64:
-		panic("floating point types are reserved for normalized values, please create a std.RGBGeneric.From an integer")
+		return value
 	}
 	return value
 }

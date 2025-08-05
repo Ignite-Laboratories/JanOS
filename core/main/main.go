@@ -9,6 +9,7 @@ import (
 	"github.com/ignite-laboratories/core/std/phrase"
 	"github.com/ignite-laboratories/core/std/rgba"
 	"github.com/ignite-laboratories/core/std/rgbaGeneric"
+	"github.com/ignite-laboratories/core/std/xy"
 	"github.com/ignite-laboratories/core/std/xyzw"
 	"github.com/ignite-laboratories/core/sys/atlas"
 )
@@ -22,7 +23,11 @@ func main() {
 	fmt.Println(name.Random[name.Multi]())
 	fmt.Println(phrase.OfBits(1, 0, 1, 1).Named("asdf"))
 
-	fmt.Println(xyzw.From[byte](0, 5, 4, 3))
+	xy.fr
+
+	fmt.Println(xy.From(555, 444, 1024, 768))
+
+	fmt.Println(xyzw.FromInfinite[byte](0, 5, 4, 3))
 	ff := rgba.FromHex[num.Note](0xaabbccdd)
 	fmt.Println(ff)
 	fmt.Println(ff.ABGR())
