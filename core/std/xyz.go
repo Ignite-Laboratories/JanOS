@@ -9,52 +9,22 @@ import (
 //
 // NOTE: This type also provides rudimentary "swizzling."
 type XYZ[T num.ExtendedPrimitive] struct {
-	X Bounded[T]
-	Y Bounded[T]
-	Z Bounded[T]
+	X num.Bounded[T]
+	Y num.Bounded[T]
+	Z num.Bounded[T]
 }
 
 func (c XYZ[T]) Set(x, y, z T) XYZ[T] {
-	c.X = c.X.Set(x)
-	c.Y = c.Y.Set(y)
-	c.Z = c.Z.Set(z)
+	c.X.Set(x)
+	c.Y.Set(y)
+	c.Z.Set(z)
 	return c
 }
 
-func (c XYZ[T]) SetBoundaries(xBound, yBound, zBound T) XYZ[T] {
-	c.X = c.X.SetBoundary(xBound)
-	c.Y = c.Y.SetBoundary(yBound)
-	c.Z = c.Z.SetBoundary(zBound)
-	return c
-}
-
-func (c XYZ[T]) SetX(x T) XYZ[T] {
-	c.X = c.X.Set(x)
-	return c
-}
-
-func (c XYZ[T]) SetY(y T) XYZ[T] {
-	c.Y = c.Y.Set(y)
-	return c
-}
-
-func (c XYZ[T]) SetZ(z T) XYZ[T] {
-	c.Z = c.Z.Set(z)
-	return c
-}
-
-func (c XYZ[T]) SetXBoundary(xBound T) XYZ[T] {
-	c.X.SetBoundary(xBound)
-	return c
-}
-
-func (c XYZ[T]) SetYBoundary(yBound T) XYZ[T] {
-	c.Y.SetBoundary(yBound)
-	return c
-}
-
-func (c XYZ[T]) SetZBoundary(zBound T) XYZ[T] {
-	c.Z.SetBoundary(zBound)
+func (c XYZ[T]) SetBoundaries(xBound, yBound, zBound func(T) T) XYZ[T] {
+	//c.X = c.X.SetBoundaryFn(xBound)
+	//c.Y = c.Y.SetBoundaryFn(yBound)
+	//c.Z = c.Z.SetBoundaryFn(zBound)
 	return c
 }
 

@@ -11,13 +11,6 @@ type Primitive interface {
 	Integer | Float
 }
 
-// ExtendedInteger represents any Integer or ExtendedPrimitive types.
-//
-// See Primitive, Float, Integer, and ExtendedPrimitive
-type ExtendedInteger interface {
-	Integer | ExtendedPrimitive
-}
-
 // Integer represents any primitive Go integer type.
 //
 // See Primitive, Float, ExtendedInteger, and ExtendedPrimitive

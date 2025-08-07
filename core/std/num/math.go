@@ -1,49 +1,66 @@
-package std
+package num
 
 import (
-	"github.com/ignite-laboratories/core/std/num"
 	"math"
 	"math/rand"
 	"reflect"
 )
 
-// ImplicitOverflow performs any implicit type overflow operations on num.ExtendedPrimitive types.
-func ImplicitOverflow[T num.ExtendedInteger](value T) T {
+// IsSubByte checks if the provided type is a sub-byte num.ExtendedPrimitive type.
+func IsSubByte[T ExtendedPrimitive]() bool {
 	var zero T
 	switch any(zero).(type) {
-	case num.Crumb, num.Note, num.Nibble, num.Flake, num.Morsel, num.Shred, num.Run, num.Scale, num.Riff, num.Hook:
+	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+		return true
+	}
+	return false
+}
+
+// ImplicitOverflow performs any implicit type overflow operations on num.ExtendedPrimitive types.
+func ImplicitOverflow[T ExtendedPrimitive](value T) T {
+	var zero T
+	switch any(zero).(type) {
+	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		overflow := MaxValue[T]() + 1
 		return T(int(value) % int(overflow))
-	case float32, float64:
-		return value
 	}
 	return value
+}
+
+// IsSigned returns whether the provided type is a signed type or not.
+func IsSigned[T ExtendedPrimitive]() bool {
+	var zero T
+	switch any(zero).(type) {
+	case uint8, uint16, uint32, uint64, uint, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+		return false
+	}
+	return true
 }
 
 // MaxValue returns the maximum whole integer value of the provided type.
 //
 // NOTE: This will panic for non-integer types.
-func MaxValue[T num.ExtendedPrimitive]() uint64 {
+func MaxValue[T ExtendedPrimitive]() uint64 {
 	switch any(T(0)).(type) {
-	case num.Crumb:
+	case Crumb:
 		return 1<<2 - 1
-	case num.Note:
+	case Note:
 		return 1<<3 - 1
-	case num.Nibble:
+	case Nibble:
 		return 1<<4 - 1
-	case num.Flake:
+	case Flake:
 		return 1<<5 - 1
-	case num.Morsel:
+	case Morsel:
 		return 1<<6 - 1
-	case num.Shred:
+	case Shred:
 		return 1<<7 - 1
-	case num.Run:
+	case Run:
 		return 1<<10 - 1
-	case num.Scale:
+	case Scale:
 		return 1<<12 - 1
-	case num.Riff:
+	case Riff:
 		return 1<<24 - 1
-	case num.Hook:
+	case Hook:
 		return 1<<48 - 1
 	case int8:
 		return math.MaxInt8
@@ -70,6 +87,29 @@ func MaxValue[T num.ExtendedPrimitive]() uint64 {
 	}
 }
 
+// MinValue returns the minimum whole integer value of the provided type.
+//
+// NOTE: This will panic for non-integer types.
+func MinValue[T ExtendedPrimitive]() int64 {
+	switch any(T(0)).(type) {
+	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook,
+		uint8, uint16, uint32, uint64, uint:
+		return 0
+	case int8:
+		return math.MinInt8
+	case int16:
+		return math.MinInt16
+	case int32:
+		return math.MinInt32
+	case int64:
+		return math.MinInt64
+	case int:
+		return math.MinInt
+	default:
+		panic("cannot provide the minimum value of a non-integer type.")
+	}
+}
+
 // Random returns a non-negative pseudo-random number of the provided type.
 //
 // If requesting a floating point type, the resulting number will be bounded
@@ -77,29 +117,29 @@ func MaxValue[T num.ExtendedPrimitive]() uint64 {
 //
 // If requesting an integer type, the resulting number will be bounded
 // in the fully closed interval [0, n] - where n is the maximum value of
-// the provided type.
-func Random[T num.ExtendedPrimitive]() T {
+// the provided type, including the implicit size of the extended primitives.
+func Random[T ExtendedPrimitive]() T {
 	switch any(T(0)).(type) {
-	case num.Crumb:
-		return T(RandomBounded[num.Crumb](0, num.Crumb(MaxValue[num.Crumb]())))
-	case num.Note:
-		return T(RandomBounded[num.Note](0, num.Note(MaxValue[num.Note]())))
-	case num.Nibble:
-		return T(RandomBounded[num.Nibble](0, num.Nibble(MaxValue[num.Nibble]())))
-	case num.Flake:
-		return T(RandomBounded[num.Flake](0, num.Flake(MaxValue[num.Flake]())))
-	case num.Morsel:
-		return T(RandomBounded[num.Morsel](0, num.Morsel(MaxValue[num.Morsel]())))
-	case num.Shred:
-		return T(RandomBounded[num.Shred](0, num.Shred(MaxValue[num.Shred]())))
-	case num.Run:
-		return T(RandomBounded[num.Run](0, num.Run(MaxValue[num.Run]())))
-	case num.Scale:
-		return T(RandomBounded[num.Scale](0, num.Scale(MaxValue[num.Scale]())))
-	case num.Riff:
-		return T(RandomBounded[num.Riff](0, num.Riff(MaxValue[num.Riff]())))
-	case num.Hook:
-		return T(RandomBounded[num.Hook](0, num.Hook(MaxValue[num.Hook]())))
+	case Crumb:
+		return T(RandomBounded[Crumb](0, Crumb(MaxValue[Crumb]())))
+	case Note:
+		return T(RandomBounded[Note](0, Note(MaxValue[Note]())))
+	case Nibble:
+		return T(RandomBounded[Nibble](0, Nibble(MaxValue[Nibble]())))
+	case Flake:
+		return T(RandomBounded[Flake](0, Flake(MaxValue[Flake]())))
+	case Morsel:
+		return T(RandomBounded[Morsel](0, Morsel(MaxValue[Morsel]())))
+	case Shred:
+		return T(RandomBounded[Shred](0, Shred(MaxValue[Shred]())))
+	case Run:
+		return T(RandomBounded[Run](0, Run(MaxValue[Run]())))
+	case Scale:
+		return T(RandomBounded[Scale](0, Scale(MaxValue[Scale]())))
+	case Riff:
+		return T(RandomBounded[Riff](0, Riff(MaxValue[Riff]())))
+	case Hook:
+		return T(RandomBounded[Hook](0, Hook(MaxValue[Hook]())))
 	case float32:
 		return T(RandomBounded[float32](0.0, 1.0))
 	case float64:
@@ -130,13 +170,13 @@ func Random[T num.ExtendedPrimitive]() T {
 }
 
 // RandomNumberGeneratorFunc is a function that should return a random number of the defined type bounded within the closed interval of [a, b].
-type RandomNumberGeneratorFunc[T num.ExtendedPrimitive] func(a T, b T) T
+type RandomNumberGeneratorFunc[T ExtendedPrimitive] func(a T, b T) T
 
 var generators = make(map[reflect.Type]any)
 var generatorsNil = make(map[reflect.Type]bool)
 
 // DefineRandomGenerator sets the global random number generator for the provided type.
-func DefineRandomGenerator[T num.ExtendedPrimitive](generator RandomNumberGeneratorFunc[T]) {
+func DefineRandomGenerator[T ExtendedPrimitive](generator RandomNumberGeneratorFunc[T]) {
 	// Get the type of T using a nil pointer to T
 	t := reflect.TypeOf((*T)(nil)).Elem()
 	generators[t] = generator
@@ -146,7 +186,7 @@ func DefineRandomGenerator[T num.ExtendedPrimitive](generator RandomNumberGenera
 // RandomBounded returns a pseudo-random number of the provided type bounded in the provided closed interval [a, b].
 //
 // NOTE: This uses a 0.01% chance to return exactly max.
-func RandomBounded[T num.ExtendedPrimitive](a T, b T) T {
+func RandomBounded[T ExtendedPrimitive](a T, b T) T {
 	// Get the type of T
 	t := reflect.TypeOf((*T)(nil)).Elem()
 
@@ -168,7 +208,7 @@ func RandomBounded[T num.ExtendedPrimitive](a T, b T) T {
 		}
 		return T(float64(a) + (float64(b)-float64(a))*rand.Float64())
 	case int8, int16, int32, int64, int, uint8, uint16, uint32, uint64, uint,
-		num.Crumb, num.Note, num.Nibble, num.Flake, num.Morsel, num.Shred, num.Run, num.Scale, num.Riff, num.Hook:
+		Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		range64 := uint64(b) - uint64(a)
 		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
 	default:

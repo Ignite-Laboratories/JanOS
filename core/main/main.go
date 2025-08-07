@@ -23,8 +23,6 @@ func main() {
 	fmt.Println(name.Random[name.Multi]())
 	fmt.Println(phrase.OfBits(1, 0, 1, 1).Named("asdf"))
 
-	xy.fr
-
 	fmt.Println(xy.From(555, 444, 1024, 768))
 
 	fmt.Println(xyzw.FromInfinite[byte](0, 5, 4, 3))

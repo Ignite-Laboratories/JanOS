@@ -35,5 +35,5 @@ func Comparator[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedI
 //
 // NOTE: If requesting an integer type, the resulting number will be bounded in the fully closed interval [0, TChan.Max]
 func Random[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger]() std.RGBGeneric[TR, TG, TB] {
-	return std.RGBGeneric[TR, TG, TB]{}.SetRed(std.Random[TR]()).SetGreen(std.Random[TG]()).SetBlue(std.Random[TB]())
+	return std.RGBGeneric[TR, TG, TB]{}.SetRed(num.Random[TR]()).SetGreen(num.Random[TG]()).SetBlue(num.Random[TB]())
 }

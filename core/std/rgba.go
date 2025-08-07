@@ -43,22 +43,22 @@ func (c RGBA[T]) SetHex(value uint32) RGBA[T] {
 }
 
 func (c RGBA[T]) SetRed(value T) RGBA[T] {
-	c.red = ImplicitOverflow(value)
+	c.red = num.ImplicitOverflow(value)
 	return c
 }
 
 func (c RGBA[T]) SetGreen(value T) RGBA[T] {
-	c.green = ImplicitOverflow(value)
+	c.green = num.ImplicitOverflow(value)
 	return c
 }
 
 func (c RGBA[T]) SetBlue(value T) RGBA[T] {
-	c.blue = ImplicitOverflow(value)
+	c.blue = num.ImplicitOverflow(value)
 	return c
 }
 
 func (c RGBA[T]) SetAlpha(value T) RGBA[T] {
-	c.alpha = ImplicitOverflow(value)
+	c.alpha = num.ImplicitOverflow(value)
 	return c
 }
 

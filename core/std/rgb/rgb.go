@@ -59,24 +59,24 @@ func Comparator[T num.ExtendedPrimitive](a std.RGB[T], b std.RGB[T]) bool {
 // in the fully closed interval [0, n] - where n is the maximum value of
 // the provided type.
 func Random[T num.ExtendedPrimitive]() std.RGB[T] {
-	r := std.Random[T]()
-	g := std.Random[T]()
-	b := std.Random[T]()
+	r := num.Random[T]()
+	g := num.Random[T]()
+	b := num.Random[T]()
 	return std.RGB[T]{}.Set(r, g, b)
 }
 
 // RandomUpTo returns a pseudo-random std.RGB[T] of the provided type with each channel bounded within its provided closed interval of [0, max].
 func RandomUpTo[T num.ExtendedPrimitive](rUpper T, gUpper T, bUpper T) std.RGB[T] {
-	r := std.RandomBounded[T](0, rUpper)
-	g := std.RandomBounded[T](0, gUpper)
-	b := std.RandomBounded[T](0, bUpper)
+	r := num.RandomBounded[T](0, rUpper)
+	g := num.RandomBounded[T](0, gUpper)
+	b := num.RandomBounded[T](0, bUpper)
 	return std.RGB[T]{}.Set(r, g, b)
 }
 
 // RandomRange returns a pseudo-random std.RGB[T] of the provided type bounded in the closed interval [min, max].
 func RandomRange[T num.ExtendedPrimitive](minimum, maximum T) std.RGB[T] {
-	r := std.RandomBounded[T](minimum, maximum)
-	g := std.RandomBounded[T](minimum, maximum)
-	b := std.RandomBounded[T](minimum, maximum)
+	r := num.RandomBounded[T](minimum, maximum)
+	g := num.RandomBounded[T](minimum, maximum)
+	b := num.RandomBounded[T](minimum, maximum)
 	return std.RGB[T]{}.Set(r, g, b)
 }

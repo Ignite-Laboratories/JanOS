@@ -9,65 +9,25 @@ import (
 //
 // NOTE: This type also provides rudimentary "swizzling."
 type XYZW[T num.ExtendedPrimitive] struct {
-	X Bounded[T]
-	Y Bounded[T]
-	Z Bounded[T]
-	W Bounded[T]
+	X num.Bounded[T]
+	Y num.Bounded[T]
+	Z num.Bounded[T]
+	W num.Bounded[T]
 }
 
 func (c XYZW[T]) Set(x, y, z, w T) XYZW[T] {
-	c.X = c.X.Set(x)
-	c.Y = c.Y.Set(y)
-	c.Z = c.Z.Set(z)
-	c.W = c.W.Set(w)
+	c.X.Set(x)
+	c.Y.Set(y)
+	c.Z.Set(z)
+	c.W.Set(w)
 	return c
 }
 
-func (c XYZW[T]) SetBoundaries(xBound, yBound, zBound, wBound T) XYZW[T] {
-	c.X = c.X.SetBoundary(xBound)
-	c.Y = c.Y.SetBoundary(yBound)
-	c.Z = c.Z.SetBoundary(zBound)
-	c.W = c.W.SetBoundary(wBound)
-	return c
-}
-
-func (c XYZW[T]) SetX(x T) XYZW[T] {
-	c.X = c.X.Set(x)
-	return c
-}
-
-func (c XYZW[T]) SetY(y T) XYZW[T] {
-	c.Y = c.Y.Set(y)
-	return c
-}
-
-func (c XYZW[T]) SetZ(z T) XYZW[T] {
-	c.Z = c.Z.Set(z)
-	return c
-}
-
-func (c XYZW[T]) SetW(w T) XYZW[T] {
-	c.W = c.W.Set(w)
-	return c
-}
-
-func (c XYZW[T]) SetXBoundary(xBound T) XYZW[T] {
-	c.X.SetBoundary(xBound)
-	return c
-}
-
-func (c XYZW[T]) SetYBoundary(yBound T) XYZW[T] {
-	c.Y.SetBoundary(yBound)
-	return c
-}
-
-func (c XYZW[T]) SetZBoundary(zBound T) XYZW[T] {
-	c.Z.SetBoundary(zBound)
-	return c
-}
-
-func (c XYZW[T]) SetWBoundary(wBound T) XYZW[T] {
-	c.W.SetBoundary(wBound)
+func (c XYZW[T]) SetBoundaries(xBound, yBound, zBound, wBound func(T) T) XYZW[T] {
+	//c.X = c.X.SetBoundaryFn(xBound)
+	//c.Y = c.Y.SetBoundaryFn(yBound)
+	//c.Z = c.Z.SetBoundaryFn(zBound)
+	//c.W = c.W.SetBoundaryFn(wBound)
 	return c
 }
 

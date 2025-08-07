@@ -31,17 +31,17 @@ func (c RGB[T]) Set(r T, g T, b T) RGB[T] {
 }
 
 func (c RGB[T]) SetRed(value T) RGB[T] {
-	c.red = ImplicitOverflow(value)
+	c.red = num.ImplicitOverflow(value)
 	return c
 }
 
 func (c RGB[T]) SetGreen(value T) RGB[T] {
-	c.green = ImplicitOverflow(value)
+	c.green = num.ImplicitOverflow(value)
 	return c
 }
 
 func (c RGB[T]) SetBlue(value T) RGB[T] {
-	c.blue = ImplicitOverflow(value)
+	c.blue = num.ImplicitOverflow(value)
 	return c
 }
 

@@ -1,7 +1,6 @@
 package normalize
 
 import (
-	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
@@ -9,7 +8,7 @@ import (
 //
 // NOTE: If no maximum is provided, the value from std.MaxValue[TIn] is used.
 func To[TIn num.Primitive, TOut num.Float](value TIn, maximum ...TIn) TOut {
-	m := TIn(std.MaxValue[TIn]())
+	m := TIn(num.MaxValue[TIn]())
 	if len(maximum) > 0 {
 		m = maximum[0]
 	}
@@ -35,7 +34,7 @@ func From[TIn num.Float, TOut num.Primitive](value TIn, maximum ...TOut) TOut {
 		panic("value must be in range [0.0, 1.0]")
 	}
 
-	m := TOut(std.MaxValue[TOut]())
+	m := TOut(num.MaxValue[TOut]())
 	if len(maximum) > 0 {
 		m = maximum[0]
 	}
