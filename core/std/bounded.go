@@ -1,20 +1,21 @@
-package num
+package std
 
 import (
-	"fmt"
+	"github.com/ignite-laboratories/core/std/num"
+	"math"
 	"math/big"
 )
 
 // Bounded represents a numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
-type Bounded[T ExtendedPrimitive] struct {
+type Bounded[T num.ExtendedPrimitive] struct {
 	value   T
 	minimum T
 	maximum T
 	Clamp   bool
 }
-type BoundedByType[T ExtendedPrimitive] struct {
+type BoundedByType[T num.ExtendedPrimitive] struct {
 	value T
 	clamp bool
 }
@@ -44,6 +45,13 @@ func (bnd Bounded[T]) SetAll(value, a, b T) Bounded[T] {
 	bnd.minimum = a
 	bnd.maximum = b
 	return bnd.Set(value)
+}
+
+// SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
+func (bnd Bounded[T]) SetBoundariesFromType() Bounded[T] {
+	bnd.minimum = 0
+	bnd.maximum = T(num.MaxValue[T]())
+	return bnd.Set(bnd.value)
 }
 
 // SetBoundaries sets the boundaries before calling Set(current value).
@@ -131,12 +139,19 @@ func (bnd Bounded[T]) Set(value T) Bounded[T] {
 			distance = -distance
 		}
 
-		var diff uint64
-		switch any(value).(type) {
-		case uint64, uint:
-			// NOTE: We bump up to big.Int here since the algorithm might go negative,
-			// and we don't have a type that can hold that large of a range.
+		// Check if the distance (or any of the stored values) exceeds an int64 - requiring big.Int
+		needsBig := distance > uint64(math.MaxInt64)
+		if !needsBig {
+			switch any(value).(type) {
+			case uint64, uint:
+				needsBig = uint64(value) > uint64(math.MaxInt64) ||
+					uint64(bnd.minimum) > uint64(math.MaxInt64) ||
+					uint64(bnd.maximum) > uint64(math.MaxInt64)
+			}
+		}
 
+		var diff uint64
+		if needsBig {
 			m := new(big.Int).SetUint64(uint64(bnd.minimum))
 			v := new(big.Int).SetUint64(uint64(value))
 			r := new(big.Int).SetUint64(distance)
@@ -147,8 +162,7 @@ func (bnd Bounded[T]) Set(value T) Bounded[T] {
 			}
 
 			diff = d.Uint64()
-		default:
-			// NOTE: Otherwise, we just treat the type as an int64 for calculation
+		} else {
 			d := int64(value - bnd.minimum)
 			if d < 0 {
 				d += int64(distance)
@@ -162,8 +176,4 @@ func (bnd Bounded[T]) Set(value T) Bounded[T] {
 
 	bnd.value = value
 	return bnd
-}
-
-func (bnd Bounded[T]) String() string {
-	return fmt.Sprintf("%v", bnd.value)
 }

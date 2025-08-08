@@ -3,37 +3,33 @@ package rgbaGeneric
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/normalize"
+	"github.com/ignite-laboratories/core/std/bounded"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// From constructs a std.RGBAGeneric[TR, TG, TB, TA] from the individually typed red, green, blue, and alpha values.
-//
-// NOTE: If you provide a sub-byte size, each channel's value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
-func From[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TA num.ExtendedInteger](r TR, g TG, b TB, a TA) std.RGBAGeneric[TR, TG, TB, TA] {
+// From creates a new instance of std.RGBAGeneric[TR, TG, TB, TA] with each direction bounded in the fully closed interval [0, T.max], where
+// T.max is the implied maximum value of that color channel's type.
+func From[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.ExtendedPrimitive, TA num.ExtendedPrimitive](r TR, g TG, b TB, a TA) std.RGBAGeneric[TR, TG, TB, TA] {
 	return std.RGBAGeneric[TR, TG, TB, TA]{}.Set(r, g, b, a)
 }
 
-// Normalize returns a std.RGBAGeneric[TOut] ranging from 0.0-1.0.
-func Normalize[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TA num.ExtendedInteger, TOut num.Float](c std.RGBAGeneric[TR, TG, TB, TA]) std.RGBAGeneric[TOut, TOut, TOut, TOut] {
-	return std.RGBAGeneric[TOut, TOut, TOut, TOut]{}.SetRed(normalize.To[TR, TOut](c.Red())).SetGreen(normalize.To[TG, TOut](c.Green())).SetBlue(normalize.To[TB, TOut](c.Blue())).SetAlpha(normalize.To[TA, TOut](c.Alpha()))
+// Random returns a pseudo-random std.RGBAGeneric[TR, TG, TB, TA] of the provided type using math.Random[TR, TG, TB], with
+// each color channel bounded in the fully closed interval [0, T.Max]
+func Random[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.ExtendedPrimitive, TA num.ExtendedPrimitive]() std.RGBAGeneric[TR, TG, TB, TA] {
+	return std.RGBAGeneric[TR, TG, TB, TA]{
+		R: bounded.Random[TR](),
+		G: bounded.Random[TG](),
+		B: bounded.Random[TB](),
+		A: bounded.Random[TA](),
+	}
 }
 
-// ReScale returns a std.RGBAGeneric[TR, TG, TB, TA] scaled up to [0, TChan.Max] from an input bounded in the fully closed interval [0.0, 1.0].
-func ReScale[TIn num.Float, TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TA num.ExtendedInteger](c std.RGBAGeneric[TIn, TIn, TIn, TIn]) std.RGBAGeneric[TR, TG, TB, TA] {
-	return std.RGBAGeneric[TR, TG, TB, TA]{}.SetRed(normalize.From[TIn, TR](c.Red())).SetGreen(normalize.From[TIn, TG](c.Green())).SetBlue(normalize.From[TIn, TB](c.Blue())).SetAlpha(normalize.From[TIn, TA](c.Alpha()))
-}
-
-// Comparator returns if the two RGBA values are equal in values.
-func Comparator[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TA num.ExtendedInteger](a std.RGBAGeneric[TR, TG, TB, TA], b std.RGBAGeneric[TR, TG, TB, TA]) bool {
-	return a.Red() == b.Red() && a.Green() == b.Green() && a.Blue() == b.Blue() && a.Alpha() == b.Alpha()
-}
-
-// Random returns a pseudo-random std.RGBAGeneric[TR, TG, TB, TA] of the provided type using math.Random[TChan].
-//
-// NOTE: If requesting a floating point type, the resulting number will be bounded in the fully closed interval [0.0, 1.0]
-//
-// NOTE: If requesting an integer type, the resulting number will be bounded in the fully closed interval [0, TChan.Max]
-func Random[TR num.ExtendedInteger, TG num.ExtendedInteger, TB num.ExtendedInteger, TA num.ExtendedInteger]() std.RGBAGeneric[TR, TG, TB, TA] {
-	return std.RGBAGeneric[TR, TG, TB, TA]{}.SetRed(num.Random[TR]()).SetGreen(num.Random[TG]()).SetBlue(num.Random[TB]()).SetAlpha(num.Random[TA]())
+// ScaleToType normalizes the std.RGBAGeneric[TInR, TInG, TInB, TInA] directional components into unit vectors and then scales them to a new std.RGBAGeneric[TOutR, TOutG, TOutB, TOutA].
+func ScaleToType[TInR num.ExtendedPrimitive, TInG num.ExtendedPrimitive, TInB num.ExtendedPrimitive, TInA num.ExtendedPrimitive, TOutR num.ExtendedPrimitive, TOutG num.ExtendedPrimitive, TOutB num.ExtendedPrimitive, TOutA num.ExtendedPrimitive](value std.RGBAGeneric[TInR, TInG, TInB, TInA]) std.RGBAGeneric[TOutR, TOutG, TOutB, TOutA] {
+	return std.RGBAGeneric[TOutR, TOutG, TOutB, TOutA]{
+		R: bounded.ScaleToType[TInR, TOutR](value.R),
+		G: bounded.ScaleToType[TInG, TOutG](value.G),
+		B: bounded.ScaleToType[TInB, TOutB](value.B),
+		A: bounded.ScaleToType[TInA, TOutA](value.A),
+	}
 }

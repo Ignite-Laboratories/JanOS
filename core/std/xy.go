@@ -7,8 +7,8 @@ import (
 
 // XY is a general structure for holding generic bounded (x,y) coordinate values.
 type XY[T num.ExtendedPrimitive] struct {
-	X num.Bounded[T]
-	Y num.Bounded[T]
+	X Bounded[T]
+	Y Bounded[T]
 }
 
 // Set sets the coordinate values.
@@ -48,13 +48,13 @@ func (coords XY[T]) SetFromNormalized32(x, y float32) XY[T] {
 
 // Normalize converts the bounded directional values to float64 unit vectors in the range [0.0, 1.0],
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (coords XY[T]) Normalize() (float64, float64) {
+func (coords XY[T]) Normalize() (x float64, y float64) {
 	return coords.X.Normalize(), coords.Y.Normalize()
 }
 
 // Normalize32 converts the bounded directional values to float32 unit vectors in the range [0.0, 1.0],
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (coords XY[T]) Normalize32() (float32, float32) {
+func (coords XY[T]) Normalize32() (x float32, y float32) {
 	return coords.X.Normalize32(), coords.Y.Normalize32()
 }
 

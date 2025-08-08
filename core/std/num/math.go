@@ -121,49 +121,49 @@ func MinValue[T ExtendedPrimitive]() int64 {
 func Random[T ExtendedPrimitive]() T {
 	switch any(T(0)).(type) {
 	case Crumb:
-		return T(RandomBounded[Crumb](0, Crumb(MaxValue[Crumb]())))
+		return T(RandomWithinRange[Crumb](0, Crumb(MaxValue[Crumb]())))
 	case Note:
-		return T(RandomBounded[Note](0, Note(MaxValue[Note]())))
+		return T(RandomWithinRange[Note](0, Note(MaxValue[Note]())))
 	case Nibble:
-		return T(RandomBounded[Nibble](0, Nibble(MaxValue[Nibble]())))
+		return T(RandomWithinRange[Nibble](0, Nibble(MaxValue[Nibble]())))
 	case Flake:
-		return T(RandomBounded[Flake](0, Flake(MaxValue[Flake]())))
+		return T(RandomWithinRange[Flake](0, Flake(MaxValue[Flake]())))
 	case Morsel:
-		return T(RandomBounded[Morsel](0, Morsel(MaxValue[Morsel]())))
+		return T(RandomWithinRange[Morsel](0, Morsel(MaxValue[Morsel]())))
 	case Shred:
-		return T(RandomBounded[Shred](0, Shred(MaxValue[Shred]())))
+		return T(RandomWithinRange[Shred](0, Shred(MaxValue[Shred]())))
 	case Run:
-		return T(RandomBounded[Run](0, Run(MaxValue[Run]())))
+		return T(RandomWithinRange[Run](0, Run(MaxValue[Run]())))
 	case Scale:
-		return T(RandomBounded[Scale](0, Scale(MaxValue[Scale]())))
+		return T(RandomWithinRange[Scale](0, Scale(MaxValue[Scale]())))
 	case Riff:
-		return T(RandomBounded[Riff](0, Riff(MaxValue[Riff]())))
+		return T(RandomWithinRange[Riff](0, Riff(MaxValue[Riff]())))
 	case Hook:
-		return T(RandomBounded[Hook](0, Hook(MaxValue[Hook]())))
+		return T(RandomWithinRange[Hook](0, Hook(MaxValue[Hook]())))
 	case float32:
-		return T(RandomBounded[float32](0.0, 1.0))
+		return T(RandomWithinRange[float32](0.0, 1.0))
 	case float64:
-		return T(RandomBounded[float64](0.0, 1.0))
+		return T(RandomWithinRange[float64](0.0, 1.0))
 	case int8:
-		return T(RandomBounded[int8](math.MinInt8, math.MaxInt8))
+		return T(RandomWithinRange[int8](math.MinInt8, math.MaxInt8))
 	case uint8:
-		return T(RandomBounded[uint8](0, math.MaxUint8))
+		return T(RandomWithinRange[uint8](0, math.MaxUint8))
 	case int16:
-		return T(RandomBounded[int16](math.MinInt16, math.MaxInt16))
+		return T(RandomWithinRange[int16](math.MinInt16, math.MaxInt16))
 	case uint16:
-		return T(RandomBounded[uint16](0, math.MaxUint16))
+		return T(RandomWithinRange[uint16](0, math.MaxUint16))
 	case int32:
-		return T(RandomBounded[int32](math.MinInt32, math.MaxInt32))
+		return T(RandomWithinRange[int32](math.MinInt32, math.MaxInt32))
 	case uint32:
-		return T(RandomBounded[uint32](0, math.MaxUint32))
+		return T(RandomWithinRange[uint32](0, math.MaxUint32))
 	case int64:
-		return T(RandomBounded[int64](math.MinInt64, math.MaxInt64))
+		return T(RandomWithinRange[int64](math.MinInt64, math.MaxInt64))
 	case int:
-		return T(RandomBounded[int](math.MinInt, math.MaxInt))
+		return T(RandomWithinRange[int](math.MinInt, math.MaxInt))
 	case uint64:
-		return T(RandomBounded[uint64](0, math.MaxUint64))
+		return T(RandomWithinRange[uint64](0, math.MaxUint64))
 	case uint:
-		return T(RandomBounded[uint](0, math.MaxUint))
+		return T(RandomWithinRange[uint](0, math.MaxUint))
 	default:
 		panic("unsupported numeric type")
 	}
@@ -183,10 +183,10 @@ func DefineRandomGenerator[T ExtendedPrimitive](generator RandomNumberGeneratorF
 	generatorsNil[t] = generator == nil
 }
 
-// RandomBounded returns a pseudo-random number of the provided type bounded in the provided closed interval [a, b].
+// RandomWithinRange returns a pseudo-random number of the provided type bounded in the provided closed interval [a, b].
 //
 // NOTE: This uses a 0.01% chance to return exactly max.
-func RandomBounded[T ExtendedPrimitive](a T, b T) T {
+func RandomWithinRange[T ExtendedPrimitive](a T, b T) T {
 	// Get the type of T
 	t := reflect.TypeOf((*T)(nil)).Elem()
 
@@ -207,8 +207,15 @@ func RandomBounded[T ExtendedPrimitive](a T, b T) T {
 			return b
 		}
 		return T(float64(a) + (float64(b)-float64(a))*rand.Float64())
-	case int8, int16, int32, int64, int, uint8, uint16, uint32, uint64, uint,
-		Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+	case int8, int16, int32, int64, int, uint8, uint16, uint32, uint64, uint:
+		range64 := uint64(b) - uint64(a)
+		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
+	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+		// These are implicitly sized uint types
+		if a < 0 || b > T(MaxValue[T]()) {
+			panic("cannot provide a random number exceeding the implicit bounds of the type.")
+		}
+
 		range64 := uint64(b) - uint64(a)
 		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
 	default:

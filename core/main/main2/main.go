@@ -2,21 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/std/bounded"
+	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/std/rgb"
 )
 
 func main() {
-	a := bounded.By[uint64](8, 2, 15)
+	a := rgb.FromHex[byte](0xaabbcc00)
+	b := rgb.FromHex[num.Nibble](0xaabbcc00)
 	fmt.Println(a)
-
-	n := a.Normalize()
-	fmt.Println(n)
-	n32 := a.Normalize32()
-	fmt.Println(n32)
-
-	a.SetFromNormalized(n)
-	fmt.Println(a)
-
-	a.SetFromNormalized32(n32)
-	fmt.Println(a)
+	fmt.Println(b)
 }

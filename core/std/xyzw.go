@@ -15,9 +15,9 @@ import (
 //
 // NOTE: This type also provides rudimentary "swizzling."
 type XYZW[T num.ExtendedPrimitive] struct {
-	X num.Bounded[T]
-	Y num.Bounded[T]
-	Z num.Bounded[T]
+	X Bounded[T]
+	Y Bounded[T]
+	Z Bounded[T]
 	W float64
 }
 
@@ -78,13 +78,13 @@ func (coords XYZW[T]) SetFromNormalized32(x, y, z float32, w ...float32) XYZW[T]
 
 // Normalize converts the bounded directional values to float64 unit vectors in the range [0.0, 1.0],
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (coords XYZW[T]) Normalize() (float64, float64, float64, float64) {
+func (coords XYZW[T]) Normalize() (x float64, y float64, z float64, w float64) {
 	return coords.X.Normalize(), coords.Y.Normalize(), coords.Z.Normalize(), coords.W
 }
 
 // Normalize32 converts the bounded directional values to float32 unit vectors in the range [0.0, 1.0],
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (coords XYZW[T]) Normalize32() (float32, float32, float32, float32) {
+func (coords XYZW[T]) Normalize32() (x float32, y float32, z float32, w float32) {
 	return coords.X.Normalize32(), coords.Y.Normalize32(), coords.Z.Normalize32(), float32(coords.W)
 }
 
@@ -94,6 +94,14 @@ func (coords XYZW[T]) String() string {
 
 /**
 Swizzling
+
+NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
+
+Find -
+func \((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
+
+Replace -
+func ($1) $2() ($3) { return$4 }
 */
 
 func (c XYZW[T]) XX() (T, T)             { return c.X.Value(), c.X.Value() }

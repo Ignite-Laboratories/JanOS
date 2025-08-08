@@ -2,6 +2,7 @@ package xy
 
 import (
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/bounded"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
@@ -17,18 +18,26 @@ func FromFull[T num.ExtendedPrimitive](x, y T, minX, maxX, minY, maxY T) std.XY[
 }
 
 // Random returns a pseudo-random std.XY[T] of the provided type using math.Random[T], with
-// each directional component bounded in the fully closed interval [0, min].  If you would like
+// each directional component bounded in the fully closed interval [0, max].  If you would like
 // the minimum to be above 0, please use RandomFull
 func Random[T num.ExtendedPrimitive](maxX, maxY T) std.XY[T] {
-	x := num.RandomBounded[T](0, maxX)
-	y := num.RandomBounded[T](0, maxY)
+	x := num.RandomWithinRange[T](0, maxX)
+	y := num.RandomWithinRange[T](0, maxY)
 	return std.XY[T]{}.SetAll(x, y, 0, maxX, 0, maxY)
 }
 
 // RandomFull returns a pseudo-random std.XY[T] of the provided type using math.Random[T], with
-// each directional component bounded in the fully closed interval [max, min].
+// each directional component bounded in the fully closed interval [min, max].
 func RandomFull[T num.ExtendedPrimitive](minX, maxX, minY, maxY T) std.XY[T] {
-	x := num.RandomBounded[T](minX, maxX)
-	y := num.RandomBounded[T](minY, maxY)
+	x := num.RandomWithinRange[T](minX, maxX)
+	y := num.RandomWithinRange[T](minY, maxY)
 	return std.XY[T]{}.SetAll(x, y, minX, maxX, minY, maxY)
+}
+
+// ScaleToType normalizes the std.XY[T] directional components into unit vectors and then scales them to a new std.XY[TOut].
+func ScaleToType[TIn num.ExtendedPrimitive, TOut num.ExtendedPrimitive](value std.XY[TIn]) std.XY[TOut] {
+	return std.XY[TIn]{
+		X: bounded.ScaleToType[TOut](value.X),
+		Y: bounded.ScaleToType[TOut](value.Y),
+	}
 }

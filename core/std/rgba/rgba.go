@@ -3,87 +3,75 @@ package rgba
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/normalize"
+	"github.com/ignite-laboratories/core/std/bounded"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// From constructs a std.RGBA[TInt] value from individual red, green, blue, and alpha components of type TInt.
-//
-// NOTE: If you provide a sub-byte size, each channel's value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
-func From[TInt num.ExtendedInteger](r, g, b, a TInt) std.RGBA[TInt] {
-	return FromHex[TInt]((uint32(r) << 24) | (uint32(g) << 16) | (uint32(b) << 8) | uint32(a))
+// From creates a new instance of std.RGBA[T] with each direction bounded in the fully closed interval [0, T.max], where
+// T.max is the implied maximum value of that color channel's type.
+func From[T num.ExtendedPrimitive](r, g, b, a T) std.RGBA[T] {
+	return std.RGBA[T]{}.Set(r, g, b, a)
 }
 
-// FromHex converts the provided uint32 value into a std.RGBA[TInt].  For example -
+// FromHex treats each hexadecimal component as of the input value as a unit vector representing the typed color space,
+// allowing you to create implicitly scaled colors from hexadecimal values.  For example -
 //
-//	rgba.FromHex(0xaabbccdd):
+//	rgba.FromHex[byte](0xAABBCC**):
 //	    R: 170 [0xAA]
 //	    G: 187 [0xBB]
 //	    B: 204 [0xCC]
-//	    A: 221 [0xDD]
 //
-// NOTE: If you provide a sub-byte size, each channel of the 32-bit value will be modulo-d against 2ⁿ, with 𝑛 being the sub-byte bit-width.
-func FromHex[TInt num.ExtendedInteger](value uint32) std.RGBA[TInt] {
-	r := TInt((value >> 24) & 0xFF)
-	g := TInt((value >> 16) & 0xFF)
-	b := TInt((value >> 8) & 0xFF)
-	a := TInt(value & 0xFF)
-	return std.RGBA[TInt]{}.Set(r, g, b, a)
+//	rgba.FromHex[num.Nibble](0xAABBCC**):
+//	    R: 10 [0xAA]
+//	    G: 11 [0xBB]
+//	    B: 12 [0xCC]
+func FromHex[T num.ExtendedPrimitive](value uint32) std.RGBA[T] {
+	r := byte((value >> 24) & 0xFF)
+	g := byte((value >> 16) & 0xFF)
+	b := byte((value >> 8) & 0xFF)
+	a := byte(value & 0xFF)
+	return ScaleToType[byte, T](From[byte](r, g, b, a))
 }
 
-// Normalize returns an RGBA[TOut] ranging from 0.0-1.0.
-func Normalize[TIn num.ExtendedPrimitive, TOut num.Float](c std.RGBA[TIn]) std.RGBA[TOut] {
-	r := normalize.To[TIn, TOut](c.Red())
-	g := normalize.To[TIn, TOut](c.Green())
-	b := normalize.To[TIn, TOut](c.Blue())
-	a := normalize.To[TIn, TOut](c.Alpha())
-	return std.RGBA[TOut]{}.Set(r, g, b, a)
-}
-
-// ReScale returns an RGBA[TOut] scaled up to [0, TIn.Max] from an input bounded in the fully closed interval [0.0, 1.0].
-func ReScale[TIn num.Float, TOut num.ExtendedInteger](c std.RGBA[TIn]) std.RGBA[TOut] {
-	r := normalize.From[TIn, TOut](c.Red())
-	g := normalize.From[TIn, TOut](c.Green())
-	b := normalize.From[TIn, TOut](c.Blue())
-	a := normalize.From[TIn, TOut](c.Alpha())
-	return std.RGBA[TOut]{}.Set(r, g, b, a)
-}
-
-// Comparator returns if the two RGBA values are equal in values.
-func Comparator[T num.ExtendedPrimitive](a std.RGBA[T], b std.RGBA[T]) bool {
-	return a.Red() == b.Red() && a.Green() == b.Green() && a.Blue() == b.Blue() && a.Alpha() == b.Alpha()
-}
-
-// Random returns a pseudo-random std.RGBA[T] of the provided type using math.Random[T].
-//
-// If requesting a floating point type, the resulting number will be bounded
-// in the fully closed interval [0.0, 1.0]
-//
-// If requesting an integer type, the resulting number will be bounded
-// in the fully closed interval [0, n] - where n is the maximum value of
-// the provided type.
+// Random returns a pseudo-random std.RGBA[T] of the provided type using math.Random[T], with
+// each color channel bounded in the fully closed interval [0, T.Max]
 func Random[T num.ExtendedPrimitive]() std.RGBA[T] {
-	r := num.Random[T]()
-	g := num.Random[T]()
-	b := num.Random[T]()
-	a := num.Random[T]()
-	return std.RGBA[T]{}.Set(r, g, b, a)
+	return std.RGBA[T]{
+		R: bounded.Random[T](),
+		G: bounded.Random[T](),
+		B: bounded.Random[T](),
+		A: bounded.Random[T](),
+	}
 }
 
-// RandomUpTo returns a pseudo-random std.RGBA[T] of the provided type with each channel bounded within its provided closed interval of [0, max].
-func RandomUpTo[T num.ExtendedPrimitive](rUpper T, gUpper T, bUpper T, aUpper T) std.RGBA[T] {
-	r := num.RandomBounded[T](0, rUpper)
-	g := num.RandomBounded[T](0, gUpper)
-	b := num.RandomBounded[T](0, bUpper)
-	a := num.RandomBounded[T](0, aUpper)
-	return std.RGBA[T]{}.Set(r, g, b, a)
+// RandomUpTo returns a pseudo-random std.RGBA[T] of the provided type using math.Random[T], with
+// each color channel bounded in the fully closed interval [0, maximum]
+func RandomUpTo[T num.ExtendedPrimitive](maximum T) std.RGBA[T] {
+	return std.RGBA[T]{
+		R: bounded.RandomSubset[T](0, maximum),
+		G: bounded.RandomSubset[T](0, maximum),
+		B: bounded.RandomSubset[T](0, maximum),
+		A: bounded.RandomSubset[T](0, maximum),
+	}
 }
 
-// RandomRange returns a pseudo-random std.RGBA[T] of the provided type bounded in the closed interval [min, max].
+// RandomRange returns a pseudo-random std.RGBA[T] of the provided type using math.Random[T], with
+// each color channel bounded in the fully closed interval [minimum, maximum]
 func RandomRange[T num.ExtendedPrimitive](minimum, maximum T) std.RGBA[T] {
-	r := num.RandomBounded[T](minimum, maximum)
-	g := num.RandomBounded[T](minimum, maximum)
-	b := num.RandomBounded[T](minimum, maximum)
-	a := num.RandomBounded[T](minimum, maximum)
-	return std.RGBA[T]{}.Set(r, g, b, a)
+	return std.RGBA[T]{
+		R: bounded.RandomSubset[T](minimum, maximum),
+		G: bounded.RandomSubset[T](minimum, maximum),
+		B: bounded.RandomSubset[T](minimum, maximum),
+		A: bounded.RandomSubset[T](minimum, maximum),
+	}
+}
+
+// ScaleToType normalizes the std.RGBA[T] directional components into unit vectors and then scales them to a new std.RGBA[TOut].
+func ScaleToType[TIn num.ExtendedPrimitive, TOut num.ExtendedPrimitive](value std.RGBA[TIn]) std.RGBA[TOut] {
+	return std.RGBA[TOut]{
+		R: bounded.ScaleToType[TIn, TOut](value.R),
+		G: bounded.ScaleToType[TIn, TOut](value.G),
+		B: bounded.ScaleToType[TIn, TOut](value.B),
+		A: bounded.ScaleToType[TIn, TOut](value.A),
+	}
 }
