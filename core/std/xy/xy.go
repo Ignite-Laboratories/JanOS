@@ -1,58 +1,42 @@
 package xy
 
+import (
+	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/num"
+)
+
+// From creates a new instance of std.XY[T] bounded in the fully closed interval [0, max].  If you would like to
+// also set the minimum boundary, please use FromFull.
 //
-//import (
-//	"github.com/ignite-laboratories/core/std"
-//	"github.com/ignite-laboratories/core/std/normalize"
-//	"github.com/ignite-laboratories/core/std/num"
-//)
+// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
 //
-//// From creates a new instance of std.XY[T] with the provided values and std.Bounded function.
-////
-//// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
-////
-//// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
-//func From[T num.ExtendedPrimitive](x, y T, boundaryFn ...func(T) T) std.XY[T] {
-//	var fn func(T) T
-//	if len(boundaryFn) > 0 {
-//		fn = boundaryFn[0]
-//	}
-//	return std.XY[T]{}.SetBoundaries(fn, fn).Set(x, y)
-//}
+// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+func From[T num.ExtendedPrimitive](x, y T, maxX, maxY T) std.XY[T] {
+	return std.XY[T]{}.SetAll(x, y, 0, maxX, 0, maxY)
+}
+
+// FromFull creates a new instance of std.XY[T] bounded in the fully closed interval [min, max].
 //
-//// Random returns a pseudo-random std.XY[T] of the provided type using math.Random[T].
-////
-//// If requesting a floating point type, the resulting number will be bounded
-//// in the fully closed interval [0.0, 1.0]
-////
-//// If requesting an integer type, the resulting number will be bounded
-//// in the fully closed interval [0, n] - where n is the maximum value of
-//// the provided type.
-//func Random[T num.ExtendedPrimitive](boundaryFn ...func(T) T) std.XY[T] {
-//	var fn func(T) T
-//	if len(boundaryFn) > 0 {
-//		fn = boundaryFn[0]
-//	}
-//	x := num.RandomBounded[T](0, xBound)
-//	y := num.RandomBounded[T](0, yBound)
-//	return std.XY[T]{}.SetBoundaries(fn, fn).Set(x, y)
-//}
+// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
 //
-//// Normalize returns an std.XY[TOut] ranging from 0.0-1.0.
-//func Normalize[TIn num.ExtendedPrimitive, TOut num.Float](source std.XY[TIn]) std.XY[TOut] {
-//	x := normalize.To[TIn, TOut](source.X.Value(), source.X.Boundary())
-//	y := normalize.To[TIn, TOut](source.Y.Value(), source.Y.Boundary())
-//	return std.XY[TOut]{}.SetBoundaries(TOut(source.X.Boundary()), TOut(source.Y.Boundary())).Set(x, y)
-//}
-//
-//// ReScale returns an std.XY[TOut] scaled up to [0, TIn.Max] from an input bounded in the fully closed interval [0.0, 1.0].
-//func ReScale[TIn num.Float, TOut num.Integer](source std.XY[TIn]) std.XY[TOut] {
-//	x := normalize.From[TIn, TOut](source.X.Value(), TOut(source.X.Boundary()))
-//	y := normalize.From[TIn, TOut](source.Y.Value(), TOut(source.Y.Boundary()))
-//	return std.XY[TOut]{}.SetBoundaries(TOut(source.X.Boundary()), TOut(source.Y.Boundary())).Set(x, y)
-//}
-//
-//// Comparator returns if the two std.XY values are equal in values.
-//func Comparator[T num.ExtendedPrimitive](a std.XY[T], b std.XY[T]) bool {
-//	return a.X.Value() == b.X.Value() && a.Y.Value() == b.Y.Value()
-//}
+// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+func FromFull[T num.ExtendedPrimitive](x, y T, minX, maxX, minY, maxY T) std.XY[T] {
+	return std.XY[T]{}.SetAll(x, y, minX, maxX, minY, maxY)
+}
+
+// Random returns a pseudo-random std.XY[T] of the provided type using math.Random[T], with
+// each directional component bounded in the fully closed interval [0, min].  If you would like
+// the minimum to be above 0, please use RandomFull
+func Random[T num.ExtendedPrimitive](maxX, maxY T) std.XY[T] {
+	x := num.RandomBounded[T](0, maxX)
+	y := num.RandomBounded[T](0, maxY)
+	return std.XY[T]{}.SetAll(x, y, 0, maxX, 0, maxY)
+}
+
+// RandomFull returns a pseudo-random std.XY[T] of the provided type using math.Random[T], with
+// each directional component bounded in the fully closed interval [max, min].
+func RandomFull[T num.ExtendedPrimitive](minX, maxX, minY, maxY T) std.XY[T] {
+	x := num.RandomBounded[T](minX, maxX)
+	y := num.RandomBounded[T](minY, maxY)
+	return std.XY[T]{}.SetAll(x, y, minX, maxX, minY, maxY)
+}

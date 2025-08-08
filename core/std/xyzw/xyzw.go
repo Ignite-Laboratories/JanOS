@@ -1,57 +1,48 @@
 package xyzw
 
+import (
+	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/num"
+)
+
+// From creates a new instance of std.XYZW[T] bounded in the fully closed interval [0, max].  If you would like to
+// also set the minimum boundary, please use FromFull.
 //
-//import (
-//	"github.com/ignite-laboratories/core/std"
-//	"github.com/ignite-laboratories/core/std/normalize"
-//	"github.com/ignite-laboratories/core/std/num"
-//)
+// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
 //
-//// From creates a new instance of std.XYZW[T] with the provided values.
-//func From[T num.ExtendedPrimitive](x, y, z, w T, xBound, yBound, zBound, wBound T) std.XYZW[T] {
-//	return std.XYZW[T]{}.SetBoundaries(xBound, yBound, zBound, wBound).Set(x, y, z, w)
-//}
+// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+func From[T num.ExtendedPrimitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
+	return std.XYZW[T]{}.SetAll(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
+}
+
+// FromFull creates a new instance of std.XYZW[T] bounded in the fully closed interval [min, max].
 //
-//// FromInfinite creates a new instance of std.XYZW[T] with the provided values, setting the boundaries to the result of std.MaxValue[T].
-//func FromInfinite[T num.ExtendedPrimitive](x, y, z, w T) std.XYZW[T] {
-//	return std.XYZW[T]{}.SetBoundaries(T(num.MaxValue[T]()), T(num.MaxValue[T]()), T(num.MaxValue[T]()), T(num.MaxValue[T]())).Set(x, y, z, w)
-//}
+// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
 //
-//// Random returns a pseudo-random std.XYZW[T] of the provided type using math.Random[T].
-////
-//// If requesting a floating point type, the resulting number will be bounded
-//// in the fully closed interval [0.0, 1.0]
-////
-//// If requesting an integer type, the resulting number will be bounded
-//// in the fully closed interval [0, n] - where n is the maximum value of
-//// the provided type.
-//func Random[T num.ExtendedPrimitive](xBound, yBound, zBound, wBound T) std.XYZW[T] {
-//	x := num.RandomBounded[T](0, xBound)
-//	y := num.RandomBounded[T](0, yBound)
-//	z := num.RandomBounded[T](0, zBound)
-//	w := num.RandomBounded[T](0, wBound)
-//	return std.XYZW[T]{}.SetBoundaries(xBound, yBound, zBound, wBound).Set(x, y, z, w)
-//}
+// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+func FromFull[T num.ExtendedPrimitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
+	return std.XYZW[T]{}.SetAll(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
+}
+
+// Random returns a pseudo-random std.XYZW[T] of the provided type using math.Random[T], with
+// each directional component bounded in the fully closed interval [0, min].  If you would like
+// the minimum to be above 0, please use RandomFull
 //
-//// Normalize returns an std.XYZW[TOut] ranging from 0.0-1.0.
-//func Normalize[TIn num.ExtendedPrimitive, TOut num.Float](source std.XYZW[TIn]) std.XYZW[TOut] {
-//	x := normalize.To[TIn, TOut](source.X.Value(), source.X.Boundary())
-//	y := normalize.To[TIn, TOut](source.Y.Value(), source.Y.Boundary())
-//	z := normalize.To[TIn, TOut](source.Z.Value(), source.Z.Boundary())
-//	w := normalize.To[TIn, TOut](source.W.Value(), source.W.Boundary())
-//	return std.XYZW[TOut]{}.SetBoundaries(TOut(source.X.Boundary()), TOut(source.Y.Boundary()), TOut(source.Z.Boundary()), TOut(source.W.Boundary())).Set(x, y, z, w)
-//}
+// NOTE: W will always return as 1.0
+func Random[T num.ExtendedPrimitive](maxX, maxY, maxZ T) std.XYZW[T] {
+	x := num.RandomBounded[T](0, maxX)
+	y := num.RandomBounded[T](0, maxY)
+	z := num.RandomBounded[T](0, maxZ)
+	return std.XYZW[T]{}.SetAll(x, y, z, 1.0, 0, maxX, 0, maxY, 0, maxZ)
+}
+
+// RandomFull returns a pseudo-random std.XYZW[T] of the provided type using math.Random[T], with
+// each directional component bounded in the fully closed interval [max, min].
 //
-//// ReScale returns an std.XYZW[TOut] scaled up to [0, TIn.Max] from an input bounded in the fully closed interval [0.0, 1.0].
-//func ReScale[TIn num.Float, TOut num.Integer](source std.XYZW[TIn]) std.XYZW[TOut] {
-//	x := normalize.From[TIn, TOut](source.X.Value(), TOut(source.X.Boundary()))
-//	y := normalize.From[TIn, TOut](source.Y.Value(), TOut(source.Y.Boundary()))
-//	z := normalize.From[TIn, TOut](source.Z.Value(), TOut(source.Z.Boundary()))
-//	w := normalize.From[TIn, TOut](source.W.Value(), TOut(source.W.Boundary()))
-//	return std.XYZW[TOut]{}.SetBoundaries(TOut(source.X.Boundary()), TOut(source.Y.Boundary()), TOut(source.Z.Boundary()), TOut(source.W.Boundary())).Set(x, y, z, w)
-//}
-//
-//// Comparator returns if the two std.XYZW values are equal in values.
-//func Comparator[T num.ExtendedPrimitive](a std.XYZW[T], b std.XYZW[T]) bool {
-//	return a.X.Value() == b.X.Value() && a.Y.Value() == b.Y.Value() && a.Z.Value() == b.Z.Value() && a.W.Value() == b.W.Value()
-//}
+// NOTE: W will always return as 1.0
+func RandomFull[T num.ExtendedPrimitive](minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
+	x := num.RandomBounded[T](minX, maxX)
+	y := num.RandomBounded[T](minY, maxY)
+	z := num.RandomBounded[T](minZ, maxZ)
+	return std.XYZW[T]{}.SetAll(x, y, z, 1.0, minX, maxX, minY, maxY, minZ, maxZ)
+}

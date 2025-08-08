@@ -14,22 +14,58 @@ type XYZ[T num.ExtendedPrimitive] struct {
 	Z num.Bounded[T]
 }
 
-func (c XYZ[T]) Set(x, y, z T) XYZ[T] {
-	c.X.Set(x)
-	c.Y.Set(y)
-	c.Z.Set(z)
-	return c
+// Set sets the coordinate values.
+func (coords XYZ[T]) Set(x, y, z T) XYZ[T] {
+	coords.X = coords.X.Set(x)
+	coords.Y = coords.Y.Set(y)
+	coords.Z = coords.Z.Set(z)
+	return coords
 }
 
-func (c XYZ[T]) SetBoundaries(xBound, yBound, zBound func(T) T) XYZ[T] {
-	//c.X = c.X.SetBoundaryFn(xBound)
-	//c.Y = c.Y.SetBoundaryFn(yBound)
-	//c.Z = c.Z.SetBoundaryFn(zBound)
-	return c
+// SetBoundaries inclusively sets the coordinate boundaries for all directions.
+//
+// NOTE: This means to represent 1024x768 you should use 1023x767 =)
+func (coords XYZ[T]) SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ T) XYZ[T] {
+	coords.X = coords.X.SetBoundaries(minX, maxX)
+	coords.Y = coords.Y.SetBoundaries(minY, maxY)
+	coords.Z = coords.Z.SetBoundaries(minZ, maxZ)
+	return coords
 }
 
-func (c XYZ[T]) String() string {
-	return fmt.Sprintf("(%v, %v, %v)", c.X.Value(), c.Y.Value(), c.Z.Value())
+// SetAll first sets the boundaries for each direction, then sets their directional values.
+func (coords XYZ[T]) SetAll(x, y, z, minX, maxX, minY, maxY, minZ, maxZ T) XYZ[T] {
+	return coords.SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ).Set(x, y, z)
+}
+
+// SetFromNormalized sets the bounded directional values using float64 unit vectors from the [0.0, 1.0]
+// range, where 0.0 maps to the coordinate space's bounded minimum and 1.0 maps to the bounded maximum.
+func (coords XYZ[T]) SetFromNormalized(x, y, z float64) XYZ[T] {
+	coords.X = coords.X.SetFromNormalized(x)
+	coords.Y = coords.Y.SetFromNormalized(y)
+	coords.Z = coords.Z.SetFromNormalized(z)
+	return coords
+}
+
+// SetFromNormalized32 sets the bounded directional values using float32 unit vectors from the [0.0, 1.0]
+// range, where 0.0 maps to the coordinate space's bounded minimum and 1.0 maps to the bounded maximum.
+func (coords XYZ[T]) SetFromNormalized32(x, y, z float32) XYZ[T] {
+	return coords.SetFromNormalized(float64(x), float64(y), float64(z))
+}
+
+// Normalize converts the bounded directional values to float64 unit vectors in the range [0.0, 1.0],
+// where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
+func (coords XYZ[T]) Normalize() (float64, float64, float64) {
+	return coords.X.Normalize(), coords.Y.Normalize(), coords.Z.Normalize()
+}
+
+// Normalize32 converts the bounded directional values to float32 unit vectors in the range [0.0, 1.0],
+// where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
+func (coords XYZ[T]) Normalize32() (float32, float32, float32) {
+	return coords.X.Normalize32(), coords.Y.Normalize32(), coords.Z.Normalize32()
+}
+
+func (coords XYZ[T]) String() string {
+	return fmt.Sprintf("(%v, %v, %v)", coords.X, coords.Y, coords.Z)
 }
 
 /**
