@@ -5,21 +5,13 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// From creates a new instance of std.XYZW[T] bounded in the fully closed interval [0, max].  If you would like to
-// also set the minimum boundary, please use FromFull.
-//
-// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
-//
-// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+// From creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [0, max].  If you
+// would like to also set the minimum boundaries, please use FromFull.
 func From[T num.ExtendedPrimitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
 	return std.XYZW[T]{}.SetAll(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
 }
 
-// FromFull creates a new instance of std.XYZW[T] bounded in the fully closed interval [min, max].
-//
-// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
-//
-// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+// FromFull creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [min, max].
 func FromFull[T num.ExtendedPrimitive](x, y, z T, w float64, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
 	return std.XYZW[T]{}.SetAll(x, y, z, w, minX, maxX, minY, maxY, minZ, maxZ)
 }

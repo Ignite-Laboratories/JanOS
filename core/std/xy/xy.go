@@ -5,21 +5,13 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// From creates a new instance of std.XY[T] bounded in the fully closed interval [0, max].  If you would like to
-// also set the minimum boundary, please use FromFull.
-//
-// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
-//
-// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+// From creates a new instance of std.XY[T] with each direction bounded in the fully closed interval [0, max].  If you
+// would like to also set the minimum boundaries, please use FromFull.
 func From[T num.ExtendedPrimitive](x, y T, maxX, maxY T) std.XY[T] {
 	return std.XY[T]{}.SetAll(x, y, 0, maxX, 0, maxY)
 }
 
-// FromFull creates a new instance of std.XY[T] bounded in the fully closed interval [min, max].
-//
-// NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
-//
-// NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
+// FromFull creates a new instance of std.XY[T] with each direction bounded in the fully closed interval [min, max].
 func FromFull[T num.ExtendedPrimitive](x, y T, minX, maxX, minY, maxY T) std.XY[T] {
 	return std.XY[T]{}.SetAll(x, y, minX, maxX, minY, maxY)
 }
