@@ -20,8 +20,8 @@ func From[T num.ExtendedPrimitive](x, y, z T, maxX, maxY, maxZ T) std.XYZ[T] {
 // NOTE: If you would like the values to be bound by their type's std.MaxValue[T], do not provide a boundary function.
 //
 // NOTE: If no boundary function is provided and T is a sub-byte type, std.ImplicitOverflow is automatically chosen.
-func FromFull[T num.ExtendedPrimitive](x, y, z T, maxX, maxY, maxZ T) std.XYZ[T] {
-	return std.XYZ[T]{}.SetAll(x, y, z, 0, maxX, 0, maxY, 0, maxZ)
+func FromFull[T num.ExtendedPrimitive](x, y, z T, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZ[T] {
+	return std.XYZ[T]{}.SetAll(x, y, z, minX, maxX, minY, maxY, minZ, maxZ)
 }
 
 // Random returns a pseudo-random std.XYZ[T] of the provided type using math.Random[T], with
