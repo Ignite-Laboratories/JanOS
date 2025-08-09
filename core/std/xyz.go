@@ -8,10 +8,18 @@ import (
 // XYZ is a general structure for holding generic (x,y,z) coordinate values.
 //
 // NOTE: This type also provides rudimentary "swizzling."
-type XYZ[T num.ExtendedPrimitive] struct {
+type XYZ[T num.Primitive] struct {
 	X Bounded[T]
 	Y Bounded[T]
 	Z Bounded[T]
+}
+
+// SetClamp sets whether the directions should clamp to their boundaries or overflow and under-flow.
+func (coords XYZ[T]) SetClamp(shouldClamp bool) XYZ[T] {
+	coords.X.Clamp = shouldClamp
+	coords.Y.Clamp = shouldClamp
+	coords.Z.Clamp = shouldClamp
+	return coords
 }
 
 // Set sets the coordinate values.
@@ -65,7 +73,7 @@ func (coords XYZ[T]) Normalize32() (x float32, y float32, z float32) {
 }
 
 func (coords XYZ[T]) String() string {
-	return fmt.Sprintf("(%v, %v, %v)", coords.X, coords.Y, coords.Z)
+	return fmt.Sprintf("(%v, %v, %v)", coords.X.Value(), coords.Y.Value(), coords.Z.Value())
 }
 
 /**

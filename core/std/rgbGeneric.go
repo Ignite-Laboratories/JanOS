@@ -1,16 +1,19 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
 // RGBGeneric is the underlying structure of color operations.  It differs from the more common RGB in that it supports
-// asymmetric channel bit widths (as it's far more common in the modern age to work with symmetric channel widths).  This
-// provides accessibility to legacy color spaces while allowing the more common RGB type to evolve from old paradigms,
+// asymmetric channel bit widths - gaining the lengthier type name as it's far more common in the modern age to work with
+// symmetric channel widths.
+//
+// This provides accessibility to legacy color spaces while allowing the more common RGB type to evolve from old paradigms,
 // rather than dismissing their existence entirely. =)
 //
 // NOTE: This type also provides rudimentary "swizzling."
-type RGBGeneric[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.ExtendedPrimitive] struct {
+type RGBGeneric[TR num.Primitive, TG num.Primitive, TB num.Primitive] struct {
 	// R is the red channel.
 	R Bounded[TR]
 
@@ -19,6 +22,14 @@ type RGBGeneric[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.Exten
 
 	// B is the blue channel.
 	B Bounded[TB]
+}
+
+// SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
+func (c RGBGeneric[TR, TG, TB]) SetClamp(shouldClamp bool) RGBGeneric[TR, TG, TB] {
+	c.R.Clamp = shouldClamp
+	c.G.Clamp = shouldClamp
+	c.B.Clamp = shouldClamp
+	return c
 }
 
 // Set sets the all color channels and returns the new color.
@@ -72,6 +83,13 @@ func (c RGBGeneric[TR, TG, TB]) Normalize() (float64, float64, float64) {
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
 func (c RGBGeneric[TR, TG, TB]) Normalize32() (float32, float32, float32) {
 	return c.R.Normalize32(), c.G.Normalize32(), c.B.Normalize32()
+}
+
+func (c RGBGeneric[TR, TG, TB]) String() string {
+	var rZero TR
+	var gZero TG
+	var bZero TB
+	return fmt.Sprintf("rgba[%T, %T, %T](%v, %v, %v)", rZero, gZero, bZero, c.R.Value(), c.G.Value(), c.B.Value())
 }
 
 /**

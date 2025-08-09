@@ -6,9 +6,16 @@ import (
 )
 
 // XY is a general structure for holding generic bounded (x,y) coordinate values.
-type XY[T num.ExtendedPrimitive] struct {
+type XY[T num.Primitive] struct {
 	X Bounded[T]
 	Y Bounded[T]
+}
+
+// SetClamp sets whether the directions should clamp to their boundaries or overflow and under-flow.
+func (coords XY[T]) SetClamp(shouldClamp bool) XY[T] {
+	coords.X.Clamp = shouldClamp
+	coords.Y.Clamp = shouldClamp
+	return coords
 }
 
 // Set sets the coordinate values.
@@ -59,5 +66,5 @@ func (coords XY[T]) Normalize32() (x float32, y float32) {
 }
 
 func (coords XY[T]) String() string {
-	return fmt.Sprintf("(%v, %v)", coords.X, coords.Y)
+	return fmt.Sprintf("(%v, %v)", coords.X.Value(), coords.Y.Value())
 }

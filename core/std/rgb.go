@@ -1,13 +1,22 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
 // RGB is a structure for holding symmetrical red, green, and blue color channel values - as well as providing rudimentary "swizzling."
 //
 // NOTE: This derives from RGBGeneric, which allows asymmetric channel bit widths if desired =)
-type RGB[T num.ExtendedPrimitive] RGBGeneric[T, T, T]
+type RGB[T num.Primitive] RGBGeneric[T, T, T]
+
+// SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
+func (c RGB[T]) SetClamp(shouldClamp bool) RGB[T] {
+	c.R.Clamp = shouldClamp
+	c.G.Clamp = shouldClamp
+	c.B.Clamp = shouldClamp
+	return c
+}
 
 // Set sets the all color channels and returns the new color.
 func (c RGB[T]) Set(r, g, b T) RGB[T] {
@@ -60,6 +69,11 @@ func (c RGB[T]) Normalize() (float64, float64, float64) {
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
 func (c RGB[T]) Normalize32() (float32, float32, float32) {
 	return c.R.Normalize32(), c.G.Normalize32(), c.B.Normalize32()
+}
+
+func (c RGB[T]) String() string {
+	var zero T
+	return fmt.Sprintf("rgb[%T](%v, %v, %v)", zero, c.R.Value(), c.G.Value(), c.B.Value())
 }
 
 /**

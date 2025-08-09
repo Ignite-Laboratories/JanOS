@@ -9,13 +9,13 @@ import (
 // Bounded represents a numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
-type Bounded[T num.ExtendedPrimitive] struct {
+type Bounded[T num.Primitive] struct {
 	value   T
 	minimum T
 	maximum T
 	Clamp   bool
 }
-type BoundedByType[T num.ExtendedPrimitive] struct {
+type BoundedByType[T num.Primitive] struct {
 	value T
 	clamp bool
 }
@@ -66,8 +66,10 @@ func (bnd Bounded[T]) SetBoundaries(a, b T) Bounded[T] {
 	return bnd.Set(bnd.value)
 }
 
-// Normalize converts the Bounded value to a float64 unit vector in the range [0.0, 1.0],
-// where the bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
+// Normalize converts the Bounded value to a float64 unit vector in the interval [0.0, 1.0],
+// by linearly mapping the value from its bounded interval's [minimum, maximum]. A value equal
+// to minimum maps to 0.0, a value equal to maximum maps to 1.0, and values in between
+// are linearly interpolated.
 func (bnd Bounded[T]) Normalize() float64 {
 	numerator := uint64(bnd.value - bnd.minimum)
 	denominator := uint64(bnd.maximum - bnd.minimum)

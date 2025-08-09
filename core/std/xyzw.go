@@ -14,11 +14,19 @@ import (
 //	Other W values represent scaled 3D points (x/w, y/w, z/w)
 //
 // NOTE: This type also provides rudimentary "swizzling."
-type XYZW[T num.ExtendedPrimitive] struct {
+type XYZW[T num.Primitive] struct {
 	X Bounded[T]
 	Y Bounded[T]
 	Z Bounded[T]
 	W float64
+}
+
+// SetClamp sets whether the directions should clamp to their boundaries or overflow and under-flow.
+func (coords XYZW[T]) SetClamp(shouldClamp bool) XYZW[T] {
+	coords.X.Clamp = shouldClamp
+	coords.Y.Clamp = shouldClamp
+	coords.Z.Clamp = shouldClamp
+	return coords
 }
 
 // Set sets the coordinate values.
@@ -89,7 +97,7 @@ func (coords XYZW[T]) Normalize32() (x float32, y float32, z float32, w float32)
 }
 
 func (coords XYZW[T]) String() string {
-	return fmt.Sprintf("(%v, %v, %v, %v)", coords.X, coords.Y, coords.Z, coords.W)
+	return fmt.Sprintf("(%v, %v, %v, %v)", coords.X.Value(), coords.Y.Value(), coords.Z.Value(), coords.W)
 }
 
 /**

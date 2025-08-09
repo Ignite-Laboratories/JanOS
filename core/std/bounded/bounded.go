@@ -11,7 +11,7 @@ import (
 //
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
-func By[T num.ExtendedPrimitive](value, a, b T, clamp ...bool) std.Bounded[T] {
+func By[T num.Primitive](value, a, b T, clamp ...bool) std.Bounded[T] {
 	bnd := std.Bounded[T]{
 		Clamp: len(clamp) > 0 && clamp[0],
 	}
@@ -25,8 +25,8 @@ func By[T num.ExtendedPrimitive](value, a, b T, clamp ...bool) std.Bounded[T] {
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
 //
-// NOTE: This supports the num.ExtendedPrimitive implicitly sized types.
-func ByType[T num.ExtendedPrimitive](value T, clamp ...bool) std.Bounded[T] {
+// NOTE: This supports the num.Primitive implicitly sized types.
+func ByType[T num.Primitive](value T, clamp ...bool) std.Bounded[T] {
 	return By(value, T(num.MinValue[T]()), T(num.MaxValue[T]()), clamp...)
 }
 
@@ -35,7 +35,7 @@ func ByType[T num.ExtendedPrimitive](value T, clamp ...bool) std.Bounded[T] {
 //
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
-func Random[T num.ExtendedPrimitive](clamp ...bool) std.Bounded[T] {
+func Random[T num.Primitive](clamp ...bool) std.Bounded[T] {
 	return RandomSubset(0, T(num.MaxValue[T]()), clamp...)
 }
 
@@ -44,13 +44,13 @@ func Random[T num.ExtendedPrimitive](clamp ...bool) std.Bounded[T] {
 //
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
-func RandomSubset[T num.ExtendedPrimitive](minimum, maximum T, clamp ...bool) std.Bounded[T] {
+func RandomSubset[T num.Primitive](minimum, maximum T, clamp ...bool) std.Bounded[T] {
 	random := num.RandomWithinRange(minimum, maximum)
 	return By[T](random, minimum, maximum, clamp...)
 }
 
 // ScaleToType normalizes the std.Bounded[TIn] value to a unit vector and then returns a new std.Bounded[TOut] it.
-func ScaleToType[TIn num.ExtendedPrimitive, TOut num.ExtendedPrimitive](value std.Bounded[TIn]) std.Bounded[TOut] {
+func ScaleToType[TIn num.Primitive, TOut num.Primitive](value std.Bounded[TIn]) std.Bounded[TOut] {
 	normalizedPos := value.Normalize()
 	return ByType[TOut](0).SetFromNormalized(normalizedPos)
 }

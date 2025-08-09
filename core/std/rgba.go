@@ -1,13 +1,23 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
 // RGBA is a structure for holding symmetrical red, green, blue, and alpha color channel values - as well as providing rudimentary "swizzling."
 //
 // NOTE: This derives from RGBAGeneric, which allows asymmetric channel bit widths if desired =)
-type RGBA[T num.ExtendedPrimitive] RGBAGeneric[T, T, T, T]
+type RGBA[T num.Primitive] RGBAGeneric[T, T, T, T]
+
+// SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
+func (c RGBA[T]) SetClamp(shouldClamp bool) RGBA[T] {
+	c.R.Clamp = shouldClamp
+	c.G.Clamp = shouldClamp
+	c.B.Clamp = shouldClamp
+	c.A.Clamp = shouldClamp
+	return c
+}
 
 // Set sets the all color channels and returns the new color.
 func (c RGBA[T]) Set(r, g, b, a T) RGBA[T] {
@@ -68,6 +78,11 @@ func (c RGBA[T]) Normalize() (float64, float64, float64, float64) {
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
 func (c RGBA[T]) Normalize32() (float32, float32, float32, float32) {
 	return c.R.Normalize32(), c.G.Normalize32(), c.B.Normalize32(), c.A.Normalize32()
+}
+
+func (c RGBA[T]) String() string {
+	var zero T
+	return fmt.Sprintf("rgba[%T](%v, %v, %v, %v)", zero, c.R.Value(), c.G.Value(), c.B.Value(), c.A.Value())
 }
 
 /**

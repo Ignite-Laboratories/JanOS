@@ -1,16 +1,19 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
 // RGBAGeneric is the underlying structure of color operations.  It differs from the more common RGBA in that it supports
-// asymmetric channel bit widths (as it's far more common in the modern age to work with symmetric channel widths).  This
-// provides accessibility to legacy color spaces while allowing the more common RGBA type to evolve from old paradigms,
+// asymmetric channel bit widths - gaining the lengthier type name as it's far more common in the modern age to work with
+// symmetric channel widths.
+//
+// This provides accessibility to legacy color spaces while allowing the more common RGBA type to evolve from old paradigms,
 // rather than dismissing their existence entirely. =)
 //
 // NOTE: This type also provides rudimentary "swizzling."
-type RGBAGeneric[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.ExtendedPrimitive, TA num.ExtendedPrimitive] struct {
+type RGBAGeneric[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive] struct {
 	// R is the R channel.
 	R Bounded[TR]
 
@@ -22,6 +25,15 @@ type RGBAGeneric[TR num.ExtendedPrimitive, TG num.ExtendedPrimitive, TB num.Exte
 
 	// A is the A channel.
 	A Bounded[TA]
+}
+
+// SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
+func (c RGBAGeneric[TR, TG, TB, TA]) SetClamp(shouldClamp bool) RGBAGeneric[TR, TG, TB, TA] {
+	c.R.Clamp = shouldClamp
+	c.G.Clamp = shouldClamp
+	c.B.Clamp = shouldClamp
+	c.A.Clamp = shouldClamp
+	return c
 }
 
 // Set sets the all color channels and returns the new color.
@@ -83,6 +95,14 @@ func (c RGBAGeneric[TR, TG, TB, TA]) Normalize() (float64, float64, float64, flo
 // where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
 func (c RGBAGeneric[TR, TG, TB, TA]) Normalize32() (float32, float32, float32, float32) {
 	return c.R.Normalize32(), c.G.Normalize32(), c.B.Normalize32(), c.A.Normalize32()
+}
+
+func (c RGBAGeneric[TR, TG, TB, TA]) String() string {
+	var rZero TA
+	var gZero TG
+	var bZero TB
+	var aZero TA
+	return fmt.Sprintf("rgba[%T, %T, %T, %T](%v, %v, %v, %v)", rZero, gZero, bZero, aZero, c.R.Value(), c.G.Value(), c.B.Value(), c.A.Value())
 }
 
 /**

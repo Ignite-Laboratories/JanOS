@@ -8,12 +8,12 @@ import (
 
 // From creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [0, max].  If you
 // would like to also set the minimum boundaries, please use FromFull.
-func From[T num.ExtendedPrimitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
+func From[T num.Primitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
 	return std.XYZW[T]{}.SetAll(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
 }
 
 // FromFull creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [min, max].
-func FromFull[T num.ExtendedPrimitive](x, y, z T, w float64, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
+func FromFull[T num.Primitive](x, y, z T, w float64, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
 	return std.XYZW[T]{}.SetAll(x, y, z, w, minX, maxX, minY, maxY, minZ, maxZ)
 }
 
@@ -22,7 +22,7 @@ func FromFull[T num.ExtendedPrimitive](x, y, z T, w float64, minX, maxX, minY, m
 // the minimum to be above 0, please use RandomFull
 //
 // NOTE: W will always return as 1.0
-func Random[T num.ExtendedPrimitive](maxX, maxY, maxZ T) std.XYZW[T] {
+func Random[T num.Primitive](maxX, maxY, maxZ T) std.XYZW[T] {
 	x := num.RandomWithinRange[T](0, maxX)
 	y := num.RandomWithinRange[T](0, maxY)
 	z := num.RandomWithinRange[T](0, maxZ)
@@ -33,7 +33,7 @@ func Random[T num.ExtendedPrimitive](maxX, maxY, maxZ T) std.XYZW[T] {
 // each directional component bounded in the fully closed interval [min, max].
 //
 // NOTE: W will always return as 1.0
-func RandomFull[T num.ExtendedPrimitive](minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
+func RandomFull[T num.Primitive](minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
 	x := num.RandomWithinRange[T](minX, maxX)
 	y := num.RandomWithinRange[T](minY, maxY)
 	z := num.RandomWithinRange[T](minZ, maxZ)
@@ -43,7 +43,7 @@ func RandomFull[T num.ExtendedPrimitive](minX, maxX, minY, maxY, minZ, maxZ T) s
 // ScaleToType normalizes the std.XYZW[T] directional components into unit vectors and then scales them to a new std.XYZW[TOut].
 //
 // NOTE: W will remain unchanged.
-func ScaleToType[TIn num.ExtendedPrimitive, TOut num.ExtendedPrimitive](value std.XYZW[TIn]) std.XYZW[TOut] {
+func ScaleToType[TIn num.Primitive, TOut num.Primitive](value std.XYZW[TIn]) std.XYZW[TOut] {
 	return std.XYZW[TOut]{
 		X: bounded.ScaleToType[TOut](value.X),
 		Y: bounded.ScaleToType[TOut](value.Y),
