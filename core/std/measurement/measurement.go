@@ -8,6 +8,7 @@ import (
 	"github.com/ignite-laboratories/core/internal"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/name"
+	"github.com/ignite-laboratories/core/std/num"
 	"reflect"
 	"unsafe"
 )
@@ -92,7 +93,7 @@ func Of[T any](data T) std.Measurement[T] {
 func OfZeros(width int) std.Measurement[any] {
 	m := std.Measurement[any]{
 		Bytes:      make([]byte, width/8),
-		Bits:       make([]std.Bit, width%8),
+		Bits:       make([]num.Bit, width%8),
 		Endianness: endian.Big,
 	}.RollUp()
 	m.GivenName = name.Random[name.Default]()
@@ -112,8 +113,8 @@ func OfOnes(width int) std.Measurement[any] {
 }
 
 // OfBits creates a new std.Measurement[any] of the provided std.Bit slice.
-func OfBits(bits ...std.Bit) std.Measurement[any] {
-	std.BitSanityCheck(bits...)
+func OfBits(bits ...num.Bit) std.Measurement[any] {
+	num.BitSanityCheck(bits...)
 	m := std.Measurement[any]{
 		Bits:       bits,
 		Endianness: endian.Big,
@@ -135,7 +136,7 @@ func OfBytes(bytes ...byte) std.Measurement[any] {
 // OfPattern creates a new std.Measurement[T] of the provided bit-width consisting of the pattern emitted across it in the direction.Direction of travel.Traveling.
 //
 // Inward and outward travel directions are supported and work from the midpoint of the width, biased towards the west.
-func OfPattern(w uint, t traveling.Traveling, pattern ...std.Bit) std.Measurement[any] {
+func OfPattern(w uint, t traveling.Traveling, pattern ...num.Bit) std.Measurement[any] {
 	if w <= 0 || len(pattern) == 0 {
 		return std.Measurement[any]{
 			Endianness: endian.Big,
@@ -146,8 +147,8 @@ func OfPattern(w uint, t traveling.Traveling, pattern ...std.Bit) std.Measuremen
 		panic(fmt.Sprintf("cannot take a latitudinal binary measurement [%v]", t.StringFull(true)))
 	}
 
-	printer := func(width uint, tt traveling.Traveling) []std.Bit {
-		bits := make([]std.Bit, width)
+	printer := func(width uint, tt traveling.Traveling) []num.Bit {
+		bits := make([]num.Bit, width)
 		patternI := 0
 		for i := 0; i < int(width); i++ {
 			ii := i
@@ -179,9 +180,9 @@ func OfPattern(w uint, t traveling.Traveling, pattern ...std.Bit) std.Measuremen
 //
 // NOTE: This will panic if anything but a 1 or 0 is found in the input string.
 func OfString(s string) std.Measurement[any] {
-	bits := make([]std.Bit, len(s))
+	bits := make([]num.Bit, len(s))
 	for i := 0; i < len(s); i++ {
-		bits[i] = std.Bit(s[i])
+		bits[i] = num.Bit(s[i])
 	}
 	return OfBits(bits...)
 }

@@ -7,8 +7,8 @@ import (
 
 // RGB is a structure for holding symmetrical red, green, and blue color channel values - as well as providing rudimentary "swizzling."
 //
-// NOTE: This derives from RGBGeneric, which allows asymmetric channel bit widths if desired =)
-type RGB[T num.Primitive] RGBGeneric[T, T, T]
+// NOTE: This derives from RGBAsymmetric, which allows asymmetric channel bit widths if desired =)
+type RGB[T num.Primitive] RGBAsymmetric[T, T, T]
 
 // SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
 func (c RGB[T]) SetClamp(shouldClamp bool) RGB[T] {

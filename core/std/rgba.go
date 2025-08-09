@@ -7,8 +7,8 @@ import (
 
 // RGBA is a structure for holding symmetrical red, green, blue, and alpha color channel values - as well as providing rudimentary "swizzling."
 //
-// NOTE: This derives from RGBAGeneric, which allows asymmetric channel bit widths if desired =)
-type RGBA[T num.Primitive] RGBAGeneric[T, T, T, T]
+// NOTE: This derives from RGBAAsymmetric, which allows asymmetric channel bit widths if desired =)
+type RGBA[T num.Primitive] RGBAAsymmetric[T, T, T, T]
 
 // SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
 func (c RGBA[T]) SetClamp(shouldClamp bool) RGBA[T] {

@@ -4,6 +4,7 @@ import (
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/measurement"
 	"github.com/ignite-laboratories/core/std/name"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 func newPhrase[TMmt any, TName name.Format]() std.Phrase[TMmt] {
@@ -40,7 +41,7 @@ func OfBytes(bytes ...byte) std.Phrase[any] {
 }
 
 // OfBits creates a named Phrase of the provided bits and name.
-func OfBits(bits ...std.Bit) std.Phrase[any] {
+func OfBits(bits ...num.Bit) std.Phrase[any] {
 	p := newPhrase[any, name.Default]()
 	p.Data = []std.Measurement[any]{measurement.OfBits(bits...)}
 	return p

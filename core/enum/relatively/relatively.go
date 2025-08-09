@@ -13,7 +13,7 @@ package relatively
 // These terms have been very carefully chosen for their linguistic fluidity in code, while
 // maintaining the existing convention of representing -1, 0, and 1.
 //
-// With this, I present the two perspective operators:
+// For perspective, I use the following operators:
 //
 //	𝑎 ⇝ 𝑏    "a's perspective of its abstract relationship to b"
 //	𝑎 ⇜ 𝑏    "b's perspective of its abstract relationship to a"

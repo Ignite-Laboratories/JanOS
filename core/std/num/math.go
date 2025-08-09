@@ -10,7 +10,7 @@ import (
 func IsSubByte[T Primitive]() bool {
 	var zero T
 	switch any(zero).(type) {
-	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		return true
 	}
 	return false
@@ -20,7 +20,7 @@ func IsSubByte[T Primitive]() bool {
 func ImplicitOverflow[T Primitive](value T) T {
 	var zero T
 	switch any(zero).(type) {
-	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		overflow := MaxValue[T]() + 1
 		return T(int(value) % int(overflow))
 	}
@@ -31,7 +31,7 @@ func ImplicitOverflow[T Primitive](value T) T {
 func IsSigned[T Primitive]() bool {
 	var zero T
 	switch any(zero).(type) {
-	case uint8, uint16, uint32, uint64, uint, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+	case uint8, uint16, uint32, uint64, uint, Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		return false
 	}
 	return true
@@ -42,6 +42,8 @@ func IsSigned[T Primitive]() bool {
 // NOTE: This will panic for non-integer types.
 func MaxValue[T Primitive]() uint64 {
 	switch any(T(0)).(type) {
+	case Bit:
+		return 1
 	case Crumb:
 		return 1<<2 - 1
 	case Note:
@@ -92,7 +94,7 @@ func MaxValue[T Primitive]() uint64 {
 // NOTE: This will panic for non-integer types.
 func MinValue[T Primitive]() int64 {
 	switch any(T(0)).(type) {
-	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook,
+	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook,
 		uint8, uint16, uint32, uint64, uint:
 		return 0
 	case int8:
@@ -120,6 +122,8 @@ func MinValue[T Primitive]() int64 {
 // the provided type, including the implicit size of the extended primitives.
 func Random[T Primitive]() T {
 	switch any(T(0)).(type) {
+	case Bit:
+		return T(RandomWithinRange[Bit](0, 1))
 	case Crumb:
 		return T(RandomWithinRange[Crumb](0, Crumb(MaxValue[Crumb]())))
 	case Note:
@@ -210,7 +214,7 @@ func RandomWithinRange[T Primitive](a T, b T) T {
 	case int8, int16, int32, int64, int, uint8, uint16, uint32, uint64, uint:
 		range64 := uint64(b) - uint64(a)
 		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
-	case Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
+	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		// These are implicitly sized uint types
 		if a < 0 || b > T(MaxValue[T]()) {
 			panic("cannot provide a random number exceeding the implicit bounds of the type.")

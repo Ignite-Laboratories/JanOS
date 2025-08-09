@@ -3,6 +3,7 @@ package std
 import (
 	"github.com/ignite-laboratories/core/enum/endian"
 	"github.com/ignite-laboratories/core/internal"
+	"github.com/ignite-laboratories/core/std/num"
 	"strings"
 )
 
@@ -29,7 +30,7 @@ type Measurement[T any] struct {
 	Bytes []byte
 
 	// Bits holds any remaining bits.
-	Bits []Bit
+	Bits []num.Bit
 }
 
 /**
@@ -39,12 +40,12 @@ From Functions
 // newMeasurementFrom creates a new Measurement of the provided Bit slice in the order they are provided.
 //
 // NOTE: These are convenience methods - for the full gamut of Measurement features, see the measurement package.
-func newMeasurementFrom[T any](bytes []byte, bits ...Bit) Measurement[T] {
+func newMeasurementFrom[T any](bytes []byte, bits ...num.Bit) Measurement[T] {
 	if bytes == nil {
 		bytes = []byte{}
 	}
 
-	BitSanityCheck(bits...)
+	num.BitSanityCheck(bits...)
 	return Measurement[T]{
 		Bytes:      bytes,
 		Bits:       bits,
@@ -55,7 +56,7 @@ func newMeasurementFrom[T any](bytes []byte, bits ...Bit) Measurement[T] {
 // newMeasurementOfBits creates a new Measurement of the provided Bit slice.
 //
 // NOTE: These are convenience methods - for the full gamut of Measurement features, see the measurement package.
-func newMeasurementOfBits[T any](bits ...Bit) Measurement[T] {
+func newMeasurementOfBits[T any](bits ...num.Bit) Measurement[T] {
 	return newMeasurementFrom[T](nil, bits...)
 }
 
@@ -76,13 +77,13 @@ func (a Measurement[T]) BitWidth() uint {
 }
 
 // GetAllBits returns a slice of the Measurement's individual bits.
-func (a Measurement[T]) GetAllBits() []Bit {
+func (a Measurement[T]) GetAllBits() []num.Bit {
 	a = a.sanityCheck()
-	var byteBits []Bit
+	var byteBits []num.Bit
 	for _, b := range a.Bytes {
-		bits := make([]Bit, 8)
+		bits := make([]num.Bit, 8)
 		for i := 7; i >= 0; i-- {
-			bits[7-i] = Bit((b >> i) & 1)
+			bits[7-i] = num.Bit((b >> i) & 1)
 		}
 		byteBits = append(byteBits, bits...)
 	}
@@ -90,7 +91,7 @@ func (a Measurement[T]) GetAllBits() []Bit {
 }
 
 // Append places the provided bits at the end of the Measurement.
-func (a Measurement[T]) Append(bits ...Bit) Measurement[T] {
+func (a Measurement[T]) Append(bits ...num.Bit) Measurement[T] {
 	a = a.sanityCheck(bits...)
 
 	a.Bits = append(a.Bits, bits...)
@@ -103,11 +104,11 @@ func (a Measurement[T]) AppendBytes(bytes ...byte) Measurement[T] {
 
 	lastBits := a.Bits
 	for _, b := range bytes {
-		bits := make([]Bit, 8)
+		bits := make([]num.Bit, 8)
 
 		ii := 0
 		for i := byte(7); i < 8; i-- {
-			bits[ii] = Bit((b >> i) & 1)
+			bits[ii] = num.Bit((b >> i) & 1)
 			ii++
 		}
 
@@ -137,13 +138,13 @@ func (a Measurement[T]) AppendMeasurements(m ...Measurement[T]) Measurement[T] {
 }
 
 // Prepend places the provided bits at the start of the Measurement.
-func (a Measurement[T]) Prepend(bits ...Bit) Measurement[T] {
+func (a Measurement[T]) Prepend(bits ...num.Bit) Measurement[T] {
 	a = a.sanityCheck(bits...)
 
 	oldBits := a.Bits
 	oldBytes := a.Bytes
 	a.Bytes = []byte{}
-	a.Bits = []Bit{}
+	a.Bits = []num.Bit{}
 	a = a.Append(bits...)
 	a = a.AppendBytes(oldBytes...)
 	a = a.Append(oldBits...)
@@ -157,7 +158,7 @@ func (a Measurement[T]) PrependBytes(bytes ...byte) Measurement[T] {
 	oldBits := a.Bits
 	oldBytes := a.Bytes
 	a.Bytes = bytes
-	a.Bits = []Bit{}
+	a.Bits = []num.Bit{}
 	a = a.AppendBytes(oldBytes...)
 	a = a.Append(oldBits...)
 	return a.RollUp()
@@ -180,7 +181,7 @@ func (a Measurement[T]) PrependMeasurements(m ...Measurement[T]) Measurement[T] 
 // Reverse reverses the order of all bits in the measurement.
 func (a Measurement[T]) Reverse() Measurement[T] {
 	reversedBytes := make([]byte, len(a.Bytes))
-	reversedBits := make([]Bit, len(a.Bits))
+	reversedBits := make([]num.Bit, len(a.Bits))
 
 	ii := 0
 	for i := len(a.Bytes) - 1; i >= 0; i-- {
@@ -195,12 +196,12 @@ func (a Measurement[T]) Reverse() Measurement[T] {
 	}
 
 	a.Bytes = reversedBytes
-	a.Bits = make([]Bit, 0)
+	a.Bits = make([]num.Bit, 0)
 	return a.Prepend(reversedBits...)
 }
 
 // BleedLastBit returns the last bit of the measurement and a measurement missing that bit.
-func (a Measurement[T]) BleedLastBit() (Bit, Measurement[T]) {
+func (a Measurement[T]) BleedLastBit() (num.Bit, Measurement[T]) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the last bit of an empty measurement")
 	}
@@ -209,7 +210,7 @@ func (a Measurement[T]) BleedLastBit() (Bit, Measurement[T]) {
 }
 
 // BleedFirstBit returns the first bit of the measurement and a measurement missing that bit.
-func (a Measurement[T]) BleedFirstBit() (Bit, Measurement[T]) {
+func (a Measurement[T]) BleedFirstBit() (num.Bit, Measurement[T]) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the first bit of an empty measurement")
 	}
@@ -239,14 +240,14 @@ Utilities
 
 // sanityCheck is a measurement level sanity check that ensures the provided bits are all 1s and 0s before
 // rolling the currently measured bits into bytes wherever possible.
-func (a Measurement[T]) sanityCheck(bits ...Bit) Measurement[T] {
+func (a Measurement[T]) sanityCheck(bits ...num.Bit) Measurement[T] {
 	if a.Bytes == nil {
 		a.Bytes = []byte{}
 	}
 	if a.Bits == nil {
-		a.Bits = []Bit{}
+		a.Bits = []num.Bit{}
 	}
-	BitSanityCheck(bits...)
+	num.BitSanityCheck(bits...)
 	return a.RollUp()
 }
 

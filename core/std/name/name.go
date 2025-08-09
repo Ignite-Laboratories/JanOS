@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+// TODO: Allow replacing nameDB and surnameDB with a file from atlas configuration
+
 var moduleName = "name"
 
 //go:embed nameDB.tsv

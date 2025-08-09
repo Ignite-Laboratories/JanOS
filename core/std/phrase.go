@@ -2,6 +2,7 @@ package std
 
 import (
 	"github.com/ignite-laboratories/core/std/name"
+	"github.com/ignite-laboratories/core/std/num"
 	"strings"
 )
 
@@ -37,8 +38,8 @@ func (a Phrase[T]) GetData() []Measurement[T] {
 }
 
 // GetAllBits returns a slice of the Phrase's individual bits.
-func (a Phrase[T]) GetAllBits() []Bit {
-	out := make([]Bit, 0, a.BitWidth())
+func (a Phrase[T]) GetAllBits() []num.Bit {
+	out := make([]num.Bit, 0, a.BitWidth())
 	for _, m := range a.Data {
 		out = append(out, m.GetAllBits()...)
 	}
@@ -55,7 +56,7 @@ func (a Phrase[T]) BitWidth() uint {
 }
 
 // Append places the provided bits at the end of the Phrase.
-func (a Phrase[T]) Append(bits ...Bit) Phrase[T] {
+func (a Phrase[T]) Append(bits ...num.Bit) Phrase[T] {
 	if len(a.Data) == 0 {
 		a.Data = append(a.Data, newMeasurementOfBits[T](bits...))
 		return a
@@ -85,7 +86,7 @@ func (a Phrase[T]) AppendMeasurement(m ...Measurement[T]) Phrase[T] {
 }
 
 // Prepend places the provided bits at the start of the Phrase.
-func (a Phrase[T]) Prepend(bits ...Bit) Phrase[T] {
+func (a Phrase[T]) Prepend(bits ...num.Bit) Phrase[T] {
 	if len(a.Data) == 0 {
 		a.Data = append(a.Data, newMeasurementOfBits[T](bits...))
 		return a
@@ -144,7 +145,7 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 	}
 
 	out := make([]Measurement[T], 0, a.BitWidth())
-	current := make([]Bit, 0, w)
+	current := make([]num.Bit, 0, w)
 	i := 0
 
 	for _, m := range a.Data {
@@ -154,7 +155,7 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 			if i == w {
 				i = 0
 				out = append(out, newMeasurementOfBits[T](current...))
-				current = make([]Bit, 0, w)
+				current = make([]num.Bit, 0, w)
 			}
 		}
 	}
@@ -170,7 +171,7 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 // BleedLastBit returns the last bit of the phrase and a phrase missing that bit.
 //
 // NOTE: This is a destructive operation to the phrase's encoding scheme and returns a Raw Phrase.
-func (a Phrase[T]) BleedLastBit() (Bit, Phrase[T]) {
+func (a Phrase[T]) BleedLastBit() (num.Bit, Phrase[T]) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the last bit of an empty phrase")
 	}
@@ -183,7 +184,7 @@ func (a Phrase[T]) BleedLastBit() (Bit, Phrase[T]) {
 // BleedFirstBit returns the first bit of the phrase and a phrase missing that bit.
 //
 // NOTE: This is a destructive operation to the phrase's encoding scheme and returns a Raw Phrase.
-func (a Phrase[T]) BleedFirstBit() (Bit, Phrase[T]) {
+func (a Phrase[T]) BleedFirstBit() (num.Bit, Phrase[T]) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the first bit of an empty phrase")
 	}
