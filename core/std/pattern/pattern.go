@@ -14,6 +14,7 @@ func NilAny() std.Pattern[any] {
 	return std.Pattern[any]{
 		WalkWest: fn,
 		WalkEast: fn,
+		Data:     nil,
 	}
 }
 
@@ -24,13 +25,14 @@ func Nil[T any]() std.Pattern[*T] {
 
 // Zero returns a pattern which always yields the zero value of T.
 func Zero[T any]() std.Pattern[T] {
+	var zero T
 	fn := func() T {
-		var empty T
-		return empty
+		return zero
 	}
 	return std.Pattern[T]{
 		WalkWest: fn,
 		WalkEast: fn,
+		Data:     []T{zero},
 	}
 }
 
@@ -73,5 +75,6 @@ func From[T any](data ...T) std.Pattern[T] {
 			b.DecrementPtr()
 			return data[b.Value()]
 		},
+		Data: data,
 	}
 }

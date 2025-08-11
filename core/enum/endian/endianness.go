@@ -29,19 +29,19 @@ package endian
 // NOTE: Some protocols, like UART and SPI, traditionally transmit in -BITWISE- little endian order, so you may also need to reverse
 // bits within bytes when interfacing with such protocols!  To achieve this, see the traveling.Traveling enumeration.
 //
-// See Little and Big.
+// See Endianness, Little, and Big.
 type Endianness byte
 
 const (
 	// Little indicates that bytes are handled in least←to←most significant order and is used by x86, AMD64, ARM, and the general
 	// world over.
 	//
-	// See Endianness and Big.
+	// See Endianness, Little, and Big.
 	Little Endianness = iota
 
 	// Big indicates that bytes are handled in most→to→least significant order and represents "raw" binary - it's often favored by network protocols.
 	//
-	// See Endianness and Little.
+	// See Endianness, Little, and Big.
 	Big
 )
 

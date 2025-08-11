@@ -22,97 +22,97 @@ package direction
 //
 // In addition, you may also require traveling.Traveling in a particular orientation.
 //
-// See South, West, North, East, Future, Present, Past, Forward, Backward, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+// See Direction, South, West, North, East, Future, Present, Past, Forward, Backward, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Direction byte
 
 const (
 	// South represents the cardinal Direction "down" - which is the -target- of all calculation.
 	//
-	// See West, North, and East.
+	// See South, West, North, and East.
 	//
-	// See also Future, Present, Past, Forward, Backward, Up, Down, Left, and Right.
+	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
 	South Direction = iota
 
 	// West represents the cardinal Direction "left" - which is the direction of scale.
 	//
-	// See South, North, and East.
+	// See South, West, North, and East.
 	//
-	// See also Future, Present, Past, Forward, Backward, Up, Down, Left, and Right.
+	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
 	West
 
 	// North represents the cardinal Direction "up" - which is the direction of accumulation.
 	//
-	// See South, West, and East.
+	// See South, West, North, and East.
 	//
-	// See also Future, Present, Past, Forward, Backward, Up, Down, Left, and Right.
+	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
 	North
 
 	// East represents the cardinal Direction "right" - which is the direction of reduction.
 	//
-	// See South, West, and North.
+	// See South, West, North, and East.
 	//
-	// See also Future, Present, Past, Forward, Backward, Up, Down, Left, and Right.
+	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
 	East
 
 	// Future represents the abstract temporal Direction of "eminently" - which is the direction of anticipation.
 	//
-	// See Present and Past.
+	// See Future, Present, and Past.
 	//
-	// See also South, West, North, East, Forward, Backward, Up, Down, Left, and Right
+	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
 	Future
 
 	// Present represents the abstract temporal Direction of "currently" - which is the direction of experience.
 	//
-	// See Future and Past.
+	// See Future, Present, and Past.
 	//
-	// See also South, West, North, East, Forward, Backward, Up, Down, Left, and Right
+	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
 	Present
 
 	// Past represents the abstract temporal Direction of "historically" - which is the direction of reflection.
 	//
-	// See Future and Present.
+	// See Future, Present, and Past.
 	//
-	// See also South, West, North, East, Forward, Backward, Up, Down, Left, and Right
+	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
 	Past
 
 	// Up represents the abstract Direction of presently relative "up."
 	//
-	// See Down, Left, Right, Forward, and Backward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Up // Up Down Down Left Right A B Start
 
 	// Down represents the abstract Direction of presently relative "down."
 	//
-	// See Up, Left, Right, Forward, and Backward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Down // Down Left Right A B Start
 
 	// Left represents the abstract Direction of presently relative "left."
 	//
-	// See Up, Down, Right, Forward, and Backward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Left
 
 	// Right represents the abstract Direction of presently relative "right."
 	//
-	// See Up, Down, Left, Forward, and Backward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Right // A B Start
 
 	// Forward represents the abstract Direction of presently relative "forward."
 	//
-	// See Up, Down, Left, Right, and Backward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Forward
 
 	// Backward represents the abstract Direction of presently relative "backward."
 	//
-	// See Up, Down, Left, Right, and Forward.
+	// See Up, Down, Left, Right, Forward, and Backward.
 	//
 	// See also South, West, North, East, Future, Present, and Past.
 	Backward

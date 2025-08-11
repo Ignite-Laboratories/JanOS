@@ -31,22 +31,22 @@ package relatively
 //	if 𝑏 != relatively.After { ... }    // Has 𝑏 not yet crossed a threshold?
 //	      etc...
 //
-// See Before, Aligned, After
+// See Relatively, Before, Aligned, and After
 type Relatively int
 
 const (
 	// Before indicates that 𝑎 logically comes before 𝑏.
 	//
-	// See Aligned, After, and Relatively.
+	// See Relatively, Before, Aligned, and After
 	Before Relatively = -1
 
 	// Aligned indicates that 𝑎 and 𝑏 are logically the same.
 	//
-	// See Before, After, and Relatively.
+	// See Relatively, Before, Aligned, and After
 	Aligned = 0
 
 	// After indicates that 𝑎 logically comes after 𝑏.
 	//
-	// See Before, Aligned, and Relatively.
+	// See Relatively, Before, Aligned, and After
 	After Relatively = 1
 )

@@ -10,6 +10,9 @@ type Pattern[T any] struct {
 
 	// WalkEast yields the current index position and then walks one position eastward.
 	WalkEast PatternFn[T]
+
+	// Data is the underlying pattern to walk - you may change this without issue if you'd like.
+	Data []T
 }
 
 // PatternFn represents a function that walks through a sequential slice of elements.

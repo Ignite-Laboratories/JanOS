@@ -5,38 +5,38 @@ package traveling
 //
 // These directly relate to the cardinal directions of calculation.
 //
-// See Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
+// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 type Traveling byte
 
 const (
 	// Westbound represents a westerly direction of travel.
 	//
-	// See Eastbound, Northbound, Southbound, Outbound, and Inbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Westbound Traveling = iota
 
 	// Eastbound represents an easterly direction of travel.
 	//
-	// See Westbound, Northbound, Southbound, Outbound, and Inbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Eastbound
 
 	// Northbound represents a northerly direction of travel.
 	//
-	// See Westbound, Eastbound, Southbound, Outbound, and Inbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Northbound
 
 	// Southbound represents a southerly direction of travel.
 	//
-	// See Westbound, Eastbound, Northbound, Outbound, and Inbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Southbound
 
 	// Outbound represents an outward direction of travel.
 	//
-	// See Westbound, Eastbound, Northbound, Southbound, and Inbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Outbound
 
 	// Inbound represents an inward direction of travel.
 	//
-	// See Westbound, Eastbound, Northbound, Southbound, and Outbound.
+	// See Traveling, Westbound, Eastbound, Northbound, Southbound, Outbound, and Inbound.
 	Inbound
 )
 
