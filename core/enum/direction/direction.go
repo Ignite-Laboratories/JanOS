@@ -1,249 +1,45 @@
-// Package direction provides access to the Direction enumeration.
-package direction
-
-// Direction represents general directionality and includes both cardinal and abstract reference points in time and space.
+// Package direction represents general directionality and includes both cardinal and abstract reference points in time and space.
 //
-// Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemies gate") no matter YOUR orientation
+// Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
 // in space.  Mentally this may be the direction of "gravity" while standing up and writing calculations on a whiteboard, but I think Ender
 // described it best.  All binary data is oriented with the most-significant side towards the "left" (or "west").  When operating against a
-// matrix, the abstract orientation of "down" is aligned with the cardinal direction of "south".
+// matrix, the abstract orientation of "rows" are aligned with the cardinal direction of "south".
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// The cardinal directions each have an explicitly defined purpose relative to a fixed point of orientation (the result of calculation) -
+// The sub-directions each have an explicitly defined purpose relative to a fixed point -
 //
-//	  South - Calculation
-//	  North - Accumulation
-//	   West - Scale
-//	   East - Reduction
-//	 Future - Anticipation
-//	Present - Experience
-//	   Past - Reflection
+// cardinal.Direction
 //
-// In addition, you may also require traveling.Traveling in a particular orientation.
+//	cardinal.South: Calculation
+//	cardinal.North: Accumulation
+//	cardinal.West: Scale
+//	cardinal.East: Reduction
 //
-// See Direction, South, West, North, East, Future, Present, Past, Forward, Backward, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
-type Direction byte
-
-const (
-	// South represents the cardinal Direction "down" - which is the -target- of all calculation.
-	//
-	// See South, West, North, and East.
-	//
-	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
-	South Direction = iota
-
-	// West represents the cardinal Direction "left" - which is the direction of scale.
-	//
-	// See South, West, North, and East.
-	//
-	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
-	West
-
-	// North represents the cardinal Direction "up" - which is the direction of accumulation.
-	//
-	// See South, West, North, and East.
-	//
-	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
-	North
-
-	// East represents the cardinal Direction "right" - which is the direction of reduction.
-	//
-	// See South, West, North, and East.
-	//
-	// See also Future, Present, Past, Up, Down, Left, Right, Forward, Backward
-	East
-
-	// Future represents the abstract temporal Direction of "eminently" - which is the direction of anticipation.
-	//
-	// See Future, Present, and Past.
-	//
-	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
-	Future
-
-	// Present represents the abstract temporal Direction of "currently" - which is the direction of experience.
-	//
-	// See Future, Present, and Past.
-	//
-	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
-	Present
-
-	// Past represents the abstract temporal Direction of "historically" - which is the direction of reflection.
-	//
-	// See Future, Present, and Past.
-	//
-	// See also South, West, North, East, Up, Down, Left, Right, Forward, Backward
-	Past
-
-	// Up represents the abstract Direction of presently relative "up."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Up // Up Down Down Left Right A B Start
-
-	// Down represents the abstract Direction of presently relative "down."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Down // Down Left Right A B Start
-
-	// Left represents the abstract Direction of presently relative "left."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Left
-
-	// Right represents the abstract Direction of presently relative "right."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Right // A B Start
-
-	// Forward represents the abstract Direction of presently relative "forward."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Forward
-
-	// Backward represents the abstract Direction of presently relative "backward."
-	//
-	// See Up, Down, Left, Right, Forward, and Backward.
-	//
-	// See also South, West, North, East, Future, Present, and Past.
-	Backward
-)
-
-// String prints a single-character representation of the Direction -
+// temporal.Direction
 //
-//	   South: S
-//	    West: W
-//	   North: N
-//	    East: E
+//	temporal.Future: Anticipation
+//	temporal.Present: Experience
+//	temporal.Past: Reflection
 //
-//	  Future: ⏭
-//	 Present: ⏸
-//	    Past: ⏮
+// traffic.Direction
 //
-//	      Up: ↑
-//	    Down: ↓
-//	    Left: ←
-//	   Right: →
-//	 Forward: ↷
-//	Backward: ↶
-func (d Direction) String() string {
-	switch d {
-	case South:
-		return "S"
-	case West:
-		return "W"
-	case North:
-		return "N"
-	case East:
-		return "E"
-	case Future:
-		return "⏭"
-	case Present:
-		return "⏸"
-	case Past:
-		return "⏮"
-	case Up:
-		return "↑"
-	case Down:
-		return "↓"
-	case Left:
-		return "←"
-	case Right:
-		return "→"
-	case Forward:
-		return "↷"
-	case Backward:
-		return "↶"
-	default:
-		return "Unknown"
-	}
-}
-
-// StringFull prints an uppercase full word representation of the Direction.
+//	traffic.Inbound: Receiving
+//	traffic.Outbound: Transmitting
+//	traffic.Bidirectional: Communication
 //
-// You may optionally pass true for a lowercase representation.
-func (d Direction) StringFull(lowercase ...bool) string {
-	lower := len(lowercase) > 0 && lowercase[0]
-
-	switch d {
-	case South:
-		if lower {
-			return "south"
-		}
-		return "South"
-	case West:
-		if lower {
-			return "west"
-		}
-		return "West"
-	case North:
-		if lower {
-			return "north"
-		}
-		return "North"
-	case East:
-		if lower {
-			return "east"
-		}
-		return "East"
-	case Future:
-		if lower {
-			return "future"
-		}
-		return "Future"
-	case Present:
-		if lower {
-			return "present"
-		}
-		return "Present"
-	case Past:
-		if lower {
-			return "past"
-		}
-		return "Past"
-	case Up:
-		if lower {
-			return "up"
-		}
-		return "Up"
-	case Down:
-		if lower {
-			return "down"
-		}
-		return "Down"
-	case Left:
-		if lower {
-			return "left"
-		}
-		return "Left"
-	case Right:
-		if lower {
-			return "right"
-		}
-		return "Right"
-	case Forward:
-		if lower {
-			return "forward"
-		}
-		return "Forward"
-	case Backward:
-		if lower {
-			return "backward"
-		}
-		return "Backward"
-	default:
-		if lower {
-			return "unknown"
-		}
-		return "Unknown"
-	}
-}
+// orthogonal.Direction
+//
+//	orthogonal.Up: Towards the top of the viewport
+//	orthogonal.Down: Towards the bottom of the viewport
+//	orthogonal.Left: Towards the left of the viewport
+//	orthogonal.Right: Towards the right of the viewport
+//	orthogonal.In: Towards the viewport
+//	orthogonal.Out: Away from the viewport
+//
+// relatively.Direction
+//
+//	relatively.Before:  i - 1 NOTE: This is hardcoded as -1
+//	relatively.Current: i + 0 NOTE: This is hardcoded as  0
+//	relatively.After:   i + 1 NOTE: This is hardcoded as  1
+package direction

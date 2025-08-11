@@ -1,5 +1,5 @@
 // Package padding provides access to the padding Scheme enumeration.
-package padding
+package pad
 
 // Scheme represents the scheme of how to apply a padding operation against a collection of elements.
 //

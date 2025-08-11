@@ -2,7 +2,7 @@ package name
 
 // Format represents the format this name should follow.
 //
-// See NameDB, SurnameDB, Tiny, Multi, and Default.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Format interface {
 	NameDB | SurnameDB | Tiny | Multi | Default
 }
@@ -11,7 +11,7 @@ type Format interface {
 //
 // NOTE: This may change in the future!  If you need a strict format, please use that instead.
 //
-// See NameDB, SurnameDB, Tiny, Multi, and Format.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Default string
 
 // NameDB is a database of cultural first names.
@@ -22,7 +22,7 @@ type Default string
 //
 // Please check his stuff out, he's quite clever!
 //
-// See SurnameDB, Tiny, Multi, Default, and Format.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type NameDB string
 
 // SurnameDB is a database of surnames.
@@ -31,7 +31,7 @@ type NameDB string
 //
 // https://surnamedb.com
 //
-// See NameDB, Tiny, Multi, Default, and Format.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type SurnameDB string
 
 // Tiny generates names that satisfy tiny's implicit naming requirements.
@@ -47,12 +47,12 @@ type SurnameDB string
 //
 // NOTE: Names are currently selected from the NameDB.
 //
-// See NameDB, SurnameDB, Multi, Default, and Format.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Tiny string
 
 // Multi generates a multipart name with an entry from NameDB, a single space, and then an entry from SurnameDB.
 //
 // NOTE: The cultural information will persist from the used NameDB entry, as the SurnameDB does not contain cultural information.
 //
-// See NameDB, SurnameDB, Tiny, Default, and Format.
+// See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Multi string

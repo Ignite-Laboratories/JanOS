@@ -1,3 +1,4 @@
+// Package pattern provides access to creating patterns From data.
 package pattern
 
 import (
@@ -11,11 +12,7 @@ func NilAny() std.Pattern[any] {
 	fn := func() any {
 		return nil
 	}
-	return std.Pattern[any]{
-		WalkWest: fn,
-		WalkEast: fn,
-		Data:     nil,
-	}
+	return std.NewPattern[any](fn, fn, nil)
 }
 
 // Nil returns a pattern which always yields a nil pointer of type *T.
@@ -29,11 +26,7 @@ func Zero[T any]() std.Pattern[T] {
 	fn := func() T {
 		return zero
 	}
-	return std.Pattern[T]{
-		WalkWest: fn,
-		WalkEast: fn,
-		Data:     []T{zero},
-	}
+	return std.NewPattern[T](fn, fn, zero)
 }
 
 // One is a pattern of a numeric one.
@@ -57,7 +50,7 @@ func OneZero[T num.Primitive]() std.Pattern[T] {
 
 // From creates a new std.Pattern which can infinitely walk through the provided data either westbound or eastbound.
 //
-// NOTE: This will create a 'zero' instance of T if provided no data.
+// NOTE: This will create a single element 'zero' instance pattern of T if provided no data.
 func From[T any](data ...T) std.Pattern[T] {
 	if len(data) == 0 {
 		var zero T
@@ -65,16 +58,15 @@ func From[T any](data ...T) std.Pattern[T] {
 	}
 
 	b := bounded.By[int](0, 0, len(data)-1)
-	return std.Pattern[T]{
-		WalkEast: func() T {
-			out := data[b.Value()]
-			b.IncrementPtr()
-			return out
-		},
-		WalkWest: func() T {
-			b.DecrementPtr()
-			return data[b.Value()]
-		},
-		Data: data,
+	walkEast := func() T {
+		out := data[b.Value()]
+		b.IncrementPtr()
+		return out
 	}
+	walkWest := func() T {
+		b.DecrementPtr()
+		return data[b.Value()]
+	}
+
+	return std.NewPattern[T](walkEast, walkWest, data...)
 }
