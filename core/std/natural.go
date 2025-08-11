@@ -26,23 +26,22 @@ import "strings"
 //
 // See Real, Complex, Index, and Operable
 type Natural struct {
-	Digits []Digit
+	digits []Digit
 	Base   byte
 }
 
-// String returns the string representation of this natural number in its current base.  As bases above 16 begin to
-// double up the hexadecimal characters to span the remainder of the address space, digits above base 16 are spaced
-// with a single whitespace character between them.
+// String returns the string representation of this natural number in its current base.  All bases are represented in
+// hexadecimal form, doubling up placeholders - above base 16 a single whitespace character is added between digits for clarity.
 func (a Natural) String() string {
 	str := ""
 
 	if a.Base > 16 {
-		for _, d := range a.Digits {
+		for _, d := range a.digits {
 			str += " " + d.String()
 		}
 		str = strings.TrimSpace(str)
 	} else {
-		for _, d := range a.Digits {
+		for _, d := range a.digits {
 			str += d.String()
 		}
 	}

@@ -4,7 +4,7 @@ import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/sys/atlas"
-	"github.com/ignite-laboratories/core/when"
+	"github.com/ignite-laboratories/core/sys/when"
 )
 
 // Blending represents the state of A and B that generated the resulting blended Value.

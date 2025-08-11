@@ -4,7 +4,7 @@ import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/sys/atlas"
-	"github.com/ignite-laboratories/core/when"
+	"github.com/ignite-laboratories/core/sys/when"
 )
 
 // Loop creates an dimension that calls a function in a looping fashion while

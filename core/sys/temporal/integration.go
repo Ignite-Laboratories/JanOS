@@ -4,7 +4,7 @@ import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/sys/atlas"
-	"github.com/ignite-laboratories/core/when"
+	"github.com/ignite-laboratories/core/sys/when"
 )
 
 // Integration creates a new dimension that performs calculation on sets of temporal data cyclically.

@@ -12,11 +12,7 @@ import (
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
 func By[T num.Primitive](value, a, b T, clamp ...bool) std.Bounded[T] {
-	bnd := std.Bounded[T]{
-		Clamp: len(clamp) > 0 && clamp[0],
-	}
-	bnd = bnd.SetAll(value, a, b)
-	return bnd
+	return std.BoundedBy(value, a, b, clamp...)
 }
 
 // ByType creates a std.Bounded[T] bound within the closed set [T.Min, T.Max], with min and max

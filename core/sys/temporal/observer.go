@@ -4,7 +4,7 @@ import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/sys/atlas"
-	"github.com/ignite-laboratories/core/when"
+	"github.com/ignite-laboratories/core/sys/when"
 )
 
 // Observer creates a dimension that records the target value across time, if the provided potential returns true.

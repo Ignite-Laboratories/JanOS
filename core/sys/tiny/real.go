@@ -22,7 +22,10 @@ import (
 // gigabyte of memory can hold up to 3.2x10⁸ 256-bit real numbers - with the most common numbers fitting in less than 64 bits.
 // In essence, you've got plenty of storage in the modern age to work with even the most astronomically large of numbers =)
 //
-// By default, real numbers are given a maximum combined -decimal- precision bit width of 256 bits - but you may override that if desired.
+// Real calculations are performed in the base defined by each Natural component of the number.  As such, you may create
+// mixed-based real numbers - but the lower base operand will be bumped to the higher base.
+//
+// By default, real numbers are given a maximum combined -decimal- precision bit width of 512 bits - but you may override that if desired.
 // This prevents infinitely repeating (or irrational) numbers from exhausting your computer's memory, unless you specifically need it to.
 //
 // After every arithmetic operation, a check is performed to see if the periodic part is missing and if the fractional part

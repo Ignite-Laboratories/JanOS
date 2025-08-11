@@ -5,8 +5,8 @@ import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/sys/atlas"
+	"github.com/ignite-laboratories/core/sys/when"
 	"github.com/ignite-laboratories/core/temporal"
-	"github.com/ignite-laboratories/core/when"
 )
 
 func main() {

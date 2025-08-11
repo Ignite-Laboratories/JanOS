@@ -15,10 +15,6 @@ type Bounded[T num.Primitive] struct {
 	maximum T
 	Clamp   bool
 }
-type BoundedByType[T num.Primitive] struct {
-	value T
-	clamp bool
-}
 
 // Value returns the currently held Bounded value.
 func (bnd Bounded[T]) Value() T {
@@ -33,6 +29,42 @@ func (bnd Bounded[T]) Minimum() T {
 // Maximum returns the current maximum boundary.
 func (bnd Bounded[T]) Maximum() T {
 	return bnd.maximum
+}
+
+// Increment adds 1 or the provided count to the bound value.
+func (bnd Bounded[T]) Increment(count ...T) Bounded[T] {
+	i := T(1)
+	if len(count) > 0 {
+		i = count[0]
+	}
+	return bnd.Set(bnd.value + i)
+}
+
+// IncrementPtr adds 1 or the provided count to the bound value.
+func (bnd *Bounded[T]) IncrementPtr(count ...T) {
+	i := T(1)
+	if len(count) > 0 {
+		i = count[0]
+	}
+	bnd.value = bnd.Set(bnd.value + i).Value()
+}
+
+// Decrement subtracts 1 or the provided count from the bound value as a pointer function.
+func (bnd Bounded[T]) Decrement(count ...T) Bounded[T] {
+	i := T(1)
+	if len(count) > 0 {
+		i = count[0]
+	}
+	return bnd.Set(bnd.value - i)
+}
+
+// DecrementPtr subtracts 1 or the provided count from the bound value as a pointer function.
+func (bnd *Bounded[T]) DecrementPtr(count ...T) {
+	i := T(1)
+	if len(count) > 0 {
+		i = count[0]
+	}
+	bnd.value = bnd.Set(bnd.value - i).Value()
 }
 
 // SetAll sets the value and boundaries all in one operation, preventing multiple calls to Set().

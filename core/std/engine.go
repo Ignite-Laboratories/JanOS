@@ -255,7 +255,7 @@ func (e *Engine) Spark() {
 	lastNow := core.Inception
 
 	// Loop =)
-	for core.Alive && e.Active {
+	for core.Alive() && e.Active {
 		// Grab 'now' ASAP!
 		now := time.Now()
 		period := now.Sub(lastNow)

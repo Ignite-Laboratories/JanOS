@@ -31,7 +31,11 @@ func init() {
 var ModuleName = "core"
 
 // Alive globally keeps neural activity firing until set to false - it's true by default.
-var Alive = true
+func Alive() bool {
+	return alive
+}
+
+var alive = true
 
 // Inception provides the moment this operating system was initialized.
 var Inception = time.Now()
@@ -52,7 +56,7 @@ func Shutdown(period time.Duration, exitCode ...int) {
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func ShutdownNow(exitCode ...int) {
 	fmt.Sprintf("[core] shutting down\n")
-	Alive = false
+	alive = false
 
 	// Give the threads a brief moment to clean themselves up.
 	time.Sleep(time.Second)
@@ -65,7 +69,7 @@ func ShutdownNow(exitCode ...int) {
 
 // WhileAlive can be used to efficiently hold a main function open.
 func WhileAlive() {
-	for Alive {
+	for Alive() {
 		// Give the host some breathing room.
 		time.Sleep(time.Millisecond)
 	}

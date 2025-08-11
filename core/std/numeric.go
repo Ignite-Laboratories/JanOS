@@ -10,5 +10,5 @@ import (
 // NOTE: The type constraint is simply to ensure measurements and phrases can carry their type information
 // with them, just use 'any' if you don't need that system.
 type Numeric[T any] interface {
-	num.PrimitiveOld | *big.Int | *big.Float | Measurement[T] | Phrase[T]
+	num.Primitive | *big.Int | *big.Float | Measurement[T] | Phrase[T]
 }

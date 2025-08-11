@@ -2,4 +2,9 @@ module github.com/ignite-laboratories/core
 
 go 1.24
 
-require golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
+require (
+	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
+	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
+)
+
+require golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
