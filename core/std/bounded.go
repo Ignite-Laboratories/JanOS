@@ -9,11 +9,35 @@ import (
 // Bounded represents a numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
+//
+// NOTE: This type exposes both pointer and value receiver methods.  This is by design!  I prefer to use this as a
+// value type, but the patterning system requires pointer operations.  The operations are completely interchangeable,
+// but you should absolutely be wary of what pattern you are calling, when, and why.
 type Bounded[T num.Primitive] struct {
 	value   T
 	minimum T
 	maximum T
 	Clamp   bool
+}
+
+// NewBounded creates a new instance of Bounded[T].
+//
+// NOTE: While you can call this directly, the convention is to use the 'std/bounded' package.
+func NewBounded[T num.Primitive](value, minimum, maximum T, clamp ...bool) Bounded[T] {
+	c := len(clamp) > 0 && clamp[0]
+	return Bounded[T]{
+		value:   value,
+		minimum: minimum,
+		maximum: maximum,
+		Clamp:   c,
+	}
+}
+
+func (bnd *Bounded[T]) ptrHelper(set Bounded[T]) {
+	bnd.value = set.value
+	bnd.minimum = set.minimum
+	bnd.maximum = set.maximum
+	bnd.Clamp = set.Clamp
 }
 
 // Value returns the currently held Bounded value.
@@ -31,6 +55,11 @@ func (bnd Bounded[T]) Maximum() T {
 	return bnd.maximum
 }
 
+// IncrementPtr adds 1 or the provided count to the direct memory address of the bound value.
+func (bnd *Bounded[T]) IncrementPtr(count ...T) {
+	bnd.ptrHelper(bnd.Increment(count...))
+}
+
 // Increment adds 1 or the provided count to the bound value.
 func (bnd Bounded[T]) Increment(count ...T) Bounded[T] {
 	i := T(1)
@@ -40,16 +69,12 @@ func (bnd Bounded[T]) Increment(count ...T) Bounded[T] {
 	return bnd.Set(bnd.value + i)
 }
 
-// IncrementPtr adds 1 or the provided count to the bound value.
-func (bnd *Bounded[T]) IncrementPtr(count ...T) {
-	i := T(1)
-	if len(count) > 0 {
-		i = count[0]
-	}
-	bnd.value = bnd.Set(bnd.value + i).Value()
+// DecrementPtr subtracts 1 or the provided count from the bound value as a pointer function.
+func (bnd *Bounded[T]) DecrementPtr(count ...T) {
+	bnd.ptrHelper(bnd.Decrement(count...))
 }
 
-// Decrement subtracts 1 or the provided count from the bound value as a pointer function.
+// Decrement subtracts 1 or the provided count from the direct memory address of the bound value.
 func (bnd Bounded[T]) Decrement(count ...T) Bounded[T] {
 	i := T(1)
 	if len(count) > 0 {
@@ -58,25 +83,28 @@ func (bnd Bounded[T]) Decrement(count ...T) Bounded[T] {
 	return bnd.Set(bnd.value - i)
 }
 
-// DecrementPtr subtracts 1 or the provided count from the bound value as a pointer function.
-func (bnd *Bounded[T]) DecrementPtr(count ...T) {
-	i := T(1)
-	if len(count) > 0 {
-		i = count[0]
-	}
-	bnd.value = bnd.Set(bnd.value - i).Value()
+// SetAllPtr sets the value and boundaries of a pointer to Bounded[T] all in one operation, preventing multiple calls to Set().
+func (bnd *Bounded[T]) SetAllPtr(value, a, b T, clamp ...bool) {
+	bnd.ptrHelper(bnd.SetAll(value, a, b, clamp...))
 }
 
 // SetAll sets the value and boundaries all in one operation, preventing multiple calls to Set().
 //
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
-func (bnd Bounded[T]) SetAll(value, a, b T) Bounded[T] {
+func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) Bounded[T] {
+	c := len(clamp) > 0 && clamp[0]
 	if a > b {
 		a, b = b, a
 	}
 	bnd.minimum = a
 	bnd.maximum = b
+	bnd.Clamp = c
 	return bnd.Set(value)
+}
+
+// SetBoundariesFromTypePtr sets the boundaries to the implied limits of a pointer to the bounded type before calling Set(current value).
+func (bnd *Bounded[T]) SetBoundariesFromTypePtr() {
+	bnd.ptrHelper(bnd.SetBoundariesFromType())
 }
 
 // SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
@@ -84,6 +112,13 @@ func (bnd Bounded[T]) SetBoundariesFromType() Bounded[T] {
 	bnd.minimum = 0
 	bnd.maximum = T(num.MaxValue[T]())
 	return bnd.Set(bnd.value)
+}
+
+// SetBoundariesPtr sets the boundaries of a pointer to Bounded before calling Set(current value).
+//
+// NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
+func (bnd *Bounded[T]) SetBoundariesPtr(a, b T) {
+	bnd.ptrHelper(bnd.SetBoundaries(a, b))
 }
 
 // SetBoundaries sets the boundaries before calling Set(current value).
@@ -125,6 +160,12 @@ func (bnd Bounded[T]) Normalize32() float32 {
 	return float32(bnd.Normalize())
 }
 
+// SetFromNormalizedPtr sets the value of a pointer to Bounded using a float64 unit vector from the [0.0, 1.0]
+// range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
+func (bnd *Bounded[T]) SetFromNormalizedPtr(normalized float64) {
+	bnd.ptrHelper(bnd.SetFromNormalized(normalized))
+}
+
 // SetFromNormalized sets the bounded value using a float64 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 func (bnd Bounded[T]) SetFromNormalized(normalized float64) Bounded[T] {
@@ -151,10 +192,21 @@ func (bnd Bounded[T]) SetFromNormalized(normalized float64) Bounded[T] {
 	return bnd.Set(T(scaled) + bnd.minimum)
 }
 
+// SetFromNormalized32Ptr sets the value of a pointer to Bounded using a float32 unit vector from the [0.0, 1.0]
+// range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
+func (bnd *Bounded[T]) SetFromNormalized32Ptr(normalized float32) {
+	bnd.ptrHelper(bnd.SetFromNormalized32(normalized))
+}
+
 // SetFromNormalized32 sets the bounded value using a float32 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 func (bnd Bounded[T]) SetFromNormalized32(normalized float32) Bounded[T] {
 	return bnd.SetFromNormalized(float64(normalized))
+}
+
+// SetPtr sets the value of a pointer to a Bounded object and automatically handles when the value exceeds the boundaries.
+func (bnd *Bounded[T]) SetPtr(value T) {
+	bnd.value = bnd.Set(value).Value()
 }
 
 // Set sets the value of Bounded and automatically handles when the value exceeds the boundaries.

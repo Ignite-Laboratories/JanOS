@@ -12,7 +12,8 @@ func NilAny() std.Pattern[any] {
 	fn := func() any {
 		return nil
 	}
-	return std.NewPattern[any](fn, fn, nil)
+	cursor := bounded.By[uint](0, 0, 0)
+	return std.NewPattern[any](&cursor, fn, fn, nil)
 }
 
 // Nil returns a pattern which always yields a nil pointer of type *T.
@@ -26,7 +27,8 @@ func Zero[T any]() std.Pattern[T] {
 	fn := func() T {
 		return zero
 	}
-	return std.NewPattern[T](fn, fn, zero)
+	cursor := bounded.By[uint](0, 0, 0)
+	return std.NewPattern[T](&cursor, fn, fn, zero)
 }
 
 // One is a pattern of a numeric one.
@@ -57,16 +59,16 @@ func From[T any](data ...T) std.Pattern[T] {
 		data = append(data, zero)
 	}
 
-	b := bounded.By[int](0, 0, len(data)-1)
+	c := bounded.By[uint](0, 0, uint(len(data)-1))
 	walkEast := func() T {
-		out := data[b.Value()]
-		b.IncrementPtr()
+		out := data[c.Value()]
+		c.IncrementPtr()
 		return out
 	}
 	walkWest := func() T {
-		b.DecrementPtr()
-		return data[b.Value()]
+		c.DecrementPtr()
+		return data[c.Value()]
 	}
 
-	return std.NewPattern[T](walkEast, walkWest, data...)
+	return std.NewPattern[T](&c, walkEast, walkWest, data...)
 }
