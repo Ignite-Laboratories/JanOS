@@ -29,23 +29,23 @@ package relatively
 //	if 𝑏 != relatively.After { ... }    // Has 𝑏 not yet crossed a threshold?
 //	      etc...
 //
-// See Relative, Before, Current, and After
+// See Relative, Before, Aligned, and After
 type Relative int8
 
 const (
 	// Before represents the ordinal Relative of "i-1"
 	//
-	// See Relative, Before, Current, and After
+	// See Relative, Before, Aligned, and After
 	Before Relative = -1
 
-	// Current represents the ordinal Relative of "i"
+	// Aligned represents the ordinal Relative of "i"
 	//
-	// See Relative, Before, Current, and After
-	Current = 0
+	// See Relative, Before, Aligned, and After
+	Aligned = 0
 
 	// After represents the ordinal Relative of "i+1"
 	//
-	// See Relative, Before, Current, and After
+	// See Relative, Before, Aligned, and After
 	After = 1
 )
 
@@ -53,7 +53,7 @@ func (d Relative) String() string {
 	switch d {
 	case Before:
 		return "←"
-	case Current:
+	case Aligned:
 		return "X"
 	case After:
 		return "→"
@@ -70,19 +70,19 @@ func (d Relative) StringFull(lowercase ...bool) string {
 	switch d {
 	case Before:
 		if lower {
-			return "previous"
+			return "before"
 		}
-		return "Previous"
-	case Current:
+		return "Before"
+	case Aligned:
 		if lower {
-			return "current"
+			return "aligned"
 		}
-		return "Current"
+		return "Aligned"
 	case After:
 		if lower {
-			return "next"
+			return "after"
 		}
-		return "Next"
+		return "After"
 	default:
 		if lower {
 			return "unknown"

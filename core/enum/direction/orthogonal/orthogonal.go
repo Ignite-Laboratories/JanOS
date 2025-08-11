@@ -92,14 +92,14 @@ func (d Direction) StringFull(lowercase ...bool) string {
 		return "Right"
 	case In:
 		if lower {
-			return "forward"
+			return "in"
 		}
-		return "Forward"
+		return "In"
 	case Out:
 		if lower {
-			return "backward"
+			return "out"
 		}
-		return "Backward"
+		return "Out"
 	default:
 		if lower {
 			return "unknown"
