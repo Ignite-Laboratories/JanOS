@@ -90,15 +90,19 @@ func From[T any](data ...T) std.Pattern[T] {
 	}
 
 	c := bounded.By[uint](0, 0, uint(len(data)-1))
-	walkEast := func() T {
+	walkEast := func(i uint) T {
 		out := data[c.Value()]
-		c.IncrementPtr()
+		c.IncrementPtr(i)
 		return out
 	}
-	walkWest := func() T {
-		c.DecrementPtr()
+	walkWest := func(i uint) T {
+		c.DecrementPtr(i)
+		return data[c.Value()]
+	}
+	walkTo := func(i uint) T {
+		c.SetPtr(i)
 		return data[c.Value()]
 	}
 
-	return std.NewPattern[T](&c, walkEast, walkWest, data...)
+	return std.NewPattern[T](&c, walkEast, walkWest, walkTo, data...)
 }

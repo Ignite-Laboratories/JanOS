@@ -11,7 +11,9 @@ import (
 //
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
-func By[T num.Primitive](value, a, b T, clamp ...bool) std.Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func By[T num.Primitive](value, a, b T, clamp ...bool) (std.Bounded[T], error) {
 	return std.NewBounded[T](value, a, b, clamp...)
 }
 
@@ -22,7 +24,9 @@ func By[T num.Primitive](value, a, b T, clamp ...bool) std.Bounded[T] {
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
 //
 // NOTE: This supports the num.Primitive implicitly sized types.
-func ByType[T num.Primitive](value T, clamp ...bool) std.Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func ByType[T num.Primitive](value T, clamp ...bool) (std.Bounded[T], error) {
 	return By(value, T(num.MinValue[T]()), T(num.MaxValue[T]()), clamp...)
 }
 
@@ -42,11 +46,14 @@ func Random[T num.Primitive](clamp ...bool) std.Bounded[T] {
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
 func RandomSubset[T num.Primitive](minimum, maximum T, clamp ...bool) std.Bounded[T] {
 	random := num.RandomWithinRange(minimum, maximum)
-	return By[T](random, minimum, maximum, clamp...)
+	b, _ := By[T](random, minimum, maximum, clamp...)
+	return b
 }
 
 // ScaleToType normalizes the std.Bounded[TIn] value to a unit vector and then returns a new std.Bounded[TOut] it.
 func ScaleToType[TIn num.Primitive, TOut num.Primitive](value std.Bounded[TIn]) std.Bounded[TOut] {
 	normalizedPos := value.Normalize()
-	return ByType[TOut](0).SetFromNormalized(normalizedPos)
+	b, _ := ByType[TOut](0)
+	b, _ = b.SetFromNormalized(normalizedPos)
+	return b
 }

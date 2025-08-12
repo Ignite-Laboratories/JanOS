@@ -13,6 +13,7 @@ package std
 type Pattern[T any] struct {
 	walkWest PatternFn[T]
 	walkEast PatternFn[T]
+	walkTo   PatternFn[T]
 	data     []T
 	Cursor   *Bounded[uint]
 }
@@ -47,15 +48,16 @@ type Pattern4D[T any] struct {
 // PatternFn represents a function that walks to a position in a Pattern[T]
 //
 // See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
-type PatternFn[T any] func() T
+type PatternFn[T any] func(i uint) T
 
 // NewPattern creates a new immutable instance of Pattern[T].
 //
 // NOTE: For advanced pattern generation and predefined patterns, see the 'std/pattern' package.
-func NewPattern[T any](cursor *Bounded[uint], walkEast, walkWest PatternFn[T], data ...T) Pattern[T] {
+func NewPattern[T any](cursor *Bounded[uint], walkEast, walkWest, walkTo PatternFn[T], data ...T) Pattern[T] {
 	return Pattern[T]{
 		walkWest: walkWest,
 		walkEast: walkEast,
+		walkTo:   walkTo,
 		data:     data,
 		Cursor:   cursor,
 	}
@@ -66,12 +68,17 @@ func (p Pattern[T]) GetData() []T {
 	return p.data
 }
 
-// WalkWest walks one position westward and then yields that position.
-func (p Pattern[T]) WalkWest() T {
-	return p.walkWest()
+// WalkTo attempts to walk to the provided index and yields the resulting position.
+func (p Pattern[T]) WalkTo(i uint) T {
+	return p.walkTo(i)
 }
 
-// WalkEast yields the current index position and then walks one position eastward.
-func (p Pattern[T]) WalkEast() T {
-	return p.walkEast()
+// WalkWest walks westward a fixed number of steps and then yields that position.
+func (p Pattern[T]) WalkWest(i uint) T {
+	return p.walkWest(i)
+}
+
+// WalkEast yields the current index position and then walks a fixed number of steps eastward.
+func (p Pattern[T]) WalkEast(i uint) T {
+	return p.walkEast(i)
 }

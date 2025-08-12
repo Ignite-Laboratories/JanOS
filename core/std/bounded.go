@@ -1,6 +1,7 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 	"math"
 	"math/big"
@@ -23,14 +24,16 @@ type Bounded[T num.Primitive] struct {
 // NewBounded creates a new instance of Bounded[T].
 //
 // NOTE: While you can call this directly, the convention is to use the 'std/bounded' package.
-func NewBounded[T num.Primitive](value, minimum, maximum T, clamp ...bool) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func NewBounded[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Bounded[T], error) {
 	c := len(clamp) > 0 && clamp[0]
 	return Bounded[T]{
-		value:   value,
+		value:   T(0),
 		minimum: minimum,
 		maximum: maximum,
 		Clamp:   c,
-	}
+	}.Set(value)
 }
 
 func (bnd *Bounded[T]) ptrHelper(set Bounded[T]) {
@@ -56,12 +59,18 @@ func (bnd Bounded[T]) Maximum() T {
 }
 
 // IncrementPtr adds 1 or the provided count to the direct memory address of the bound value.
-func (bnd *Bounded[T]) IncrementPtr(count ...T) {
-	bnd.ptrHelper(bnd.Increment(count...))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) IncrementPtr(count ...T) error {
+	set, err := bnd.Increment(count...)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // Increment adds 1 or the provided count to the bound value.
-func (bnd Bounded[T]) Increment(count ...T) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) Increment(count ...T) (Bounded[T], error) {
 	i := T(1)
 	if len(count) > 0 {
 		i = count[0]
@@ -70,12 +79,18 @@ func (bnd Bounded[T]) Increment(count ...T) Bounded[T] {
 }
 
 // DecrementPtr subtracts 1 or the provided count from the bound value as a pointer function.
-func (bnd *Bounded[T]) DecrementPtr(count ...T) {
-	bnd.ptrHelper(bnd.Decrement(count...))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) DecrementPtr(count ...T) error {
+	set, err := bnd.Decrement(count...)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // Decrement subtracts 1 or the provided count from the direct memory address of the bound value.
-func (bnd Bounded[T]) Decrement(count ...T) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) Decrement(count ...T) (Bounded[T], error) {
 	i := T(1)
 	if len(count) > 0 {
 		i = count[0]
@@ -84,14 +99,20 @@ func (bnd Bounded[T]) Decrement(count ...T) Bounded[T] {
 }
 
 // SetAllPtr sets the value and boundaries of a pointer to Bounded[T] all in one operation, preventing multiple calls to Set().
-func (bnd *Bounded[T]) SetAllPtr(value, a, b T, clamp ...bool) {
-	bnd.ptrHelper(bnd.SetAll(value, a, b, clamp...))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetAllPtr(value, a, b T, clamp ...bool) error {
+	set, err := bnd.SetAll(value, a, b, clamp...)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // SetAll sets the value and boundaries all in one operation, preventing multiple calls to Set().
 //
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
-func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) (Bounded[T], error) {
 	c := len(clamp) > 0 && clamp[0]
 	if a > b {
 		a, b = b, a
@@ -103,12 +124,18 @@ func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) Bounded[T] {
 }
 
 // SetBoundariesFromTypePtr sets the boundaries to the implied limits of a pointer to the bounded type before calling Set(current value).
-func (bnd *Bounded[T]) SetBoundariesFromTypePtr() {
-	bnd.ptrHelper(bnd.SetBoundariesFromType())
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetBoundariesFromTypePtr() error {
+	set, err := bnd.SetBoundariesFromType()
+	bnd.ptrHelper(set)
+	return err
 }
 
 // SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
-func (bnd Bounded[T]) SetBoundariesFromType() Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) SetBoundariesFromType() (Bounded[T], error) {
 	bnd.minimum = 0
 	bnd.maximum = T(num.MaxValue[T]())
 	return bnd.Set(bnd.value)
@@ -117,14 +144,20 @@ func (bnd Bounded[T]) SetBoundariesFromType() Bounded[T] {
 // SetBoundariesPtr sets the boundaries of a pointer to Bounded before calling Set(current value).
 //
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
-func (bnd *Bounded[T]) SetBoundariesPtr(a, b T) {
-	bnd.ptrHelper(bnd.SetBoundaries(a, b))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetBoundariesPtr(a, b T) error {
+	set, err := bnd.SetBoundaries(a, b)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // SetBoundaries sets the boundaries before calling Set(current value).
 //
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
-func (bnd Bounded[T]) SetBoundaries(a, b T) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) SetBoundaries(a, b T) (Bounded[T], error) {
 	if a > b {
 		a, b = b, a
 	}
@@ -145,9 +178,9 @@ func (bnd Bounded[T]) Normalize() float64 {
 	// NOTE: float64 only maintains full precision up to 2⁵³
 
 	if numerator > (1<<53) || denominator > (1<<53) {
-		num := new(big.Float).SetUint64(numerator)
+		n := new(big.Float).SetUint64(numerator)
 		den := new(big.Float).SetUint64(denominator)
-		result, _ := new(big.Float).Quo(num, den).Float64()
+		result, _ := new(big.Float).Quo(n, den).Float64()
 		return result
 	}
 
@@ -162,13 +195,19 @@ func (bnd Bounded[T]) Normalize32() float32 {
 
 // SetFromNormalizedPtr sets the value of a pointer to Bounded using a float64 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-func (bnd *Bounded[T]) SetFromNormalizedPtr(normalized float64) {
-	bnd.ptrHelper(bnd.SetFromNormalized(normalized))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetFromNormalizedPtr(normalized float64) error {
+	set, err := bnd.SetFromNormalized(normalized)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // SetFromNormalized sets the bounded value using a float64 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-func (bnd Bounded[T]) SetFromNormalized(normalized float64) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) SetFromNormalized(normalized float64) (Bounded[T], error) {
 	distance := uint64(bnd.maximum - bnd.minimum)
 
 	// If the bounded range cannot be represented by a float64, bump to big.Float
@@ -194,30 +233,52 @@ func (bnd Bounded[T]) SetFromNormalized(normalized float64) Bounded[T] {
 
 // SetFromNormalized32Ptr sets the value of a pointer to Bounded using a float32 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-func (bnd *Bounded[T]) SetFromNormalized32Ptr(normalized float32) {
-	bnd.ptrHelper(bnd.SetFromNormalized32(normalized))
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetFromNormalized32Ptr(normalized float32) error {
+	set, err := bnd.SetFromNormalized32(normalized)
+	bnd.ptrHelper(set)
+	return err
 }
 
 // SetFromNormalized32 sets the bounded value using a float32 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-func (bnd Bounded[T]) SetFromNormalized32(normalized float32) Bounded[T] {
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) SetFromNormalized32(normalized float32) (Bounded[T], error) {
 	return bnd.SetFromNormalized(float64(normalized))
 }
 
 // SetPtr sets the value of a pointer to a Bounded object and automatically handles when the value exceeds the boundaries.
-func (bnd *Bounded[T]) SetPtr(value T) {
-	bnd.value = bnd.Set(value).Value()
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd *Bounded[T]) SetPtr(value T) error {
+	set, err := bnd.Set(value)
+	bnd.value = set.Value()
+	return err
 }
 
-// Set sets the value of Bounded and automatically handles when the value exceeds the boundaries.
-func (bnd Bounded[T]) Set(value T) Bounded[T] {
+// Set sets the value of Bounded and automatically handles when the value exceeds the bounds.
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) Set(value T) (Bounded[T], error) {
+	var err error
+
 	if bnd.Clamp {
 		if value > bnd.maximum {
 			value = bnd.maximum
+			err = fmt.Errorf("over")
 		} else if value < bnd.minimum {
 			value = bnd.minimum
+			err = fmt.Errorf("under")
 		}
 	} else {
+		if value > bnd.maximum {
+			err = fmt.Errorf("over")
+		} else if value < bnd.minimum {
+			err = fmt.Errorf("under")
+		}
+
 		// NOTE: The maximum distance of a primitive type will ALWAYS be a uint64, which is very nice =)
 		distance := uint64(bnd.maximum-bnd.minimum) + 1
 		// NOTE: This circumvents conversion to a float64 when using Math.Abs()
@@ -261,5 +322,5 @@ func (bnd Bounded[T]) Set(value T) Bounded[T] {
 	}
 
 	bnd.value = value
-	return bnd
+	return bnd, err
 }
