@@ -7,7 +7,9 @@ package std
 // are cursored using a Bounded[uint64] - while you CAN directly change the boundaries, please note that you are
 // walking into uncharted territory!  I'd love to see what you come up with =)
 //
-// NOTE: While you can call NewPattern directly, pattern generation exists within the 'std/pattern' package.
+// NOTE: For advanced pattern generation and predefined patterns, see the 'std/pattern' package.
+//
+// See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
 type Pattern[T any] struct {
 	walkWest PatternFn[T]
 	walkEast PatternFn[T]
@@ -15,12 +17,41 @@ type Pattern[T any] struct {
 	Cursor   *Bounded[uint]
 }
 
+// Pattern2D represents a 2D "Matrix" of pattern data.
+//
+// See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
+type Pattern2D[T any] struct {
+	X Pattern[T]
+	Y Pattern[T]
+}
+
+// Pattern3D represents a 3D "Voxel" of pattern data.
+//
+// See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
+type Pattern3D[T any] struct {
+	X Pattern[T]
+	Y Pattern[T]
+	Z Pattern[T]
+}
+
+// Pattern4D represents a 4D "Cadence" of pattern data.
+//
+// See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
+type Pattern4D[T any] struct {
+	X Pattern[T]
+	Y Pattern[T]
+	Z Pattern[T]
+	W Pattern[T]
+}
+
 // PatternFn represents a function that walks to a position in a Pattern[T]
+//
+// See PatternBuffer, Pattern, Pattern2D, Pattern3D, Pattern4D, and PatternFn.
 type PatternFn[T any] func() T
 
 // NewPattern creates a new immutable instance of Pattern[T].
 //
-// NOTE: For pre-defined pattern generation, please see the 'std/pattern' package.
+// NOTE: For advanced pattern generation and predefined patterns, see the 'std/pattern' package.
 func NewPattern[T any](cursor *Bounded[uint], walkEast, walkWest PatternFn[T], data ...T) Pattern[T] {
 	return Pattern[T]{
 		walkWest: walkWest,

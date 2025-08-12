@@ -7,6 +7,36 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
+// Any represents any general pattern type, regardless of dimensionality.
+//
+// NOTE: For advanced pattern generation and predefined patterns, see the 'std/pattern' package.
+//
+// See Any, UpTo2D, UpTo3D, and UpTo4D
+type Any[T any] interface {
+	std.Pattern[T] | std.Pattern2D[T] | std.Pattern3D[T] | std.Pattern4D[T]
+}
+
+// UpTo2D represents patterns up to 2 dimensions wide.
+//
+// See Any, UpTo2D, UpTo3D, and UpTo4D
+type UpTo2D[T any] interface {
+	std.Pattern[T] | std.Pattern2D[T]
+}
+
+// UpTo3D represents patterns up to 3 dimensions wide.
+//
+// See Any, UpTo2D, UpTo3D, and UpTo4D
+type UpTo3D[T any] interface {
+	std.Pattern[T] | std.Pattern2D[T] | std.Pattern3D[T]
+}
+
+// UpTo4D represents patterns up to 4 dimensions wide.
+//
+// See Any, UpTo2D, UpTo3D, and UpTo4D
+type UpTo4D[T any] interface {
+	std.Pattern[T] | std.Pattern2D[T] | std.Pattern3D[T] | std.Pattern4D[T]
+}
+
 // NilAny returns a pattern which always yields a nil interface value (type any).
 func NilAny() std.Pattern[any] {
 	fn := func() any {
