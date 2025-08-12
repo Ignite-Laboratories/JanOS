@@ -10,12 +10,12 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// Any represents general directionality and includes both cardinal and abstract reference points in time and space.
+// Any represents general directionality and includes both cardinal and abstract reference points in space and time.
 //
-// All dimensions can be distilled down to a number line which can be traversed in binary directions - but, as you layer
-// dimensions on top of each other, they orthographically align relative to one another.  The terminology used to describe
-// this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions from
-// which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
+// All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
+// but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
+// used to describe this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions
+// from which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
 // how to talk in THAT language. =)
 //
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
@@ -35,6 +35,13 @@ import (
 //	cardinal.West: Scale
 //	cardinal.East: Reduction
 //
+//	orthogonal.Up: Towards the top of the orthogonal XY plane
+//	orthogonal.Down: Towards the bottom of the orthogonal XY plane
+//	orthogonal.Left: Towards the left of the orthogonal XY plane
+//	orthogonal.Right: Towards the right of the orthogonal XY plane
+//	orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
+//	orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
+//
 //	ordinal.Before:  i - 1
 //	ordinal.Current: i + 0
 //	ordinal.After:   i + 1
@@ -46,13 +53,6 @@ import (
 //	traffic.Inbound: Receiving
 //	traffic.Outbound: Transmitting
 //	traffic.Bidirectional: Discourse
-//
-//	orthogonal.Up: Towards the top of the orthogonal XY plane
-//	orthogonal.Down: Towards the bottom of the orthogonal XY plane
-//	orthogonal.Left: Towards the left of the orthogonal XY plane
-//	orthogonal.Right: Towards the right of the orthogonal XY plane
-//	orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
-//	orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
 //
 // See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
 type Any[T num.Primitive] interface {

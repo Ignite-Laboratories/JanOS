@@ -7,10 +7,10 @@ import (
 
 // Direction represents a single orthogonal direction.
 //
-// All dimensions can be distilled down to a number line which can be traversed in binary directions - but, as you layer
-// dimensions on top of each other, they orthographically align relative to one another.  The terminology used to describe
-// this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions from
-// which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
+// All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
+// but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
+// used to describe this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions
+// from which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
 // how to talk in THAT language. =)
 //
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
