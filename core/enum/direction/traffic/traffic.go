@@ -5,21 +5,28 @@ import "github.com/ignite-laboratories/core/std/num"
 
 // Direction represents the general flow of interaction between two abstract entities.
 //
+// All dimensions can be distilled down to a number line which can be traversed in binary directions - but, as you layer
+// dimensions on top of each other, they orthographically align relative to one another.  The terminology used to describe
+// this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions from
+// which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
+// how to talk in THAT language. =)
+//
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
 // in space.  Mentally this may be the direction of "gravity" while standing up and writing calculations on a whiteboard, but I think Ender
 // described it best.  All binary data is oriented with the most-significant side towards the "left" (or "west").  When operating against a
-// matrix, the abstract orientation of "rows" are aligned with the cardinal direction of "south".
+// matrix, you walk "latitudinally" between rows along the Y axis and "longitudinally" between columns along the X axis.  Against a voxel,
+// you'd walk negatively "in" or positively "out" along the Z axis.
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See Direction, Inbound, Outbound, and Bidirectional
+// See direction.Any, Direction, Inbound, Outbound, and Bidirectional
 type Direction[T num.Primitive] interface {
 	Inbound[T] | Outbound[T] | Bidirectional[T]
 }
 
 // Inbound represents the abstract Direction of "receiving" - which is the direction of listening.
 //
-// See Direction, Inbound, Outbound, and Bidirectional
+// See direction.Any, Direction, Inbound, Outbound, and Bidirectional
 type Inbound[T num.Primitive] num.Numeric[T]
 
 func (_ Inbound[T]) String() string {
@@ -36,7 +43,7 @@ func (_ Inbound[T]) StringFull(lowercase ...bool) string {
 
 // Outbound represents the abstract Direction of "transmitting" - which is the direction of talking.
 //
-// See Direction, Inbound, Outbound, and Bidirectional
+// See direction.Any, Direction, Inbound, Outbound, and Bidirectional
 type Outbound[T num.Primitive] num.Numeric[T]
 
 func (_ Outbound[T]) String() string {
@@ -53,7 +60,7 @@ func (_ Outbound[T]) StringFull(lowercase ...bool) string {
 
 // Bidirectional represents the abstract Direction of "communication" - which is the direction of discourse.
 //
-// See Direction, Inbound, Outbound, and Bidirectional
+// See direction.Any, Direction, Inbound, Outbound, and Bidirectional
 type Bidirectional[T num.Primitive] num.Numeric[T]
 
 func (_ Bidirectional[T]) String() string {
