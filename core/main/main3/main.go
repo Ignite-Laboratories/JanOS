@@ -28,10 +28,10 @@ func main() {
 			}
 			switch key {
 			case keyboard.KeyArrowLeft:
-				v := p.WalkWest()
+				v := p.GoWest()
 				fmt.Println(v)
 			case keyboard.KeyArrowRight:
-				v := p.WalkEast()
+				v := p.GoEast()
 				fmt.Println(v)
 			case keyboard.KeyEsc:
 				keyboard.Close()
