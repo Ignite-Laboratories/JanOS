@@ -59,7 +59,7 @@ type Any[T num.Primitive] interface {
 	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | traffic.Direction[T] | SpaceTime[T]
 }
 
-// SpaceTime represents any spatial or temporal axis of traversal.
+// SpaceTime represents any traversable axis of time or space.
 //
 // See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
 type SpaceTime[T num.Primitive] interface {
