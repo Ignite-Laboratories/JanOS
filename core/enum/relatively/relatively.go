@@ -41,12 +41,12 @@ const (
 	// Aligned represents the ordinal Relative of "i"
 	//
 	// See Relative, Before, Aligned, and After
-	Aligned = 0
+	Aligned Relative = 0
 
 	// After represents the ordinal Relative of "i+1"
 	//
 	// See Relative, Before, Aligned, and After
-	After = 1
+	After Relative = 1
 )
 
 func (d Relative) String() string {

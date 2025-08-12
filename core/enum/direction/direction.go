@@ -3,10 +3,11 @@ package direction
 
 import (
 	"github.com/ignite-laboratories/core/enum/direction/cardinal"
+	"github.com/ignite-laboratories/core/enum/direction/ordinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
-	"github.com/ignite-laboratories/core/enum/direction/relatively"
 	"github.com/ignite-laboratories/core/enum/direction/temporal"
 	"github.com/ignite-laboratories/core/enum/direction/traffic"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 // Direction represents general directionality and includes both cardinal and abstract reference points in time and space.
@@ -53,6 +54,6 @@ import (
 //	relatively.Before:  i - 1 NOTE: This is hardcoded as -1
 //	relatively.Current: i + 0 NOTE: This is hardcoded as  0
 //	relatively.After:   i + 1 NOTE: This is hardcoded as  1
-type Direction interface {
-	cardinal.Direction | orthogonal.Direction | relatively.Relative | temporal.Direction | traffic.Direction
+type Direction[T num.Primitive] interface {
+	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | traffic.Direction[T]
 }

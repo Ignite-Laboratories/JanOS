@@ -5,6 +5,18 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// Numeric represents any Primitive numeric Value.
+type Numeric[T Primitive] struct {
+	// Value represents the current value of this Numeric Primitive.
+	Value T
+}
+
+// SignedNumeric represents any primitive Signed numeric Value.
+type SignedNumeric[T Signed] struct {
+	// Value represents the current value of this Signed Numeric.
+	Value T
+}
+
 // Primitive represents any general primitive numeric type.
 //
 // See Integer, Float, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
@@ -12,14 +24,19 @@ type Primitive interface {
 	Integer | Float
 }
 
-// Integer represents any general integer type.
+// Signed represents any general primitive signed numeric type.
+type Signed interface {
+	constraints.Signed
+}
+
+// Integer represents any general primitive integer type.
 //
 // See Primitive, Float, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Integer interface {
 	constraints.Integer | Bit | Crumb | Note | Nibble | Flake | Morsel | Shred | Run | Scale | Riff | Hook
 }
 
-// Float represents any general floating-point type.
+// Float represents any general primitive floating-point type.
 //
 // See Primitive, Integer, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Float interface {

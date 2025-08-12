@@ -1,6 +1,8 @@
 // Package cardinal provides access to the cardinal.Direction enumeration.
 package cardinal
 
+import "github.com/ignite-laboratories/core/std/num"
+
 // Direction represents map-oriented spatial directions.
 //
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
@@ -11,30 +13,30 @@ package cardinal
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See Direction, North, West, South, and East
-type Direction interface {
-	Longitudinal | Latitudinal
+type Direction[T num.Primitive] interface {
+	Longitudinal[T] | Latitudinal[T]
 }
 
 // Longitudinal represents only the cardinal directions of East and West.
-type Longitudinal interface {
-	East | West
+type Longitudinal[T num.Primitive] interface {
+	East[T] | West[T]
 }
 
 // Latitudinal represents only the cardinal directions of North and South.
-type Latitudinal interface {
-	North | South
+type Latitudinal[T num.Primitive] interface {
+	North[T] | South[T]
 }
 
 // North represents the cardinal Direction "up" - which is the direction of accumulation.
 //
 // See Direction, North, West, South, and East
-type North byte
+type North[T num.Primitive] num.Numeric[T]
 
-func (_ North) String() string {
+func (_ North[T]) String() string {
 	return "N"
 }
 
-func (_ North) StringFull(lowercase ...bool) string {
+func (_ North[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "north"
@@ -45,13 +47,13 @@ func (_ North) StringFull(lowercase ...bool) string {
 // East represents the cardinal Direction "right" - which is the direction of reduction.
 //
 // See Direction, North, West, South, and East
-type East byte
+type East[T num.Primitive] num.Numeric[T]
 
-func (_ East) String() string {
+func (_ East[T]) String() string {
 	return "E"
 }
 
-func (_ East) StringFull(lowercase ...bool) string {
+func (_ East[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "east"
@@ -62,13 +64,13 @@ func (_ East) StringFull(lowercase ...bool) string {
 // South represents the cardinal Direction "down" - which is the target of all calculation
 //
 // See Direction, North, West, South, and East
-type South byte
+type South[T num.Primitive] num.Numeric[T]
 
-func (_ South) String() string {
+func (_ South[T]) String() string {
 	return "S"
 }
 
-func (_ South) StringFull(lowercase ...bool) string {
+func (_ South[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "south"
@@ -79,13 +81,13 @@ func (_ South) StringFull(lowercase ...bool) string {
 // West represents the cardinal Direction "left" - which is the direction of scale.
 //
 // See Direction, North, West, South, and East
-type West byte
+type West[T num.Primitive] num.Numeric[T]
 
-func (_ West) String() string {
+func (_ West[T]) String() string {
 	return "W"
 }
 
-func (_ West) StringFull(lowercase ...bool) string {
+func (_ West[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "west"
