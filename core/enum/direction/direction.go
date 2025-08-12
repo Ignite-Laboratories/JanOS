@@ -1,4 +1,15 @@
-// Package direction represents general directionality and includes both cardinal and abstract reference points in time and space.
+// Package direction provides access to the Direction interface.
+package direction
+
+import (
+	"github.com/ignite-laboratories/core/enum/direction/cardinal"
+	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
+	"github.com/ignite-laboratories/core/enum/direction/relatively"
+	"github.com/ignite-laboratories/core/enum/direction/temporal"
+	"github.com/ignite-laboratories/core/enum/direction/traffic"
+)
+
+// Direction represents general directionality and includes both cardinal and abstract reference points in time and space.
 //
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
 // in space.  Mentally this may be the direction of "gravity" while standing up and writing calculations on a whiteboard, but I think Ender
@@ -42,4 +53,6 @@
 //	relatively.Before:  i - 1 NOTE: This is hardcoded as -1
 //	relatively.Current: i + 0 NOTE: This is hardcoded as  0
 //	relatively.After:   i + 1 NOTE: This is hardcoded as  1
-package direction
+type Direction interface {
+	cardinal.Direction | orthogonal.Direction | relatively.Relative | temporal.Direction | traffic.Direction
+}

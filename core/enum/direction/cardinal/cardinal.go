@@ -11,75 +11,84 @@ package cardinal
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See Direction, North, West, South, and East
-type Direction byte
-
-const (
-	// North represents the cardinal Direction "up" - which is the direction of accumulation.
-	//
-	// See Direction, North, West, South, and East
-	North Direction = iota
-
-	// East represents the cardinal Direction "right" - which is the direction of reduction.
-	//
-	// See Direction, North, West, South, and East
-	East
-
-	// South represents the cardinal Direction "down" - which is the target of all calculation
-	//
-	// See Direction, North, West, South, and East
-	South
-
-	// West represents the cardinal Direction "left" - which is the direction of scale.
-	//
-	// See Direction, North, West, South, and East
-	West
-)
-
-func (d Direction) String() string {
-	switch d {
-	case South:
-		return "S"
-	case West:
-		return "W"
-	case North:
-		return "N"
-	case East:
-		return "E"
-	default:
-		return "Unknown"
-	}
+type Direction interface {
+	Longitudinal | Latitudinal
 }
 
-// StringFull prints an uppercase full word representation of the Direction.
+// Longitudinal represents only the cardinal directions of East and West.
+type Longitudinal interface {
+	East | West
+}
+
+// Latitudinal represents only the cardinal directions of North and South.
+type Latitudinal interface {
+	North | South
+}
+
+// North represents the cardinal Direction "up" - which is the direction of accumulation.
 //
-// You may optionally pass true for a lowercase representation.
-func (d Direction) StringFull(lowercase ...bool) string {
+// See Direction, North, West, South, and East
+type North byte
+
+func (_ North) String() string {
+	return "N"
+}
+
+func (_ North) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
-	switch d {
-	case South:
-		if lower {
-			return "south"
-		}
-		return "South"
-	case West:
-		if lower {
-			return "west"
-		}
-		return "West"
-	case North:
-		if lower {
-			return "north"
-		}
-		return "North"
-	case East:
-		if lower {
-			return "east"
-		}
-		return "East"
-	default:
-		if lower {
-			return "unknown"
-		}
-		return "Unknown"
+	if lower {
+		return "north"
 	}
+	return "North"
+}
+
+// East represents the cardinal Direction "right" - which is the direction of reduction.
+//
+// See Direction, North, West, South, and East
+type East byte
+
+func (_ East) String() string {
+	return "E"
+}
+
+func (_ East) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "east"
+	}
+	return "East"
+}
+
+// South represents the cardinal Direction "down" - which is the target of all calculation
+//
+// See Direction, North, West, South, and East
+type South byte
+
+func (_ South) String() string {
+	return "S"
+}
+
+func (_ South) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "south"
+	}
+	return "South"
+}
+
+// West represents the cardinal Direction "left" - which is the direction of scale.
+//
+// See Direction, North, West, South, and East
+type West byte
+
+func (_ West) String() string {
+	return "W"
+}
+
+func (_ West) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "west"
+	}
+	return "West"
 }

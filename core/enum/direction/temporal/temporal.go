@@ -11,63 +11,57 @@ package temporal
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See Direction, Past, Present, and Future
-type Direction byte
-
-const (
-	// Past represents the abstract Direction of "historically" - which is the direction of reflection.
-	//
-	// See Direction, Past, Present, and Future
-	Past Direction = iota
-
-	// Present represents the abstract Direction of "currently" - which is the direction of experience.
-	//
-	// See Direction, Past, Present, and Future
-	Present
-
-	// Future represents the abstract Direction of "eminently" - which is the direction of anticipation.
-	//
-	// See Direction, Past, Present, and Future
-	Future
-)
-
-func (d Direction) String() string {
-	switch d {
-	case Future:
-		return "⏭"
-	case Present:
-		return "⏸"
-	case Past:
-		return "⏮"
-	default:
-		return "Unknown"
-	}
+type Direction interface {
+	Past | Present | Future
 }
 
-// StringFull prints an uppercase full word representation of the Direction.
+// Past represents the abstract Direction of "historically" - which is the direction of reflection.
 //
-// You may optionally pass true for a lowercase representation.
-func (d Direction) StringFull(lowercase ...bool) string {
+// See Direction, Past, Present, and Future
+type Past byte
+
+func (_ Past) String() string {
+	return "⏮"
+}
+
+func (_ Past) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
-	switch d {
-	case Future:
-		if lower {
-			return "future"
-		}
-		return "Future"
-	case Present:
-		if lower {
-			return "present"
-		}
-		return "Present"
-	case Past:
-		if lower {
-			return "past"
-		}
-		return "Past"
-	default:
-		if lower {
-			return "unknown"
-		}
-		return "Unknown"
+	if lower {
+		return "past"
 	}
+	return "Past"
+}
+
+// Present represents the abstract Direction of "currently" - which is the direction of experience.
+//
+// See Direction, Past, Present, and Future
+type Present byte
+
+func (_ Present) String() string {
+	return "⏸"
+}
+
+func (_ Present) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "present"
+	}
+	return "Present"
+}
+
+// Future represents the abstract Direction of "eminently" - which is the direction of anticipation.
+//
+// See Direction, Past, Present, and Future
+type Future byte
+
+func (_ Future) String() string {
+	return "⏭"
+}
+
+func (_ Future) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "future"
+	}
+	return "Future"
 }
