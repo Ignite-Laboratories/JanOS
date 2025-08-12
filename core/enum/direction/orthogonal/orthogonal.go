@@ -2,7 +2,6 @@
 package orthogonal
 
 import (
-	"github.com/ignite-laboratories/core/enum/direction/temporal"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
