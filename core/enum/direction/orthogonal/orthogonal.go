@@ -1,7 +1,10 @@
 // Package orthogonal provides access to the orthogonal.Direction enumeration.
 package orthogonal
 
-import "github.com/ignite-laboratories/core/std/num"
+import (
+	"github.com/ignite-laboratories/core/enum/direction/temporal"
+	"github.com/ignite-laboratories/core/std/num"
+)
 
 // Direction represents a single orthogonal direction.
 //

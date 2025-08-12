@@ -54,7 +54,14 @@ import (
 //	orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
 //	orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
 //
-// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction
+// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
 type Any[T num.Primitive] interface {
-	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | traffic.Direction[T]
+	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | traffic.Direction[T] | SpaceTime[T]
+}
+
+// SpaceTime represents any spatial or temporal dimension.
+//
+// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
+type SpaceTime[T num.Primitive] interface {
+	orthogonal.Direction[T] | temporal.Direction[T]
 }

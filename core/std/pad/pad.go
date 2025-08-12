@@ -4,19 +4,9 @@ import (
 	"github.com/ignite-laboratories/core/enum/direction/cardinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/pad/align"
-	"github.com/ignite-laboratories/core/std/pad/alignment"
-	"github.com/ignite-laboratories/core/std/pad/scheme"
 	"github.com/ignite-laboratories/core/std/pattern"
 	"math"
 )
-
-func test() {
-	var a []any
-	var b []any
-
-	Operands[any, orthogonal.In[uint], cardinal.East[uint]](44, pattern.Zero[any]())
-}
 
 // Operands pads the provided operands using a pattern according to the rules defined by Type TS.
 //
