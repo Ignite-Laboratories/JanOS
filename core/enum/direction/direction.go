@@ -6,7 +6,7 @@ import (
 	"github.com/ignite-laboratories/core/enum/direction/ordinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
 	"github.com/ignite-laboratories/core/enum/direction/temporal"
-	"github.com/ignite-laboratories/core/enum/direction/traffic"
+	"github.com/ignite-laboratories/core/enum/direction/transmittal"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
@@ -50,13 +50,13 @@ import (
 //	temporal.Present: Experience
 //	temporal.Past: Reflection
 //
-//	traffic.Inbound: Receiving
-//	traffic.Outbound: Transmitting
-//	traffic.Bidirectional: Discourse
+//	transmittal.Inbound: Receiving
+//	transmittal.Outbound: Transmitting
+//	transmittal.Bidirectional: Discourse
 //
-// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
+// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, and SpaceTime
 type Any[T num.Primitive] interface {
-	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | traffic.Direction[T] | SpaceTime[T]
+	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
 }
 
 // SpaceTime represents any traversable axis of time or space.

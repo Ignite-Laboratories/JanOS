@@ -1,9 +1,9 @@
-// Package traffic provides access to the traffic.Direction enumeration.
-package traffic
+// Package transmittal provides access to the transmittal.Direction enumeration.
+package transmittal
 
 import "github.com/ignite-laboratories/core/std/num"
 
-// Direction represents the general flow of interaction between two abstract entities.
+// Direction represents the general transmission of information between two abstract entities.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
 // but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
