@@ -19,14 +19,21 @@ import "github.com/ignite-laboratories/core/std/num"
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Direction, Past, Present, and Future
+// See direction.Any, Axis, Direction, Past, Present, and Future
 type Direction[T num.Primitive] interface {
 	Past[T] | Present[T] | Future[T]
 }
 
+// Axis is the general axis of temporal movement - as such, it does not include the static present moment.
+//
+// See direction.Any, Axis, Direction, Past, Present, and Future
+type Axis[T num.Primitive] interface {
+	Past[T] | Future[T]
+}
+
 // Past represents the abstract Direction of "historically" - which is the direction of reflection.
 //
-// See direction.Any, Direction, Past, Present, and Future
+// See direction.Any, Axis, Direction, Past, Present, and Future
 type Past[T num.Primitive] num.Numeric[T]
 
 func (_ Past[T]) String() string {
@@ -43,7 +50,7 @@ func (_ Past[T]) StringFull(lowercase ...bool) string {
 
 // Present represents the abstract Direction of "currently" - which is the direction of experience.
 //
-// See direction.Any, Direction, Past, Present, and Future
+// See direction.Any, Axis, Direction, Past, Present, and Future
 type Present[T num.Primitive] num.Numeric[T]
 
 func (_ Present[T]) String() string {
@@ -60,7 +67,7 @@ func (_ Present[T]) StringFull(lowercase ...bool) string {
 
 // Future represents the abstract Direction of "eminently" - which is the direction of anticipation.
 //
-// See direction.Any, Direction, Past, Present, and Future
+// See direction.Any, Axis, Direction, Past, Present, and Future
 type Future[T num.Primitive] num.Numeric[T]
 
 func (_ Future[T]) String() string {

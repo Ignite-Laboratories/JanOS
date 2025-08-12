@@ -63,5 +63,5 @@ type Any[T num.Primitive] interface {
 //
 // See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, traffic.Direction, and SpaceTime
 type SpaceTime[T num.Primitive] interface {
-	orthogonal.Direction[T] | temporal.Direction[T]
+	orthogonal.Direction[T] | temporal.Axis[T]
 }
