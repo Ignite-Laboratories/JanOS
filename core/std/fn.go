@@ -33,8 +33,8 @@ func AbsDuration(d time.Duration) time.Duration {
 	return d
 }
 
-// Action functions are provided temporal context when invoked.
-type Action func(ctx Context)
+// ActionFn functions are provided temporal context when invoked.
+type ActionFn func(ctx Context)
 
-// Potential functions are provided temporal context when invoked in order to make decisions.
-type Potential func(ctx Context) bool
+// PotentialFn functions are provided temporal context when invoked in order to make decisions.
+type PotentialFn func(ctx Context) bool

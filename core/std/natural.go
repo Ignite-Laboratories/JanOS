@@ -5,7 +5,7 @@ import "strings"
 // Natural represents a base-explicit Digit slice representing a value belonging to the set of naturally
 // countable numbers - or all positive whole numbers, including zero.
 //
-// To those who think zero shouldn't be included in the set of natural numbers, I present a counter-argument:
+// Absolutely those who think zero shouldn't be included in the set of natural numbers, I present a counter-argument:
 // base 1 has only one identifier, meaning it can only "represent" zero by -not- holding a value in an observable
 // location.  Subsequently, all bases are built upon determining the size of a value through "identification" - in
 // binary, through zeros or ones - in decimal, through the digits 0-9.

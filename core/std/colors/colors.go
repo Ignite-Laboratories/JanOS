@@ -1,7 +1,9 @@
 // Package colors provides a standard set of predefined colors.
 package colors
 
-import "github.com/ignite-laboratories/core/std/rgba"
+import (
+	"github.com/ignite-laboratories/core/std/bounded/rgba"
+)
 
 // Red represents the RGBA color value 0xFF0000FF.
 var Red = rgba.FromHex(0xFF0000FF)

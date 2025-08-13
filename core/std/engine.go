@@ -42,7 +42,7 @@ type Engine struct {
 	// OnStop is called whenever the engine stops, if not nil.
 	OnStop func()
 
-	stopPotential Potential
+	stopPotential PotentialFn
 	neurons       map[uint64]*Neuron
 	mutex         sync.Mutex
 }
@@ -78,7 +78,7 @@ func (e *Engine) Stop() {
 }
 
 // StopWhen causes the impulse engine to cease firing neural activations when the provided potential returns true.
-func (e *Engine) StopWhen(potential Potential) {
+func (e *Engine) StopWhen(potential PotentialFn) {
 	e.stopPotential = potential
 }
 
@@ -135,7 +135,7 @@ func (e *Engine) GetNeurons() []*Neuron {
 // Block activates the provided action on every impulse in a blocking fashion, if the potential returns true.
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
-func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
+func (e *Engine) Block(action ActionFn, potential PotentialFn, muted bool) *Neuron {
 	e.SanityCheck()
 
 	var n Neuron
@@ -156,7 +156,7 @@ func (e *Engine) Block(action Action, potential Potential, muted bool) *Neuron {
 // Stimulate activates the provided action on every impulse in an asynchronous fashion, if the potential returns true.
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
-func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neuron {
+func (e *Engine) Stimulate(action ActionFn, potential PotentialFn, muted bool) *Neuron {
 	e.SanityCheck()
 
 	// NOTE: The trick here is that it never sets 'Executing' =)
@@ -178,7 +178,7 @@ func (e *Engine) Stimulate(action Action, potential Potential, muted bool) *Neur
 // NOTE: This fires a new goroutine for every activation
 //
 // If 'muted' is true, the neuron is lies dormant until un-muted.
-func (e *Engine) Loop(action Action, potential Potential, muted bool) *Neuron {
+func (e *Engine) Loop(action ActionFn, potential PotentialFn, muted bool) *Neuron {
 	e.SanityCheck()
 
 	var n Neuron
@@ -201,7 +201,7 @@ func (e *Engine) Loop(action Action, potential Potential, muted bool) *Neuron {
 // Trigger fires the provided action one time, if the potential returns true.
 //
 // If 'async' is true, the action is called asynchronously - otherwise, it blocks the firing impulse.
-func (e *Engine) Trigger(action Action, potential Potential, async bool) {
+func (e *Engine) Trigger(action ActionFn, potential PotentialFn, async bool) {
 	defer e.mutex.Unlock()
 	e.mutex.Lock()
 	e.SanityCheck()

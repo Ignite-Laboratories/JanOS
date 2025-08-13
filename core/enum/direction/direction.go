@@ -1,10 +1,13 @@
-// Package direction provides access to the Direction interface.
+// Package direction provides access to the Axis interface.
 package direction
 
 import (
+	"github.com/ignite-laboratories/core/enum/direction/awareness"
 	"github.com/ignite-laboratories/core/enum/direction/cardinal"
+	"github.com/ignite-laboratories/core/enum/direction/consciousness"
 	"github.com/ignite-laboratories/core/enum/direction/ordinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
+	"github.com/ignite-laboratories/core/enum/direction/reality"
 	"github.com/ignite-laboratories/core/enum/direction/temporal"
 	"github.com/ignite-laboratories/core/enum/direction/transmittal"
 	"github.com/ignite-laboratories/core/std/num"
@@ -54,7 +57,19 @@ import (
 //	transmittal.Outbound: Transmitting
 //	transmittal.Bidirectional: Discourse
 //
-// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, and SpaceTime
+//  awareness.Nascent: Obliviousness
+//  awareness.Naive: Willingness
+//  awareness.Mature: Understanding
+//
+//  consciousness.Ignorant: Selfishness
+//  consciousness.Emergent: Self-Awareness
+//  consciousness.Aware: Selflessness
+//
+//  reality.Chaos: Disorder
+//  reality.Coherence: Identification
+//  reality.Stability: Alignment
+//
+// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
 type Any[T num.Primitive] interface {
 	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
 }
@@ -64,4 +79,25 @@ type Any[T num.Primitive] interface {
 // See direction.Any, orthogonal.Direction, and temporal.Axis
 type SpaceTime[T num.Primitive] interface {
 	orthogonal.Direction[T] | temporal.Axis[T]
+}
+
+// Awareness represents any traversable axis through the 5th dimension.
+//
+// See direction.Any, orthogonal.Direction, temporal.Axis, and awareness.Axis
+type Awareness[T num.Primitive] interface {
+	SpaceTime[T] | awareness.Axis[T]
+}
+
+// Consciousness represents any traversable axis through the 6th dimension.
+//
+// See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, and consciousness.Axis
+type Consciousness[T num.Primitive] interface {
+	SpaceTime[T] | awareness.Axis[T] | consciousness.Axis[T]
+}
+
+// Reality represents any direction traversable axis the 7th dimension.
+//
+// See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, consciousness.Axis, and reality.Axis
+type Reality[T num.Primitive] interface {
+	SpaceTime[T] | awareness.Axis[T] | consciousness.Axis[T] | reality.Axis[T]
 }

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/bounded"
+	mouse2 "github.com/ignite-laboratories/core/std/mouse"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/host/mouse"
 	"math"
@@ -20,7 +22,7 @@ func main() {
 	atlas.Impulse.Spark()
 }
 
-func Velocity(ctx core.Context, old std.Data[std.MouseState], current std.Data[std.MouseState]) {
+func Velocity(ctx core.Context, old std.Data[mouse2.State], current std.Data[mouse2.State]) {
 	delta := current.Point.Position.X - old.Point.Position.X
 	deltaAbs := math.Abs(float64(delta))
 	if deltaAbs > 100 {
@@ -28,7 +30,7 @@ func Velocity(ctx core.Context, old std.Data[std.MouseState], current std.Data[s
 	}
 }
 
-func Feedback(ctx core.Context, old std.Data[std.MouseState], current std.Data[std.MouseState]) {
+func Feedback(ctx core.Context, old std.Data[mouse2.State], current std.Data[mouse2.State]) {
 	if current.Point.Position.X > 1024 {
 		mouse.SampleRate = 2048.0
 	} else {
@@ -37,8 +39,8 @@ func Feedback(ctx core.Context, old std.Data[std.MouseState], current std.Data[s
 	fmt.Println(current.Point.Position)
 }
 
-func Print(ctx core.Context, cache *any, data []std.Data[std.MouseState]) any {
-	points := make([]std.XY[int], len(data))
+func Print(ctx core.Context, cache *any, data []std.Data[mouse2.State]) any {
+	points := make([]bounded.XY[int], len(data))
 	for i, v := range data {
 		points[i] = v.Point.Position
 	}

@@ -8,15 +8,15 @@ type Neuron struct {
 	Muted bool
 
 	// Action is what the engine calls whenever the Potential returns true.
-	Action Action
+	Action ActionFn
 
 	// Destroyed indicates if this neuron has been destroyed and can be used to make cleanup decisions.
 	//
-	// To destroy a neuron, please use its Destroy() method.
+	// Absolutely destroy a neuron, please use its Destroy() method.
 	Destroyed ReadOnlyBool
 
 	// Potential must return true when called for activation to occur.
-	Potential Potential
+	Potential PotentialFn
 
 	// LastActivation provides temporal runtime information for the last activation.
 	LastActivation Runtime

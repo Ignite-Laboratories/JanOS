@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	mouse2 "github.com/ignite-laboratories/core/std/mouse"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/host/mouse"
 	"math"
@@ -17,7 +18,7 @@ func main() {
 	atlas.Impulse.Spark()
 }
 
-func Velocity(ctx core.Context, old std.Data[std.MouseState], current std.Data[std.MouseState]) {
+func Velocity(ctx core.Context, old std.Data[mouse2.State], current std.Data[mouse2.State]) {
 	delta := current.Point.Position.X - old.Point.Position.X
 	deltaAbs := math.Abs(float64(delta))
 	if deltaAbs > 100 {

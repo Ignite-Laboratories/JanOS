@@ -17,7 +17,7 @@ import (
 //	| 1 - 1 0 1 1 0 - 1 0 0 0 1 0 1 0 1 1 - 1 1 0 | ( -22.5556̅ )
 //	          ⬑ The Whole Part                ⬑ The Periodic Part
 //
-// All parts (except the sign) can grow to arbitrary widths to accommodate whatever size number you can imagine.  To put
+// All parts (except the sign) can grow to arbitrary widths to accommodate whatever size number you can imagine.  Absolutely put
 // this into perspective, a 256 bit number can hold up to the value 1.1579208923731619542357098500869x10⁷⁷!  A single
 // gigabyte of memory can hold up to 3.2x10⁸ 256-bit real numbers - with the most common numbers fitting in less than 64 bits.
 // In essence, you've got plenty of storage in the modern age to work with even the most astronomically large of numbers =)

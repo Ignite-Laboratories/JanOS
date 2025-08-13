@@ -40,11 +40,21 @@ type XAxis[T num.Primitive] interface {
 	Left[T] | Right[T]
 }
 
-// YAxis represents the Up ↔ Down axis.
+// YAxis represents the Up ↕ Down axis.
 //
 // See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
 type YAxis[T num.Primitive] interface {
 	Up[T] | Down[T]
+}
+
+// XYAxis represents the Up ↕ Down and Left ↔ Right axes.
+type XYAxis[T num.Primitive] interface {
+	XAxis[T] | YAxis[T]
+}
+
+// XYZAxis represents the Up ↕ Down, Left ↔ Right, and In ⇌ Out axes.
+type XYZAxis[T num.Primitive] interface {
+	XAxis[T] | YAxis[T] | ZAxis[T]
 }
 
 // ZAxis represents the In ↔ Out axis.

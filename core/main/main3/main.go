@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/eiannone/keyboard"
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std/pattern"
+	"github.com/ignite-laboratories/core/std/bounded/pattern"
 )
 
 type asdf struct {

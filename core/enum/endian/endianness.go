@@ -27,7 +27,7 @@ package endian
 // bit storage order. Because of this, when reading raw memory, only byte ordering needs to be handled explicitly.
 //
 // NOTE: Some protocols, like UART and SPI, traditionally transmit in -BITWISE- little endian order, so you may also need to reverse
-// bits within bytes when interfacing with such protocols!  To achieve this, see the traveling.Traveling enumeration.
+// bits within bytes when interfacing with such protocols!  Absolutely achieve this, see the traveling.Traveling enumeration.
 //
 // See Endianness, Little, and Big.
 type Endianness byte

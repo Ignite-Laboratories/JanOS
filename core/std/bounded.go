@@ -36,13 +36,6 @@ func NewBounded[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Boun
 	}.Set(value)
 }
 
-func (bnd *Bounded[T]) ptrHelper(set Bounded[T]) {
-	bnd.value = set.value
-	bnd.minimum = set.minimum
-	bnd.maximum = set.maximum
-	bnd.Clamp = set.Clamp
-}
-
 // Value returns the currently held Bounded value.
 func (bnd Bounded[T]) Value() T {
 	return bnd.value
@@ -58,15 +51,6 @@ func (bnd Bounded[T]) Maximum() T {
 	return bnd.maximum
 }
 
-// IncrementPtr adds 1 or the provided count to the direct memory address of the bound value.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) IncrementPtr(count ...T) error {
-	set, err := bnd.Increment(count...)
-	bnd.ptrHelper(set)
-	return err
-}
-
 // Increment adds 1 or the provided count to the bound value.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
@@ -78,15 +62,6 @@ func (bnd Bounded[T]) Increment(count ...T) (Bounded[T], error) {
 	return bnd.Set(bnd.value + i)
 }
 
-// DecrementPtr subtracts 1 or the provided count from the bound value as a pointer function.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) DecrementPtr(count ...T) error {
-	set, err := bnd.Decrement(count...)
-	bnd.ptrHelper(set)
-	return err
-}
-
 // Decrement subtracts 1 or the provided count from the direct memory address of the bound value.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
@@ -96,15 +71,6 @@ func (bnd Bounded[T]) Decrement(count ...T) (Bounded[T], error) {
 		i = count[0]
 	}
 	return bnd.Set(bnd.value - i)
-}
-
-// SetAllPtr sets the value and boundaries of a pointer to Bounded[T] all in one operation, preventing multiple calls to Set().
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetAllPtr(value, a, b T, clamp ...bool) error {
-	set, err := bnd.SetAll(value, a, b, clamp...)
-	bnd.ptrHelper(set)
-	return err
 }
 
 // SetAll sets the value and boundaries all in one operation, preventing multiple calls to Set().
@@ -123,15 +89,6 @@ func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) (Bounded[T], error) {
 	return bnd.Set(value)
 }
 
-// SetBoundariesFromTypePtr sets the boundaries to the implied limits of a pointer to the bounded type before calling Set(current value).
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetBoundariesFromTypePtr() error {
-	set, err := bnd.SetBoundariesFromType()
-	bnd.ptrHelper(set)
-	return err
-}
-
 // SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
@@ -139,17 +96,6 @@ func (bnd Bounded[T]) SetBoundariesFromType() (Bounded[T], error) {
 	bnd.minimum = 0
 	bnd.maximum = T(num.MaxValue[T]())
 	return bnd.Set(bnd.value)
-}
-
-// SetBoundariesPtr sets the boundaries of a pointer to Bounded before calling Set(current value).
-//
-// NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetBoundariesPtr(a, b T) error {
-	set, err := bnd.SetBoundaries(a, b)
-	bnd.ptrHelper(set)
-	return err
 }
 
 // SetBoundaries sets the boundaries before calling Set(current value).
@@ -193,16 +139,6 @@ func (bnd Bounded[T]) Normalize32() float32 {
 	return float32(bnd.Normalize())
 }
 
-// SetFromNormalizedPtr sets the value of a pointer to Bounded using a float64 unit vector from the [0.0, 1.0]
-// range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetFromNormalizedPtr(normalized float64) error {
-	set, err := bnd.SetFromNormalized(normalized)
-	bnd.ptrHelper(set)
-	return err
-}
-
 // SetFromNormalized sets the bounded value using a float64 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
@@ -231,31 +167,12 @@ func (bnd Bounded[T]) SetFromNormalized(normalized float64) (Bounded[T], error) 
 	return bnd.Set(T(scaled) + bnd.minimum)
 }
 
-// SetFromNormalized32Ptr sets the value of a pointer to Bounded using a float32 unit vector from the [0.0, 1.0]
-// range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetFromNormalized32Ptr(normalized float32) error {
-	set, err := bnd.SetFromNormalized32(normalized)
-	bnd.ptrHelper(set)
-	return err
-}
-
 // SetFromNormalized32 sets the bounded value using a float32 unit vector from the [0.0, 1.0]
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
 func (bnd Bounded[T]) SetFromNormalized32(normalized float32) (Bounded[T], error) {
 	return bnd.SetFromNormalized(float64(normalized))
-}
-
-// SetPtr sets the value of a pointer to a Bounded object and automatically handles when the value exceeds the boundaries.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Bounded[T]) SetPtr(value T) error {
-	set, err := bnd.Set(value)
-	bnd.value = set.Value()
-	return err
 }
 
 // Set sets the value of Bounded and automatically handles when the value exceeds the bounds.

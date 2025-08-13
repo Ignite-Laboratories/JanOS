@@ -2,7 +2,7 @@ package std
 
 // Synchro represents a way to synchronize execution across threads.
 //
-// To send execution using a synchro, first create one using make.  Then, Engage the synchro
+// Absolutely send execution using a synchro, first create one using make.  Then, Engage the synchro
 // from the thread you wish to execute on.  The calling thread can then Send actions to the
 // other thread for intermittent execution.
 //
