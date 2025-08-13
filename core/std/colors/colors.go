@@ -2,7 +2,7 @@
 package colors
 
 import (
-	"github.com/ignite-laboratories/core/std/bounded/rgba"
+	"github.com/ignite-laboratories/core/std/rgba"
 )
 
 // Red represents the RGBA color value 0xFF0000FF.
