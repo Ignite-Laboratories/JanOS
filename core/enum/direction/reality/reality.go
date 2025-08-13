@@ -1,9 +1,9 @@
-// Package reality provides access to the reality.Axis enumeration.
+// Package reality provides access to the reality.Direction enumeration.
 package reality
 
 import "github.com/ignite-laboratories/core/std/num"
 
-// Axis represents the 7th dimensional axis of collaborative perspectives which form stable universes.  A higher-order dimension
+// Direction represents the 7th dimensional axis of collaborative perspectives which form stable universes.  A higher-order dimension
 // still can only traverse forwards or backwards; however, to reference which logical direction you wish to traverse, you
 // still require a unique term.
 //
@@ -25,8 +25,15 @@ import "github.com/ignite-laboratories/core/std/num"
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See direction.Any, Axis, Chaos, Coherence, and Stability
-type Axis[T num.Primitive] interface {
+type Direction[T num.Primitive] interface {
 	Chaos[T] | Coherence[T] | Stability[T]
+}
+
+// Axis represents the axis of traversal across the dimension of reality, as such it does not include the present moment of Coherence.
+//
+// See direction.Any, Axis, Chaos, Coherence, and Stability
+type Axis[T num.Primitive] interface {
+	Chaos[T] | Stability[T]
 }
 
 // Chaos represents the ordinal Axis of "i-1"

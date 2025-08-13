@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/bounded"
 	mouse2 "github.com/ignite-laboratories/core/std/mouse"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/host/mouse"
@@ -40,7 +39,7 @@ func Feedback(ctx core.Context, old std.Data[mouse2.State], current std.Data[mou
 }
 
 func Print(ctx core.Context, cache *any, data []std.Data[mouse2.State]) any {
-	points := make([]bounded.XY[int], len(data))
+	points := make([]std.XY[int], len(data))
 	for i, v := range data {
 		points[i] = v.Point.Position
 	}

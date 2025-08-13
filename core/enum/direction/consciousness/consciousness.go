@@ -1,11 +1,11 @@
-// Package consciousness provides access to the consciousness.Axis enumeration.
+// Package consciousness provides access to the Direction.Axis enumeration.
 package consciousness
 
 import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// Axis represents the 6th dimensional axis of conscious perspective.  A higher-order dimension still can only traverse forwards
+// Direction represents the 6th dimensional axis of conscious perspective.  A higher-order dimension still can only traverse forwards
 // or backwards; however, to reference which logical direction you wish to traverse, you still require a unique term.
 //
 // For consciousness, the ordinal directions are 'Ignorant' for negatively, 'Emergent' for current, and 'Aware' for positively.  This is
@@ -26,8 +26,15 @@ import (
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Axis[T num.Primitive] interface {
+type Direction[T num.Primitive] interface {
 	Ignorant[T] | Emergent[T] | Aware[T]
+}
+
+// Axis represents the axis of traversal across the dimension of consciousness, as such it does not include the present moment of Emergent.
+//
+// See direction.Any, Axis, Ignorant, Emergent, and Aware
+type Axis[T num.Primitive] interface {
+	Ignorant[T] | Aware[T]
 }
 
 // Ignorant represents the ordinal Axis of "i-1"

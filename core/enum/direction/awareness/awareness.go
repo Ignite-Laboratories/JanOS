@@ -1,11 +1,11 @@
-// Package awareness provides access to the awareness.Axis enumeration.
+// Package awareness provides access to the awareness.Direction enumeration.
 package awareness
 
 import (
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// Axis represents the 5th dimensional axis of contextual awareness.  A higher-order dimension still can only traverse forwards
+// Direction represents the 5th dimensional axis of contextual awareness.  A higher-order dimension still can only traverse forwards
 // or backwards; however, to reference which logical direction you wish to traverse, you still require a unique term.
 //
 // For awareness, the ordinal directions are 'Nascent' for negatively, 'Naive' for current, and 'Mature' for positively.  This is
@@ -26,8 +26,15 @@ import (
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See direction.Any, Axis, Nascent, Naive, and Mature
-type Axis[T num.Primitive] interface {
+type Direction[T num.Primitive] interface {
 	Nascent[T] | Naive[T] | Mature[T]
+}
+
+// Axis represents the axis of traversal across the dimension of awareness, as such it does not include the present moment of Naive.
+//
+// See direction.Any, Axis, Nascent, Naive, and Mature
+type Axis[T num.Primitive] interface {
+	Nascent[T] | Mature[T]
 }
 
 // Nascent represents the ordinal Axis of "i-1"

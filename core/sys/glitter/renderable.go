@@ -2,7 +2,6 @@ package glitter
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/bounded"
 )
 
 // Renderable represents the lifecycle of an impulsably renderable structure.
@@ -11,7 +10,7 @@ import (
 // a generic 'surface' and size.
 type Renderable[T any] interface {
 	Initialize()
-	Impulse(ctx std.Context, surface T, size bounded.XY[int])
+	Impulse(ctx std.Context, surface T, size std.XY[int])
 	Cleanup()
 	Lock()
 	Unlock()

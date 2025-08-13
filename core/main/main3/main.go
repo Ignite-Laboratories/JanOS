@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"github.com/eiannone/keyboard"
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std/bounded/pattern"
+	"github.com/ignite-laboratories/core/std/bounded"
+	"github.com/ignite-laboratories/core/std/pattern"
 )
 
 type asdf struct {
 }
 
 func main() {
+	bounded.
+		pad.Plane()
+
 	p := pattern.NilAny()
 
 	for core.Alive() {

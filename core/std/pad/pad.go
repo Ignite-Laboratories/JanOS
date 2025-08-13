@@ -2,49 +2,51 @@ package pad
 
 import (
 	"github.com/ignite-laboratories/core/enum/direction"
-	"github.com/ignite-laboratories/core/enum/direction/awareness"
-	"github.com/ignite-laboratories/core/enum/direction/consciousness"
 	"github.com/ignite-laboratories/core/enum/direction/ordinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
-	"github.com/ignite-laboratories/core/enum/direction/reality"
-	"github.com/ignite-laboratories/core/std/bounded"
-	"github.com/ignite-laboratories/core/std/bounded/pattern"
+	"github.com/ignite-laboratories/core/std"
+	pattern2 "github.com/ignite-laboratories/core/std/pattern"
 	"math"
 )
 
-
-func Row[T any, TSide orthogonal.XAxis[uint], TDirection orthogonal.XAxis[uint]](size uint, buffer bounded.Pattern[T], columns ...T) []T {
+// Row pads the row of 1D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Row[T any, TSide orthogonal.XAxis[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern[T], data ...T) []T {
 	// TODO implement this
 	return nil
 }
 
-
-func Table[T any, TSide orthogonal.XYAxis[uint], TDirection orthogonal.XYAxis[uint]](size uint, buffer bounded.Pattern[T], rows ...[]T) [][]T {
+// Plane pads the plane of 2D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Plane[T any, TSide orthogonal.XYAxis[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern2D[T], data ...[]T) [][]T {
 	// TODO implement this
 	return nil
 }
 
-func Cube[T any, TSide orthogonal.XYAxis[uint], TDirection orthogonal.XYAxis[uint]](size uint, buffer bounded.Pattern[T], tables ...[][]T) [][][]T {
+// Cube pads the cube of 3D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Cube[T any, TSide orthogonal.XYZAxis[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern3D[T], data ...[][]T) [][][]T {
 	// TODO implement this
 	return nil
 }
 
-func Tesseract[T any, TSide orthogonal.XYZAxis[uint], TDirection orthogonal.XYZAxis[uint]](size uint, buffer bounded.Pattern[T], cubes ...[][][]T) [][][][]T {
+// Tesseract pads the tesseract of 4D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Tesseract[T any, TSide direction.SpaceTime[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern4D[T], data ...[][][]T) [][][][]T {
 	// TODO implement this
 	return nil
 }
 
-func Awareness[T any, TSide direction.SpaceTime[uint], TDirection direction.SpaceTime[uint]](size uint, buffer bounded.Pattern[T], tesseracts ...[][][][]T) [][][][][]T {
+// Awareness pads the awareness of 5D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Awareness[T any, TSide direction.Awareness[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern5D[T], data ...[][][][]T) [][][][][]T {
 	// TODO implement this
 	return nil
 }
 
-func Consciousness[T any, TSideA direction.Awareness[uint], TSideB awareness.Axis[uint], TDirectionA direction.Awareness[uint], TDirectionB awareness.Axis[T]](size uint, awarenesses ...[][][][][]T) [][][][][][]T {
+// Consciousness pads the consciousness of 6D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Consciousness[T any, TSide direction.Consciousness[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern6D[T], data ...[][][][][]T) [][][][][][]T {
 	// TODO implement this
 	return nil
 }
 
-func Reality[T any, TSideA direction.Consciousness[uint], TSideB consciousness.Axis[uint], TDirectionA direction.Consciousness[uint], TDirectionB consciousness.Axis[T]](size uint, consciousnesses ...[][][][][][]T) [][][][][][][]T {
+// Reality pads the reality of 7D data on the provided TSide by driving a std.Cursor through the same dimension of the pattern buffer in TDirection until reaching the requested `size`.
+func Reality[T any, TSide direction.Reality[uint], TDirection ordinal.Axis[uint]](size uint, buffer std.Pattern7D[T], data ...[][][][][][]T) [][][][][][][]T {
 	// TODO implement this
 	return nil
 }
@@ -57,8 +59,8 @@ func Reality[T any, TSideA direction.Consciousness[uint], TSideB consciousness.A
 //  TPatternDirection - Indicates which direction to cursor through the pattern - eastbound or westbound.
 //
 // See cardinal.Direction, alignment.Scheme, and scheme.Type
-func Operands[TElement any, TSide orthogonal.Direction[uint], TPatternDirection direction.SpaceTime[uint]](size uint, padPattern pattern.Buffer[TElement], operands ...[]TElement) [][]TElement {
-	p := pattern.Zero[TElement]()
+func Operands[TElement any, TSide orthogonal.Direction[uint], TPatternDirection direction.SpaceTime[uint]](size uint, padPattern pattern2.Buffer[TElement], operands ...[]TElement) [][]TElement {
+	p := pattern2.Zero[TElement]()
 	if len(padPattern) > 0 {
 		p = padPattern[0]
 	}

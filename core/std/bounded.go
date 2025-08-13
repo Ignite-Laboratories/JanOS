@@ -10,10 +10,6 @@ import (
 // Bounded represents a numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
-//
-// NOTE: This type exposes both pointer and value receiver methods.  This is by design!  I prefer to use this as a
-// value type, but the patterning system requires pointer operations.  The operations are completely interchangeable,
-// but you should absolutely be wary of what pattern you are calling, when, and why.
 type Bounded[T num.Primitive] struct {
 	value   T
 	minimum T

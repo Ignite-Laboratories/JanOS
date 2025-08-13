@@ -19,31 +19,38 @@ import "github.com/ignite-laboratories/core/std/num"
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Direction, Before, Current, and After
+// See direction.Any, Direction, Negative, Current, and Positive
 type Direction[T num.Primitive] interface {
-	Before[T] | Current[T] | After[T]
+	Negative[T] | Current[T] | Positive[T]
 }
 
-// Before represents the ordinal Direction of "i-1"
+// Axis represents the axis of traversal across an ordered set, as such it does not include the Current element.
 //
-// See direction.Any, Direction, Before, Current, and After
-type Before[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, Negative, Current, and Positive
+type Axis[T num.Primitive] interface {
+	Negative[T] | Positive[T]
+}
 
-func (_ Before[T]) String() string {
+// Negative represents the ordinal Direction of "i-1"
+//
+// See direction.Any, Direction, Negative, Current, and Positive
+type Negative[T num.Primitive] num.Numeric[T]
+
+func (_ Negative[T]) String() string {
 	return "←"
 }
 
-func (_ Before[T]) StringFull(lowercase ...bool) string {
+func (_ Negative[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
-		return "before"
+		return "negative"
 	}
-	return "Before"
+	return "Negative"
 }
 
 // Current represents the ordinal Direction of "i"
 //
-// See direction.Any, Direction, Before, Current, and After
+// See direction.Any, Direction, Negative, Current, and Positive
 type Current[T num.Primitive] num.Numeric[T]
 
 func (_ Current[T]) String() string {
@@ -58,19 +65,19 @@ func (_ Current[T]) StringFull(lowercase ...bool) string {
 	return "Current"
 }
 
-// After represents the ordinal Direction of "i+1"
+// Positive represents the ordinal Direction of "i+1"
 //
-// See direction.Any, Direction, Before, Current, and After
-type After[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, Negative, Current, and Positive
+type Positive[T num.Primitive] num.Numeric[T]
 
-func (_ After[T]) String() string {
+func (_ Positive[T]) String() string {
 	return "→"
 }
 
-func (_ After[T]) StringFull(lowercase ...bool) string {
+func (_ Positive[T]) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
-		return "after"
+		return "positive"
 	}
-	return "After"
+	return "Positive"
 }

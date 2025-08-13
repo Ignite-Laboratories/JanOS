@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/ignite-laboratories/core/enum/greek"
-	rgba2 "github.com/ignite-laboratories/core/std/bounded/rgba"
-	"github.com/ignite-laboratories/core/std/bounded/xy"
 	"github.com/ignite-laboratories/core/std/name"
 	"github.com/ignite-laboratories/core/std/num"
 	"github.com/ignite-laboratories/core/std/phrase"
 	"github.com/ignite-laboratories/core/std/rgba"
+	"github.com/ignite-laboratories/core/std/xy"
 	"github.com/ignite-laboratories/core/std/xyzw"
 	"github.com/ignite-laboratories/core/sys/atlas"
 )
@@ -25,7 +24,7 @@ func main() {
 	fmt.Println(xy.From(555, 444, 1024, 768))
 
 	fmt.Println(xyzw.FromInfinite[byte](0, 5, 4, 3))
-	ff := rgba2.FromHex[num.Note](0xaabbccdd)
+	ff := rgba.FromHex[num.Note](0xaabbccdd)
 	fmt.Println(ff)
 	fmt.Println(ff.ABGR())
 	ffN := rgba.Normalize[num.Note, float32](ff)

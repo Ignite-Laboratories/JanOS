@@ -38,3 +38,24 @@ type ActionFn func(ctx Context)
 
 // PotentialFn functions are provided temporal context when invoked in order to make decisions.
 type PotentialFn func(ctx Context) bool
+
+/**
+Movement
+*/
+
+// MovementSingleFn functions should be given the data from which to move through, a target number, and return a single element.
+//
+// See Axis, Emit, Movement, and Pattern
+type MovementSingleFn[T any] func(n int) T
+
+// MovementManyFn functions should be given the data from which to move through, a target number, and return many elements.
+//
+// See Axis, Emit, Movement, and Pattern
+type MovementManyFn[T any] func(n int) []T
+
+// MovementFn represents any generic kind of movement function.
+//
+// See Axis, Emit, Movement, and Pattern
+type MovementFn[T any] interface {
+	MovementSingleFn[T] | MovementManyFn[T]
+}

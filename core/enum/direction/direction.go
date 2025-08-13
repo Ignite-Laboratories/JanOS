@@ -33,52 +33,52 @@ import (
 //
 // NOTE: Like-typed directions can be combined to form complex directions.
 //
-//	cardinal.South: Calculation
-//	cardinal.North: Accumulation
-//	cardinal.West: Scale
-//	cardinal.East: Reduction
+//		cardinal.South: Calculation
+//		cardinal.North: Accumulation
+//		cardinal.West: Scale
+//		cardinal.East: Reduction
 //
-//	orthogonal.Up: Towards the top of the orthogonal XY plane
-//	orthogonal.Down: Towards the bottom of the orthogonal XY plane
-//	orthogonal.Left: Towards the left of the orthogonal XY plane
-//	orthogonal.Right: Towards the right of the orthogonal XY plane
-//	orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
-//	orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
+//		orthogonal.Up: Towards the top of the orthogonal XY plane
+//		orthogonal.Down: Towards the bottom of the orthogonal XY plane
+//		orthogonal.Left: Towards the left of the orthogonal XY plane
+//		orthogonal.Right: Towards the right of the orthogonal XY plane
+//		orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
+//		orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
 //
-//	ordinal.Before:  i - 1
-//	ordinal.Current: i + 0
-//	ordinal.After:   i + 1
+//		ordinal.Negative:  i - 1
+//		ordinal.Current: i + 0
+//		ordinal.Positive:   i + 1
 //
-//	temporal.Future: Anticipation
-//	temporal.Present: Experience
-//	temporal.Past: Reflection
+//		temporal.Future: Anticipation
+//		temporal.Present: Experience
+//		temporal.Past: Reflection
 //
-//	transmittal.Inbound: Receiving
-//	transmittal.Outbound: Transmitting
-//	transmittal.Bidirectional: Discourse
+//		transmittal.Inbound: Receiving
+//		transmittal.Outbound: Transmitting
+//		transmittal.Bidirectional: Discourse
 //
-//  awareness.Nascent: Obliviousness
-//  awareness.Naive: Willingness
-//  awareness.Mature: Understanding
+//	 awareness.Nascent: Obliviousness
+//	 awareness.Naive: Willingness
+//	 awareness.Mature: Understanding
 //
-//  consciousness.Ignorant: Selfishness
-//  consciousness.Emergent: Self-Awareness
-//  consciousness.Aware: Selflessness
+//	 consciousness.Ignorant: Selfishness
+//	 consciousness.Emergent: Self-Awareness
+//	 consciousness.Aware: Selflessness
 //
-//  reality.Chaos: Disorder
-//  reality.Coherence: Identification
-//  reality.Stability: Alignment
+//	 reality.Chaos: Disorder
+//	 reality.Coherence: Identification
+//	 reality.Stability: Alignment
 //
 // See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
 type Any[T num.Primitive] interface {
 	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
 }
 
-// SpaceTime represents any traversable axis of time or space.
+// SpaceTime represents any traversable axis of space or time.
 //
 // See direction.Any, orthogonal.Direction, and temporal.Axis
 type SpaceTime[T num.Primitive] interface {
-	orthogonal.Direction[T] | temporal.Axis[T]
+	orthogonal.XYZAxis[T] | temporal.Axis[T]
 }
 
 // Awareness represents any traversable axis through the 5th dimension.
