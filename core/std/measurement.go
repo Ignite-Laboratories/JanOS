@@ -2,8 +2,8 @@ package std
 
 import (
 	"github.com/ignite-laboratories/core/enum/endian"
-	"github.com/ignite-laboratories/core/internal"
 	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/sys/support"
 	"strings"
 )
 
@@ -185,7 +185,7 @@ func (a Measurement[T]) Reverse() Measurement[T] {
 
 	ii := 0
 	for i := len(a.Bytes) - 1; i >= 0; i-- {
-		reversedBytes[ii] = internal.ReverseByte(a.Bytes[i])
+		reversedBytes[ii] = support.ReverseByte(a.Bytes[i])
 		ii++
 	}
 

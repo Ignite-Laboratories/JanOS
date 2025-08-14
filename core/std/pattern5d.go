@@ -15,10 +15,9 @@ package std
 //
 // See Axis, Emit, Movement, Pattern, Pattern2D, Pattern3D, Pattern4D, Pattern5D, Pattern6D, and Pattern7D
 type Pattern5D[T any] struct {
-	Data [][][][][]T
-	X    Axis[T]
-	Y    Axis[[]T]
-	Z    Axis[[][]T]
-	W    Axis[[][][]T]
-	A    Axis[[][][][]T]
+	X Axis[T]
+	Y Axis[[]T]
+	Z Axis[[][]T]
+	W Axis[[][][]T]
+	A Axis[[][][][]T]
 }

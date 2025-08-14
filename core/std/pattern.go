@@ -11,6 +11,5 @@ package std
 //
 // See Axis, Emit, Movement, Pattern, Pattern2D, Pattern3D, Pattern4D, Pattern5D, Pattern6D, and Pattern7D
 type Pattern[T any] struct {
-	Data []T
-	X    Axis[T]
+	X Axis[T]
 }

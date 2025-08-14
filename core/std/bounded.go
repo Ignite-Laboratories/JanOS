@@ -47,26 +47,41 @@ func (bnd Bounded[T]) Maximum() T {
 	return bnd.maximum
 }
 
-// Increment adds 1 or the provided count to the bound value.
+// Increment adds 1 or the provided amount to the bound value.
+//
+// NOTE: If you provide a negative number, this will 'decrement'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) Increment(count ...T) (Bounded[T], error) {
+func (bnd Bounded[T]) Increment(amount ...T) (Bounded[T], error) {
 	i := T(1)
-	if len(count) > 0 {
-		i = count[0]
+	if len(amount) > 0 {
+		i = amount[0]
 	}
 	return bnd.Set(bnd.value + i)
 }
 
-// Decrement subtracts 1 or the provided count from the direct memory address of the bound value.
+// Decrement subtracts 1 or the provided amount from the bound value.
+//
+// NOTE: If you provide a negative number, this will 'increment'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) Decrement(count ...T) (Bounded[T], error) {
+func (bnd Bounded[T]) Decrement(amount ...T) (Bounded[T], error) {
 	i := T(1)
-	if len(count) > 0 {
-		i = count[0]
+	if len(amount) > 0 {
+		i = amount[0]
 	}
 	return bnd.Set(bnd.value - i)
+}
+
+// AddOrSubtract adds or subtracts the provided amount to the bound value.
+//
+// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+func (bnd Bounded[T]) AddOrSubtract(amount T) (Bounded[T], error) {
+	if amount < 0 {
+		amount = -amount
+		return bnd.Decrement(T(amount))
+	}
+	return bnd.Increment(T(amount))
 }
 
 // SetAll sets the value and boundaries all in one operation, preventing multiple calls to Set().

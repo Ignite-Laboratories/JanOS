@@ -3,37 +3,35 @@ package pattern
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/bounded"
 	"github.com/ignite-laboratories/core/std/internal"
+	"github.com/ignite-laboratories/core/std/movement"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// NilAny returns a pattern which always yields a nil interface value (type any).
-func NilAny() std.Pattern[any] {
-	fns := func(int) any {
-		return nil
-	}
-	fnm := func(int) []any {
-		return []any{nil}
-	}
-	return internal.NewPattern[any](std.NewEmit(fns, fnm, fns, fnm), nil)
-}
-
 // Nil returns a pattern which always yields nil.
 func Nil[T any]() std.Pattern[*T] {
-	return Zero[*T]()
+	return Default[*T]()
 }
 
-// Zero returns a pattern which always yields the zero value of T.
-func Zero[T any]() std.Pattern[T] {
-	var zero T
-	fns := func(int) T {
-		return zero
+// NilAny returns a pattern which always yields a nil interface value (type any).
+func NilAny() std.Pattern[any] {
+	seven := internal.New7DNilAnyPattern()
+	return std.Pattern[any]{
+		X: seven.X,
 	}
-	fnm := func(int) []T {
-		return []T{zero}
+}
+
+// Default returns a pattern which always yields the default value of T (type *T).
+func Default[T any]() std.Pattern[T] {
+	seven := internal.New7DZeroPattern[T]()
+	return std.Pattern[T]{
+		X: seven.X,
 	}
-	return internal.NewPattern[T](std.NewEmit(fns, fnm, fns, fnm), zero)
+}
+
+// Zero is a pattern of a numeric 0.
+func Zero[T num.Primitive]() std.Pattern[T] {
+	return From[T](0)
 }
 
 // One is a pattern of a numeric one.
@@ -41,65 +39,34 @@ func One[T num.Primitive]() std.Pattern[T] {
 	return From[T](1)
 }
 
-// ZeroOne returns a pattern which always yields a numeric '01'.
+// ZeroOne is a pattern of a numeric sequence of '01'.
 //
-// NOTE: Patterns are stored as you would read them (left→to→right) but are evaluated in a direction of travel.
+// NOTE: Patterns are stored as you would read them (left→to→right) but are evaluated along an axis of travel.
 func ZeroOne[T num.Primitive]() std.Pattern[T] {
 	return From[T](0, 1)
 }
 
-// OneZero returns a pattern which always yields a numeric '10'.
+// OneZero is a pattern of a numeric sequence of '10'.
 //
-// NOTE: Patterns are stored as you would read them (left→to→right) but are evaluated in a direction of travel.
+// NOTE: Patterns are stored as you would read them (left→to→right) but are evaluated along an axis of travel.
 func OneZero[T num.Primitive]() std.Pattern[T] {
 	return From[T](1, 0)
 }
 
-// From creates a new std.Pattern which can infinitely walk through the provided data either westbound or eastbound.
+// From creates a new std.Pattern which can infinitely walk through the provided data along an axis of travel.
 //
-// NOTE: This will create a single element 'zero' instance pattern of T if provided no data.
+// NOTE: This will create a pattern holding a single element 'default' instance of T if provided no data.
 func From[T any](data ...T) std.Pattern[T] {
 	if len(data) == 0 {
 		var zero T
 		data = append(data, zero)
 	}
 
-	c, _ := bounded.By[uint](0, 0, uint(len(data)-1))
-	walkEast := func(i uint) T {
-		out := data[c.Value()]
-		_ = c.IncrementPtr(i)
-		return out
+	x := movement.Function1D[T](data...)
+	return std.Pattern[T]{
+		X: std.Axis[T]{
+			Emit:   x,
+			Cursor: std.NewCursorDefault(),
+		},
 	}
-	walkWest := func(i uint) T {
-		_ = c.DecrementPtr(i)
-		return data[c.Value()]
-	}
-	walkTo := func(i uint) T {
-		_ = c.SetPtr(i)
-		return data[c.Value()]
-	}
-	yieldEast := func(i uint) []T {
-		out := make([]T, i)
-		for j := uint(0); j < i; j++ {
-			out[j] = walkEast(1)
-		}
-		return out
-	}
-	yieldWest := func(i uint) []T {
-		out := make([]T, i)
-		for j := uint(0); j < i; j++ {
-			out[j] = walkWest(1)
-		}
-		return out
-	}
-	yieldTo := func(i uint) []T {
-		if i > c.Value() {
-			return yieldEast(i - c.Value())
-		} else if i < c.Value() {
-			return yieldWest(c.Value() - i)
-		}
-		return []T{data[c.Value()]}
-	}
-
-	return internal.NewPattern[T](&c, walkEast, walkWest, walkTo, yieldEast, yieldWest, yieldTo, data...)
 }

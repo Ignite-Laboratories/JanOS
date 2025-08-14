@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/ignite-laboratories/core/enum/endian"
 	"github.com/ignite-laboratories/core/enum/traveling"
-	"github.com/ignite-laboratories/core/internal"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/name"
 	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/sys/support"
 	"reflect"
 	"unsafe"
 )
@@ -82,8 +82,8 @@ func To[T any](m std.Measurement[any]) T {
 // Of creates a new std.Measurement[T] of the provided input data by reading it directly from memory.
 func Of[T any](data T) std.Measurement[T] {
 	m := std.Measurement[T]{
-		Bytes:      internal.Measure[T](data)[0],
-		Endianness: internal.GetArchitectureEndianness(),
+		Bytes:      support.Measure[T](data)[0],
+		Endianness: support.GetArchitectureEndianness(),
 	}
 	m.GivenName = name.Random[name.Default]()
 	return m

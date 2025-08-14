@@ -1,4 +1,4 @@
-package internal
+package support
 
 import (
 	"encoding/binary"
