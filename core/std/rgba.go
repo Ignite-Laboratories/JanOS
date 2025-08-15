@@ -1,437 +1,58 @@
 package std
 
 import (
-	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
-// RGBA is a structure for holding symmetrical red, green, blue, and alpha color channel values - as well as providing rudimentary "swizzling."
-//
-// NOTE: This derives from RGBAAsymmetric, which allows asymmetric channel bit widths if desired =)
-type RGBA[T num.Primitive] RGBAAsymmetric[T, T, T, T]
+// RGBA is a kind of Vector4D that provides R G B A mappings to the underlying component vectors.
+type RGBA[T num.Primitive] = RGBATyped[T, T, T, T]
 
-// SetClamp sets whether the color channels should clamp to their boundaries or overflow and under-flow.
-func (c RGBA[T]) SetClamp(shouldClamp bool) RGBA[T] {
-	c.R.Clamp = shouldClamp
-	c.G.Clamp = shouldClamp
-	c.B.Clamp = shouldClamp
-	c.A.Clamp = shouldClamp
-	return c
+// RGBATyped is a kind of Vector4DTyped that provides R G B A mappings to the underlying component vectors.
+type RGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive] Vector4DTyped[TR, TG, TB, TA]
+
+func (v RGBATyped[TR, TG, TB, TA]) SetClamp(clamp bool) RGBATyped[TR, TG, TB, TA] {
+	return v.SetClamp(clamp)
 }
 
-// Set sets the all color channels and returns the new color.
-func (c RGBA[T]) Set(r, g, b, a T) RGBA[T] {
-	c.R, _ = c.R.SetAll(r, 0, T(num.MaxValue[T]()))
-	c.G, _ = c.G.SetAll(g, 0, T(num.MaxValue[T]()))
-	c.B, _ = c.B.SetAll(b, 0, T(num.MaxValue[T]()))
-	c.A, _ = c.A.SetAll(a, 0, T(num.MaxValue[T]()))
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) SetBoundaries(minR, maxR TR, minG, maxG TG, minB, maxB TB, minA, maxA TA) RGBATyped[TR, TG, TB, TA] {
+	return v.SetBoundaries(minR, maxR, minG, maxG, minB, maxB, minA, maxA)
 }
 
-// SetRed sets the red channel and returns the new color.
-func (c RGBA[T]) SetRed(r T) RGBA[T] {
-	c.R, _ = c.R.Set(r)
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) Set(r TR, g TG, b TB, a TA) {
+	_ = v.components.x.Set(r)
+	_ = v.components.y.Set(g)
+	_ = v.components.z.Set(b)
+	_ = v.components.w.Set(a)
 }
 
-// SetGreen sets the green channel and returns the new color.
-func (c RGBA[T]) SetGreen(g T) RGBA[T] {
-	c.G, _ = c.G.Set(g)
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) R() Cursor[TR] {
+	return v.components.x
 }
 
-// SetBlue sets the blue channel and returns the new color.
-func (c RGBA[T]) SetBlue(b T) RGBA[T] {
-	c.B, _ = c.B.Set(b)
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) SetR(value TR) {
+	_ = v.components.x.Set(value)
 }
 
-// SetAlpha sets the alpha channel and returns the new color.
-func (c RGBA[T]) SetAlpha(a T) RGBA[T] {
-	c.A, _ = c.A.Set(a)
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) G() Cursor[TG] {
+	return v.components.y
 }
 
-// SetFromNormalized sets the bounded directional values using float64 unit vectors from the [0.0, 1.0]
-// range, where 0.0 maps to the coordinate space's bounded minimum and 1.0 maps to the bounded maximum.
-func (c RGBA[T]) SetFromNormalized(r, g, b, a float64) RGBA[T] {
-	c.R, _ = c.R.SetFromNormalized(r)
-	c.G, _ = c.G.SetFromNormalized(g)
-	c.B, _ = c.B.SetFromNormalized(b)
-	c.A, _ = c.A.SetFromNormalized(a)
-	return c
+func (v RGBATyped[TR, TG, TB, TA]) SetG(value TG) {
+	_ = v.components.y.Set(value)
 }
 
-// SetFromNormalized32 sets the bounded directional values using float32 unit vectors from the [0.0, 1.0]
-// range, where 0.0 maps to the coordinate space's bounded minimum and 1.0 maps to the bounded maximum.
-func (c RGBA[T]) SetFromNormalized32(r, g, b, a float32) RGBA[T] {
-	return c.SetFromNormalized(float64(r), float64(g), float64(b), float64(a))
+func (v RGBATyped[TR, TG, TB, TA]) B() Cursor[TB] {
+	return v.components.z
 }
 
-// Normalize converts the bounded directional values to float64 unit vectors in the range [0.0, 1.0],
-// where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (c RGBA[T]) Normalize() (float64, float64, float64, float64) {
-	return c.R.Normalize(), c.G.Normalize(), c.B.Normalize(), c.A.Normalize()
+func (v RGBATyped[TR, TG, TB, TA]) SetB(value TB) {
+	_ = v.components.z.Set(value)
 }
 
-// Normalize32 converts the bounded directional values to float32 unit vectors in the range [0.0, 1.0],
-// where the coordinate space's bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (c RGBA[T]) Normalize32() (float32, float32, float32, float32) {
-	return c.R.Normalize32(), c.G.Normalize32(), c.B.Normalize32(), c.A.Normalize32()
+func (v RGBATyped[TR, TG, TB, TA]) A() Cursor[TA] {
+	return v.components.w
 }
 
-func (c RGBA[T]) String() string {
-	var zero T
-	return fmt.Sprintf("rgba[%T](%v, %v, %v, %v)", zero, c.R.Value(), c.G.Value(), c.B.Value(), c.A.Value())
+func (v RGBATyped[TR, TG, TB, TA]) SetA(value TA) {
+	_ = v.components.w.Set(value)
 }
-
-/**
-Swizzling
-
-NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-Find -
-func \((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-Replace -
-func ($1) $2() ($3) { return$4 }
-*/
-
-func (c RGBA[T]) RR() (T, T) { return c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RG() (T, T) { return c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RB() (T, T) { return c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RA() (T, T) { return c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GR() (T, T) { return c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GG() (T, T) { return c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GB() (T, T) { return c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GA() (T, T) { return c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BR() (T, T) { return c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BG() (T, T) { return c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BB() (T, T) { return c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BA() (T, T) { return c.B.Value(), c.A.Value() }
-func (c RGBA[T]) AR() (T, T) { return c.A.Value(), c.R.Value() }
-func (c RGBA[T]) AG() (T, T) { return c.A.Value(), c.G.Value() }
-func (c RGBA[T]) AB() (T, T) { return c.A.Value(), c.B.Value() }
-func (c RGBA[T]) AA() (T, T) { return c.A.Value(), c.A.Value() }
-
-func (c RGBA[T]) RRR() (T, T, T) { return c.R.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RRG() (T, T, T) { return c.R.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RRB() (T, T, T) { return c.R.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RRA() (T, T, T) { return c.R.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) RGR() (T, T, T) { return c.R.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) RGG() (T, T, T) { return c.R.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) RGB() (T, T, T) { return c.R.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) RGA() (T, T, T) { return c.R.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) RBR() (T, T, T) { return c.R.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) RBG() (T, T, T) { return c.R.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) RBB() (T, T, T) { return c.R.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) RBA() (T, T, T) { return c.R.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) RAR() (T, T, T) { return c.R.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) RAG() (T, T, T) { return c.R.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) RAB() (T, T, T) { return c.R.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) RAA() (T, T, T) { return c.R.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) GRR() (T, T, T) { return c.G.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) GRG() (T, T, T) { return c.G.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) GRB() (T, T, T) { return c.G.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) GRA() (T, T, T) { return c.G.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GGR() (T, T, T) { return c.G.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GGG() (T, T, T) { return c.G.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GGB() (T, T, T) { return c.G.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GGA() (T, T, T) { return c.G.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) GBR() (T, T, T) { return c.G.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) GBG() (T, T, T) { return c.G.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) GBB() (T, T, T) { return c.G.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) GBA() (T, T, T) { return c.G.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) GAR() (T, T, T) { return c.G.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) GAG() (T, T, T) { return c.G.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) GAB() (T, T, T) { return c.G.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) GAA() (T, T, T) { return c.G.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) BRR() (T, T, T) { return c.B.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) BRG() (T, T, T) { return c.B.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) BRB() (T, T, T) { return c.B.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) BRA() (T, T, T) { return c.B.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) BGR() (T, T, T) { return c.B.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) BGG() (T, T, T) { return c.B.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) BGB() (T, T, T) { return c.B.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) BGA() (T, T, T) { return c.B.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BBR() (T, T, T) { return c.B.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BBG() (T, T, T) { return c.B.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BBB() (T, T, T) { return c.B.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BBA() (T, T, T) { return c.B.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) BAR() (T, T, T) { return c.B.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) BAG() (T, T, T) { return c.B.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) BAB() (T, T, T) { return c.B.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) BAA() (T, T, T) { return c.B.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) ARR() (T, T, T) { return c.A.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) ARG() (T, T, T) { return c.A.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) ARB() (T, T, T) { return c.A.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) ARA() (T, T, T) { return c.A.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) AGR() (T, T, T) { return c.A.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) AGG() (T, T, T) { return c.A.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) AGB() (T, T, T) { return c.A.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) AGA() (T, T, T) { return c.A.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) ABR() (T, T, T) { return c.A.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) ABG() (T, T, T) { return c.A.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) ABB() (T, T, T) { return c.A.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) ABA() (T, T, T) { return c.A.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) AAR() (T, T, T) { return c.A.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) AAG() (T, T, T) { return c.A.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) AAB() (T, T, T) { return c.A.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) AAA() (T, T, T) { return c.A.Value(), c.A.Value(), c.A.Value() }
-
-func (c RGBA[T]) RRRR() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RRRG() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RRRB() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RRRA() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) RRGR() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) RRGG() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) RRGB() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) RRGA() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) RRBR() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) RRBG() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) RRBB() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) RRBA() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) RRAR() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) RRAG() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) RRAB() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) RRAA() (T, T, T, T) { return c.R.Value(), c.R.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) RGRR() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RGRG() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RGRB() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RGRA() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) RGGR() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) RGGG() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) RGGB() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) RGGA() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) RGBR() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) RGBG() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) RGBB() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) RGBA() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) RGAR() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) RGAG() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) RGAB() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) RGAA() (T, T, T, T) { return c.R.Value(), c.G.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) RBRR() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RBRG() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RBRB() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RBRA() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) RBGR() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) RBGG() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) RBGB() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) RBGA() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) RBBR() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) RBBG() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) RBBB() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) RBBA() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) RBAR() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) RBAG() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) RBAB() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) RBAA() (T, T, T, T) { return c.R.Value(), c.B.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) RARR() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) RARG() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) RARB() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) RARA() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) RAGR() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) RAGG() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) RAGB() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) RAGA() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) RABR() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) RABG() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) RABB() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) RABA() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) RAAR() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) RAAG() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) RAAB() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) RAAA() (T, T, T, T) { return c.R.Value(), c.A.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) GRRR() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) GRRG() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) GRRB() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) GRRA() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GRGR() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GRGG() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GRGB() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GRGA() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) GRBR() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) GRBG() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) GRBB() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) GRBA() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) GRAR() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) GRAG() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) GRAB() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) GRAA() (T, T, T, T) { return c.G.Value(), c.R.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) GGRR() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) GGRG() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) GGRB() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) GGRA() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GGGR() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GGGG() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GGGB() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GGGA() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) GGBR() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) GGBG() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) GGBB() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) GGBA() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) GGAR() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) GGAG() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) GGAB() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) GGAA() (T, T, T, T) { return c.G.Value(), c.G.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) GBRR() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) GBRG() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) GBRB() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) GBRA() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GBGR() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GBGG() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GBGB() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GBGA() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) GBBR() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) GBBG() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) GBBB() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) GBBA() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) GBAR() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) GBAG() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) GBAB() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) GBAA() (T, T, T, T) { return c.G.Value(), c.B.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) GARR() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) GARG() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) GARB() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) GARA() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) GAGR() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) GAGG() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) GAGB() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) GAGA() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) GABR() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) GABG() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) GABB() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) GABA() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) GAAR() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) GAAG() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) GAAB() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) GAAA() (T, T, T, T) { return c.G.Value(), c.A.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) BRRR() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) BRRG() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) BRRB() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) BRRA() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) BRGR() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) BRGG() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) BRGB() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) BRGA() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BRBR() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BRBG() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BRBB() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BRBA() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) BRAR() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) BRAG() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) BRAB() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) BRAA() (T, T, T, T) { return c.B.Value(), c.R.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) BGRR() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) BGRG() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) BGRB() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) BGRA() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) BGGR() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) BGGG() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) BGGB() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) BGGA() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BGBR() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BGBG() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BGBB() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BGBA() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) BGAR() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) BGAG() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) BGAB() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) BGAA() (T, T, T, T) { return c.B.Value(), c.G.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) BBRR() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) BBRG() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) BBRB() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) BBRA() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) BBGR() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) BBGG() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) BBGB() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) BBGA() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BBBR() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BBBG() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BBBB() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BBBA() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) BBAR() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) BBAG() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) BBAB() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) BBAA() (T, T, T, T) { return c.B.Value(), c.B.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) BARR() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) BARG() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) BARB() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) BARA() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) BAGR() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) BAGG() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) BAGB() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) BAGA() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) BABR() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) BABG() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) BABB() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) BABA() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) BAAR() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) BAAG() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) BAAB() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) BAAA() (T, T, T, T) { return c.B.Value(), c.A.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) ARRR() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) ARRG() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) ARRB() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) ARRA() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) ARGR() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) ARGG() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) ARGB() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) ARGA() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) ARBR() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) ARBG() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) ARBB() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) ARBA() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) ARAR() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) ARAG() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) ARAB() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) ARAA() (T, T, T, T) { return c.A.Value(), c.R.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) AGRR() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) AGRG() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) AGRB() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) AGRA() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) AGGR() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) AGGG() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) AGGB() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) AGGA() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) AGBR() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) AGBG() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) AGBB() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) AGBA() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) AGAR() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) AGAG() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) AGAB() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) AGAA() (T, T, T, T) { return c.A.Value(), c.G.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) ABRR() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) ABRG() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) ABRB() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) ABRA() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) ABGR() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) ABGG() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) ABGB() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) ABGA() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) ABBR() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) ABBG() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) ABBB() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) ABBA() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) ABAR() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) ABAG() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) ABAB() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) ABAA() (T, T, T, T) { return c.A.Value(), c.B.Value(), c.A.Value(), c.A.Value() }
-func (c RGBA[T]) AARR() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.R.Value(), c.R.Value() }
-func (c RGBA[T]) AARG() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.R.Value(), c.G.Value() }
-func (c RGBA[T]) AARB() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.R.Value(), c.B.Value() }
-func (c RGBA[T]) AARA() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.R.Value(), c.A.Value() }
-func (c RGBA[T]) AAGR() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.G.Value(), c.R.Value() }
-func (c RGBA[T]) AAGG() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.G.Value(), c.G.Value() }
-func (c RGBA[T]) AAGB() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.G.Value(), c.B.Value() }
-func (c RGBA[T]) AAGA() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.G.Value(), c.A.Value() }
-func (c RGBA[T]) AABR() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.B.Value(), c.R.Value() }
-func (c RGBA[T]) AABG() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.B.Value(), c.G.Value() }
-func (c RGBA[T]) AABB() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.B.Value(), c.B.Value() }
-func (c RGBA[T]) AABA() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.B.Value(), c.A.Value() }
-func (c RGBA[T]) AAAR() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.A.Value(), c.R.Value() }
-func (c RGBA[T]) AAAG() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.A.Value(), c.G.Value() }
-func (c RGBA[T]) AAAB() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.A.Value(), c.B.Value() }
-func (c RGBA[T]) AAAA() (T, T, T, T) { return c.A.Value(), c.A.Value(), c.A.Value(), c.A.Value() }

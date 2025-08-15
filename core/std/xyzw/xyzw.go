@@ -9,12 +9,12 @@ import (
 // From creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [0, max].  If you
 // would like to also set the minimum boundaries, please use FromFull.
 func From[T num.Primitive](x, y, z T, w float64, maxX, maxY, maxZ T) std.XYZW[T] {
-	return std.XYZW[T]{}.SetAll(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
+	return std.XYZW[T]{}.Set(x, y, z, w, 0, maxX, 0, maxY, 0, maxZ)
 }
 
-// FromFull creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [min, max].
-func FromFull[T num.Primitive](x, y, z T, w float64, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
-	return std.XYZW[T]{}.SetAll(x, y, z, w, minX, maxX, minY, maxY, minZ, maxZ)
+// FromBounded creates a new instance of std.XYZW[T] with each direction bounded in the fully closed interval [min, max].
+func FromBounded[T num.Primitive](x, y, z T, w float64, minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[T] {
+	return std.XYZW[T]{}.Set(x, y, z, w, minX, maxX, minY, maxY, minZ, maxZ)
 }
 
 // Random returns a pseudo-random std.XYZW[T] of the provided type using math.Random[T], with
@@ -26,7 +26,7 @@ func Random[T num.Primitive](maxX, maxY, maxZ T) std.XYZW[T] {
 	x := num.RandomWithinRange[T](0, maxX)
 	y := num.RandomWithinRange[T](0, maxY)
 	z := num.RandomWithinRange[T](0, maxZ)
-	return std.XYZW[T]{}.SetAll(x, y, z, 1.0, 0, maxX, 0, maxY, 0, maxZ)
+	return std.XYZW[T]{}.Set(x, y, z, 1.0, 0, maxX, 0, maxY, 0, maxZ)
 }
 
 // RandomFull returns a pseudo-random std.XYZW[T] of the provided type using math.Random[T], with
@@ -37,7 +37,7 @@ func RandomFull[T num.Primitive](minX, maxX, minY, maxY, minZ, maxZ T) std.XYZW[
 	x := num.RandomWithinRange[T](minX, maxX)
 	y := num.RandomWithinRange[T](minY, maxY)
 	z := num.RandomWithinRange[T](minZ, maxZ)
-	return std.XYZW[T]{}.SetAll(x, y, z, 1.0, minX, maxX, minY, maxY, minZ, maxZ)
+	return std.XYZW[T]{}.Set(x, y, z, 1.0, minX, maxX, minY, maxY, minZ, maxZ)
 }
 
 // ScaleToType normalizes the std.XYZW[T] directional components into unit vectors and then scales them to a new std.XYZW[TOut].

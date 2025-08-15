@@ -1,6 +1,7 @@
 package num
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"reflect"
@@ -37,79 +38,20 @@ func IsSigned[T Primitive]() bool {
 	return true
 }
 
-// MaxValue returns the maximum whole integer value of the provided type.
-//
-// NOTE: This will panic for non-integer types.
-func MaxValue[T Primitive]() uint64 {
-	switch any(T(0)).(type) {
-	case Bit:
-		return 1
-	case Crumb:
-		return 1<<2 - 1
-	case Note:
-		return 1<<3 - 1
-	case Nibble:
-		return 1<<4 - 1
-	case Flake:
-		return 1<<5 - 1
-	case Morsel:
-		return 1<<6 - 1
-	case Shred:
-		return 1<<7 - 1
-	case Run:
-		return 1<<10 - 1
-	case Scale:
-		return 1<<12 - 1
-	case Riff:
-		return 1<<24 - 1
-	case Hook:
-		return 1<<48 - 1
-	case int8:
-		return math.MaxInt8
-	case uint8:
-		return uint64(math.MaxUint8)
-	case int16:
-		return uint64(math.MaxInt16)
-	case uint16:
-		return uint64(math.MaxUint16)
-	case int32:
-		return uint64(math.MaxInt32)
-	case uint32:
-		return uint64(math.MaxUint32)
-	case int64:
-		return uint64(math.MaxInt64)
-	case uint64:
-		return math.MaxUint64
-	case int:
-		return math.MaxInt
-	case uint:
-		return math.MaxUint
-	default:
-		panic("cannot provide the maximum value of a non-integer type.")
-	}
+// MaxValue returns an instance of T set to the maximum value of the provided Primitive type.
+func MaxValue[T Primitive]() T {
+	return boundaryValue[T](false)
 }
 
-// MinValue returns the minimum whole integer value of the provided type.
+// MinValue returns an instance of T set to the minimum value of the provided Primitive type.
 //
-// NOTE: This will panic for non-integer types.
-func MinValue[T Primitive]() int64 {
-	switch any(T(0)).(type) {
-	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook,
-		uint8, uint16, uint32, uint64, uint:
-		return 0
-	case int8:
-		return math.MinInt8
-	case int16:
-		return math.MinInt16
-	case int32:
-		return math.MinInt32
-	case int64:
-		return math.MinInt64
-	case int:
-		return math.MinInt
-	default:
-		panic("cannot provide the minimum value of a non-integer type.")
-	}
+// For unsigned types, this returns 0.
+//
+// For signed integer types, this returns math.MinIntX()
+//
+// For floating point types, this returns -math.MaxFloatXX()
+func MinValue[T Primitive]() T {
+	return boundaryValue[T](true)
 }
 
 // Random returns a non-negative pseudo-random number of the provided type.
@@ -118,32 +60,31 @@ func MinValue[T Primitive]() int64 {
 // in the fully closed interval [0.0, 1.0]
 //
 // If requesting an integer type, the resulting number will be bounded
-// in the fully closed interval [0, n] - where n is the maximum value of
-// the provided type, including the implicit size of the extended primitives.
+// in the fully closed interval [0, MaxValue[T]]
 func Random[T Primitive]() T {
 	switch any(T(0)).(type) {
 	case Bit:
 		return T(RandomWithinRange[Bit](0, 1))
 	case Crumb:
-		return T(RandomWithinRange[Crumb](0, Crumb(MaxValue[Crumb]())))
+		return T(RandomWithinRange[Crumb](0, MaxValue[Crumb]()))
 	case Note:
-		return T(RandomWithinRange[Note](0, Note(MaxValue[Note]())))
+		return T(RandomWithinRange[Note](0, MaxValue[Note]()))
 	case Nibble:
-		return T(RandomWithinRange[Nibble](0, Nibble(MaxValue[Nibble]())))
+		return T(RandomWithinRange[Nibble](0, MaxValue[Nibble]()))
 	case Flake:
-		return T(RandomWithinRange[Flake](0, Flake(MaxValue[Flake]())))
+		return T(RandomWithinRange[Flake](0, MaxValue[Flake]()))
 	case Morsel:
-		return T(RandomWithinRange[Morsel](0, Morsel(MaxValue[Morsel]())))
+		return T(RandomWithinRange[Morsel](0, MaxValue[Morsel]()))
 	case Shred:
-		return T(RandomWithinRange[Shred](0, Shred(MaxValue[Shred]())))
+		return T(RandomWithinRange[Shred](0, MaxValue[Shred]()))
 	case Run:
-		return T(RandomWithinRange[Run](0, Run(MaxValue[Run]())))
+		return T(RandomWithinRange[Run](0, MaxValue[Run]()))
 	case Scale:
-		return T(RandomWithinRange[Scale](0, Scale(MaxValue[Scale]())))
+		return T(RandomWithinRange[Scale](0, MaxValue[Scale]()))
 	case Riff:
-		return T(RandomWithinRange[Riff](0, Riff(MaxValue[Riff]())))
+		return T(RandomWithinRange[Riff](0, MaxValue[Riff]()))
 	case Hook:
-		return T(RandomWithinRange[Hook](0, Hook(MaxValue[Hook]())))
+		return T(RandomWithinRange[Hook](0, MaxValue[Hook]()))
 	case float32:
 		return T(RandomWithinRange[float32](0.0, 1.0))
 	case float64:
@@ -216,7 +157,7 @@ func RandomWithinRange[T Primitive](a T, b T) T {
 		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
 	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		// These are implicitly sized uint types
-		if a < 0 || b > T(MaxValue[T]()) {
+		if a < 0 || b > MaxValue[T]() {
 			panic("cannot provide a random number exceeding the implicit bounds of the type.")
 		}
 
@@ -225,4 +166,213 @@ func RandomWithinRange[T Primitive](a T, b T) T {
 	default:
 		panic("unsupported numeric type")
 	}
+}
+
+func boundaryValue[T Primitive](min bool) T {
+	// NOTE: This may appear daunting, but I assure you there is a method to every mad decision in this switch branch.
+
+	// Modify at your own risk =)
+	var out uint64
+	switch any(T(0)).(type) {
+	case Bit:
+		if min {
+			return 0
+		}
+		out = 1
+	case Crumb:
+		if min {
+			return 0
+		}
+		out = 1<<2 - 1
+	case Note:
+		if min {
+			return 0
+		}
+		out = 1<<3 - 1
+	case Nibble:
+		if min {
+			return 0
+		}
+		out = 1<<4 - 1
+	case Flake:
+		if min {
+			return 0
+		}
+		out = 1<<5 - 1
+	case Morsel:
+		if min {
+			return 0
+		}
+		out = 1<<6 - 1
+	case Shred:
+		if min {
+			return 0
+		}
+		out = 1<<7 - 1
+	case Run:
+		if min {
+			return 0
+		}
+		out = 1<<10 - 1
+	case Scale:
+		if min {
+			return 0
+		}
+		out = 1<<12 - 1
+	case Riff:
+		if min {
+			return 0
+		}
+		out = 1<<24 - 1
+	case Hook:
+		if min {
+			return 0
+		}
+		out = 1<<48 - 1
+	case int8:
+		if min {
+			v := math.MinInt8
+			return T(v)
+		}
+		out = math.MaxInt8
+	case uint8:
+		if min {
+			return 0
+		}
+		out = math.MaxUint8
+	case int16:
+		if min {
+			v := math.MinInt16
+			return T(v)
+		}
+		out = math.MaxInt16
+	case uint16:
+		if min {
+			return 0
+		}
+		out = math.MaxUint16
+	case int32:
+		if min {
+			v := math.MinInt32
+			return T(v)
+		}
+		out = math.MaxInt32
+	case uint32:
+		if min {
+			return 0
+		}
+		out = math.MaxUint32
+	case int64:
+		if min {
+			v := math.MinInt64
+			return T(v)
+		}
+		out = math.MaxInt64
+	case uint64:
+		if min {
+			return 0
+		}
+		out = math.MaxUint64
+	case int:
+		if min {
+			v := math.MinInt
+			return T(v)
+		}
+		out = math.MaxInt
+	case uint:
+		if min {
+			return 0
+		}
+		out = math.MaxUint
+	case float64:
+		if min {
+			v := -math.MaxFloat64
+			return T(v)
+		}
+		v := math.MaxFloat64
+		return T(v)
+	case float32:
+		if min {
+			v := -math.MaxFloat32
+			return T(v)
+		}
+		v := math.MaxFloat32
+		return T(v)
+	default:
+		switch reflect.TypeOf(T(0)).Kind() {
+		case reflect.Float64:
+			if min {
+				v := -math.MaxFloat64
+				return T(v)
+			}
+			v := math.MaxFloat64
+			return T(v)
+		case reflect.Float32:
+			if min {
+				v := -math.MaxFloat32
+				return T(v)
+			}
+			v := math.MaxFloat32
+			return T(v)
+		case reflect.Int8:
+			if min {
+				v := math.MinInt8
+				return T(v)
+			}
+			out = math.MaxInt8
+		case reflect.Int16:
+			if min {
+				v := math.MinInt16
+				return T(v)
+			}
+			out = math.MaxInt16
+		case reflect.Int32:
+			if min {
+				v := math.MinInt32
+				return T(v)
+			}
+			out = math.MaxInt32
+		case reflect.Int64:
+			if min {
+				v := math.MinInt64
+				return T(v)
+			}
+			out = math.MaxInt64
+		case reflect.Int:
+			if min {
+				v := math.MinInt
+				return T(v)
+			}
+			out = math.MaxInt
+		case reflect.Uint8:
+			if min {
+				return 0
+			}
+			out = math.MaxUint8
+		case reflect.Uint16:
+			if min {
+				return 0
+			}
+			out = math.MaxUint16
+		case reflect.Uint32:
+			if min {
+				return 0
+			}
+			out = math.MaxUint32
+		case reflect.Uint64:
+			if min {
+				return 0
+			}
+			out = math.MaxUint64
+		case reflect.Uint:
+			if min {
+				return 0
+			}
+			out = math.MaxUint
+		default:
+			var zero T
+			panic(fmt.Errorf("unknown type %T", zero))
+		}
+	}
+	return T(out)
 }

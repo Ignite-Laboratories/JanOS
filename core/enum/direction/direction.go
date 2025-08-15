@@ -69,9 +69,9 @@ import (
 //	 reality.Coherence: Identification
 //	 reality.Stability: Alignment
 //
-// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
+// See direction.Any, cardinal.Any, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
 type Any[T num.Primitive] interface {
-	cardinal.Direction[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
+	cardinal.Any[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
 }
 
 // SpaceTime represents any traversable axis of space or time.

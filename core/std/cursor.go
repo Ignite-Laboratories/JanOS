@@ -78,7 +78,7 @@ func (cur *Cursor[T]) Decrement(count ...T) error {
 // AddOrSubtract adds or subtracts the provided count to the bound value.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (cur *Cursor[T]) AddOrSubtract(count int) error {
+func (cur *Cursor[T]) AddOrSubtract(count T) error {
 	set, err := Bounded[T](*cur).AddOrSubtract(count)
 	cur.ptrHelper(set)
 	return err

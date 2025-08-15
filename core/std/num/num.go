@@ -5,19 +5,22 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-// Numeric represents any Primitive numeric Value.
-type Numeric[T Primitive] struct {
-	// Value represents the current value of this Numeric Primitive.
-	Value T
-}
-
-// SignedNumeric represents any primitive Signed numeric Value.
-type SignedNumeric[T Signed] struct {
-	// Value represents the current value of this Signed Numeric.
-	Value T
-}
-
 // Primitive represents any general primitive numeric type.
+//
+// For reference, these are the extended implicit integer types:
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Integer, Float, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Primitive interface {
@@ -25,11 +28,28 @@ type Primitive interface {
 }
 
 // Signed represents any general primitive signed numeric type.
+//
+// NOTE: None of the extended implicit integer types are signed.
 type Signed interface {
 	constraints.Signed
 }
 
 // Integer represents any general primitive integer type.
+//
+// For reference, these are the extended implicit integer types:
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Primitive, Float, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Integer interface {
@@ -45,18 +65,20 @@ type Float interface {
 
 // Bit is a uint1 Primitive, which implicitly overflows at 2
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Bit byte
@@ -66,7 +88,7 @@ type Bit byte
 // See SanityCheckWithNil
 func (a Bit) SanityCheck(bits ...Bit) bool {
 	for _, bit := range bits {
-		if bit > Bit(MaxValue[Bit]()) {
+		if bit > MaxValue[Bit]() {
 			return false
 		}
 	}
@@ -78,7 +100,7 @@ func (a Bit) SanityCheck(bits ...Bit) bool {
 // See SanityCheck
 func (a Bit) SanityCheckWithNil(bits ...Bit) bool {
 	for _, bit := range bits {
-		if bit > Bit(MaxValue[Bit]()) || bit == 219 {
+		if bit > MaxValue[Bit]() || bit == 219 {
 			return false
 		}
 	}
@@ -110,220 +132,240 @@ func (b Bit) String() string {
 
 // Crumb is a uint2 Primitive, which implicitly overflows at 2²
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Crumb byte
 
 func (a Crumb) SanityCheck(b Crumb) bool {
-	return b <= Crumb(MaxValue[Crumb]())
+	return b <= MaxValue[Crumb]()
 }
 
 // Note is a uint3 Primitive, which implicitly overflows at 2³
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Note byte
 
 func (a Note) SanityCheck(b Note) bool {
-	return b <= Note(MaxValue[Note]())
+	return b <= MaxValue[Note]()
 }
 
 // Nibble is a uint4 Primitive, which implicitly overflows at 2⁴
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Nibble byte
 
 func (a Nibble) SanityCheck(b Nibble) bool {
-	return b <= Nibble(MaxValue[Nibble]())
+	return b <= MaxValue[Nibble]()
 }
 
 // Flake is a uint5 Primitive, which implicitly overflows at 2⁵
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Morsel, Shred, Run, Scale, Riff, and Hook
 type Flake byte
 
 func (a Flake) SanityCheck(b Flake) bool {
-	return b <= Flake(MaxValue[Flake]())
+	return b <= MaxValue[Flake]()
 }
 
 // Morsel is a uint6 Primitive, which implicitly overflows at 2⁶
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Shred, Run, Scale, Riff, and Hook
 type Morsel byte
 
 func (a Morsel) SanityCheck(b Morsel) bool {
-	return b <= Morsel(MaxValue[Morsel]())
+	return b <= MaxValue[Morsel]()
 }
 
 // Shred is a uint7 Primitive, which implicitly overflows at 2⁷
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Morsel, Run, Scale, Riff, and Hook
 type Shred byte
 
 func (a Shred) SanityCheck(b Shred) bool {
-	return b <= Shred(MaxValue[Shred]())
+	return b <= MaxValue[Shred]()
 }
 
 // Run is a uint10 Primitive, which implicitly overflows at 2¹⁰
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Scale, Riff, and Hook
 type Run uint
 
 func (a Run) SanityCheck(b Run) bool {
-	return b <= Run(MaxValue[Run]())
+	return b <= MaxValue[Run]()
 }
 
 // Scale is a uint12 Primitive, which implicitly overflows at 2¹²
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Riff, and Hook
 type Scale uint
 
 func (a Scale) SanityCheck(b Scale) bool {
-	return b <= Scale(MaxValue[Scale]())
+	return b <= MaxValue[Scale]()
 }
 
 // Riff is a uint24 Primitive, which implicitly overflows at 2²⁴
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, and Hook
 type Riff uint
 
 func (a Riff) SanityCheck(b Riff) bool {
-	return b <= Riff(MaxValue[Riff]())
+	return b <= MaxValue[Riff]()
 }
 
 // Hook is a uint48 Primitive, which implicitly overflows at 2⁴⁸
 //
+// For reference, these are the extended implicit integer types:
+//
 //	  Name | Width | Overflow
-//	   Bit |    2  | 2
+//	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
 //	Nibble |    4  | 2⁴ (16)
 //	 Flake |    5  | 2⁵ (32)
 //	Morsel |    6  | 2⁶ (64)
 //	 Shred |    7  | 2⁷ (128)
-//	   Run |   10  | 2¹⁰ (1024)
-//	 Scale |   12  | 2¹² (4096)
-//	  Riff |   24  | 2²⁴
-//	  Hook |   48  | 2⁴⁸
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
 // See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, and Riff
 type Hook uint
 
 func (a Hook) SanityCheck(b Hook) bool {
-	return b <= Hook(MaxValue[Hook]())
+	return b <= MaxValue[Hook]()
 }

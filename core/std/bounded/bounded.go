@@ -27,7 +27,7 @@ func By[T num.Primitive](value, a, b T, clamp ...bool) (std.Bounded[T], error) {
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
 func ByType[T num.Primitive](value T, clamp ...bool) (std.Bounded[T], error) {
-	return By(value, T(num.MinValue[T]()), T(num.MaxValue[T]()), clamp...)
+	return By(value, num.MinValue[T](), num.MaxValue[T](), clamp...)
 }
 
 // Random seeds a random std.Bounded[T] value within the closed set [0, T.max], with T.max representing
@@ -36,7 +36,7 @@ func ByType[T num.Primitive](value T, clamp ...bool) (std.Bounded[T], error) {
 // NOTE: If clamp is not provided, the value will automatically overflow or underflow when
 // it exceeds the bounds, otherwise it 'pins' to that boundary point.
 func Random[T num.Primitive](clamp ...bool) std.Bounded[T] {
-	return RandomSubset(0, T(num.MaxValue[T]()), clamp...)
+	return RandomSubset(0, num.MaxValue[T](), clamp...)
 }
 
 // RandomSubset seeds a random std.Bounded[T] value within the closed set [min, max], with min and max

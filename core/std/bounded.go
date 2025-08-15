@@ -105,7 +105,7 @@ func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) (Bounded[T], error) {
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
 func (bnd Bounded[T]) SetBoundariesFromType() (Bounded[T], error) {
 	bnd.minimum = 0
-	bnd.maximum = T(num.MaxValue[T]())
+	bnd.maximum = num.MaxValue[T]()
 	return bnd.Set(bnd.value)
 }
 
