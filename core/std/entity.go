@@ -2,6 +2,7 @@ package std
 
 import (
 	"github.com/ignite-laboratories/core/std/name"
+	"github.com/ignite-laboratories/core/std/name/format"
 	"github.com/ignite-laboratories/core/sys/id"
 )
 
@@ -16,16 +17,17 @@ type Entity struct {
 //
 // If you'd prefer to directly name your entity, provide it as a parameter here.  Otherwise,
 // a random entry from the provided name.Format database type is chosen.
-func NewEntity[T name.Format](str ...name.Given) Entity {
+func NewEntity[T format.Format](str ...name.Given) Entity {
+	i := id.Next()
 	var given name.Given
 	if len(str) > 0 {
 		given = str[0]
 	} else {
-		given = name.Random[T]()
+		given, _ = name.Random[T](i)
 	}
 
 	ne := Entity{
-		ID:        id.Next(),
+		ID:        i,
 		GivenName: given,
 	}
 

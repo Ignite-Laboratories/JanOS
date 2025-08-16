@@ -7,8 +7,8 @@ import (
 // RGBA is a kind of Vector4D that provides R G B A mappings to the underlying component vectors.
 type RGBA[T num.Primitive] = RGBATyped[T, T, T, T]
 
-// RGBATyped is a kind of Vector4DTyped that provides R G B A mappings to the underlying component vectors.
-type RGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive] Vector4DTyped[TR, TG, TB, TA]
+// RGBATyped is a kind of VectorTyped4D that provides R G B A mappings to the underlying component vectors.
+type RGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive] VectorTyped4D[TR, TG, TB, TA]
 
 func (v RGBATyped[TR, TG, TB, TA]) SetClamp(clamp bool) RGBATyped[TR, TG, TB, TA] {
 	return v.SetClamp(clamp)

@@ -2,6 +2,20 @@ package support
 
 import "reflect"
 
+// AllSameTypes returns true if all the provided instances are of the same type.
+func AllSameTypes(vals ...any) bool {
+	if len(vals) <= 1 {
+		return true
+	}
+	t0 := reflect.TypeOf(vals[0])
+	for _, v := range vals[1:] {
+		if reflect.TypeOf(v) != t0 {
+			return false
+		}
+	}
+	return true
+}
+
 func SliceDepth(v any) (depth int, elem reflect.Type, ok bool) {
 	t := reflect.TypeOf(v)
 	if t == nil {

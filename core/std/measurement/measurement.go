@@ -7,6 +7,7 @@ import (
 	"github.com/ignite-laboratories/core/enum/traveling"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/name"
+	"github.com/ignite-laboratories/core/std/name/format"
 	"github.com/ignite-laboratories/core/std/num"
 	"github.com/ignite-laboratories/core/sys/support"
 	"reflect"
@@ -85,7 +86,7 @@ func Of[T any](data T) std.Measurement[T] {
 		Bytes:      support.Measure[T](data)[0],
 		Endianness: support.GetArchitectureEndianness(),
 	}
-	m.GivenName = name.Random[name.Default]()
+	m.GivenName = name.Random[format.Default]()
 	return m
 }
 
@@ -96,7 +97,7 @@ func OfZeros(width int) std.Measurement[any] {
 		Bits:       make([]num.Bit, width%8),
 		Endianness: endian.Big,
 	}.RollUp()
-	m.GivenName = name.Random[name.Default]()
+	m.GivenName = name.Random[format.Default]()
 	return m
 }
 
@@ -119,7 +120,7 @@ func OfBits(bits ...num.Bit) std.Measurement[any] {
 		Bits:       bits,
 		Endianness: endian.Big,
 	}.RollUp()
-	m.GivenName = name.Random[name.Default]()
+	m.GivenName = name.Random[format.Default]()
 	return m
 }
 
@@ -129,7 +130,7 @@ func OfBytes(bytes ...byte) std.Measurement[any] {
 		Bytes:      bytes,
 		Endianness: endian.Big,
 	}.RollUp()
-	m.GivenName = name.Random[name.Default]()
+	m.GivenName = name.Random[format.Default]()
 	return m
 }
 

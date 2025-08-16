@@ -7,8 +7,8 @@ import (
 // XY is a kind of Vector2D that provides X Y mappings to the underlying component vectors.
 type XY[T num.Primitive] = XYTyped[T, T]
 
-// XYTyped is a kind of Vector2DTyped that provides X Y mappings to the underlying component vectors.
-type XYTyped[TX num.Primitive, TY num.Primitive] Vector2DTyped[TX, TY]
+// XYTyped is a kind of VectorTyped2D that provides X Y mappings to the underlying component vectors.
+type XYTyped[TX num.Primitive, TY num.Primitive] VectorTyped2D[TX, TY]
 
 func (v XYTyped[TX, TY]) SetClamp(clamp bool) XYTyped[TX, TY] {
 	return v.SetClamp(clamp)

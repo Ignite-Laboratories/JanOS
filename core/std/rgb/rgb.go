@@ -3,14 +3,14 @@ package rgb
 
 import (
 	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/bounded"
+	"github.com/ignite-laboratories/core/std/cursor"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
 // From creates a new instance of std.RGB[T] with each direction bounded in the fully closed interval [0, T.max], where
 // T.max is the implied maximum value of that color channel's type.
 func From[T num.Primitive](r, g, b T) std.RGB[T] {
-	return std.RGB[T]{}.Set(r, g, b)
+	return std.NewRGB[T]().Set(r, g, b)
 }
 
 // FromHex treats each hexadecimal component of the input value as a unit vector representing the typed color space,
@@ -37,38 +37,38 @@ func FromHex[T num.Primitive](value uint32) std.RGB[T] {
 // Random returns a pseudo-random std.RGB[T] of the provided type using math.Random[T], with
 // each color channel bounded in the fully closed interval [0, T.Max]
 func Random[T num.Primitive]() std.RGB[T] {
-	return std.RGB[T]{
-		R: bounded.Random[T](),
-		G: bounded.Random[T](),
-		B: bounded.Random[T](),
-	}
+	out := std.NewRGB[T]()
+	out = out.SetR(cursor.Random[T]().Value())
+	out = out.SetG(cursor.Random[T]().Value())
+	out = out.SetB(cursor.Random[T]().Value())
+	return out
 }
 
 // RandomUpTo returns a pseudo-random std.RGB[T] of the provided type using math.Random[T], with
 // each color channel bounded in the fully closed interval [0, maximum]
 func RandomUpTo[T num.Primitive](maximum T) std.RGB[T] {
-	return std.RGB[T]{
-		R: bounded.RandomSubset[T](0, maximum),
-		G: bounded.RandomSubset[T](0, maximum),
-		B: bounded.RandomSubset[T](0, maximum),
-	}
+	out := std.NewRGB[T]()
+	out = out.SetR(cursor.RandomSubset[T](0, maximum).Value())
+	out = out.SetG(cursor.RandomSubset[T](0, maximum).Value())
+	out = out.SetB(cursor.RandomSubset[T](0, maximum).Value())
+	return out
 }
 
 // RandomRange returns a pseudo-random std.RGB[T] of the provided type using math.Random[T], with
 // each color channel bounded in the fully closed interval [minimum, maximum]
 func RandomRange[T num.Primitive](minimum, maximum T) std.RGB[T] {
-	return std.RGB[T]{
-		R: bounded.RandomSubset[T](minimum, maximum),
-		G: bounded.RandomSubset[T](minimum, maximum),
-		B: bounded.RandomSubset[T](minimum, maximum),
-	}
+	out := std.NewRGB[T]()
+	out = out.SetR(cursor.RandomSubset[T](minimum, maximum).Value())
+	out = out.SetG(cursor.RandomSubset[T](minimum, maximum).Value())
+	out = out.SetB(cursor.RandomSubset[T](minimum, maximum).Value())
+	return out
 }
 
 // ScaleToType normalizes the std.RGB[T] directional components into unit vectors and then scales them to a new std.RGB[TOut].
 func ScaleToType[TIn num.Primitive, TOut num.Primitive](value std.RGB[TIn]) std.RGB[TOut] {
-	return std.RGB[TOut]{
-		R: bounded.ScaleToType[TIn, TOut](value.R),
-		G: bounded.ScaleToType[TIn, TOut](value.G),
-		B: bounded.ScaleToType[TIn, TOut](value.B),
-	}
+	out := std.NewRGB[TOut]()
+	out = out.SetR(cursor.ScaleToType[TIn, TOut](value.R()).Value())
+	out = out.SetG(cursor.ScaleToType[TIn, TOut](value.G()).Value())
+	out = out.SetB(cursor.ScaleToType[TIn, TOut](value.B()).Value())
+	return out
 }

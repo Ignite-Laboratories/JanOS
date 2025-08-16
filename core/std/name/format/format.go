@@ -1,4 +1,4 @@
-package name
+package format
 
 // Format represents the format this name should follow.
 //

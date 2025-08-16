@@ -1,6 +1,7 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/num"
 )
 
@@ -41,6 +42,17 @@ func (cur *Cursor[T]) ptrHelper(set Bounded[T]) {
 // Value returns the currently held Cursor value.
 func (cur Cursor[T]) Value() T {
 	return cur.value
+}
+
+// ValueString returns the value as a numeric string.
+func (cur Cursor[T]) ValueString() string {
+	var zero T
+	switch any(zero).(type) {
+	case float32, float64:
+		return fmt.Sprintf("%f", cur.Value())
+	default:
+		return fmt.Sprintf("%d", cur.Value())
+	}
 }
 
 // Minimum returns the current minimum boundary.

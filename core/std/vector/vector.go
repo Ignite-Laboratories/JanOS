@@ -1,3 +1,6 @@
+// Package vector provides access to the functions that create std.VectorDN[T] types.
+//
+// See From2D, From3D, From4D, From5D, From6D, and From7D
 package vector
 
 import (

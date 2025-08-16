@@ -7,8 +7,8 @@ import (
 // XYZ is a kind of Vector3D that provides X Y Z mappings to the underlying component vectors.
 type XYZ[T num.Primitive] = XYZTyped[T, T, T]
 
-// XYZTyped is a kind of Vector3DTyped that provides X Y Z mappings to the underlying component vectors.
-type XYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive] Vector3DTyped[TX, TY, TZ]
+// XYZTyped is a kind of VectorTyped3D that provides X Y Z mappings to the underlying component vectors.
+type XYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive] VectorTyped3D[TX, TY, TZ]
 
 func (v XYZTyped[TX, TY, TZ]) SetClamp(clamp bool) XYZTyped[TX, TY, TZ] {
 	return v.SetClamp(clamp)

@@ -7,8 +7,8 @@ import (
 // XYZW is a kind of Vector4D that provides X Y Z W mappings to the underlying component vectors.
 type XYZW[T num.Primitive] = XYZWTyped[T, T, T, T]
 
-// XYZWTyped is a kind of Vector4DTyped that provides X Y Z W mappings to the underlying component vectors.
-type XYZWTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive] Vector4DTyped[TX, TY, TZ, TW]
+// XYZWTyped is a kind of VectorTyped4D that provides X Y Z W mappings to the underlying component vectors.
+type XYZWTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive] VectorTyped4D[TX, TY, TZ, TW]
 
 func (v XYZWTyped[TX, TY, TZ, TW]) SetClamp(clamp bool) XYZWTyped[TX, TY, TZ, TW] {
 	return v.SetClamp(clamp)
