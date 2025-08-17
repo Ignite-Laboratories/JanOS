@@ -9,9 +9,9 @@ import (
 
 type components3D[TX num.Primitive, TY num.Primitive, TZ num.Primitive] struct {
 	names [3]string
-	x     Cursor[TX]
-	y     Cursor[TY]
-	z     Cursor[TZ]
+	x     Bounded[TX]
+	y     Bounded[TY]
+	z     Bounded[TZ]
 }
 
 // VectorTyped3D represents an asymmetric vector of seven dissimilar numeric cursors.

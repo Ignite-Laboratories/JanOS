@@ -2,6 +2,7 @@ package std
 
 import (
 	"errors"
+	fmt "fmt"
 	"github.com/ignite-laboratories/core/std/num"
 	"math"
 	"math/big"
@@ -26,33 +27,46 @@ type Bounded[T num.Primitive] struct {
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
 func NewBounded[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Bounded[T], error) {
 	c := len(clamp) > 0 && clamp[0]
-	return Bounded[T]{
+	b := Bounded[T]{
 		value:   T(0),
 		minimum: minimum,
 		maximum: maximum,
 		Clamp:   c,
-	}.Set(value)
+	}
+	err := b.Set(value)
+	return b, err
+}
+
+// ValueString returns the value as a numeric string.
+func (bnd *Bounded[T]) ValueString() string {
+	var zero T
+	switch any(zero).(type) {
+	case float32, float64:
+		return fmt.Sprintf("%f", bnd.Value())
+	default:
+		return fmt.Sprintf("%d", bnd.Value())
+	}
 }
 
 // Value returns the currently held Bounded value.
-func (bnd Bounded[T]) Value() T {
+func (bnd *Bounded[T]) Value() T {
 	return bnd.value
 }
 
 // Minimum returns the current minimum boundary.
-func (bnd Bounded[T]) Minimum() T {
+func (bnd *Bounded[T]) Minimum() T {
 	return bnd.minimum
 }
 
 // Maximum returns the current maximum boundary.
-func (bnd Bounded[T]) Maximum() T {
+func (bnd *Bounded[T]) Maximum() T {
 	return bnd.maximum
 }
 
 // Range returns the bounded range -
 //
 //	(maximum - minimum) + 1
-func (bnd Bounded[T]) Range() uint64 {
+func (bnd *Bounded[T]) Range() uint64 {
 	if num.IsFloat[T]() {
 		return math.MaxUint64
 	}
@@ -64,7 +78,7 @@ func (bnd Bounded[T]) Range() uint64 {
 // NOTE: If you provide a negative number, this will 'decrement'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) Increment(amount ...T) (Bounded[T], error) {
+func (bnd *Bounded[T]) Increment(amount ...T) error {
 	i := T(1)
 	if len(amount) > 0 {
 		i = amount[0]
@@ -77,7 +91,7 @@ func (bnd Bounded[T]) Increment(amount ...T) (Bounded[T], error) {
 // NOTE: If you provide a negative number, this will 'increment'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) Decrement(amount ...T) (Bounded[T], error) {
+func (bnd *Bounded[T]) Decrement(amount ...T) error {
 	i := T(1)
 	if len(amount) > 0 {
 		i = amount[0]
@@ -88,7 +102,7 @@ func (bnd Bounded[T]) Decrement(amount ...T) (Bounded[T], error) {
 // AddOrSubtract adds or subtracts the provided amount to the bound value.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) AddOrSubtract(amount T) (Bounded[T], error) {
+func (bnd *Bounded[T]) AddOrSubtract(amount T) error {
 	if amount < 0 {
 		amount = -amount
 		return bnd.Decrement(T(amount))
@@ -101,7 +115,7 @@ func (bnd Bounded[T]) AddOrSubtract(amount T) (Bounded[T], error) {
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) (Bounded[T], error) {
+func (bnd *Bounded[T]) SetAll(value, a, b T, clamp ...bool) error {
 	c := len(clamp) > 0 && clamp[0]
 	if a > b {
 		a, b = b, a
@@ -115,7 +129,7 @@ func (bnd Bounded[T]) SetAll(value, a, b T, clamp ...bool) (Bounded[T], error) {
 // SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) SetBoundariesFromType() (Bounded[T], error) {
+func (bnd *Bounded[T]) SetBoundariesFromType() error {
 	bnd.minimum = 0
 	bnd.maximum = num.MaxValue[T]()
 	return bnd.Set(bnd.value)
@@ -126,7 +140,7 @@ func (bnd Bounded[T]) SetBoundariesFromType() (Bounded[T], error) {
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) SetBoundaries(a, b T) (Bounded[T], error) {
+func (bnd *Bounded[T]) SetBoundaries(a, b T) error {
 	if a > b {
 		a, b = b, a
 	}
@@ -139,7 +153,7 @@ func (bnd Bounded[T]) SetBoundaries(a, b T) (Bounded[T], error) {
 // by linearly mapping the value from its bounded interval's [minimum, maximum]. A value equal
 // to minimum maps to 0.0, a value equal to maximum maps to 1.0, and values in between
 // are linearly interpolated.
-func (bnd Bounded[T]) Normalize() float64 {
+func (bnd *Bounded[T]) Normalize() float64 {
 	numerator := uint64(bnd.value - bnd.minimum)
 	denominator := uint64(bnd.maximum - bnd.minimum)
 
@@ -158,7 +172,7 @@ func (bnd Bounded[T]) Normalize() float64 {
 
 // Normalize32 converts the Bounded value to a float32 unit vector in the range [0.0, 1.0],
 // where the bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (bnd Bounded[T]) Normalize32() float32 {
+func (bnd *Bounded[T]) Normalize32() float32 {
 	return float32(bnd.Normalize())
 }
 
@@ -166,7 +180,7 @@ func (bnd Bounded[T]) Normalize32() float32 {
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) SetFromNormalized(normalized float64) (Bounded[T], error) {
+func (bnd *Bounded[T]) SetFromNormalized(normalized float64) error {
 	distance := uint64(bnd.maximum - bnd.minimum)
 
 	// If the bounded range cannot be represented by a float64, bump to big.Float
@@ -194,14 +208,14 @@ func (bnd Bounded[T]) SetFromNormalized(normalized float64) (Bounded[T], error) 
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd Bounded[T]) SetFromNormalized32(normalized float32) (Bounded[T], error) {
+func (bnd *Bounded[T]) SetFromNormalized32(normalized float32) error {
 	return bnd.SetFromNormalized(float64(normalized))
 }
 
 // Set sets the bounded value.  If clamp is true, the value is "clamped" to the closed set [minimum, maximum] - otherwise,
 // the value overflows and underflows.  The amount that the value over and underflows is returned as an error, returning nil
 // when the assigned value was within the closed interval.
-func (bnd Bounded[T]) Set(value T) (Bounded[T], error) {
+func (bnd *Bounded[T]) Set(value T) error {
 	var err error
 
 	if bnd.Clamp {
@@ -266,5 +280,5 @@ func (bnd Bounded[T]) Set(value T) (Bounded[T], error) {
 	}
 
 	bnd.value = value
-	return bnd, err
+	return err
 }

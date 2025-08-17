@@ -9,10 +9,10 @@ import (
 
 type components4D[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive] struct {
 	names [4]string
-	x     Cursor[TX]
-	y     Cursor[TY]
-	z     Cursor[TZ]
-	w     Cursor[TW]
+	x     Bounded[TX]
+	y     Bounded[TY]
+	z     Bounded[TZ]
+	w     Bounded[TW]
 }
 
 // VectorTyped4D represents an asymmetric vector of seven dissimilar numeric cursors.

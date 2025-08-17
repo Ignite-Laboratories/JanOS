@@ -9,8 +9,8 @@ import (
 
 type components2D[TX num.Primitive, TY num.Primitive] struct {
 	names [2]string
-	x     Cursor[TX]
-	y     Cursor[TY]
+	x     Bounded[TX]
+	y     Bounded[TY]
 }
 
 // VectorTyped2D represents an asymmetric vector of seven dissimilar numeric cursors.

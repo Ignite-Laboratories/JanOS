@@ -1,19 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/bounded"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
 func main() {
 	for {
-		b, _ := bounded.By[float64](0, -2, 4)
-		a := std.UniqueSet[float64]{
-			Bounded: b,
-		}
+		b, _ := bounded.By[num.Nibble](0, 0, 5)
+		a := std.NewUniqueSet(b)
 
 		for {
-			a.Random(50)
+			result := a.Random(15)
+			fmt.Println(result)
 		}
 
 	}

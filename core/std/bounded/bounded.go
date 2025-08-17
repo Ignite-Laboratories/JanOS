@@ -54,6 +54,6 @@ func RandomSubset[T num.Primitive](minimum, maximum T, clamp ...bool) std.Bounde
 func ScaleToType[TIn num.Primitive, TOut num.Primitive](value std.Bounded[TIn]) std.Bounded[TOut] {
 	normalizedPos := value.Normalize()
 	b, _ := ByType[TOut](0)
-	b, _ = b.SetFromNormalized(normalizedPos)
+	_ = b.SetFromNormalized(normalizedPos)
 	return b
 }

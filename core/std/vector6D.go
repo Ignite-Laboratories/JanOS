@@ -9,12 +9,12 @@ import (
 
 type components6D[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive, TB num.Primitive] struct {
 	names [6]string
-	x     Cursor[TX]
-	y     Cursor[TY]
-	z     Cursor[TZ]
-	w     Cursor[TW]
-	a     Cursor[TA]
-	b     Cursor[TB]
+	x     Bounded[TX]
+	y     Bounded[TY]
+	z     Bounded[TZ]
+	w     Bounded[TW]
+	a     Bounded[TA]
+	b     Bounded[TB]
 }
 
 // VectorTyped6D represents an asymmetric vector of seven dissimilar numeric cursors.

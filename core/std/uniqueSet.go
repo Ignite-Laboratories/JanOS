@@ -34,10 +34,18 @@ import (
 //
 // See seed.Random
 type UniqueSet[T num.Primitive] struct {
-	Bounded[T]
+	bounds  Bounded[T]
 	entries []map[T]struct{}
 	ordered []T
 	current uint64
+}
+
+func NewUniqueSet[T num.Primitive](bounds Bounded[T]) *UniqueSet[T] {
+	return &UniqueSet[T]{
+		bounds:  bounds,
+		entries: make([]map[T]struct{}, 0),
+		ordered: make([]T, 0),
+	}
 }
 
 // Reset clears all entries and starts anew.
@@ -94,13 +102,13 @@ func (s *UniqueSet[T]) Random(count ...uint) []T {
 
 	out := make([]T, c)
 	for i := 0; i < c; i++ {
-		if uint64(len(s.entries[len(s.entries)-1])) >= s.Range() {
+		if uint64(len(s.entries[len(s.entries)-1])) >= s.bounds.Range() {
 			s.entries = append(s.entries, make(map[T]struct{}, 0))
 		}
 
 		var val T
 		for {
-			val = num.RandomWithinRange[T](s.minimum, s.maximum)
+			val = num.RandomWithinRange[T](s.bounds.minimum, s.bounds.maximum)
 
 			if _, ok := s.entries[len(s.entries)-1][val]; !ok {
 				s.current++

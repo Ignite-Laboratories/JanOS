@@ -9,11 +9,11 @@ import (
 
 type components5D[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive] struct {
 	names [5]string
-	x     Cursor[TX]
-	y     Cursor[TY]
-	z     Cursor[TZ]
-	w     Cursor[TW]
-	a     Cursor[TA]
+	x     Bounded[TX]
+	y     Bounded[TY]
+	z     Bounded[TZ]
+	w     Bounded[TW]
+	a     Bounded[TA]
 }
 
 // VectorTyped5D represents an asymmetric vector of seven dissimilar numeric cursors.

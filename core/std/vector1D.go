@@ -8,7 +8,7 @@ import (
 
 type components1D[TX num.Primitive] struct {
 	names [1]string
-	x     Cursor[TX]
+	x     Bounded[TX]
 }
 
 // VectorTyped1D represents an asymmetric vector of seven dissimilar numeric cursors.
