@@ -59,6 +59,30 @@ func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) SetValues(x TX, y TY, z TZ, w TW,
 	return v
 }
 
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetX() TX {
+	return v.components.x.Value()
+}
+
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetY() TY {
+	return v.components.y.Value()
+}
+
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetZ() TZ {
+	return v.components.z.Value()
+}
+
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetW() TW {
+	return v.components.w.Value()
+}
+
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetA() TA {
+	return v.components.a.Value()
+}
+
+func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) GetB() TB {
+	return v.components.b.Value()
+}
+
 func (v VectorTyped6D[TX, TY, TZ, TW, TA, TB]) SetX(x TX) VectorTyped6D[TX, TY, TZ, TW, TA, TB] {
 	_ = v.components.x.Set(x)
 	return v

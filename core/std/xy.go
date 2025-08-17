@@ -23,18 +23,35 @@ func (v XYTyped[TX, TY]) Set(x TX, y TY) {
 	_ = v.components.y.Set(y)
 }
 
-func (v XYTyped[TX, TY]) X() Cursor[TX] {
-	return v.components.x
+func (v XYTyped[TX, TY]) X() TX {
+	return v.components.x.Value()
 }
 
 func (v XYTyped[TX, TY]) SetX(value TX) {
 	_ = v.components.x.Set(value)
 }
 
-func (v XYTyped[TX, TY]) Y() Cursor[TY] {
-	return v.components.y
+func (v XYTyped[TX, TY]) Y() TY {
+	return v.components.y.Value()
 }
 
 func (v XYTyped[TX, TY]) SetY(value TY) {
 	_ = v.components.y.Set(value)
 }
+
+/**
+Swizzling
+
+NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
+
+Find -
+func \((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
+
+Replace -
+func ($1) $2() ($3) { return$4 }
+*/
+
+func (c XYTyped[TX, TY]) XX() (TX, TX) { return c.X(), c.X() }
+func (c XYTyped[TX, TY]) XY() (TX, TY) { return c.X(), c.Y() }
+func (c XYTyped[TX, TY]) YX() (TY, TX) { return c.Y(), c.X() }
+func (c XYTyped[TX, TY]) YY() (TY, TY) { return c.Y(), c.Y() }

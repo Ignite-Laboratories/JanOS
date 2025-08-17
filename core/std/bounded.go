@@ -1,7 +1,7 @@
 package std
 
 import (
-	"fmt"
+	"errors"
 	"github.com/ignite-laboratories/core/std/num"
 	"math"
 	"math/big"
@@ -10,6 +10,8 @@ import (
 // Bounded represents a numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
+//
+// NOTE: All set operations return an error with the amount that the value overflowed or underflowed - otherwise nil.
 type Bounded[T num.Primitive] struct {
 	value   T
 	minimum T
@@ -45,6 +47,16 @@ func (bnd Bounded[T]) Minimum() T {
 // Maximum returns the current maximum boundary.
 func (bnd Bounded[T]) Maximum() T {
 	return bnd.maximum
+}
+
+// Range returns the bounded range -
+//
+//	(maximum - minimum) + 1
+func (bnd Bounded[T]) Range() uint64 {
+	if num.IsFloat[T]() {
+		return math.MaxUint64
+	}
+	return uint64(bnd.maximum-bnd.minimum) + 1
 }
 
 // Increment adds 1 or the provided amount to the bound value.
@@ -186,25 +198,29 @@ func (bnd Bounded[T]) SetFromNormalized32(normalized float32) (Bounded[T], error
 	return bnd.SetFromNormalized(float64(normalized))
 }
 
-// Set sets the value of Bounded and automatically handles when the value exceeds the bounds.
-//
-// NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
+// Set sets the bounded value.  If clamp is true, the value is "clamped" to the closed set [minimum, maximum] - otherwise,
+// the value overflows and underflows.  The amount that the value over and underflows is returned as an error, returning nil
+// when the assigned value was within the closed interval.
 func (bnd Bounded[T]) Set(value T) (Bounded[T], error) {
 	var err error
 
 	if bnd.Clamp {
 		if value > bnd.maximum {
+			overflow := value - bnd.maximum
 			value = bnd.maximum
-			err = fmt.Errorf("over")
+			err = errors.New(num.String[T](overflow))
 		} else if value < bnd.minimum {
+			underflow := bnd.minimum - value
 			value = bnd.minimum
-			err = fmt.Errorf("under")
+			err = errors.New("-" + num.String[T](underflow))
 		}
 	} else {
 		if value > bnd.maximum {
-			err = fmt.Errorf("over")
+			overflow := value - bnd.maximum
+			err = errors.New(num.String[T](overflow))
 		} else if value < bnd.minimum {
-			err = fmt.Errorf("under")
+			underflow := bnd.minimum - value
+			err = errors.New("-" + num.String[T](underflow))
 		}
 
 		// NOTE: The maximum distance of a primitive type will ALWAYS be a uint64, which is very nice =)

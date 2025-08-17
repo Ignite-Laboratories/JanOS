@@ -44,6 +44,10 @@ func (v VectorTyped1D[TX]) SetValues(x TX) VectorTyped1D[TX] {
 	return v
 }
 
+func (v VectorTyped1D[TX]) GetX() TX {
+	return v.components.x.Value()
+}
+
 func (v VectorTyped1D[TX]) SetX(x TX) VectorTyped1D[TX] {
 	_ = v.components.x.Set(x)
 	return v

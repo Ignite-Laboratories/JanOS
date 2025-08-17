@@ -5,10 +5,11 @@ import (
 )
 
 type config struct {
-	PrintPreamble    *bool   `json:"printPreamble"`
-	ObservanceWindow string  `json:"observanceWindow"`
-	TrimFrequency    float64 `json:"trimFrequency"`
-	Precision        uint    `json:"precision"`
+	PrintPreamble        *bool   `json:"printPreamble"`
+	ObservanceWindow     string  `json:"observanceWindow"`
+	TrimFrequency        float64 `json:"trimFrequency"`
+	Precision            uint    `json:"precision"`
+	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
 }
 
 func (c config) apply() {
@@ -23,5 +24,8 @@ func (c config) apply() {
 	}
 	if c.Precision > 0 {
 		Precision = c.Precision
+	}
+	if len(c.SeedRefractoryPeriod) > 0 {
+		SeedRefractoryPeriod, _ = time.ParseDuration(c.SeedRefractoryPeriod)
 	}
 }

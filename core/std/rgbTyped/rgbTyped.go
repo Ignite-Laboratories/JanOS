@@ -1,5 +1,5 @@
 // Package rgbAsymmetric provides access to all std.RGBAsymmetric procedures.
-package rgbAsymmetric
+package rgbTyped
 
 import (
 	"github.com/ignite-laboratories/core/std"

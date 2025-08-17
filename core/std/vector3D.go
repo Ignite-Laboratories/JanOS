@@ -53,6 +53,18 @@ func (v VectorTyped3D[TX, TY, TZ]) SetValues(x TX, y TY, z TZ) VectorTyped3D[TX,
 	return v
 }
 
+func (v VectorTyped3D[TX, TY, TZ]) GetX() TX {
+	return v.components.x.Value()
+}
+
+func (v VectorTyped3D[TX, TY, TZ]) GetY() TY {
+	return v.components.y.Value()
+}
+
+func (v VectorTyped3D[TX, TY, TZ]) GetZ() TZ {
+	return v.components.z.Value()
+}
+
 func (v VectorTyped3D[TX, TY, TZ]) SetX(x TX) VectorTyped3D[TX, TY, TZ] {
 	_ = v.components.x.Set(x)
 	return v

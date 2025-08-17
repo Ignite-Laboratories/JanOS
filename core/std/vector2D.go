@@ -51,6 +51,14 @@ func (v VectorTyped2D[TX, TY]) SetValues(x TX, y TY) VectorTyped2D[TX, TY] {
 	return v
 }
 
+func (v VectorTyped2D[TX, TY]) GetX() TX {
+	return v.components.x.Value()
+}
+
+func (v VectorTyped2D[TX, TY]) GetY() TY {
+	return v.components.y.Value()
+}
+
 func (v VectorTyped2D[TX, TY]) SetX(x TX) VectorTyped2D[TX, TY] {
 	_ = v.components.x.Set(x)
 	return v

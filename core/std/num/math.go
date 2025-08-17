@@ -7,6 +7,17 @@ import (
 	"reflect"
 )
 
+// String prints the provided value using the formatting placeholder %f for floating point values and %d for integer values.
+func String[T Primitive](v T) string {
+	var zero T
+	switch any(zero).(type) {
+	case float32, float64:
+		return fmt.Sprintf("%f", v)
+	default:
+		return fmt.Sprintf("%d", v)
+	}
+}
+
 // IsSubByte checks if the provided type is a sub-byte num.Primitive type.
 func IsSubByte[T Primitive]() bool {
 	var zero T
@@ -26,6 +37,16 @@ func ImplicitOverflow[T Primitive](value T) T {
 		return T(int(value) % int(overflow))
 	}
 	return value
+}
+
+// IsFloat returns whether the provided type is a floating point value or not.
+func IsFloat[T Primitive]() bool {
+	var zero T
+	switch any(zero).(type) {
+	case float32, float64:
+		return true
+	}
+	return false
 }
 
 // IsSigned returns whether the provided type is a signed type or not.
@@ -153,15 +174,31 @@ func RandomWithinRange[T Primitive](a T, b T) T {
 		}
 		return T(float64(a) + (float64(b)-float64(a))*rand.Float64())
 	case int8, int16, int32, int64, int, uint8, uint16, uint32, uint64, uint:
-		range64 := uint64(b) - uint64(a)
-		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
+		const sign = uint64(1) << 63
+		ua, ub := (uint64(a) ^ sign), (uint64(b) ^ sign)
+		n := ub - ua + 1
+		if n == 0 { // full int64 domain
+			return T(rand.Uint64())
+		}
+		const maxU = ^uint64(0)
+		limit := maxU - (maxU % n) // rejection threshold to avoid modulo bias
+		for {
+			if r := rand.Uint64(); r < limit {
+				return T((ua + (r % n)) ^ sign)
+			}
+		}
 	case Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, Hook:
 		// These are implicitly sized uint types
-		if a < 0 || b > MaxValue[T]() {
-			panic("cannot provide a random number exceeding the implicit bounds of the type.")
+		maximum := MaxValue[T]()
+		if a < 0 {
+			a = 0
+		}
+		if b > maximum {
+			b = maximum
 		}
 
 		range64 := uint64(b) - uint64(a)
+		rand.Uint64()
 		return T(uint64(a) + uint64(rand.Int63n(int64(range64+1))))
 	default:
 		panic("unsupported numeric type")

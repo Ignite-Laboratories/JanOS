@@ -57,6 +57,26 @@ func (v VectorTyped5D[TX, TY, TZ, TW, TA]) SetValues(x TX, y TY, z TZ, w TW, a T
 	return v
 }
 
+func (v VectorTyped5D[TX, TY, TZ, TW, TA]) GetX() TX {
+	return v.components.x.Value()
+}
+
+func (v VectorTyped5D[TX, TY, TZ, TW, TA]) GetY() TY {
+	return v.components.y.Value()
+}
+
+func (v VectorTyped5D[TX, TY, TZ, TW, TA]) GetZ() TZ {
+	return v.components.z.Value()
+}
+
+func (v VectorTyped5D[TX, TY, TZ, TW, TA]) GetW() TW {
+	return v.components.w.Value()
+}
+
+func (v VectorTyped5D[TX, TY, TZ, TW, TA]) GetA() TA {
+	return v.components.a.Value()
+}
+
 func (v VectorTyped5D[TX, TY, TZ, TW, TA]) SetX(x TX) VectorTyped5D[TX, TY, TZ, TW, TA] {
 	_ = v.components.x.Set(x)
 	return v

@@ -6,7 +6,7 @@ import (
 )
 
 // Cursor is a variant of Bounded[T] that operates entirely off of pointer receivers, rather than value receivers.
-// The functionality is merely passed through to Bounded and all methods are maintained in parity with each other.
+// The functionality is merely passed through to Bounded, and all methods are maintained in parity with each other.
 type Cursor[T num.Primitive] Bounded[T]
 
 // NewCursor creates a new instance of Cursor[T].

@@ -55,6 +55,22 @@ func (v VectorTyped4D[TX, TY, TZ, TW]) SetValues(x TX, y TY, z TZ, w TW) VectorT
 	return v
 }
 
+func (v VectorTyped4D[TX, TY, TZ, TW]) GetX() TX {
+	return v.components.x.Value()
+}
+
+func (v VectorTyped4D[TX, TY, TZ, TW]) GetY() TY {
+	return v.components.y.Value()
+}
+
+func (v VectorTyped4D[TX, TY, TZ, TW]) GetZ() TZ {
+	return v.components.z.Value()
+}
+
+func (v VectorTyped4D[TX, TY, TZ, TW]) GetW() TW {
+	return v.components.w.Value()
+}
+
 func (v VectorTyped4D[TX, TY, TZ, TW]) SetX(x TX) VectorTyped4D[TX, TY, TZ, TW] {
 	_ = v.components.x.Set(x)
 	return v

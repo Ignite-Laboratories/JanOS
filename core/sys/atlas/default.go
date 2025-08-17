@@ -16,6 +16,10 @@ var TrimFrequency = 1024.0 //hz
 // Precision is the global placeholder precision for floating point arithmetic.
 var Precision uint = 256
 
+// SeedRefractoryPeriod is the default amount of time a seed pool will retain its current random value set for.
+// This allows a small batch of fixed random numbers to be referenced ad-hoc without neurons having to track their own concept of temporality.
+var SeedRefractoryPeriod = 180 * time.Second
+
 /**
 Constant References
 */
