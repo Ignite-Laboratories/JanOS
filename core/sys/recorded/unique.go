@@ -3,6 +3,7 @@ package recorded
 import (
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/num"
+	"sync"
 )
 
 // Unique is a way to request periodically unique random data.  You may either "seed" the set with a finite set of
@@ -35,13 +36,14 @@ import (
 //
 // NOTE: Unique is 'resettable' by default, meaning a call to Reset will clear its contents.  You may override this
 // by calling SetResettable if you wish to prevent destruction of existing data.
-type Unique[T comparable] struct {
+type Unique[T any] struct {
 	generator  func() T
 	size       uint64
 	ordered    []T
 	numeric    bool
 	resettable bool
-	entries    []map[T]struct{}
+	entries    []map[any]struct{}
+	mutex      sync.Mutex
 }
 
 // UniqueBounded creates a new numeric unique set bounded by the provided Bounded[T].
@@ -60,12 +62,12 @@ func UniqueBounded[T num.Primitive](bounds std.Bounded[T], resettable ...bool) *
 		ordered:    make([]T, 0),
 		numeric:    true,
 		resettable: r,
-		entries:    make([]map[T]struct{}, 0, bounds.Range()),
+		entries:    make([]map[any]struct{}, 0, bounds.Range()),
 	}
 }
 
-func deduplicate[T comparable](data []T) []T {
-	seen := make(map[T]struct{}, len(data))
+func deduplicate[T any](data []T) []T {
+	seen := make(map[any]struct{}, len(data))
 	unique := make([]T, 0, len(data))
 	for _, v := range data {
 		if _, ok := seen[v]; ok {
@@ -94,7 +96,7 @@ func UniqueSeeded[T comparable](data ...T) *Unique[T] {
 		},
 		size:    uint64(len(data) - 1),
 		ordered: make([]T, 0),
-		entries: make([]map[T]struct{}, 0, len(data)-1),
+		entries: make([]map[any]struct{}, 0, len(data)-1),
 	}
 }
 
@@ -110,6 +112,8 @@ func (s *Unique[T]) SetResettable(resettable bool) *Unique[T] {
 // NOTE: For a non-seeded (bounded) set, this only calls Reset.
 func (s *Unique[T]) Reseed(data ...T) {
 	s.Reset()
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 
 	if !s.numeric {
 		data = deduplicate(data)
@@ -118,7 +122,7 @@ func (s *Unique[T]) Reseed(data ...T) {
 		s.generator = func() T {
 			return data[num.RandomWithinRange[uint](bounds.Minimum(), bounds.Maximum())]
 		}
-		s.entries = make([]map[T]struct{}, 0, len(data)-1)
+		s.entries = make([]map[any]struct{}, 0, len(data)-1)
 		s.ordered = make([]T, 0)
 		s.size = uint64(len(data) - 1)
 	}
@@ -133,8 +137,10 @@ func (s *Unique[T]) Entries() []T {
 //
 // NOTE: This will do nothing if the set has been marked as 'not resettable' through SetResettable and sets are resettable by default.
 func (s *Unique[T]) Reset() {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	if s.resettable {
-		s.entries = make([]map[T]struct{}, 0, s.size)
+		s.entries = make([]map[any]struct{}, 0, s.size)
 		s.ordered = make([]T, 0)
 	}
 }
@@ -143,6 +149,8 @@ func (s *Unique[T]) Reset() {
 //
 // NOTE: This can be a destructive operation and is -NOT- gated through Reset!  Be cautious =)
 func (s *Unique[T]) Modulate(length uint) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	curr := uint(len(s.ordered))
 
 	switch {
@@ -177,19 +185,21 @@ func (s *Unique[T]) Random(count ...uint) []T {
 	}
 
 	if s.entries == nil {
-		s.entries = make([]map[T]struct{}, 0)
+		s.entries = make([]map[any]struct{}, 0)
 	}
 	if s.ordered == nil {
 		s.ordered = make([]T, 0)
 	}
 	if len(s.entries) == 0 {
-		s.entries = append(s.entries, make(map[T]struct{}, 0))
+		s.entries = append(s.entries, make(map[any]struct{}, 0))
 	}
 
 	out := make([]T, c)
 	for i := 0; i < c; i++ {
 		if uint64(len(s.entries[len(s.entries)-1])) >= s.size {
-			s.entries = append(s.entries, make(map[T]struct{}, 0))
+			s.mutex.Lock()
+			s.entries = append(s.entries, make(map[any]struct{}, 0))
+			s.mutex.Unlock()
 		}
 
 		var val T
@@ -197,13 +207,17 @@ func (s *Unique[T]) Random(count ...uint) []T {
 			val = s.generator()
 
 			if _, ok := s.entries[len(s.entries)-1][val]; !ok {
+				s.mutex.Lock()
 				s.entries[len(s.entries)-1][val] = struct{}{}
 				out[i] = val
+				s.mutex.Unlock()
 				break
 			}
 		}
 	}
 
+	s.mutex.Lock()
 	s.ordered = append(s.ordered, out...)
+	s.mutex.Unlock()
 	return out
 }
