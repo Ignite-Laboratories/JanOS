@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -19,7 +20,7 @@ func Observer[TValue any](engine *core.Engine, potential core.Potential, muted b
 	d.Window = core.DefaultObservanceWindow
 	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	f := func(ctx core.Context) {
-		data := std.Data[TValue]{
+		data := data.Data[TValue]{
 			Context: ctx,
 			Point:   *target(),
 		}

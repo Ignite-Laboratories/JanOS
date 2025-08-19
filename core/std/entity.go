@@ -8,9 +8,16 @@ import (
 
 // Entity provides an 'ID' field to any composite types.
 type Entity struct {
-	// ID is the unique identifier for this entity, relative to its home world.
-	ID        uint64
+	id        uint64
 	GivenName name.Given
+}
+
+func (e Entity) GetID() uint64 {
+	return e.id
+}
+
+func (e Entity) String() string {
+	return e.GivenName.String()
 }
 
 // NewEntity creates a new entity, assigns it a unique identifier, and gives it a random name.
@@ -27,7 +34,7 @@ func NewEntity[T format.Format](str ...name.Given) Entity {
 	}
 
 	ne := Entity{
-		ID:        i,
+		id:        i,
 		GivenName: given,
 	}
 

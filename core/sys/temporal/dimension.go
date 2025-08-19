@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"sync"
 	"time"
 )
@@ -12,13 +12,13 @@ type Dimension[TValue any, TCache any] struct {
 	core.NamedEntity
 
 	// Current is the currently held value of this dimension.
-	Current *std.Data[TValue]
+	Current *data.Data[TValue]
 
 	// Cache is a place where a looping stimulator can save information for the next activation of the loop.
 	Cache *TCache
 
 	// Timeline is the historical values of this dimension.
-	Timeline []std.Data[TValue]
+	Timeline []data.Data[TValue]
 
 	// Window is the duration to hold onto recorded values for.
 	Window time.Duration
@@ -66,7 +66,7 @@ func (d *Dimension[TValue, TCache]) Write(value TValue) {
 	ctx.Moment = now
 	ctx.Period = period
 
-	data := std.Data[TValue]{
+	data := data.Data[TValue]{
 		Context: ctx,
 		Point:   value,
 	}
@@ -76,16 +76,16 @@ func (d *Dimension[TValue, TCache]) Write(value TValue) {
 }
 
 // Read returns a copy of the current timeline information.
-func (d *Dimension[TValue, TCache]) Read() []std.Data[TValue] {
+func (d *Dimension[TValue, TCache]) Read() []data.Data[TValue] {
 	d.Mutex.Lock()
 	defer d.Mutex.Unlock()
-	result := make([]std.Data[TValue], len(d.Timeline))
+	result := make([]data.Data[TValue], len(d.Timeline))
 	copy(result, d.Timeline)
 	return result
 }
 
 // GetPastValue retrieves the value of a specific moment in time from the timeline.
-func (d *Dimension[TValue, TCache]) GetPastValue(moment time.Time) *std.Data[TValue] {
+func (d *Dimension[TValue, TCache]) GetPastValue(moment time.Time) *data.Data[TValue] {
 	d.Mutex.Lock()
 	defer d.Mutex.Unlock()
 	for _, v := range d.Timeline {
@@ -99,10 +99,10 @@ func (d *Dimension[TValue, TCache]) GetPastValue(moment time.Time) *std.Data[TVa
 // GetClosestMoment retrieves the value of the closest moment in time to the provided target from the timeline,
 // as well as the relative duration between the two.  The returned duration is calculated as the timeline
 // value minus the target value.
-func (d *Dimension[TValue, TCache]) GetClosestMoment(target time.Time) (*std.Data[TValue], time.Duration) {
+func (d *Dimension[TValue, TCache]) GetClosestMoment(target time.Time) (*data.Data[TValue], time.Duration) {
 	d.Mutex.Lock()
 	defer d.Mutex.Unlock()
-	closest := &std.Data[TValue]{}
+	closest := &data.Data[TValue]{}
 	closest.Moment = core.Inception
 	closestOffset := closest.Moment.Sub(target)
 
@@ -117,7 +117,7 @@ func (d *Dimension[TValue, TCache]) GetClosestMoment(target time.Time) (*std.Dat
 }
 
 // GetBeatValue retrieves the value of a specific beat from the timeline.
-func (d *Dimension[TValue, TCache]) GetBeatValue(beat int) *std.Data[TValue] {
+func (d *Dimension[TValue, TCache]) GetBeatValue(beat int) *data.Data[TValue] {
 	d.Mutex.Lock()
 	defer d.Mutex.Unlock()
 	for _, v := range d.Timeline {

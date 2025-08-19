@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -10,8 +10,8 @@ import (
 // Blending represents the state of A and B that generated the resulting blended Value.
 type Blending[TValue core.Numeric] struct {
 	Value TValue
-	A     std.Data[TValue]
-	B     std.Data[TValue]
+	A     data.Data[TValue]
+	B     data.Data[TValue]
 }
 
 // Blender creates a dimension that blends the point value of two input dimensions for every impulse that the potential returns true.
@@ -31,7 +31,7 @@ func Blender[TValue core.Numeric](engine *core.Engine, potential core.Potential,
 			B: *b.Current,
 		}
 		mux.Value = blend(mux.A.Point, mux.B.Point)
-		data := std.Data[Blending[TValue]]{
+		data := data.Data[Blending[TValue]]{
 			Context: ctx,
 			Point:   mux,
 		}

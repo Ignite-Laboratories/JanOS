@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -10,8 +10,8 @@ import (
 // Operation represents the state of A and B that generated the resulting Value.
 type Operation[TValue core.Numeric] struct {
 	Value TValue
-	A     std.Data[TValue]
-	B     std.Data[TValue]
+	A     data.Data[TValue]
+	B     data.Data[TValue]
 }
 
 func Operator[TValue core.Numeric](engine *core.Engine, potential core.Potential, muted bool, operator Operate[TValue], a *Dimension[TValue, any], b *Dimension[TValue, any]) *Dimension[Operation[TValue], any] {
@@ -25,7 +25,7 @@ func Operator[TValue core.Numeric](engine *core.Engine, potential core.Potential
 			B: *b.Current,
 		}
 		operation.Value = operator(operation.A.Point, operation.B.Point)
-		data := std.Data[Operation[TValue]]{
+		data := data.Data[Operation[TValue]]{
 			Context: ctx,
 			Point:   operation,
 		}

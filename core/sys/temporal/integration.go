@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -18,7 +18,7 @@ import (
 // Impulsive indicates if the stimulator of this dimension should activate impulsively, or as a loop.
 //
 // If it activates impulsively this will ensure the results are placed accurately on the timeline.
-func Integration[TSource any, TValue any, TCache any](engine *core.Engine, potential core.Potential, muted bool, impulsive bool, integrate Integral[std.Data[TSource], TValue, TCache], target *Dimension[TSource, any]) *Dimension[TValue, TCache] {
+func Integration[TSource any, TValue any, TCache any](engine *core.Engine, potential core.Potential, muted bool, impulsive bool, integrate Integral[data.Data[TSource], TValue, TCache], target *Dimension[TSource, any]) *Dimension[TValue, TCache] {
 	d := Dimension[TValue, TCache]{}
 	d.NamedEntity = core.NewNamedEntity()
 	d.Window = core.DefaultObservanceWindow
@@ -29,7 +29,7 @@ func Integration[TSource any, TValue any, TCache any](engine *core.Engine, poten
 	f := func(ctx core.Context) {
 		// Get target timeline data
 		target.Mutex.Lock()
-		data := make([]std.Data[TSource], len(target.Timeline))
+		data := make([]data.Data[TSource], len(target.Timeline))
 		copy(data, target.Timeline)
 		target.Mutex.Unlock()
 
@@ -51,7 +51,7 @@ func Integration[TSource any, TValue any, TCache any](engine *core.Engine, poten
 
 		// Perform integration
 		point := integrate(ctx, d.Cache, data)
-		out := std.Data[TValue]{
+		out := data.Data[TValue]{
 			Context: ctx,
 			Point:   point,
 		}
@@ -65,7 +65,7 @@ func Integration[TSource any, TValue any, TCache any](engine *core.Engine, poten
 			d.Current = &out
 		} else {
 			// Integration execution is chaotically ordered - inject appropriately
-			var left []std.Data[TValue]
+			var left []data.Data[TValue]
 			right := d.Timeline
 			for i := len(d.Timeline) - 1; i >= 0; i-- {
 				if out.Moment.After(d.Timeline[i].Moment) {

@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 	"time"
@@ -36,7 +36,7 @@ func Bridge[TValue any](engine *core.Engine) (func(TValue), *Dimension[TValue, a
 			Period: now.Sub(lastMoment),
 		}
 
-		data := std.Data[TValue]{
+		data := data.Data[TValue]{
 			Context: ctx,
 			Point:   value,
 		}

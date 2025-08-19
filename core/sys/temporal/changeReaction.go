@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -17,14 +18,14 @@ func ChangeReaction[TValue any](engine *core.Engine, potential core.Potential, m
 	d.Window = core.DefaultObservanceWindow
 	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	f := func(ctx core.Context) {
-		data := std.Data[TValue]{
+		data := data.Data[TValue]{
 			Context: ctx,
 			Point:   *target(),
 		}
 
 		if d.Current == nil || !comparator(d.Current.Point, data.Point) {
 			d.Mutex.Lock()
-			var old *std.Data[TValue]
+			var old *data.Data[TValue]
 			if d.Current != nil {
 				old = d.Current
 			}

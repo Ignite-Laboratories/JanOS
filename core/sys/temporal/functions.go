@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 )
 
 // Difference returns a-b.
@@ -16,7 +16,7 @@ func Delta[TValue core.Numeric](a TValue, b TValue) TValue {
 }
 
 // Change functions are called when a dimension's current point value changes.
-type Change[TValue any] func(ctx core.Context, old std.Data[TValue], current std.Data[TValue])
+type Change[TValue any] func(ctx core.Context, old data.Data[TValue], current data.Data[TValue])
 
 // PointCalculation functions calculate a contextual value.
 type PointCalculation[T any] func(core.Context) T

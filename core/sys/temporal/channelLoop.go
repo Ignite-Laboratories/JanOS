@@ -3,6 +3,7 @@ package temporal
 import (
 	"github.com/ignite-laboratories/core"
 	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -18,7 +19,7 @@ func ChannelLoop(engine *core.Engine, potential core.Potential, muted bool) *Dim
 	c := make(chan std.ChannelAction)
 	d.Cache = &c
 	f := func(ctx core.Context) {
-		data := std.Data[core.Runtime]{
+		data := data.Data[core.Runtime]{
 			Context: ctx,
 			Point:   d.Stimulator.LastActivation,
 		}

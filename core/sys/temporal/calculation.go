@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -20,7 +20,7 @@ func Calculation[TValue any](engine *core.Engine, potential core.Potential, mute
 	d.Trimmer = engine.Loop(d.ImpulseTrim, when.Frequency(&atlas.TrimFrequency), false)
 	f := func(ctx core.Context) {
 		value := calculate(ctx)
-		data := std.Data[TValue]{
+		data := data.Data[TValue]{
 			Context: ctx,
 			Point:   value,
 		}

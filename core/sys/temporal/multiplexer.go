@@ -2,7 +2,7 @@ package temporal
 
 import (
 	"github.com/ignite-laboratories/core"
-	"github.com/ignite-laboratories/core/std"
+	"github.com/ignite-laboratories/core/std/data"
 	"github.com/ignite-laboratories/core/sys/atlas"
 	"github.com/ignite-laboratories/core/sys/when"
 )
@@ -23,7 +23,7 @@ func Multiplexer[TValue core.Numeric](engine *core.Engine, potential core.Potent
 		for i, otherD := range dimensions {
 			values[i] = otherD.Current
 		}
-		data := std.Data[TValue]{
+		data := data.Data[TValue]{
 			Context: ctx,
 			Point:   blend(values),
 		}
