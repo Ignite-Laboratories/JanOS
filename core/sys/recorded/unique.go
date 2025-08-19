@@ -3,6 +3,7 @@ package recorded
 import (
 	"github.com/ignite-laboratories/core/std"
 	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/sys/support"
 	"sync"
 )
 
@@ -103,6 +104,8 @@ func UniqueSeeded[T comparable](data ...T) *Unique[T] {
 // SetResettable sets whether a call to Reset will clear the set's contents.  True allows the set contents to be reset,
 // while false will prevent calls to Reset from clearing any existing content.
 func (s *Unique[T]) SetResettable(resettable bool) *Unique[T] {
+	s.sanityCheck()
+
 	s.resettable = resettable
 	return s
 }
@@ -111,6 +114,8 @@ func (s *Unique[T]) SetResettable(resettable bool) *Unique[T] {
 //
 // NOTE: For a non-seeded (bounded) set, this only calls Reset.
 func (s *Unique[T]) Reseed(data ...T) {
+	s.sanityCheck()
+
 	s.Reset()
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
@@ -130,6 +135,8 @@ func (s *Unique[T]) Reseed(data ...T) {
 
 // Entries returns the current ordered collection of randomly selected entries.
 func (s *Unique[T]) Entries() []T {
+	s.sanityCheck()
+
 	return s.ordered
 }
 
@@ -137,6 +144,8 @@ func (s *Unique[T]) Entries() []T {
 //
 // NOTE: This will do nothing if the set has been marked as 'not resettable' through SetResettable and sets are resettable by default.
 func (s *Unique[T]) Reset() {
+	s.sanityCheck()
+
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.resettable {
@@ -149,6 +158,8 @@ func (s *Unique[T]) Reset() {
 //
 // NOTE: This can be a destructive operation and is -NOT- gated through Reset!  Be cautious =)
 func (s *Unique[T]) Modulate(length uint) {
+	s.sanityCheck()
+
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	curr := uint(len(s.ordered))
@@ -179,6 +190,8 @@ func (s *Unique[T]) Modulate(length uint) {
 //
 // NOTE: If no count is provided, a single value is yielded.
 func (s *Unique[T]) Random(count ...uint) []T {
+	s.sanityCheck()
+
 	c := 1
 	if len(count) > 0 {
 		c = int(count[0])
@@ -220,4 +233,15 @@ func (s *Unique[T]) Random(count ...uint) []T {
 	s.ordered = append(s.ordered, out...)
 	s.mutex.Unlock()
 	return out
+}
+
+// sanityCheck is a "humanity sanity" protection system.  For Unique, it validates that the user did not unknowingly
+// create a unique set with recorded.Unique[T]{} using a non-comparable type, which will emit confusing error messages.
+// We took this responsibility on when we decided NOT to restrict recorded sets to only 'comparable' types - and this
+// is an important act of stewardship in response to that choice.
+func (s *Unique[T]) sanityCheck() {
+	var zero T
+	if !support.IsComparable(zero) {
+		panic("unique sets can only operate on comparable types")
+	}
 }

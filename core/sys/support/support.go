@@ -2,6 +2,15 @@ package support
 
 import "reflect"
 
+// IsComparable performs a runtime check to determine if the provided object is a 'comparable' type.
+func IsComparable(v any) bool {
+	t := reflect.TypeOf(v)
+	if t == nil { // nil interface value
+		return true // comparing nil interface values is well-defined
+	}
+	return t.Comparable()
+}
+
 // AllSameTypes returns true if all the provided instances are of the same type.
 func AllSameTypes(vals ...any) bool {
 	if len(vals) <= 1 {
