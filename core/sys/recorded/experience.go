@@ -1,8 +1,6 @@
-package set
+package recorded
 
-import "github.com/ignite-laboratories/core/sys/recorded"
-
-// Experiential is a kind of unique set which will reset its values when an arbitrary condition is met.  By default, this
+// Experience is a kind of unique set which will reset its values when an arbitrary condition is met.  By default, this
 // will reset after a 'refractory period' of time has passed without requesting any numbers from the underlying Unique set.
 // However, you can provide your own anonymous method to this type which will contextually decide when it's appropriate to
 // reset the experiential data.
@@ -14,6 +12,5 @@ import "github.com/ignite-laboratories/core/sys/recorded"
 // if there might be a reason to re-introduce the same kind of experience at a later time.  This kind of hippocampic
 // paradigm is likely similar to how memories are retrieved in the mind while providing a means of reinforcing desired
 // circumstances across time.
-type Experiential[T comparable] struct {
-	recorded.Unique[T]
+type Experience[T any] struct {
 }

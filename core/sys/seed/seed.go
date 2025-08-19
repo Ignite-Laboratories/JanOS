@@ -10,6 +10,7 @@ import (
 	"github.com/ignite-laboratories/core/std/num"
 	"github.com/ignite-laboratories/core/std/set"
 	"github.com/ignite-laboratories/core/sys/atlas"
+	"github.com/ignite-laboratories/core/sys/recorded"
 	"sync"
 	"time"
 )
@@ -17,7 +18,7 @@ import (
 type entry[T num.Primitive] struct {
 	sync.Mutex
 	seed     uint64
-	seeds    set.Unique[T]
+	seeds    recorded.Unique[T]
 	promote  func() bool
 	bounds   std.Bounded[T]
 	last     time.Time
@@ -54,7 +55,7 @@ func SetBounds[T num.Primitive](seed uint64, bounds std.Bounded[T]) {
 		c = &entry[T]{
 			seed:  seed,
 			last:  time.Now(),
-			seeds: set.Unique[T]{},
+			seeds: recorded.Unique[T]{},
 		}
 		cache[seed] = any(c).(*any)
 	}

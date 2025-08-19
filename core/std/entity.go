@@ -1,12 +1,15 @@
 package std
 
 import (
+	"fmt"
 	"github.com/ignite-laboratories/core/std/name"
 	"github.com/ignite-laboratories/core/std/name/format"
 	"github.com/ignite-laboratories/core/sys/id"
 )
 
 // Entity provides an 'ID' field to any composite types.
+//
+// NOTE: Entity's String function.
 type Entity struct {
 	id        uint64
 	GivenName name.Given
@@ -16,8 +19,9 @@ func (e Entity) GetID() uint64 {
 	return e.id
 }
 
+// String returns the Entity's identifier and GivenName as "[ID](Name)"
 func (e Entity) String() string {
-	return e.GivenName.String()
+	return fmt.Sprintf("[%d](%v)", e.id, e.GivenName.String())
 }
 
 // NewEntity creates a new entity, assigns it a unique identifier, and gives it a random name.

@@ -22,7 +22,8 @@
 // of data in this type, you can safely pass std.Data structures into closures without any
 // worry.  To achieve this, the abstract act of "appending to a slice" is intercepted by
 // a method call and owned by the std.Data type throughout JanOS.  Thus, this belongs in
-// the 'std' namespace.
+// the 'std' namespace.  In addition, all std.Data objects are a std.Entity - allowing them
+// to be identified and named.
 //
 // This type also introduces the first recursive 'Yield(n) []T' method, which is driven by
 // a provided 'Yield() T' function at the time of creation.  The idea is simple - YOU
@@ -32,7 +33,7 @@
 // caller.  This is also why I've chosen the package name 'recorded' over the more conventional
 // 'stream' terminology =)
 //
-// NOTE: Advanced std.Data creation still exists within the recorded package.
+// NOTE: Advanced std.Data creation functions still exist within the 'recorded' namespace
 //
 //	 tl;dr - std.Data represents the abstract concept of 'recording observed entropy'
 //
@@ -102,4 +103,7 @@
 // you need to spark off a logical train of thought in an intelligently designed system =)
 //
 // Words can be quite powerful, when wielded responsibly!
+//
+// LASTLY!  Every single one of the above types implements the recorded.Any interface, allowing these types to
+// be interchangeably passed through generics.
 package recorded

@@ -1,4 +1,4 @@
-package set
+package recorded
 
 import (
 	"github.com/ignite-laboratories/core/std"
@@ -35,21 +35,19 @@ import (
 //
 // NOTE: Unique is 'resettable' by default, meaning a call to Reset will clear its contents.  You may override this
 // by calling SetResettable if you wish to prevent destruction of existing data.
-//
-// This is the primary component of JanOS's seeding system, which can be explored from seed.Random
 type Unique[T comparable] struct {
 	generator  func() T
-	entries    []map[T]struct{}
 	size       uint64
 	ordered    []T
 	numeric    bool
 	resettable bool
+	entries    []map[T]struct{}
 }
 
-// NewUniqueBounded creates a new numeric unique set bounded by the provided Bounded[T].
+// UniqueBounded creates a new numeric unique set bounded by the provided Bounded[T].
 //
 // NOTE: You may optionally designate if the set is resettable on creation.
-func NewUniqueBounded[T num.Primitive](bounds std.Bounded[T], resettable ...bool) *Unique[T] {
+func UniqueBounded[T num.Primitive](bounds std.Bounded[T], resettable ...bool) *Unique[T] {
 	r := true
 	if len(resettable) > 0 {
 		r = resettable[0]
@@ -59,10 +57,10 @@ func NewUniqueBounded[T num.Primitive](bounds std.Bounded[T], resettable ...bool
 			return num.RandomWithinRange[T](bounds.Minimum(), bounds.Maximum())
 		},
 		size:       bounds.Range(),
-		entries:    make([]map[T]struct{}, 0, bounds.Range()),
 		ordered:    make([]T, 0),
 		numeric:    true,
 		resettable: r,
+		entries:    make([]map[T]struct{}, 0, bounds.Range()),
 	}
 }
 
@@ -79,10 +77,10 @@ func deduplicate[T comparable](data []T) []T {
 	return unique
 }
 
-// NewUniqueSeeded creates a new unique set from the provided data.
+// UniqueSeeded creates a new unique set from the provided data.
 //
 // NOTE: This will automatically weed out duplicate entries.
-func NewUniqueSeeded[T comparable](data ...T) *Unique[T] {
+func UniqueSeeded[T comparable](data ...T) *Unique[T] {
 	if len(data) == 0 {
 		panic("cannot create a unique set without any data to seed it with")
 	}
@@ -95,8 +93,8 @@ func NewUniqueSeeded[T comparable](data ...T) *Unique[T] {
 			return data[num.RandomWithinRange[uint](bounds.Minimum(), bounds.Maximum())]
 		},
 		size:    uint64(len(data) - 1),
-		entries: make([]map[T]struct{}, 0, len(data)-1),
 		ordered: make([]T, 0),
+		entries: make([]map[T]struct{}, 0, len(data)-1),
 	}
 }
 
