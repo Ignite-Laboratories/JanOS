@@ -5,6 +5,11 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// Numeric wraps a Primitive type in a generic concrete structure.
+type Numeric[T Primitive] struct {
+	Value T
+}
+
 // Primitive represents any general primitive numeric type.
 //
 // For reference, these are the extended implicit integer types:

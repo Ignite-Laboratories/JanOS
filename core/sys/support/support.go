@@ -2,6 +2,20 @@ package support
 
 import "reflect"
 
+// Deduplicate removes duplicate entries from the provided data.
+func Deduplicate[T any](data []T) []T {
+	seen := make(map[any]struct{}, len(data))
+	unique := make([]T, 0, len(data))
+	for _, v := range data {
+		if _, ok := seen[v]; ok {
+			continue
+		}
+		seen[v] = struct{}{}
+		unique = append(unique, v)
+	}
+	return unique
+}
+
 // IsComparable performs a runtime check to determine if the provided object is a 'comparable' type.
 func IsComparable(v any) bool {
 	t := reflect.TypeOf(v)

@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/std"
-	"github.com/ignite-laboratories/core/std/data"
+	"github.com/ignite-laboratories/core/std/num"
 )
 
-type Comp struct {
-	Value int
-}
-
 func main() {
-	a := data.Contextual[int, std.Moment[int]]{}
+	//fmt.Println(num.Smallest[int](-123.5, int8(-5)))
+	//fmt.Println(num.Smallest[float64](-123.5, int8(5)))
+	fmt.Println(num.Smallest[num.Morsel](123.5, -5))
+	//fmt.Println(num.Smallest[int](123.5, int8(5)))
+	//fmt.Println(num.Smallest[int](-0.0, 0.0))
 }

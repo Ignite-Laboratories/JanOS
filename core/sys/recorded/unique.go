@@ -67,19 +67,6 @@ func UniqueBounded[T num.Primitive](bounds std.Bounded[T], resettable ...bool) *
 	}
 }
 
-func deduplicate[T any](data []T) []T {
-	seen := make(map[any]struct{}, len(data))
-	unique := make([]T, 0, len(data))
-	for _, v := range data {
-		if _, ok := seen[v]; ok {
-			continue
-		}
-		seen[v] = struct{}{}
-		unique = append(unique, v)
-	}
-	return unique
-}
-
 // UniqueSeeded creates a new unique set from the provided data.
 //
 // NOTE: This will automatically weed out duplicate entries.
@@ -88,7 +75,7 @@ func UniqueSeeded[T comparable](data ...T) *Unique[T] {
 		panic("cannot create a unique set without any data to seed it with")
 	}
 
-	data = deduplicate(data)
+	data = support.Deduplicate(data)
 
 	bounds, _ := std.NewBounded[uint](0, 0, uint(len(data)-1))
 	return &Unique[T]{
@@ -121,7 +108,7 @@ func (s *Unique[T]) Reseed(data ...T) {
 	defer s.mutex.Unlock()
 
 	if !s.numeric {
-		data = deduplicate(data)
+		data = support.Deduplicate(data)
 
 		bounds, _ := std.NewBounded[uint](0, 0, uint(len(data)-1))
 		s.generator = func() T {

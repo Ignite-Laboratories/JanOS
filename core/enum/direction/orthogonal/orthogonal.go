@@ -1,10 +1,6 @@
 // Package orthogonal provides access to the orthogonal.Direction enumeration.
 package orthogonal
 
-import (
-	"github.com/ignite-laboratories/core/std/num"
-)
-
 // Direction represents a single orthogonal direction.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
@@ -21,59 +17,80 @@ import (
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Direction[T num.Primitive] interface {
-	Left[T] | Right[T] | Up[T] | Down[T] | In[T] | Out[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Direction interface {
+	Left | Right | Up | Down | In | Out
+}
+
+// LeftOrRight represents the orthogonal 'sides' of the XAxis.
+//
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type LeftOrRight interface {
+	Left | Right
+}
+
+// UpOrDown represents the orthogonal 'sides' of the YAxis.
+//
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type UpOrDown interface {
+	Up | Down
+}
+
+// InOrOut represents the orthogonal 'sides' of the ZAxis.
+//
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type InOrOut interface {
+	In | Out
 }
 
 // Axis represents an axis of an orthogonal direction.
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Axis[T num.Primitive] interface {
-	XAxis[T] | YAxis[T] | ZAxis[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Axis interface {
+	XAxis | YAxis | ZAxis
 }
 
 // XAxis represents the Left ↔ Right axis.
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type XAxis[T num.Primitive] interface {
-	Left[T] | Right[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type XAxis interface {
+	Left | Right
 }
 
 // YAxis represents the Up ↕ Down axis.
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type YAxis[T num.Primitive] interface {
-	Up[T] | Down[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type YAxis interface {
+	Up | Down
 }
 
 // XYAxis represents the Up ↕ Down and Left ↔ Right axes.
-type XYAxis[T num.Primitive] interface {
-	XAxis[T] | YAxis[T]
+type XYAxis interface {
+	XAxis | YAxis
 }
 
 // XYZAxis represents the Up ↕ Down, Left ↔ Right, and In ⇌ Out axes.
-type XYZAxis[T num.Primitive] interface {
-	XAxis[T] | YAxis[T] | ZAxis[T]
+type XYZAxis interface {
+	XAxis | YAxis | ZAxis
 }
 
 // ZAxis represents the In ↔ Out axis.
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type ZAxis[T num.Primitive] interface {
-	In[T] | Out[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type ZAxis interface {
+	In | Out
 }
 
 // In represents the orthogonal Direction "negatively along the Z axis perpendicular to the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type In[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type In byte
 
-func (_ In[T]) String() string {
+func (_ In) String() string {
 	return "⤓"
 }
 
-func (_ In[T]) StringFull(lowercase ...bool) string {
+func (_ In) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "in"
@@ -83,14 +100,14 @@ func (_ In[T]) StringFull(lowercase ...bool) string {
 
 // Out represents the orthogonal Direction "positively along the Z axis perpendicular to the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Out[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Out byte
 
-func (_ Out[T]) String() string {
+func (_ Out) String() string {
 	return "↥"
 }
 
-func (_ Out[T]) StringFull(lowercase ...bool) string {
+func (_ Out) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "out"
@@ -100,14 +117,14 @@ func (_ Out[T]) StringFull(lowercase ...bool) string {
 
 // Up represents the orthogonal Direction "towards the top of the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Up[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Up byte
 
-func (_ Up[T]) String() string {
+func (_ Up) String() string {
 	return "↑"
 }
 
-func (_ Up[T]) StringFull(lowercase ...bool) string {
+func (_ Up) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "up"
@@ -117,14 +134,14 @@ func (_ Up[T]) StringFull(lowercase ...bool) string {
 
 // Down represents the orthogonal Direction "towards the bottom of the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Down[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Down byte
 
-func (_ Down[T]) String() string {
+func (_ Down) String() string {
 	return "↓"
 }
 
-func (_ Down[T]) StringFull(lowercase ...bool) string {
+func (_ Down) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "down"
@@ -134,14 +151,14 @@ func (_ Down[T]) StringFull(lowercase ...bool) string {
 
 // Left represents the orthogonal Direction "towards the left of the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Left[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Left byte
 
-func (_ Left[T]) String() string {
+func (_ Left) String() string {
 	return "←"
 }
 
-func (_ Left[T]) StringFull(lowercase ...bool) string {
+func (_ Left) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "left"
@@ -151,14 +168,14 @@ func (_ Left[T]) StringFull(lowercase ...bool) string {
 
 // Right represents the orthogonal Direction "towards the right of the orthogonal XY plane."
 //
-// See direction.Any, Direction, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type Right[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+type Right byte
 
-func (_ Right[T]) String() string {
+func (_ Right) String() string {
 	return "→"
 }
 
-func (_ Right[T]) StringFull(lowercase ...bool) string {
+func (_ Right) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "right"

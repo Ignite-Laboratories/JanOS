@@ -104,6 +104,6 @@
 //
 // Words can be quite powerful, when wielded responsibly!
 //
-// LASTLY!  Every single one of the above types implements the recorded.Any interface, allowing these types to
+// LASTLY!  Every single one of the above types implements the recorded.Semantic interface, allowing these types to
 // be interchangeably passed through generics.
 package recorded
