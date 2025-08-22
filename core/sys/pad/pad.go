@@ -9,18 +9,19 @@ import (
 // Scheme represents how to apply padding information against the operand, either using scheme.Reflect or scheme.Tile.
 //
 // Padding operations can be applied to ANY dimension - but each has a 'left' and 'right' side, represented by indices
-// '0' and '𝑛', respectively.  The data to pad the operand with, when applied to the 'left' side, may be tiled in its
-// current order (pinning the existing data to the right) - or, it may be reflected such that it "walks" in the negative
-// direction of travel.
+// '0' and '𝑛', respectively.  When applying the data, one may want to 'tile' it in the order it's presented or 'reflect'
+// it before padding.  This allows padding operations on the 'left' side to walk in the negative direction of travel, if
+// desired.
 //
 // For example:
 //
-//	pad.String[orthogonal.Left, scheme.Reflect]  (10, "11111", "ABC") → "BACBA11111"
-//	pad.String[orthogonal.Left, scheme.Tile]     (10, "11111", "ABC") → "BCABC11111"
-//	pad.String[orthogonal.Right, scheme.Reflect] (10, "11111", "ABC") → "11111ABCAB"
-//	pad.String[orthogonal.Right, scheme.Tile]    (10, "11111", "ABC") → "11111ABCAB"
+//	                                                            padded result ⬎              ⬐ implied pattern
+//		pad.String[orthogonal.Left, scheme.Reflect]  (10, "11111", "ABC") → "BACBA11111" // CBA CBA CBA CBA |
+//		pad.String[orthogonal.Left, scheme.Tile]     (10, "11111", "ABC") → "BCABC11111" // ABC ABC ABC ABC |
+//		pad.String[orthogonal.Right, scheme.Reflect] (10, "11111", "ABC") → "11111CBACB" // | CBA CBA CBA CBA
+//		pad.String[orthogonal.Right, scheme.Tile]    (10, "11111", "ABC") → "11111ABCAB" // | ACB ACB ACB ACB
 //
-// When data is reflected like this, it's considered to be 'symmetrically' padded.
+// The process of reflecting pad data like this is called 'symmetric padding.'
 type Scheme interface {
 	scheme.Reflect | scheme.Tile
 }
@@ -37,6 +38,27 @@ func String[T orthogonal.LeftOrRight, TScheme Scheme](totalWidth uint, source st
 // Any1D pads the provided side of the source data using a function that provides at least one element to pad the data with.
 // The padding information can be applied in multiple different ways - see Scheme.
 func Any1D[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidth uint, source []T, padFn func() []T) []T {
+	fn := func() []T {
+		var s TScheme
+		switch any(s).(type) {
+		case scheme.Reflect:
+			toPad := slices.Clone(padFn())
+			slices.Reverse(toPad)
+			if len(toPad) == 0 {
+				panic("cannot pad without data to pad with")
+			}
+			return toPad
+		case scheme.Tile:
+			toPad := slices.Clone(padFn())
+			if len(toPad) == 0 {
+				panic("cannot pad without data to pad with")
+			}
+			return toPad
+		default:
+			panic("invalid scheme - this function only supports scheme.Reflect or scheme.Tile")
+		}
+	}
+
 	width := int(totalWidth)
 	var side TSide
 	switch any(side).(type) {
@@ -46,40 +68,18 @@ func Any1D[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidth uint,
 			return source[delta:]
 		}
 
-		var s TScheme
-		switch any(s).(type) {
-		case scheme.Reflect:
-			for len(source) < width {
-				toPad := slices.Clone(padFn())
-				slices.Reverse(toPad)
-				if len(toPad) == 0 {
-					panic("cannot pad without data to pad with")
-				}
-				source = append(toPad, source...)
-			}
-			source = source[len(source)-width:]
-		case scheme.Tile:
-			for len(source) < width {
-				toPad := slices.Clone(padFn())
-				if len(toPad) == 0 {
-					panic("cannot pad without data to pad with")
-				}
-				source = append(toPad, source...)
-			}
-			source = source[len(source)-width:]
-		default:
-			panic("invalid scheme - this function only supports scheme.Reflect or scheme.Tile")
+		for len(source) < width {
+			toPad := fn()
+			source = append(toPad, source...)
 		}
+		source = source[len(source)-width:]
 	case orthogonal.Right:
 		if width < len(source) {
 			return source[:width]
 		}
 
 		for len(source) < width {
-			toPad := slices.Clone(padFn())
-			if len(toPad) == 0 {
-				panic("cannot pad without data to pad with")
-			}
+			toPad := fn()
 			source = append(source, toPad...)
 		}
 		source = source[:width]

@@ -70,34 +70,41 @@ import (
 //	 reality.Stability: Alignment
 //
 // See direction.Any, cardinal.Any, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
-type Any[T num.Primitive] interface {
-	cardinal.Any[T] | orthogonal.Direction[T] | ordinal.Direction[T] | temporal.Direction[T] | transmittal.Direction[T] | SpaceTime[T]
+type Any interface {
+	cardinal.Any | orthogonal.Direction | ordinal.Direction | temporal.Direction | transmittal.Direction | SpaceTime
+}
+
+// Spatial represents any traversable axis of XYZ space.
+//
+// See direction.Any and orthogonal.Direction
+type Spatial interface {
+	orthogonal.Volume
 }
 
 // SpaceTime represents any traversable axis of space or time.
 //
 // See direction.Any, orthogonal.Direction, and temporal.Axis
-type SpaceTime[T num.Primitive] interface {
-	orthogonal.XYZAxis[T] | temporal.Axis[T]
+type SpaceTime interface {
+	orthogonal.Volume | temporal.Axis
 }
 
 // Awareness represents any traversable axis through the 5th dimension.
 //
 // See direction.Any, orthogonal.Direction, temporal.Axis, and awareness.Axis
-type Awareness[T num.Primitive] interface {
-	SpaceTime[T] | awareness.Axis[T]
+type Awareness interface {
+	SpaceTime | awareness.Axis
 }
 
 // Consciousness represents any traversable axis through the 6th dimension.
 //
 // See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, and consciousness.Axis
-type Consciousness[T num.Primitive] interface {
-	SpaceTime[T] | awareness.Axis[T] | consciousness.Axis[T]
+type Consciousness interface {
+	SpaceTime | awareness.Axis | consciousness.Axis
 }
 
 // Reality represents any direction traversable axis the 7th dimension.
 //
 // See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, consciousness.Axis, and reality.Axis
-type Reality[T num.Primitive] interface {
-	SpaceTime[T] | awareness.Axis[T] | consciousness.Axis[T] | reality.Axis[T]
+type Reality interface {
+	SpaceTime | awareness.Axis | consciousness.Axis | reality.Axis
 }

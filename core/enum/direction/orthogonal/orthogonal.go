@@ -1,89 +1,163 @@
 // Package orthogonal provides access to the orthogonal.Direction enumeration.
 package orthogonal
 
-// Direction represents a single orthogonal side.
+// Direction is an "enumeration" that represents an orthographic directional side.
 //
-// All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
+// All dimensions can be distilled down to an infinitely repeating number line which can be traversed only in binary directions -
 // but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
 // used to describe this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions
 // from which to describe this mechanic in code.  It truly does NOT matter which you use, as long as the called method knows
 // how to talk in THAT language. =)
 //
-// Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
+// For all directional enumerations, your intuition is probably spot on in how it's intended to be used - this is -my- current logic behind them:
+//
+// Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemies gate") no matter YOUR orientation
 // in space.  Mentally this may be the direction of "gravity" while standing up and writing calculations on a whiteboard, but I think Ender
 // described it best.  All binary data is oriented with the most-significant side towards the "left" (or "west").  When operating against a
-// matrix, you walk "latitudinally" between rows along the Y axis and "longitudinally" between columns along the X axis.  Against a voxel,
-// you'd walk negatively "in" or positively "out" along the Z axis.
+// matrix, you walk "latitudinally" between rows along the Y axis and "longitudinally" between columns on the X axis.  Against a voxel or 3D
+// structure, you'd walk negatively "in" or positively "out" along the Z axis.
 //
-// Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
+// The idea is these abstract directions consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// The orthographic enumeration has seven ultimate directions:
+//
+//	Static (0), Left (-1), Right (1), Up (1), Down (-1), In (-1), and Out (1)
+//
+// You have four ways of constraining these directions to subsets of this interface -
+//
+//  0. Directly - Static (0), Left (-1), Right (1), Up (1), Down (-1), In (-1), and Out (1)
+//  1. Polar - LeftOrRight (-1 and 1), UpOrDown (1 and -1), and InOrOut (-1 and 1) ← Excludes Static
+//  2. Axis - XAxis (-1, 0, 1), YAxis (-1, 0, 1), and ZAxis (-1, 0, 1) ← Includes Static
+//  3. Volume - XYPlane, XZPlane, and YZPlane ← Includes Static
+//
+// NOTE: These represent traversal constraints to be applied to motion, thus they are -relative- directions.  This is why there is no
+// 'origin', as that implies an absolute position - instead, 'Static' acts as a stand-in for 'no movement'.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Direction interface {
-	Left | Right | Up | Down | In | Out
+	Left | Right | Up | Down | In | Out | Static
 }
 
-// LeftOrRight represents the orthogonal 'sides' of the XAxis.
+// LeftOrRight represents the orthogonally polar 'sides' of the XAxis.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you wish to include the Static direction, please see XAxis.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type LeftOrRight interface {
 	Left | Right
 }
 
-// UpOrDown represents the orthogonal 'sides' of the YAxis.
+// UpOrDown represents the orthogonally polar 'sides' of the YAxis.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you wish to include the Static direction, please see YAxis.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type UpOrDown interface {
 	Up | Down
 }
 
-// InOrOut represents the orthogonal 'sides' of the ZAxis.
+// InOrOut represents the orthogonally polar 'sides' of the ZAxis.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you wish to include the Static direction, please see ZAxis.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type InOrOut interface {
 	In | Out
 }
 
-// Axis represents an axis of an orthogonal direction.
+// Polar represents the orthogonally polar 'sides' of LeftOrRight, UpOrDown, and InOrOut - excluding Static.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you wish to include the Static direction, please see Axis.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type Polar interface {
+	LeftOrRight | UpOrDown | InOrOut
+}
+
+// Axis represents an orthogonal 'axis' of XAxis, YAxis, and ZAxis - including Static.
+//
+// NOTE: If you do not wish to include the Static direction, please see Polar.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Axis interface {
 	XAxis | YAxis | ZAxis
 }
 
-// XAxis represents the Left ↔ Right axis.
+// XAxis represents the Left ↔ Right axis, including Static.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you do not wish to include the Static direction, please see LeftOrRight.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type XAxis interface {
-	Left | Right
+	LeftOrRight | Static
 }
 
-// YAxis represents the Up ↕ Down axis.
+// YAxis represents the Up ↕ Down axis, including Static.
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// NOTE: If you do not wish to include the Static direction, please see UpOrDown.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type YAxis interface {
-	Up | Down
+	UpOrDown | Static
 }
 
-// XYAxis represents the Up ↕ Down and Left ↔ Right axes.
-type XYAxis interface {
+// ZAxis represents the In ↔ Out axis, including Static.
+//
+// NOTE: If you do not wish to include the Static direction, please see InOrOut.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type ZAxis interface {
+	InOrOut | Static
+}
+
+// XYPlane represents the Up ↕ Down and Left ↔ Right plane, including Static.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type XYPlane interface {
 	XAxis | YAxis
 }
 
-// XYZAxis represents the Up ↕ Down, Left ↔ Right, and In ⇌ Out axes.
-type XYZAxis interface {
+// XZPlane represents the Up ↕ Down and Left ↔ Right plane, including Static.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type XZPlane interface {
+	XAxis | ZAxis
+}
+
+// YZPlane represents the Up ↕ Down and In ⇌ Out plane, including Static.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type YZPlane interface {
+	YAxis | ZAxis
+}
+
+// Volume represents the Up ↕ Down, Left ↔ Right, and In ⇌ Out axes, including Static.
+//
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type Volume interface {
 	XAxis | YAxis | ZAxis
 }
 
-// ZAxis represents the In ↔ Out axis.
+// Static represents the orthogonal Direction of 'no movement' (0).
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
-type ZAxis interface {
-	In | Out
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type Static byte
+
+func (_ Static) String() string {
+	return "ℴ"
+}
+
+func (_ Static) StringFull(lowercase ...bool) string {
+	lower := len(lowercase) > 0 && lowercase[0]
+	if lower {
+		return "origin"
+	}
+	return "Static"
 }
 
 // In represents the orthogonal Direction "negatively along the Z axis perpendicular to the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type In byte
 
 func (_ In) String() string {
@@ -100,7 +174,7 @@ func (_ In) StringFull(lowercase ...bool) string {
 
 // Out represents the orthogonal Direction "positively along the Z axis perpendicular to the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Out byte
 
 func (_ Out) String() string {
@@ -117,7 +191,7 @@ func (_ Out) StringFull(lowercase ...bool) string {
 
 // Up represents the orthogonal Direction "towards the top of the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Up byte
 
 func (_ Up) String() string {
@@ -134,7 +208,7 @@ func (_ Up) StringFull(lowercase ...bool) string {
 
 // Down represents the orthogonal Direction "towards the bottom of the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Down byte
 
 func (_ Down) String() string {
@@ -151,7 +225,7 @@ func (_ Down) StringFull(lowercase ...bool) string {
 
 // Left represents the orthogonal Direction "towards the left of the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Left byte
 
 func (_ Left) String() string {
@@ -160,6 +234,7 @@ func (_ Left) String() string {
 
 func (_ Left) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
+
 	if lower {
 		return "left"
 	}
@@ -168,7 +243,7 @@ func (_ Left) StringFull(lowercase ...bool) string {
 
 // Right represents the orthogonal Direction "towards the right of the orthogonal XY plane."
 //
-// See direction.Any, Direction, LeftOrRight, UpOrDown, InOrOut, Axis, XAxis, YAxis, ZAxis, In, Out, Up, Up, Down, Down, Left, Right, B, A, Start
+// See direction.Spatial, Direction, Polar, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Right byte
 
 func (_ Right) String() string {
