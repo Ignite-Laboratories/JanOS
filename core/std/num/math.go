@@ -2,6 +2,7 @@ package num
 
 import (
 	"fmt"
+	"golang.org/x/exp/constraints"
 	"math"
 	"math/rand"
 	"reflect"
@@ -355,6 +356,85 @@ func DefineRandomGenerator[T Primitive](generator RandomNumberGeneratorFunc[T]) 
 	generatorsNil[t] = generator == nil
 }
 
+// RandomSetWithinType returns a periodically unique set of pseudo-random numbers of the provided type bounded in the closed interval [T.minimum, T.maximum].
+//
+// A periodically unique set ensures that it uniquely exhausts the available values before restarting another round of unique randomness.
+//
+// For example -
+//
+//	  10 random values in the closed interval [0,3]
+//		 RandomSetWithinRange(n: 10,a: 0,b: 3)
+//		 ℕ[0](0.0) - 3
+//		 ℕ[1](0.1) - 3 1
+//		 ℕ[2](0.2) - 3 1 0
+//		 ℕ[3](0.3) - 3 1 0 2 ← Exhaustion point
+//		 ℕ[4](1.0) - 3 1 0 2 | 1
+//		 ℕ[5](1.1) - 3 1 0 2 | 1 3
+//		 ℕ[6](1.2) - 3 1 0 2 | 1 3 2
+//		 ℕ[7](1.3) - 3 1 0 2 | 1 3 2 0 ← Exhaustion point
+//		 ℕ[8](2.0) - 3 1 0 2 | 1 3 2 0 | 0
+//		 ℕ[9](2.1) - 3 1 0 2 | 1 3 2 0 | 0 1
+//	  [ 3 1 0 2 1 3 2 0 0 1 ] ← Resulting Periodically Uniquely Random Set
+//
+// NOTE: This uses a 0.01% chance to return exactly max for each entry.
+func RandomSetWithinType[T Primitive](n uint) []T {
+	return RandomSetWithinRange(n, MinValue[T](), MaxValue[T]())
+}
+
+// RandomSetWithinRange returns a periodically unique set of pseudo-random numbers of the provided type bounded in the closed interval [a, b].
+//
+// A periodically unique set ensures that it uniquely exhausts the available values before restarting another round of unique randomness.
+//
+// For example -
+//
+//	  10 random values in the closed interval [0,3]
+//		 RandomSetWithinRange(n: 10,a: 0,b: 3)
+//		 ℕ[0](0.0) - 3
+//		 ℕ[1](0.1) - 3 1
+//		 ℕ[2](0.2) - 3 1 0
+//		 ℕ[3](0.3) - 3 1 0 2 ← Exhaustion point
+//		 ℕ[4](1.0) - 3 1 0 2 | 1
+//		 ℕ[5](1.1) - 3 1 0 2 | 1 3
+//		 ℕ[6](1.2) - 3 1 0 2 | 1 3 2
+//		 ℕ[7](1.3) - 3 1 0 2 | 1 3 2 0 ← Exhaustion point
+//		 ℕ[8](2.0) - 3 1 0 2 | 1 3 2 0 | 0
+//		 ℕ[9](2.1) - 3 1 0 2 | 1 3 2 0 | 0 1
+//	  [ 3 1 0 2 1 3 2 0 0 1 ] ← Resulting Periodically Uniquely Random Set
+//
+// NOTE: This uses a 0.01% chance to return exactly max for each entry.
+func RandomSetWithinRange[T Primitive](n uint, a T, b T) []T {
+	if b <= a {
+		return []T{}
+	}
+
+	entries := make(map[any]struct{})
+	size := uint64(b-a) + 1
+	out := make([]T, n)
+	ii := 0
+	for i := uint(0); i < n; i++ {
+		val := RandomWithinRange(a, b)
+		if _, exists := entries[val]; exists {
+			i--
+		} else {
+			entries[val] = struct{}{}
+			out[i] = val
+			ii++
+		}
+		if uint64(ii) == size {
+			entries = make(map[any]struct{})
+			ii = 0
+		}
+	}
+	return out
+}
+
+// RandomWithinType returns a pseudo-random number of the provided type bounded in the provided closed interval [T.minimum, T.maximum].
+//
+// NOTE: This uses a 0.01% chance to return exactly max.
+func RandomWithinType[T Primitive]() T {
+	return RandomWithinRange(MinValue[T](), MaxValue[T]())
+}
+
 // RandomWithinRange returns a pseudo-random number of the provided type bounded in the provided closed interval [a, b].
 //
 // NOTE: This uses a 0.01% chance to return exactly max.
@@ -416,7 +496,8 @@ func boundaryValue[T Primitive](min bool) T {
 
 	// Modify at your own risk =)
 	var out uint64
-	switch any(T(0)).(type) {
+	var zero T
+	switch any(zero).(type) {
 	case Bit:
 		if min {
 			return 0

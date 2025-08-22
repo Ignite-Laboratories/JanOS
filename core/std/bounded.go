@@ -71,7 +71,6 @@ func (bnd *Bounded[T]) Range() uint64 {
 		return math.MaxUint64
 	}
 
-	a := Bounded[Bounded[Bounded[int]]]
 	return uint64(bnd.maximum-bnd.minimum) + 1
 }
 

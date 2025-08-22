@@ -18,25 +18,27 @@ import (
 type Data[T any] struct {
 	Entity
 	mutex  sync.Mutex
-	yield  func() T
+	yield  func(uint) []T
 	data   []T
 	cap    uint
 	capped bool
 }
 
 // NewData creates a new instance of Data[T].  you may optionally provide a yield function, otherwise calls to Data.Yield
-// will return a random entry from the data set.
-func NewData[T any](yieldFn ...func() T) *Data[T] {
+// will return pseudo-random entries from the data set.
+func NewData[T any](yieldFn ...func(uint) []T) *Data[T] {
 	d := &Data[T]{}
 
-	yield := func() T {
+	yield := func(n uint) []T {
 		if len(d.data) == 0 {
-			var zero T
-			return zero
+			return []T{}
 		}
 
-		i := num.RandomWithinRange(0, len(d.data)-1)
-		return d.data[i]
+		out := make([]T, n)
+		for i := uint(0); i < n; i++ {
+			out[i] = d.data[num.RandomWithinRange(0, len(d.data)-1)]
+		}
+		return out
 	}
 	if len(yieldFn) > 0 {
 		yield = yieldFn[0]
@@ -61,12 +63,10 @@ func (d *Data[T]) Yield(n uint) []T {
 			return out
 		}
 
-		n = num.SmallestMismatched[uint, int, uint](n, available)
+		n = num.Smallest[uint](n, available)
 	}
 
-	for i := uint(0); i < n; i++ {
-		out[i] = d.yield()
-	}
+	out = d.yield(n)
 
 	d.mutex.Unlock()
 	d.Append(out...)
@@ -110,7 +110,7 @@ func (d *Data[T]) GetCap() (bool, int) {
 }
 
 // SetYield overwrites the current yield function with the one provided.
-func (d *Data[T]) SetYield(yield func() T) {
+func (d *Data[T]) SetYield(yield func(uint) []T) {
 	d.SanityCheck()
 
 	d.mutex.Lock()
@@ -144,7 +144,7 @@ func (d *Data[T]) Append(values ...T) {
 
 	if d.capped {
 		available := int(d.cap) - len(d.data)
-		length := num.Smallest(len(values), available)
+		length := num.Smallest[uint](len(values), available)
 
 		if length <= 0 {
 			return
@@ -177,7 +177,7 @@ func (d *Data[T]) Prepend(values ...T) {
 
 	if d.capped {
 		available := int(d.cap) - len(d.data)
-		length := num.Smallest(len(values), available)
+		length := num.Smallest[int](len(values), available)
 		subPos := len(d.data) - 1 - length
 
 		if subPos <= 0 {
@@ -211,7 +211,7 @@ func (d *Data[T]) Insert(index uint, values ...T) error {
 
 	if d.capped {
 		available := int(d.cap) - len(d.data)
-		length := num.Smallest(len(values), available)
+		length := num.Smallest[int](len(values), available)
 
 		if length <= 0 {
 			return nil

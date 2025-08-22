@@ -5,14 +5,12 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-// Numeric wraps a Primitive type in a generic concrete structure.
-type Numeric[T Primitive] struct {
-	Value T
-}
+var strNaN = "NaN"
+var strInf = "Inf"
 
 // Primitive represents any general primitive numeric type.
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -41,7 +39,7 @@ type Signed interface {
 
 // Integer represents any general primitive integer type.
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -58,7 +56,7 @@ type Signed interface {
 //
 // See Primitive, Float, Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Integer interface {
-	constraints.Integer | Bit | Crumb | Note | Nibble | Flake | Morsel | Shred | Run | Scale | Riff | Hook
+	constraints.Integer | ExtendedUint
 }
 
 // Float represents any general primitive floating-point type.
@@ -68,9 +66,7 @@ type Float interface {
 	constraints.Float
 }
 
-// Bit is a uint1 Primitive, which implicitly overflows at 2
-//
-// For reference, these are the extended implicit integer types:
+// ExtendedUint represents any of the following implicitly overflowable uint types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -85,39 +81,64 @@ type Float interface {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
+type ExtendedUint interface {
+	Bit | Crumb | Note | Nibble | Flake | Morsel | Shred | Run | Scale | Riff | Hook
+}
+
+// Bit is a uint1 NonStandardUnit Primitive, which implicitly overflows at 2
+//
+// For reference, these are the extended implicit unsigned integer types:
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
 // See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Bit byte
 
-// SanityCheck ensures the source and provided bits are all 0 or 1.
-//
-// See SanityCheckWithNil
-func (a Bit) SanityCheck(bits ...Bit) bool {
-	for _, bit := range bits {
-		if bit > MaxValue[Bit]() {
-			return false
-		}
-	}
-	return true
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Bit) Set(value byte) Bit {
+	return ImplicitOverflow[Bit](Bit(value))
 }
 
-// SanityCheckWithNil ensures the source and provided bits are all 0, 1, or 219 - which is implicitly 'nil'
-//
-// See SanityCheck
-func (a Bit) SanityCheckWithNil(bits ...Bit) bool {
-	for _, bit := range bits {
-		if bit > MaxValue[Bit]() || bit == 219 {
-			return false
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Bit) SanityCheck(includeNil ...bool) {
+	include := len(includeNil) > 0 && includeNil[0]
+
+	if a > MaxValue[Bit]() {
+		if include && a == 219 {
+			return
 		}
+		invalidValueError(a, "Bit")
 	}
-	return true
 }
 
-// BitSanityCheck ensures the provided bytes are either 0, 1, or Nil (219) - otherwise, it panics.
-func BitSanityCheck(bits ...Bit) {
+// BitSanityCheck ensures the provided bytes are either 0, 1 - otherwise, it panics.
+//
+// NOTE: If you wish to accept an implicit Bit Nil value of [219], please set 'includeNil' to true.
+func BitSanityCheck(includeNil bool, bits ...Bit) {
 	for _, b := range bits {
-		if b != 0 && b != 1 {
-			panic(fmt.Errorf("not a bit value: %d", b))
-		}
+		b.SanityCheck(includeNil)
 	}
 }
 
@@ -137,7 +158,7 @@ func (b Bit) String() string {
 
 // Crumb is a uint2 Primitive, which implicitly overflows at 2²
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -151,17 +172,30 @@ func (b Bit) String() string {
 //	 Scale |   12  | 2¹² (4,096)
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
 //
 // See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Crumb byte
 
-func (a Crumb) SanityCheck(b Crumb) bool {
-	return b <= MaxValue[Crumb]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Crumb) Set(value byte) Crumb {
+	return ImplicitOverflow[Crumb](Crumb(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Crumb) SanityCheck() {
+	if a > MaxValue[Crumb]() {
+		invalidValueError(a, "Crumb")
+	}
 }
 
 // Note is a uint3 Primitive, which implicitly overflows at 2³
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -176,16 +210,29 @@ func (a Crumb) SanityCheck(b Crumb) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Note byte
 
-func (a Note) SanityCheck(b Note) bool {
-	return b <= MaxValue[Note]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Note) Set(value byte) Note {
+	return ImplicitOverflow[Note](Note(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Note) SanityCheck() {
+	if a > MaxValue[Note]() {
+		invalidValueError(a, "Note")
+	}
 }
 
 // Nibble is a uint4 Primitive, which implicitly overflows at 2⁴
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -200,16 +247,29 @@ func (a Note) SanityCheck(b Note) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Nibble byte
 
-func (a Nibble) SanityCheck(b Nibble) bool {
-	return b <= MaxValue[Nibble]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Nibble) Set(value byte) Nibble {
+	return ImplicitOverflow[Nibble](Nibble(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Nibble) SanityCheck() {
+	if a > MaxValue[Nibble]() {
+		invalidValueError(a, "Nibble")
+	}
 }
 
 // Flake is a uint5 Primitive, which implicitly overflows at 2⁵
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -224,16 +284,29 @@ func (a Nibble) SanityCheck(b Nibble) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Morsel, Shred, Run, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Flake byte
 
-func (a Flake) SanityCheck(b Flake) bool {
-	return b <= MaxValue[Flake]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Flake) Set(value byte) Flake {
+	return ImplicitOverflow[Flake](Flake(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Flake) SanityCheck() {
+	if a > MaxValue[Flake]() {
+		invalidValueError(a, "Flake")
+	}
 }
 
 // Morsel is a uint6 Primitive, which implicitly overflows at 2⁶
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -248,16 +321,29 @@ func (a Flake) SanityCheck(b Flake) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Shred, Run, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Morsel byte
 
-func (a Morsel) SanityCheck(b Morsel) bool {
-	return b <= MaxValue[Morsel]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Morsel) Set(value byte) Morsel {
+	return ImplicitOverflow[Morsel](Morsel(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Morsel) SanityCheck() {
+	if a > MaxValue[Morsel]() {
+		invalidValueError(a, "Morsel")
+	}
 }
 
 // Shred is a uint7 Primitive, which implicitly overflows at 2⁷
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -272,16 +358,29 @@ func (a Morsel) SanityCheck(b Morsel) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Morsel, Run, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Shred byte
 
-func (a Shred) SanityCheck(b Shred) bool {
-	return b <= MaxValue[Shred]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Shred) Set(value byte) Shred {
+	return ImplicitOverflow[Shred](Shred(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Shred) SanityCheck() {
+	if a > MaxValue[Shred]() {
+		invalidValueError(a, "Shred")
+	}
 }
 
 // Run is a uint10 Primitive, which implicitly overflows at 2¹⁰
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -296,16 +395,29 @@ func (a Shred) SanityCheck(b Shred) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Scale, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Run uint
 
-func (a Run) SanityCheck(b Run) bool {
-	return b <= MaxValue[Run]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Run) Set(value byte) Run {
+	return ImplicitOverflow[Run](Run(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Run) SanityCheck() {
+	if a > MaxValue[Run]() {
+		invalidValueError(a, "Run")
+	}
 }
 
 // Scale is a uint12 Primitive, which implicitly overflows at 2¹²
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -320,16 +432,29 @@ func (a Run) SanityCheck(b Run) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Riff, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Scale uint
 
-func (a Scale) SanityCheck(b Scale) bool {
-	return b <= MaxValue[Scale]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Scale) Set(value byte) Scale {
+	return ImplicitOverflow[Scale](Scale(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Scale) SanityCheck() {
+	if a > MaxValue[Scale]() {
+		invalidValueError(a, "Scale")
+	}
 }
 
 // Riff is a uint24 Primitive, which implicitly overflows at 2²⁴
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -344,16 +469,29 @@ func (a Scale) SanityCheck(b Scale) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, and Hook
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Riff uint
 
-func (a Riff) SanityCheck(b Riff) bool {
-	return b <= MaxValue[Riff]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Riff) Set(value byte) Riff {
+	return ImplicitOverflow[Riff](Riff(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Riff) SanityCheck() {
+	if a > MaxValue[Riff]() {
+		invalidValueError(a, "Riff")
+	}
 }
 
 // Hook is a uint48 Primitive, which implicitly overflows at 2⁴⁸
 //
-// For reference, these are the extended implicit integer types:
+// For reference, these are the extended implicit unsigned integer types:
 //
 //	  Name | Width | Overflow
 //	   Bit |    1  | 2
@@ -368,9 +506,30 @@ func (a Riff) SanityCheck(b Riff) bool {
 //	  Riff |   24  | 2²⁴ (16,777,216)
 //	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
 //
-// See Bit, Crumb, Note, Nibble, Flake, Morsel, Shred, Run, Scale, and Riff
+// NOTE: The behavior of these types is only IMPLIED.  I have provided many ways of working with them which painstakingly
+// ensure they act as intended. If you wish to set the values directly, you will need to go through their individual
+// Set() functions to ensure they overflow appropriately.  Until the language is extended with these types, this is
+// a burden we must bear. If you wish to use a procedure, you may use ImplicitOverflow.
+//
+// See Bit, Note, Nibble, Flake, Morsel, Shred, Run, Scale, Riff, and Hook
 type Hook uint
 
-func (a Hook) SanityCheck(b Hook) bool {
-	return b <= MaxValue[Hook]()
+// Set calls ImplicitOverflow and returns the resulting value.
+func (a Hook) Set(value byte) Hook {
+	return ImplicitOverflow[Hook](Hook(value))
+}
+
+// SanityCheck panics if the stored value exceeds the implied overflow point.
+func (a Hook) SanityCheck() {
+	if a > MaxValue[Hook]() {
+		invalidValueError(a, "Hook")
+	}
+}
+
+/**
+Helpers
+*/
+
+func invalidValueError(value any, typeName string) {
+	panic(fmt.Errorf("invalid value [%d] in %v - please check your logic", value, typeName))
 }

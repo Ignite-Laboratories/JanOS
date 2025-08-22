@@ -31,7 +31,12 @@ func Largest[TOut Primitive](a, b any) TOut {
 	return Cast[TOut](b)
 }
 
-// Compare returns whether a is less than (-1), equal to (0), or greater than (1) b.
+// Compare performs a base-10 string comparison of whether 𝑎 is less than (-1), equal to (0), or greater than (1) 𝑏.
+//
+// NOTE: If working with floating point types, the following rules are applied:
+//
+//	NaN: Return whichever IS a number, otherwise panic
+//	Inf: Is represented as "± MaxValue[uint64]() * 10" for comparison purposes
 func Compare(a, b any) int {
 	if !IsPrimitive(a, b) {
 		panic("cannot compare non-primitive types")
@@ -39,6 +44,22 @@ func Compare(a, b any) int {
 
 	aStr := ToString(a)
 	bStr := ToString(b)
+
+	if aStr == strNaN || bStr == strNaN {
+		if aStr != strNaN {
+			return 1
+		} else if bStr != strNaN {
+			return -1
+		}
+		panic("cannot compare " + strNaN)
+	}
+
+	if len(aStr) > 0 && aStr[1:] == strInf {
+		if aStr[0] == '-' {
+			aStr = "-" + ToString(MaxValue[uint64]()) + "0"
+		}
+		aStr = ToString(MaxValue[uint64]()) + "0"
+	}
 
 	aParts := decimalPattern.FindStringSubmatch(aStr)
 	bParts := decimalPattern.FindStringSubmatch(bStr)
@@ -65,11 +86,11 @@ func Compare(a, b any) int {
 	wholeSize := uint(math.Max(float64(len(aParts[whole])), float64(len(bParts[whole]))))
 	fractionalSize := uint(math.Max(float64(len(aParts[fractional])), float64(len(bParts[fractional]))))
 
-	aWhole := pad.String[orthogonal.Left](wholeSize, aParts[whole], "0")
-	bWhole := pad.String[orthogonal.Left](wholeSize, bParts[whole], "0")
+	aWhole := pad.String[rune, orthogonal.Left](wholeSize, aParts[whole], "0")
+	bWhole := pad.String[rune, orthogonal.Left](wholeSize, bParts[whole], "0")
 
-	aFractional := pad.String[orthogonal.Right](fractionalSize, aParts[fractional], "0")
-	bFractional := pad.String[orthogonal.Right](fractionalSize, bParts[fractional], "0")
+	aFractional := pad.String[rune, orthogonal.Right](fractionalSize, aParts[fractional], "0")
+	bFractional := pad.String[rune, orthogonal.Right](fractionalSize, bParts[fractional], "0")
 
 	aCombined := aWhole + aFractional
 	bCombined := bWhole + bFractional

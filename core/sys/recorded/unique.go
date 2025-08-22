@@ -196,7 +196,7 @@ func (s *Unique[T]) Random(count ...uint) []T {
 
 	out := make([]T, c)
 	for i := 0; i < c; i++ {
-		if uint64(len(s.entries[len(s.entries)-1])) >= s.size {
+		if len(s.entries) > 0 && uint64(len(s.entries[len(s.entries)-1])) >= s.size {
 			s.mutex.Lock()
 			s.entries = append(s.entries, make(map[any]struct{}, 0))
 			s.mutex.Unlock()
