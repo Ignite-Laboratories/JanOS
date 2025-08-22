@@ -2,12 +2,40 @@ package num
 
 import (
 	"fmt"
-	"golang.org/x/exp/constraints"
 	"math"
 	"math/rand"
 	"reflect"
 	"strconv"
 )
+
+// IsNaN uses 'any' to return whether the value is an IEEE 754 floating point 'NaN' value.
+func IsNaN(a any) bool {
+	switch typed := a.(type) {
+	case float32:
+		return math.IsNaN(float64(typed))
+	case float64:
+		return math.IsNaN(typed)
+	default:
+		return false
+	}
+}
+
+// IsInf uses 'any' to return whether the value is 'Inf' and whether it's negative.
+func IsInf(a any) (isInf bool, negative bool) {
+	switch typed := a.(type) {
+	case float32:
+		return IsInf(float64(typed))
+	case float64:
+		if math.IsInf(typed, 1) {
+			return true, false
+		} else if math.IsInf(typed, -1) {
+			return true, true
+		}
+		return false, false
+	default:
+		return false, false
+	}
+}
 
 // ToString uses strconv to format a string representation of the number in base 10.
 // The output will be a decimal value and not in notation form, using strconv's 'f' format whenever possible.

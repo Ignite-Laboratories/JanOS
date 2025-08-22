@@ -4,8 +4,8 @@ import (
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
 )
 
-// String pads the provided side of a string with the value in 'toPad' to the provided side's magnitude.  If
-// toPad is longer than a single character, this will repeatedly place the data on the provided side and then trim to length.
+// String pads the provided side of a string with the value in toPad to the provided side's magnitude.  If
+// toPad is longer than a single character, this will repeatedly place toPad on the provided side and then trim to length.
 func String[T ByteOrRune, TSide orthogonal.LeftOrRight](size uint, source string, toPad string) string {
 	var zero T
 	switch any(zero).(type) {

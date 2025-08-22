@@ -3,11 +3,11 @@ package num
 import (
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
 	"github.com/ignite-laboratories/core/sys/pad"
-	"math"
 	"regexp"
 )
 
 var decimalPattern = regexp.MustCompile(`^([+-]?)(\d+)(\.(\d+))?$`)
+var allZerosPattern = regexp.MustCompile(`^[+-]?(?:0+(?:\.0*)?|\.(?:0)+)$`)
 
 // Smallest returns the smaller of the two provided operands.
 //
@@ -33,33 +33,50 @@ func Largest[TOut Primitive](a, b any) TOut {
 
 // Compare performs a base-10 string comparison of whether 𝑎 is less than (-1), equal to (0), or greater than (1) 𝑏.
 //
-// NOTE: If working with floating point types, the following rules are applied:
-//
-//	NaN: Return whichever IS a number, otherwise panic
-//	Inf: Is represented as "± MaxValue[uint64]() * 10" for comparison purposes
+// NOTE: If working with IEEE 754 floating point types, 'Inf' is treated as a finite value beyond the other operand's value
+// and NaN panics when both operands are NaN (otherwise it returns whichever IS a number).
 func Compare(a, b any) int {
 	if !IsPrimitive(a, b) {
 		panic("cannot compare non-primitive types")
 	}
 
-	aStr := ToString(a)
-	bStr := ToString(b)
-
-	if aStr == strNaN || bStr == strNaN {
-		if aStr != strNaN {
+	if IsNaN(a) || IsNaN(b) {
+		if !IsNaN(a) {
 			return 1
-		} else if bStr != strNaN {
+		} else if !IsNaN(b) {
 			return -1
 		}
 		panic("cannot compare " + strNaN)
 	}
 
-	if len(aStr) > 0 && aStr[1:] == strInf {
-		if aStr[0] == '-' {
-			aStr = "-" + ToString(MaxValue[uint64]()) + "0"
+	aInf, aInfNeg := IsInf(a)
+	bInf, bInfNeg := IsInf(b)
+
+	if aInf && bInf {
+		if aInfNeg != bInfNeg {
+			if aInfNeg {
+				return -1
+			}
+			return 1
 		}
-		aStr = ToString(MaxValue[uint64]()) + "0"
+		return 0
 	}
+
+	if aInf {
+		if aInfNeg {
+			return -1
+		}
+		return 1
+	}
+	if bInf {
+		if bInfNeg {
+			return 1
+		}
+		return -1
+	}
+
+	aStr := ToString(a)
+	bStr := ToString(b)
 
 	aParts := decimalPattern.FindStringSubmatch(aStr)
 	bParts := decimalPattern.FindStringSubmatch(bStr)
@@ -70,6 +87,14 @@ func Compare(a, b any) int {
 	sign := 1
 	whole := 2
 	fractional := 4
+
+	if allZerosPattern.MatchString(aStr) && len(aParts[sign]) > 0 {
+		aParts[sign] = ""
+	}
+
+	if allZerosPattern.MatchString(bStr) && len(bParts[sign]) > 0 {
+		bParts[sign] = ""
+	}
 
 	if len(aParts[sign]) > 0 && len(bParts[sign]) == 0 {
 		return -1
@@ -83,14 +108,20 @@ func Compare(a, b any) int {
 		negative = true
 	}
 
-	wholeSize := uint(math.Max(float64(len(aParts[whole])), float64(len(bParts[whole]))))
-	fractionalSize := uint(math.Max(float64(len(aParts[fractional])), float64(len(bParts[fractional]))))
+	wholeSize := len(aParts[whole])
+	if len(bParts[whole]) > wholeSize {
+		wholeSize = len(bParts[whole])
+	}
+	fractionalSize := len(aParts[fractional])
+	if len(bParts[fractional]) > fractionalSize {
+		fractionalSize = len(bParts[fractional])
+	}
 
-	aWhole := pad.String[rune, orthogonal.Left](wholeSize, aParts[whole], "0")
-	bWhole := pad.String[rune, orthogonal.Left](wholeSize, bParts[whole], "0")
+	aWhole := pad.String[rune, orthogonal.Left](uint(wholeSize), aParts[whole], "0")
+	bWhole := pad.String[rune, orthogonal.Left](uint(wholeSize), bParts[whole], "0")
 
-	aFractional := pad.String[rune, orthogonal.Right](fractionalSize, aParts[fractional], "0")
-	bFractional := pad.String[rune, orthogonal.Right](fractionalSize, bParts[fractional], "0")
+	aFractional := pad.String[rune, orthogonal.Right](uint(fractionalSize), aParts[fractional], "0")
+	bFractional := pad.String[rune, orthogonal.Right](uint(fractionalSize), bParts[fractional], "0")
 
 	aCombined := aWhole + aFractional
 	bCombined := bWhole + bFractional
