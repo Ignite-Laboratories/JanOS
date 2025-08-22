@@ -3,6 +3,7 @@ package num
 import (
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
 	"github.com/ignite-laboratories/core/sys/pad"
+	"github.com/ignite-laboratories/core/sys/pad/scheme"
 	"regexp"
 )
 
@@ -117,11 +118,11 @@ func Compare(a, b any) int {
 		fractionalSize = len(bParts[fractional])
 	}
 
-	aWhole := pad.String[rune, orthogonal.Left](uint(wholeSize), aParts[whole], "0")
-	bWhole := pad.String[rune, orthogonal.Left](uint(wholeSize), bParts[whole], "0")
+	aWhole := pad.String[orthogonal.Left, scheme.Tile](uint(wholeSize), aParts[whole], "0")
+	bWhole := pad.String[orthogonal.Left, scheme.Tile](uint(wholeSize), bParts[whole], "0")
 
-	aFractional := pad.String[rune, orthogonal.Right](uint(fractionalSize), aParts[fractional], "0")
-	bFractional := pad.String[rune, orthogonal.Right](uint(fractionalSize), bParts[fractional], "0")
+	aFractional := pad.String[orthogonal.Right, scheme.Tile](uint(fractionalSize), aParts[fractional], "0")
+	bFractional := pad.String[orthogonal.Right, scheme.Tile](uint(fractionalSize), bParts[fractional], "0")
 
 	aCombined := aWhole + aFractional
 	bCombined := bWhole + bFractional

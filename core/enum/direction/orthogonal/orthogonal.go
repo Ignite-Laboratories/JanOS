@@ -1,7 +1,7 @@
 // Package orthogonal provides access to the orthogonal.Direction enumeration.
 package orthogonal
 
-// Direction represents a single orthogonal direction.
+// Direction represents a single orthogonal side.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
 // but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
