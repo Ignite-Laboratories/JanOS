@@ -1,10 +1,6 @@
 // Package consciousness provides access to the Direction.Axis enumeration.
 package consciousness
 
-import (
-	"github.com/ignite-laboratories/core/std/num"
-)
-
 // Direction represents the 6th dimensional axis of conscious perspective.  A higher-order dimension still can only traverse forwards
 // or backwards; however, to reference which logical direction you wish to traverse, you still require a unique term.
 //
@@ -25,28 +21,21 @@ import (
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Direction[T num.Primitive] interface {
-	Ignorant[T] | Emergent[T] | Aware[T]
-}
-
-// Axis represents the axis of traversal across the dimension of consciousness, as such it does not include the present moment of Emergent.
-//
-// See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Axis[T num.Primitive] interface {
-	Ignorant[T] | Aware[T]
+// See direction.Any, Ignorant, Emergent, and Aware
+type Direction interface {
+	Ignorant | Emergent | Aware
 }
 
 // Ignorant represents the ordinal Axis of "i-1"
 //
-// See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Ignorant[T num.Primitive] num.Numeric[T]
+// See direction.Any, Ignorant, Emergent, and Aware
+type Ignorant byte
 
-func (_ Ignorant[T]) String() string {
+func (_ Ignorant) String() string {
 	return "←"
 }
 
-func (_ Ignorant[T]) StringFull(lowercase ...bool) string {
+func (_ Ignorant) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "ignorant"
@@ -56,14 +45,14 @@ func (_ Ignorant[T]) StringFull(lowercase ...bool) string {
 
 // Emergent represents the ordinal Axis of "i"
 //
-// See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Emergent[T num.Primitive] num.Numeric[T]
+// See direction.Any, Ignorant, Emergent, and Aware
+type Emergent byte
 
-func (_ Emergent[T]) String() string {
+func (_ Emergent) String() string {
 	return "X"
 }
 
-func (_ Emergent[T]) StringFull(lowercase ...bool) string {
+func (_ Emergent) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "emergent"
@@ -73,14 +62,14 @@ func (_ Emergent[T]) StringFull(lowercase ...bool) string {
 
 // Aware represents the ordinal Axis of "i+1"
 //
-// See direction.Any, Axis, Ignorant, Emergent, and Aware
-type Aware[T num.Primitive] num.Numeric[T]
+// See direction.Any, Ignorant, Emergent, and Aware
+type Aware byte
 
-func (_ Aware[T]) String() string {
+func (_ Aware) String() string {
 	return "→"
 }
 
-func (_ Aware[T]) StringFull(lowercase ...bool) string {
+func (_ Aware) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "aware"

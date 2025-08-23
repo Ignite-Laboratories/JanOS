@@ -1,8 +1,6 @@
 // Package ordinal provides access to the ordinal.Direction enumeration.
 package ordinal
 
-import "github.com/ignite-laboratories/core/std/num"
-
 // Direction represents the logical directional order of elements.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
@@ -20,27 +18,20 @@ import "github.com/ignite-laboratories/core/std/num"
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See direction.Any, Direction, Negative, Current, and Positive
-type Direction[T num.Primitive] interface {
-	Negative[T] | Current[T] | Positive[T]
-}
-
-// Axis represents the axis of traversal across an ordered set, as such it does not include the Current element.
-//
-// See direction.Any, Direction, Negative, Current, and Positive
-type Axis[T num.Primitive] interface {
-	Negative[T] | Positive[T]
+type Direction interface {
+	Negative | Current | Positive
 }
 
 // Negative represents the ordinal Direction of "i-1"
 //
 // See direction.Any, Direction, Negative, Current, and Positive
-type Negative[T num.Primitive] num.Numeric[T]
+type Negative byte
 
-func (_ Negative[T]) String() string {
+func (_ Negative) String() string {
 	return "←"
 }
 
-func (_ Negative[T]) StringFull(lowercase ...bool) string {
+func (_ Negative) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "negative"
@@ -51,13 +42,13 @@ func (_ Negative[T]) StringFull(lowercase ...bool) string {
 // Current represents the ordinal Direction of "i"
 //
 // See direction.Any, Direction, Negative, Current, and Positive
-type Current[T num.Primitive] num.Numeric[T]
+type Current byte
 
-func (_ Current[T]) String() string {
+func (_ Current) String() string {
 	return "X"
 }
 
-func (_ Current[T]) StringFull(lowercase ...bool) string {
+func (_ Current) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "current"
@@ -68,13 +59,13 @@ func (_ Current[T]) StringFull(lowercase ...bool) string {
 // Positive represents the ordinal Direction of "i+1"
 //
 // See direction.Any, Direction, Negative, Current, and Positive
-type Positive[T num.Primitive] num.Numeric[T]
+type Positive byte
 
-func (_ Positive[T]) String() string {
+func (_ Positive) String() string {
 	return "→"
 }
 
-func (_ Positive[T]) StringFull(lowercase ...bool) string {
+func (_ Positive) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "positive"

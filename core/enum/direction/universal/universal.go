@@ -1,7 +1,5 @@
-// Package reality provides access to the reality.Direction enumeration.
-package reality
-
-import "github.com/ignite-laboratories/core/std/num"
+// Package universal provides access to the universal.Direction enumeration.
+package universal
 
 // Direction represents the 7th dimensional axis of collaborative perspectives which form stable universes.  A higher-order dimension
 // still can only traverse forwards or backwards; however, to reference which logical direction you wish to traverse, you
@@ -24,28 +22,21 @@ import "github.com/ignite-laboratories/core/std/num"
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Axis, Chaos, Coherence, and Stability
-type Direction[T num.Primitive] interface {
-	Chaos[T] | Coherence[T] | Stability[T]
-}
-
-// Axis represents the axis of traversal across the dimension of reality, as such it does not include the present moment of Coherence.
-//
-// See direction.Any, Axis, Chaos, Coherence, and Stability
-type Axis[T num.Primitive] interface {
-	Chaos[T] | Stability[T]
+// See direction.Any, Chaos, Coherence, and Stability
+type Direction interface {
+	Chaos | Coherence | Stability
 }
 
 // Chaos represents the ordinal Axis of "i-1"
 //
-// See direction.Any, Axis, Chaos, Coherence, and Stability
-type Chaos[T num.Primitive] num.Numeric[T]
+// See direction.Any, Chaos, Coherence, and Stability
+type Chaos byte
 
-func (_ Chaos[T]) String() string {
+func (_ Chaos) String() string {
 	return "←"
 }
 
-func (_ Chaos[T]) StringFull(lowercase ...bool) string {
+func (_ Chaos) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "chaos"
@@ -55,14 +46,14 @@ func (_ Chaos[T]) StringFull(lowercase ...bool) string {
 
 // Coherence represents the ordinal Axis of "i"
 //
-// See direction.Any, Axis, Chaos, Coherence, and Stability
-type Coherence[T num.Primitive] num.Numeric[T]
+// See direction.Any, Chaos, Coherence, and Stability
+type Coherence byte
 
-func (_ Coherence[T]) String() string {
+func (_ Coherence) String() string {
 	return "X"
 }
 
-func (_ Coherence[T]) StringFull(lowercase ...bool) string {
+func (_ Coherence) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "coherence"
@@ -72,14 +63,14 @@ func (_ Coherence[T]) StringFull(lowercase ...bool) string {
 
 // Stability represents the ordinal Axis of "i+1"
 //
-// See direction.Any, Axis, Chaos, Coherence, and Stability
-type Stability[T num.Primitive] num.Numeric[T]
+// See direction.Any, Chaos, Coherence, and Stability
+type Stability byte
 
-func (_ Stability[T]) String() string {
+func (_ Stability) String() string {
 	return "→"
 }
 
-func (_ Stability[T]) StringFull(lowercase ...bool) string {
+func (_ Stability) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "stability"

@@ -7,10 +7,9 @@ import (
 	"github.com/ignite-laboratories/core/enum/direction/consciousness"
 	"github.com/ignite-laboratories/core/enum/direction/ordinal"
 	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
-	"github.com/ignite-laboratories/core/enum/direction/reality"
 	"github.com/ignite-laboratories/core/enum/direction/temporal"
 	"github.com/ignite-laboratories/core/enum/direction/transmittal"
-	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/enum/direction/universal"
 )
 
 // Any represents general directionality and includes both cardinal and abstract reference points in space and time.
@@ -69,9 +68,10 @@ import (
 //	 reality.Coherence: Identification
 //	 reality.Stability: Alignment
 //
-// See direction.Any, cardinal.Any, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Axis, consciousness.Axis, reality.Axis, SpaceTime, Awareness, Consciousness, and Reality
+// See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Direction, consciousness.Direction, universal.Direction,
+// Spatial, SpaceTime, Awareness, Consciousness, and Universal
 type Any interface {
-	cardinal.Any | orthogonal.Direction | ordinal.Direction | temporal.Direction | transmittal.Direction | SpaceTime
+	cardinal.Direction | orthogonal.Direction | ordinal.Direction | temporal.Direction | transmittal.Direction | awareness.Direction | consciousness.Direction | universal.Direction
 }
 
 // Spatial represents any traversable axis of XYZ space.
@@ -83,28 +83,28 @@ type Spatial interface {
 
 // SpaceTime represents any traversable axis of space or time.
 //
-// See direction.Any, orthogonal.Direction, and temporal.Axis
+// See direction.Any, orthogonal.Volume, and temporal.Direction
 type SpaceTime interface {
-	orthogonal.Volume | temporal.Axis
+	orthogonal.Volume | temporal.Direction
 }
 
 // Awareness represents any traversable axis through the 5th dimension.
 //
-// See direction.Any, orthogonal.Direction, temporal.Axis, and awareness.Axis
+// See direction.Any, SpaceTime, and awareness.Direction
 type Awareness interface {
-	SpaceTime | awareness.Axis
+	SpaceTime | awareness.Direction
 }
 
 // Consciousness represents any traversable axis through the 6th dimension.
 //
-// See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, and consciousness.Axis
+// See direction.Any, SpaceTime, awareness.Direction, and consciousness.Direction
 type Consciousness interface {
-	SpaceTime | awareness.Axis | consciousness.Axis
+	SpaceTime | awareness.Direction | consciousness.Direction
 }
 
-// Reality represents any direction traversable axis the 7th dimension.
+// Universal represents any traversable axis through the 7th dimension.
 //
-// See direction.Any, orthogonal.Direction, temporal.Axis, awareness.Axis, consciousness.Axis, and reality.Axis
-type Reality interface {
-	SpaceTime | awareness.Axis | consciousness.Axis | reality.Axis
+// See direction.Any, SpaceTime, awareness.Direction, consciousness.Direction, and universal.Direction
+type Universal interface {
+	SpaceTime | awareness.Direction | consciousness.Direction | universal.Direction
 }

@@ -1,10 +1,6 @@
 // Package awareness provides access to the awareness.Direction enumeration.
 package awareness
 
-import (
-	"github.com/ignite-laboratories/core/std/num"
-)
-
 // Direction represents the 5th dimensional axis of contextual awareness.  A higher-order dimension still can only traverse forwards
 // or backwards; however, to reference which logical direction you wish to traverse, you still require a unique term.
 //
@@ -25,28 +21,21 @@ import (
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Axis, Nascent, Naive, and Mature
-type Direction[T num.Primitive] interface {
-	Nascent[T] | Naive[T] | Mature[T]
-}
-
-// Axis represents the axis of traversal across the dimension of awareness, as such it does not include the present moment of Naive.
-//
-// See direction.Any, Axis, Nascent, Naive, and Mature
-type Axis[T num.Primitive] interface {
-	Nascent[T] | Mature[T]
+// See direction.Any, Nascent, Naive, and Mature
+type Direction interface {
+	Nascent | Naive | Mature
 }
 
 // Nascent represents the ordinal Axis of "i-1"
 //
-// See direction.Any, Axis, Nascent, Naive, and Mature
-type Nascent[T num.Primitive] num.Numeric[T]
+// See direction.Any, Nascent, Naive, and Mature
+type Nascent byte
 
-func (_ Nascent[T]) String() string {
+func (_ Nascent) String() string {
 	return "←"
 }
 
-func (_ Nascent[T]) StringFull(lowercase ...bool) string {
+func (_ Nascent) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "nascent"
@@ -56,14 +45,14 @@ func (_ Nascent[T]) StringFull(lowercase ...bool) string {
 
 // Naive represents the ordinal Axis of "i"
 //
-// See direction.Any, Axis, Nascent, Naive, and Mature
-type Naive[T num.Primitive] num.Numeric[T]
+// See direction.Any, Nascent, Naive, and Mature
+type Naive byte
 
-func (_ Naive[T]) String() string {
+func (_ Naive) String() string {
 	return "X"
 }
 
-func (_ Naive[T]) StringFull(lowercase ...bool) string {
+func (_ Naive) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "naive"
@@ -73,14 +62,14 @@ func (_ Naive[T]) StringFull(lowercase ...bool) string {
 
 // Mature represents the ordinal Axis of "i+1"
 //
-// See direction.Any, Axis, Nascent, Naive, and Mature
-type Mature[T num.Primitive] num.Numeric[T]
+// See direction.Any, Nascent, Naive, and Mature
+type Mature byte
 
-func (_ Mature[T]) String() string {
+func (_ Mature) String() string {
 	return "→"
 }
 
-func (_ Mature[T]) StringFull(lowercase ...bool) string {
+func (_ Mature) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "mature"

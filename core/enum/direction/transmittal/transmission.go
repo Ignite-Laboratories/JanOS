@@ -1,8 +1,6 @@
 // Package transmittal provides access to the transmittal.Direction enumeration.
 package transmittal
 
-import "github.com/ignite-laboratories/core/std/num"
-
 // Direction represents the general transmission of information between two abstract entities.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
@@ -20,20 +18,20 @@ import "github.com/ignite-laboratories/core/std/num"
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
 // See direction.Any, Direction, Inbound, Outbound, and Bidirectional
-type Direction[T num.Primitive] interface {
-	Inbound[T] | Outbound[T] | Bidirectional[T]
+type Direction interface {
+	Inbound | Outbound | Bidirectional
 }
 
 // Inbound represents the abstract Direction of "receiving" - which is the direction of listening.
 //
 // See direction.Any, Direction, Inbound, Outbound, and Bidirectional
-type Inbound[T num.Primitive] num.Numeric[T]
+type Inbound byte
 
-func (_ Inbound[T]) String() string {
+func (_ Inbound) String() string {
 	return "⇤"
 }
 
-func (_ Inbound[T]) StringFull(lowercase ...bool) string {
+func (_ Inbound) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "inbound"
@@ -44,13 +42,13 @@ func (_ Inbound[T]) StringFull(lowercase ...bool) string {
 // Outbound represents the abstract Direction of "transmitting" - which is the direction of talking.
 //
 // See direction.Any, Direction, Inbound, Outbound, and Bidirectional
-type Outbound[T num.Primitive] num.Numeric[T]
+type Outbound byte
 
-func (_ Outbound[T]) String() string {
+func (_ Outbound) String() string {
 	return "↦"
 }
 
-func (_ Outbound[T]) StringFull(lowercase ...bool) string {
+func (_ Outbound) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "outbound"
@@ -61,13 +59,13 @@ func (_ Outbound[T]) StringFull(lowercase ...bool) string {
 // Bidirectional represents the abstract Direction of "communication" - which is the direction of discourse.
 //
 // See direction.Any, Direction, Inbound, Outbound, and Bidirectional
-type Bidirectional[T num.Primitive] num.Numeric[T]
+type Bidirectional byte
 
-func (_ Bidirectional[T]) String() string {
+func (_ Bidirectional) String() string {
 	return "⇹"
 }
 
-func (_ Bidirectional[T]) StringFull(lowercase ...bool) string {
+func (_ Bidirectional) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "bidirectional"

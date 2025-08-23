@@ -1,8 +1,6 @@
 // Package temporal provides access to the temporal.Direction enumeration.
 package temporal
 
-import "github.com/ignite-laboratories/core/std/num"
-
 // Direction represents the direction of temporal activity.
 //
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
@@ -19,28 +17,21 @@ import "github.com/ignite-laboratories/core/std/num"
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Axis, Direction, Past, Present, and Future
-type Direction[T num.Primitive] interface {
-	Past[T] | Present[T] | Future[T]
-}
-
-// Axis is the general axis of temporal movement - as such, it does not include the static present moment.
-//
-// See direction.Any, Axis, Direction, Past, Present, and Future
-type Axis[T num.Primitive] interface {
-	Past[T] | Future[T]
+// See direction.Any, Direction, Past, Present, and Future
+type Direction interface {
+	Past | Present | Future
 }
 
 // Past represents the abstract Direction of "historically" - which is the direction of reflection.
 //
-// See direction.Any, Axis, Direction, Past, Present, and Future
-type Past[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, Past, Present, and Future
+type Past byte
 
-func (_ Past[T]) String() string {
+func (_ Past) String() string {
 	return "⏮"
 }
 
-func (_ Past[T]) StringFull(lowercase ...bool) string {
+func (_ Past) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "past"
@@ -50,14 +41,14 @@ func (_ Past[T]) StringFull(lowercase ...bool) string {
 
 // Present represents the abstract Direction of "currently" - which is the direction of experience.
 //
-// See direction.Any, Axis, Direction, Past, Present, and Future
-type Present[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, Past, Present, and Future
+type Present byte
 
-func (_ Present[T]) String() string {
+func (_ Present) String() string {
 	return "⏸"
 }
 
-func (_ Present[T]) StringFull(lowercase ...bool) string {
+func (_ Present) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "present"
@@ -67,14 +58,14 @@ func (_ Present[T]) StringFull(lowercase ...bool) string {
 
 // Future represents the abstract Direction of "eminently" - which is the direction of anticipation.
 //
-// See direction.Any, Axis, Direction, Past, Present, and Future
-type Future[T num.Primitive] num.Numeric[T]
+// See direction.Any, Direction, Past, Present, and Future
+type Future byte
 
-func (_ Future[T]) String() string {
+func (_ Future) String() string {
 	return "⏭"
 }
 
-func (_ Future[T]) StringFull(lowercase ...bool) string {
+func (_ Future) StringFull(lowercase ...bool) string {
 	lower := len(lowercase) > 0 && lowercase[0]
 	if lower {
 		return "future"
