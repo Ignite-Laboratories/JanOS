@@ -7,8 +7,8 @@ import (
 	"reflect"
 )
 
-// RandomizeSet Fisher–Yates shuffles and returns the source set's elements.
-func RandomizeSet[T any](set []T) []T {
+// ShuffleSet Fisher–Yates shuffles and returns the source set's elements.
+func ShuffleSet[T any](set []T) []T {
 	out := slices.Clone(set)
 	if len(out) <= 1 {
 		return out

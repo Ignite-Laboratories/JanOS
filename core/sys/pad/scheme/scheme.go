@@ -6,8 +6,8 @@ type Reverse byte
 // Tile indicates that the padding elements should be repeated as is while applying it to the source data.
 type Tile byte
 
-// Randomize indicates that the padding elements should be randomly re-ordered before application to the source data.
-type Randomize byte
+// Shuffle indicates that the padding elements should be randomly re-ordered before application to the source data.
+type Shuffle byte
 
 // ReflectInward indicates that the padding elements should be treated as walking centrally inward.
 //

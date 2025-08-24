@@ -30,8 +30,10 @@ package orthogonal
 //  2. Axis - XAxis (-1, 0, 1), YAxis (-1, 0, 1), and ZAxis (-1, 0, 1) ← Includes Static
 //  3. Volume - XYPlane, XZPlane, and YZPlane ← Includes Static
 //
-// NOTE: These represent traversal constraints to be applied to motion, thus they are -relative- directions.  This is why there is no
-// 'origin', as that implies an absolute position - instead, 'Static' acts as a stand-in for 'no movement'.
+// If you wish to describe Static movement along a particular axis, three aliases for Static are provided: XStatic, YStatic, and ZStatic
+//
+// NOTE: These represent traversal constraints applied to motion, thus they are -relative- directions.  This is why there is no
+// 'origin' or 'home', as that implies an absolute position - instead, 'Static' acts as a stand-in for 'no movement'.
 //
 // See direction.Spatial, Direction, Pole, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
 type Direction interface {
@@ -137,6 +139,21 @@ type YZPlane interface {
 type Volume interface {
 	XAxis | YAxis | ZAxis
 }
+
+// XStatic represents the orthogonal Direction of 'no movement' (0) along the X axis.
+//
+// See direction.Spatial, Direction, Pole, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type XStatic = Static
+
+// YStatic represents the orthogonal Direction of 'no movement' (0) along the Y axis.
+//
+// See direction.Spatial, Direction, Pole, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type YStatic = Static
+
+// ZStatic represents the orthogonal Direction of 'no movement' (0) along the Z axis.
+//
+// See direction.Spatial, Direction, Pole, Axis, Volume, In, Out, Up, Up, Down, Down, Left, Right, Left, Right, B, A, Start
+type ZStatic = Static
 
 // Static represents the orthogonal Direction of 'no movement' (0).
 //

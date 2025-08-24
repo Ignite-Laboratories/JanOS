@@ -32,41 +32,43 @@ import (
 //
 // NOTE: Like-typed directions can be combined to form complex directions.
 //
-//		cardinal.South: Calculation
-//		cardinal.North: Accumulation
-//		cardinal.West: Scale
-//		cardinal.East: Reduction
+//	cardinal.South: Calculation
+//	cardinal.North: Accumulation
+//	cardinal.West: Scale
+//	cardinal.East: Reduction
 //
-//		orthogonal.Up: Towards the top of the orthogonal XY plane
-//		orthogonal.Down: Towards the bottom of the orthogonal XY plane
-//		orthogonal.Left: Towards the left of the orthogonal XY plane
-//		orthogonal.Right: Towards the right of the orthogonal XY plane
-//		orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
-//		orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
+//	orthogonal.Up: Towards the top of the orthogonal XY plane
+//	orthogonal.Down: Towards the bottom of the orthogonal XY plane
+//	orthogonal.Left: Towards the left of the orthogonal XY plane
+//	orthogonal.Right: Towards the right of the orthogonal XY plane
+//	orthogonal.In: Negatively along the Z axis perpendicular to the orthogonal XY plane
+//	orthogonal.Out: Positively along the Z axis perpendicular to the orthogonal XY plane
 //
-//		ordinal.Negative:  i - 1
-//		ordinal.Current: i + 0
-//		ordinal.Positive:   i + 1
+//	ordinal.Negative:  i - 1
+//	ordinal.Current: i + 0
+//	ordinal.Positive:   i + 1
 //
-//		temporal.Future: Anticipation
-//		temporal.Present: Experience
-//		temporal.Past: Reflection
+//	temporal.Future: Anticipation
+//	temporal.Present: Experience
+//	temporal.Past: Reflection
 //
-//		transmittal.Inbound: Receiving
-//		transmittal.Outbound: Transmitting
-//		transmittal.Bidirectional: Discourse
+//	transmittal.Inbound: Receiving
+//	transmittal.Outbound: Transmitting
+//	transmittal.Bidirectional: Discourse
 //
-//	 awareness.Nascent: Obliviousness
-//	 awareness.Naive: Willingness
-//	 awareness.Mature: Understanding
+// In addition, several "higher-order" dimensional descriptions are defined as well.
 //
-//	 consciousness.Ignorant: Selfishness
-//	 consciousness.Emergent: Self-Awareness
-//	 consciousness.Aware: Selflessness
+//	awareness.Nascent: Obliviousness
+//	awareness.Naive: Willingness
+//	awareness.Mature: Understanding
 //
-//	 reality.Chaos: Disorder
-//	 reality.Coherence: Identification
-//	 reality.Stability: Alignment
+//	consciousness.Ignorant: Selfishness
+//	consciousness.Emergent: Self-Awareness
+//	consciousness.Aware: Selflessness
+//
+//	reality.Chaos: Disorder
+//	reality.Coherence: Identification
+//	reality.Stability: Alignment
 //
 // See direction.Any, cardinal.Direction, orthogonal.Direction, ordinal.Direction, temporal.Direction, transmittal.Direction, awareness.Direction, consciousness.Direction, universal.Direction,
 // Spatial, SpaceTime, Awareness, Consciousness, and Universal
