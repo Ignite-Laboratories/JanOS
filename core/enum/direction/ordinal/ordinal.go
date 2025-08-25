@@ -17,58 +17,20 @@ package ordinal
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.
 //
-// See direction.Any, Direction, Negative, Current, and Positive
-type Direction interface {
-	Negative | Current | Positive
-}
+// See direction.Any, direction.Ordinal, Direction, Negative, Static, and Positive
+type Direction int8
 
 // Negative represents the ordinal Direction of "i-1"
 //
-// See direction.Any, Direction, Negative, Current, and Positive
-type Negative byte
+// See direction.Any, direction.Ordinal, Direction, Negative, Static, and Positive
+var Negative Direction = -1
 
-func (_ Negative) String() string {
-	return "←"
-}
-
-func (_ Negative) StringFull(lowercase ...bool) string {
-	lower := len(lowercase) > 0 && lowercase[0]
-	if lower {
-		return "negative"
-	}
-	return "Negative"
-}
-
-// Current represents the ordinal Direction of "i"
+// Static represents the ordinal Direction of "i"
 //
-// See direction.Any, Direction, Negative, Current, and Positive
-type Current byte
-
-func (_ Current) String() string {
-	return "X"
-}
-
-func (_ Current) StringFull(lowercase ...bool) string {
-	lower := len(lowercase) > 0 && lowercase[0]
-	if lower {
-		return "current"
-	}
-	return "Current"
-}
+// See direction.Any, direction.Ordinal, Direction, Negative, Static, and Positive
+var Static Direction = 0
 
 // Positive represents the ordinal Direction of "i+1"
 //
-// See direction.Any, Direction, Negative, Current, and Positive
-type Positive byte
-
-func (_ Positive) String() string {
-	return "→"
-}
-
-func (_ Positive) StringFull(lowercase ...bool) string {
-	lower := len(lowercase) > 0 && lowercase[0]
-	if lower {
-		return "positive"
-	}
-	return "Positive"
-}
+// See direction.Any, direction.Ordinal, Direction, Negative, Static, and Positive
+var Positive Direction = 1

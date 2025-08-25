@@ -76,6 +76,13 @@ type Any interface {
 	cardinal.Direction | orthogonal.Direction | ordinal.Direction | temporal.Direction | transmittal.Direction | awareness.Direction | consciousness.Direction | universal.Direction
 }
 
+// Ordinal represents the logical directional order of elements.
+//
+// See direction.Any and ordinal.Direction
+type Ordinal interface {
+	ordinal.Direction
+}
+
 // Spatial represents any traversable axis of XYZ space.
 //
 // See direction.Any and orthogonal.Direction

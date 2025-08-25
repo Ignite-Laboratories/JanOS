@@ -1,34 +1,17 @@
 package num
 
 import (
-	"golang.org/x/exp/slices"
 	"math"
 	"math/rand/v2"
 	"reflect"
 )
 
-// ShuffleSet Fisher–Yates shuffles and returns the source set's elements.
-func ShuffleSet[T any](set []T) []T {
-	out := slices.Clone(set)
-	if len(out) <= 1 {
-		return out
-	}
-
-	// Fisher–Yates shuffle
-	for i := len(out) - 1; i > 0; i-- {
-		j := RandomWithinRange(0, i)
-		out[i], out[j] = out[j], out[i]
-	}
-	return out
-}
-
-// Random returns a non-negative pseudo-random number of the provided type.
+// Random returns a pseudo-random number within the bounds of the provided type's addressable range.
 //
-// If requesting a floating point type, the resulting number will be bounded
-// in the fully closed interval [0.0, 1.0]
+// If requesting a floating point type, the resulting number will be bounded in the fully closed interval [0.0, 1.0]
 //
 // If requesting an integer type, the resulting number will be bounded
-// in the fully closed interval [0, MaxValue[T]]
+// in the fully closed interval [MinValue[T], MaxValue[T]]
 func Random[T Primitive]() T {
 	switch any(T(0)).(type) {
 	case Bit:
@@ -166,13 +149,6 @@ func RandomSetWithinRange[T Primitive](n uint, a T, b T) []T {
 		}
 	}
 	return out
-}
-
-// RandomWithinType returns a pseudo-random number of the provided type bounded in the provided closed interval [T.minimum, T.maximum].
-//
-// NOTE: This uses a 0.01% chance to return exactly max.
-func RandomWithinType[T Primitive]() T {
-	return RandomWithinRange(MinValue[T](), MaxValue[T]())
 }
 
 // RandomWithinRange returns a pseudo-random number of the provided type bounded in the provided closed interval [a, b].

@@ -3,7 +3,6 @@ package num
 import (
 	"fmt"
 	"math"
-	"math/rand/v2"
 	"reflect"
 	"strconv"
 )

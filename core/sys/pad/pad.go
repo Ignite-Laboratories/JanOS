@@ -1,90 +1,61 @@
 package pad
 
 import (
-	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
-	"github.com/ignite-laboratories/core/std/num"
+	"github.com/ignite-laboratories/core/enum/direction/ordinal"
+	"github.com/ignite-laboratories/core/sys/pad/pattern"
 	"github.com/ignite-laboratories/core/sys/pad/scheme"
-	"golang.org/x/exp/slices"
+	"github.com/ignite-laboratories/core/sys/support"
+	"slices"
 )
 
-// Scheme represents how to apply padding information against the operand.  You may either have it reflected, tiled, or
-// randomized.
-//
-// Padding operations can be applied to ANY dimension - but each has a 'left' and 'right' side, represented by indices
-// '0' and '𝑛', respectively.  When applying the data, one may want to 'tile' it in the order it's presented or 'reflect'
-// it before padding.  This allows padding operations on the 'left' side to walk in the negative direction of travel, if
-// desired.  If you wish to 'interleave' the padding information with the source data, provide a direction of orthogonal.Static.
-//
-// For example:
-//
-//	  directional "side" ⬎           result width ⬎     ⬐ source data       ⬐ output
-//	pad.String[orthogonal.Left, scheme.Reverse](10, "11111", "ABC") // BACBA11111  (CBA CBA CBA CBA)
-//	pad.String[orthogonal.Left, scheme.Tile]   (10, "11111", "ABC") // BCABC11111  (ABC ABC ABC ABC)
-//	pad.String[orthogonal.Left, scheme.Shuffle](10, "11111", "ABC") // BABCA11111  (BAC CAB CBA BCA)
-//	                      padding scheme ⬏              pattern ⬏          implied pattern ⬏
-//
-//	pad.String[orthogonal.Right, scheme.Reverse](10, "11111", "ABC") // 11111CBACB  (CBA CBA CBA CBA)
-//	pad.String[orthogonal.Right, scheme.Tile]   (10, "11111", "ABC") // 11111ABCAB  (ABC ABC ABC ABC)
-//	pad.String[orthogonal.Right, scheme.Shuffle](10, "11111", "ABC") // 11111BACBC  (BAC BCA ACB CAB)
-//
-//	pad.String[orthogonal.Static, scheme.Reverse](10, "11111", "ABC") // 1B1A1C1B1A (CBA CBA CBA CBA)
-//	pad.String[orthogonal.Static, scheme.Tile]   (10, "11111", "ABC") // A1B1C1A1B1 (ABC ABC ABC ABC)
-//	pad.String[orthogonal.Static, scheme.Shuffle](10, "11111", "ABC") // 1A1B1A1C1B (BAC CBA CAB ACB)
-//
-// The process of reflecting pad data like this is called 'symmetric padding.'
-//
-// NOTE: All random operations in JanOS are 'periodically random'.  This means that the set of available values
-// will be exhausted before another round of randomness begins, ensuring you never get repetition within one
-// periodic cycle of randomness.
-type Scheme interface {
-	scheme.Reverse | scheme.Tile | scheme.Shuffle
+// ByteOrRune represents either a byte or a rune.
+type ByteOrRune interface {
+	byte | rune
 }
 
 // String pads the provided side of a string with the value in toPad to totalWidth, according to the provided Scheme and direction.
+// If you'd like the data to always be added and the existing data 'pushed' out, pass 'true' to the roll parameter.
 //
-// NOTE: If you'd like the data to always be added and the existing data 'pushed' out, pass 'true' to the roll parameter.
-func String[T orthogonal.LeftOrRight, TScheme Scheme](totalWidth uint, source string, toPad string, roll ...bool) string {
+// NOTE: This will either pad as a byte or a rune, which you must provide.
+func String[T ByteOrRune](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source string, toPad string, roll ...bool) string {
 	if len(toPad) == 0 {
 		panic("cannot pad without data to pad with")
 	}
 
-	return string(AnyDimension[rune, T, TScheme](totalWidth, []rune(source), FixedPatternFn([]rune(toPad)), roll...))
-}
-
-// FixedPatternFn creates a fixed pattern function that returns the statically provided elements.
-func FixedPatternFn[T any](toPad []T) func() T {
-	if len(toPad) == 0 {
-		panic("cannot pad without data to pad with")
-	}
-	out := slices.Clone(toPad)
-	i := 0
-	return func() T {
-		element := out[i]
-		i++
-		if i >= len(out) {
-			i = 0
-		}
-		return element
+	switch any(T(0)).(type) {
+	case byte:
+		return string(UsingPattern(patternScheme, side, totalWidth, []byte(source), pattern.Fixed([]byte(toPad)...), roll...))
+	case rune:
+		return string(UsingPattern(patternScheme, side, totalWidth, []rune(source), pattern.Fixed([]rune(toPad)...), roll...))
+	default:
+		panic("invalid type - this function only supports byte or rune")
 	}
 }
 
-// AnyDimension pads the provided side of the source data using a function that provides one element at a time to pad the data with.
-// The padding information can be applied in multiple different ways - see Scheme.
+// UsingPattern pads the provided side of the source data using a pattern function.  A pattern function yields a single padding element
+// per call - allowing it to be dynamically generated.  If you have static data to apply, you may use FixedPatternFn to create a standard
+// pattern function.  The resulting pattern elements can be manipulated in multiple different ways - see Scheme.
 //
-// Padding operates in two modes: pad and roll.  In pad mode, the data is grown until it reaches totalWidth and then returned.  In rolling
-// mode, exactly one element from the padFn is ALWAYS applied while "pushing" out existing data - creating a "rolling buffer".  If performing
-// a rolling pad operation against a static direction, the output data is added halfway into the data and both sides are trimmed.
+// Padding operates in two modes: pad and roll.  In the default 'pad mode', data is simply grown until it reaches totalWidth and then returned.  In
+// rolling mode, exactly one pattern element is always added to the desired side while trimming the opposite - creating a "rolling buffer".
 //
-// Truncation -
+// If padding a 'static' side, the elements are interleaved into the existing data through distribution across the desired width.  When 'rolling',
+// the pattern elements are added halfway into the data and both sides equally trimmed to length.
 //
-// If padding the left side, the data is 'pinned' to the right and the left elements are trimmed
+// Truncation Logic -
 //
-// If padding the right side, the data is 'pinned' to the left and the right elements are trimmed
+// NOTE: All dimensions have a 'left', 'static', and 'right' side.  See ordinal.Direction
 //
-// If padding statically, the data is 'pinned' to the middle and both sides trimmed as equally possible.  If 'rolling', the left is always trimmed.
+//	If padding the left side, the resulting data is 'pinned' to the right and the left elements get trimmed.
+//	If rolling onto the left side, the resulting data is 'pinned' to the left and the right elements get trimmed.
+//
+//	If padding the right side, the resulting data is 'pinned' to the left and the right elements get trimmed.
+//	If rolling onto the right side, the resulting data is 'pinned' to the right and the left elements get trimmed.
+//
+//	If padding or rolling statically, the resulting data is 'pinned' to the middle and both sides trimmed as equally as possible.
 //
 // NOTE: This will panic if the padFn does not return the requested number of elements.
-func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidth uint, source []T, padFn func() T, rolling ...bool) []T {
+func UsingPattern[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, pattern func() T, rolling ...bool) []T {
 	roll := len(rolling) > 0 && rolling[0]
 
 	// Step 0 - bail out early if nothing should be done
@@ -93,29 +64,67 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 	}
 
 	// Step 1 - grab the padding elements and apply the padding scheme
-	fn := func(n uint) []T {
-		count := totalWidth - uint(len(source))
-		toPad := make([]T, count)
-		for i := uint(0); i < count; i++ {
-			toPad[i] = padFn()
+	fn := func(n int) []T {
+		if n <= 0 {
+			return []T{}
 		}
 
-		var s TScheme
-		switch any(s).(type) {
+		toPad := make([]T, n)
+		for i := 0; i < n; i++ {
+			toPad[i] = pattern()
+		}
+
+		switch patternScheme {
 		case scheme.Reverse:
 			slices.Reverse(toPad)
 			return toPad
 		case scheme.Tile:
-			for i := uint(0); i < count; i++ {
-				toPad[i] = padFn()
-			}
 			return toPad
 		case scheme.Shuffle:
-			for i := uint(0); i < count; i++ {
-				toPad[i] = padFn()
+			return support.ShuffleSet(toPad)
+		case scheme.ReflectInward:
+			out := make([]T, len(toPad))
+			ltr := 0
+			rtl := len(toPad) - 1
+			toggler := false
+			for i := 0; i < n; i++ {
+				if !toggler {
+					out[ltr] = toPad[i]
+					ltr++
+				} else {
+					out[rtl] = toPad[i]
+					rtl--
+				}
+
+				toggler = !toggler
 			}
-			toPad = num.ShuffleSet(toPad)
-			return toPad
+			return out
+		case scheme.ReflectOutward:
+			out := make([]T, len(toPad))
+			midToLeft := (len(toPad) / 2) - 1
+			midToRight := len(toPad) / 2
+
+			if midToLeft < 0 {
+				midToLeft = 0
+			}
+
+			toggler := false
+			for i := 0; i < n; i++ {
+				if !toggler {
+					out[midToLeft] = toPad[i]
+					midToLeft--
+
+					if midToLeft < 0 {
+						midToLeft = len(toPad) - 1
+					}
+				} else {
+					out[midToRight] = toPad[i]
+					midToRight++
+				}
+
+				toggler = !toggler
+			}
+			return out
 		default:
 			panic("invalid scheme - this function only supports scheme.Reverse, scheme.Tile, or scheme.Shuffle")
 		}
@@ -123,16 +132,15 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 
 	// Step 3 - pad the source data
 	width := int(totalWidth)
-	var side TSide
-	switch any(side).(type) {
-	case orthogonal.Left:
+	switch side {
+	case ordinal.Negative:
 		count := width - len(source)
 		if roll {
 			count = 1
 		}
 
 		if count > 0 {
-			source = append(fn(uint(count)), source...)
+			source = append(fn(count), source...)
 		}
 
 		if roll {
@@ -142,15 +150,13 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 			// Truncate by 'pinning' to the right and trimming the left
 			source = source[len(source)-width:]
 		}
-	case orthogonal.Right:
+	case ordinal.Positive:
 		count := width - len(source)
 		if roll {
 			count = 1
 		}
 
-		if count > 0 {
-			source = append(source, fn(uint(count))...)
-		}
+		source = append(source, fn(count)...)
 
 		if roll {
 			// Truncate the opposite side we are adding data to
@@ -159,17 +165,19 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 			// Truncate by 'pinning' to the left and trimming the right
 			source = source[:width]
 		}
-	case orthogonal.Static:
+	case ordinal.Static:
 		count := width - len(source)
-		if roll {
+		opWidth := width
+		if roll && count == 0 {
+			opWidth++
 			count = 1
 		}
 
 		if count > 0 {
-			toPad := fn(uint(count))
-			out := make([]T, width)
+			toPad := fn(count)
+			out := make([]T, opWidth)
 			filled := make(map[int]struct{})
-			spacing := float64(width) / float64(len(toPad)+1)
+			spacing := float64(opWidth) / float64(len(toPad)+1)
 
 			offset := 1
 			if spacing < 1 {
@@ -183,13 +191,14 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 			}
 
 			ii := 0
-			for i := 0; i < width; i++ {
+			for i := 0; i < opWidth; i++ {
 				if _, ok := filled[i]; ok {
 					continue
 				}
 				out[i] = source[ii]
 				ii++
 			}
+			source = out
 		}
 
 		// Truncate by 'pinning' to the middle and trimming as equally possible on both sides
@@ -198,7 +207,7 @@ func AnyDimension[T any, TSide orthogonal.LeftOrRight, TScheme Scheme](totalWidt
 		right := delta - left
 		source = source[left : len(source)-right]
 	default:
-		panic("invalid side - this function only supports orthogonal Left or Right")
+		panic("invalid side - this function only supports the ordinal values 'Negative', 'Positive', or 'Static'")
 	}
 
 	return source

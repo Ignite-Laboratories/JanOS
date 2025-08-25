@@ -1,9 +1,17 @@
 package support
 
 import (
-	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
+	"math/rand/v2"
 	"reflect"
+	"slices"
 )
+
+// ShuffleSet clones and then shuffles the provided set using 'slices' and 'math/rand/v2', respectively.
+func ShuffleSet[T any](set []T) []T {
+	s := slices.Clone(set)
+	rand.Shuffle(len(s), func(i, j int) { s[i], s[j] = s[j], s[i] })
+	return s
+}
 
 // Deduplicate removes duplicate entries from the provided data.
 func Deduplicate[T any](data []T) []T {
