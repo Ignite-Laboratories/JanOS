@@ -4,8 +4,8 @@
 package greek
 
 import (
-	"github.com/ignite-laboratories/core/enum/greek/lower"
-	"github.com/ignite-laboratories/core/enum/greek/upper"
+	"core/enum/greek/lower"
+	"core/enum/greek/upper"
 )
 
 type _lower struct {

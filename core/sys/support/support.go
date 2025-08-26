@@ -13,8 +13,18 @@ func ShuffleSet[T any](set []T) []T {
 	return s
 }
 
+// IsAlphaNumeric returns whether the provided string contains only the alphanumeric characters [0-9, a-z, A-Z]
+func IsAlphaNumeric(s string) bool {
+	for _, r := range s {
+		if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9')) {
+			return false
+		}
+	}
+	return true
+}
+
 // Deduplicate removes duplicate entries from the provided data.
-func Deduplicate[T any](data []T) []T {
+func Deduplicate[T comparable](data []T) []T {
 	seen := make(map[any]struct{}, len(data))
 	unique := make([]T, 0, len(data))
 	for _, v := range data {

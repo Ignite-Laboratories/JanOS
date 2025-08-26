@@ -1,8 +1,8 @@
 package support
 
 import (
+	"core/enum/endian"
 	"encoding/binary"
-	"github.com/ignite-laboratories/core/enum/endian"
 	"reflect"
 	"unsafe"
 )

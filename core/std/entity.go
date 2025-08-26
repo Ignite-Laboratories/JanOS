@@ -1,10 +1,10 @@
 package std
 
 import (
+	"core/sys/id"
+	"core/sys/name"
+	"core/sys/name/format"
 	"fmt"
-	"github.com/ignite-laboratories/core/std/name"
-	"github.com/ignite-laboratories/core/std/name/format"
-	"github.com/ignite-laboratories/core/sys/id"
 )
 
 // Entity provides an 'ID' field to any composite types.

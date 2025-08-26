@@ -10,6 +10,7 @@ type config struct {
 	TrimFrequency        float64 `json:"trimFrequency"`
 	Precision            uint    `json:"precision"`
 	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
+	IncludeNilBits       *bool   `json:"includeNilBits"`
 }
 
 func (c config) apply() {
@@ -27,5 +28,8 @@ func (c config) apply() {
 	}
 	if len(c.SeedRefractoryPeriod) > 0 {
 		SeedRefractoryPeriod, _ = time.ParseDuration(c.SeedRefractoryPeriod)
+	}
+	if c.IncludeNilBits != nil {
+		IncludeNilBits = *c.IncludeNilBits
 	}
 }

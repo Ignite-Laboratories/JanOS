@@ -1,9 +1,11 @@
 package core
 
 import (
+	"core/sys/atlas"
+	"core/sys/name"
+	"core/sys/name/format"
 	"debug/buildinfo"
 	"fmt"
-	"github.com/ignite-laboratories/core/sys/atlas"
 	"os"
 	"strings"
 	"time"
@@ -23,6 +25,7 @@ func init() {
 
 		fmt.Printf("JanOS %v\n", version)
 		fmt.Println("© 2025, Ignite Laboratories")
+		fmt.Println(Name.String())
 		fmt.Println("---------------------------")
 		fmt.Println("JanOS is provided as-is, without warranties or guarantees of any kind. Use at your own discretion.")
 	}
@@ -39,6 +42,9 @@ var alive = true
 
 // Inception provides the moment this operating system was initialized.
 var Inception = time.Now()
+
+// Name provides the randomly selected name of this instance.
+var Name, _ = name.Random[format.Default]()
 
 // Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
 // '0' is implied.

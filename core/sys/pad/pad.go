@@ -1,10 +1,9 @@
 package pad
 
 import (
-	"github.com/ignite-laboratories/core/enum/direction/ordinal"
-	"github.com/ignite-laboratories/core/sys/pad/pattern"
-	"github.com/ignite-laboratories/core/sys/pad/scheme"
-	"github.com/ignite-laboratories/core/sys/support"
+	"core/enum/direction/ordinal"
+	"core/sys/pad/scheme"
+	"core/sys/support"
 	"slices"
 )
 
@@ -22,14 +21,79 @@ func String[T ByteOrRune](patternScheme scheme.Scheme, side ordinal.Direction, t
 		panic("cannot pad without data to pad with")
 	}
 
-	switch any(T(0)).(type) {
-	case byte:
-		return string(UsingPattern(patternScheme, side, totalWidth, []byte(source), pattern.Fixed([]byte(toPad)...), roll...))
-	case rune:
-		return string(UsingPattern(patternScheme, side, totalWidth, []rune(source), pattern.Fixed([]rune(toPad)...), roll...))
+	return source
+
+	//switch any(T(0)).(type) {
+	//case byte:
+	//	return string(UsingPattern(patternScheme, side, totalWidth, []byte(source), pattern.Fixed([]byte(toPad)...), roll...))
+	//case rune:
+	//	return string(UsingPattern(patternScheme, side, totalWidth, []rune(source), pattern.Fixed([]rune(toPad)...), roll...))
+	//default:
+	//	panic("invalid type - this function only supports byte or rune")
+	//}
+}
+
+func RollOnto[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, count uint, source []T, pattern func(uint) T) []T {
+	// TODO: Truncate off the desired positions and then using a pattern scheme inject them in
+	return source
+}
+
+func UsingPattern[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, pattern func(uint) T) []T {
+	source = slices.Clone(source)
+	out := make([]T, totalWidth)
+	slots := make([]byte, totalWidth)
+
+	pattern(0)
+	pattern(1)
+	pattern(2)
+
+	return source
+
+	switch side {
+	case ordinal.Negative:
+		srcLen := len(source)
+		ii := 0
+		for i := len(out) - 1; i > 0; i-- {
+			out[i] = source[srcLen-ii]
+			slots[i] = 1
+			ii++
+		}
+
+		out = fillNegatively(patternScheme, side, totalWidth, out, slots, pattern)
+	case ordinal.Static:
+	case ordinal.Positive:
+		for i := 0; i < int(totalWidth); i++ {
+			out[i] = source[i]
+			slots[i] = 1
+		}
+
+		out = fillNegatively(patternScheme, side, totalWidth, out, slots, pattern)
 	default:
-		panic("invalid type - this function only supports byte or rune")
+		panic("invalid ordinal side")
 	}
+
+	//switch patternScheme {
+	//case scheme.Tile:
+	//case scheme.Reverse:
+	//case scheme.Shuffle:
+	//case scheme.ReflectInward:
+	//case scheme.ReflectOutward:
+	//default:
+	//	panic("invalid pattern scheme")
+	//}
+	return out
+}
+
+func fillNegatively[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, slots []byte, pattern func(uint) T) []T {
+	return source
+}
+
+func fillStatically[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, slots []byte, patternFill bool, pattern func(uint) T) []T {
+	return source
+}
+
+func fillPositively[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, slots []byte, pattern func(uint) T) []T {
+	return source
 }
 
 // UsingPattern pads the provided side of the source data using a pattern function.  A pattern function yields a single padding element
@@ -55,7 +119,7 @@ func String[T ByteOrRune](patternScheme scheme.Scheme, side ordinal.Direction, t
 //	If padding or rolling statically, the resulting data is 'pinned' to the middle and both sides trimmed as equally as possible.
 //
 // NOTE: This will panic if the padFn does not return the requested number of elements.
-func UsingPattern[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, pattern func() T, rolling ...bool) []T {
+func UsingPatternOLD[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, source []T, pattern func() T, rolling ...bool) []T {
 	roll := len(rolling) > 0 && rolling[0]
 
 	// Step 0 - bail out early if nothing should be done
@@ -175,6 +239,11 @@ func UsingPattern[T any](patternScheme scheme.Scheme, side ordinal.Direction, to
 
 		if count > 0 {
 			toPad := fn(count)
+
+			if len(source) < len(toPad) {
+				source, toPad = toPad, source
+			}
+
 			out := make([]T, opWidth)
 			filled := make(map[int]struct{})
 			spacing := float64(opWidth) / float64(len(toPad)+1)

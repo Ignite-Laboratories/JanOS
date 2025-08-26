@@ -20,6 +20,9 @@ var Precision uint = 256
 // This allows a small batch of fixed random numbers to be referenced ad-hoc without neurons having to track their own concept of temporality.
 var SeedRefractoryPeriod = 180 * time.Second
 
+// IncludeNilBits indicates if a num.Bit value of '219' is considered to be acceptable as a 'nil' value.
+var IncludeNilBits = false
+
 /**
 Constant References
 */
