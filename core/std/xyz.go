@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// XYZ is a 3D vector of like-typed bounded.Number components.
+// XYZ is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see XYZTyped.
 type XYZ[T num.Primitive] = XYZTyped[T, T, T]
 
-// XYZTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// XYZTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see XYZ.
 type XYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive] struct {
 	Entity
-	X bounded.Number[TX]
-	Y bounded.Number[TY]
-	Z bounded.Number[TZ]
+	X bounded.Numeric[TX]
+	Y bounded.Numeric[TY]
+	Z bounded.Numeric[TZ]
 }
 
 func NewXYZ[T num.Primitive](x T, y T, z T) *XYZ[T] {
@@ -47,7 +47,7 @@ func NewXYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive](x TX, y T
 	return _v
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) GetName() string {
+func (_v *XYZTyped[TX, TY, TZ]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *XYZTyped[TX, TY, TZ]) SetBoundaries(minX, maxX TX, minY, maxY TY, minZ
 	return _v
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) GetComponent(index uint) any {
+func (_v *XYZTyped[TX, TY, TZ]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.X)
+		return &_v.X, nil
 	case 1:
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case 2:
-		 return any(_v.Z)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an XYZ vector", index))
+		return &_v.Z, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an XYZ vector", index)
 	}
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) GetComponentByName(name string) any {
+func (_v *XYZTyped[TX, TY, TZ]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.X, &_v.Y, &_v.Z}
+}
+
+func (_v *XYZTyped[TX, TY, TZ]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
-		 return any(_v.X)
+		return &_v.X, nil
 	case "y":
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case "z":
-		 return any(_v.Z)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an XYZ vector", name))
+		return &_v.Z, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an XYZ vector", name)
 	}
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) SetComponent(index uint, value any) {
+func (_v *XYZTyped[TX, TY, TZ]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *XYZTyped[TX, TY, TZ]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.X.Set(value.(TX))
@@ -111,12 +119,29 @@ func (_v *XYZTyped[TX, TY, TZ]) SetComponent(index uint, value any) {
 		 _v.Y.Set(value.(TY))
 	case 2:
 		 _v.Z.Set(value.(TZ))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an XYZ vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an XYZ vector", index)
 	}
+	return nil
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) SetComponentByName(name string, value any) {
+func (_v *XYZTyped[TX, TY, TZ]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector XYZ", len(values), )
+	}
+	if _, ok := values[0].(TX); !ok {
+		return fmt.Errorf("expected type %T for component X, got type %T", TX(0), values[0])	}
+	if _, ok := values[1].(TY); !ok {
+		return fmt.Errorf("expected type %T for component Y, got type %T", TY(0), values[1])	}
+	if _, ok := values[2].(TZ); !ok {
+		return fmt.Errorf("expected type %T for component Z, got type %T", TZ(0), values[2])	}
+	_v.X.Set(values[0].(TX))
+	_v.Y.Set(values[1].(TY))
+	_v.Z.Set(values[2].(TZ))
+	return nil
+}
+
+func (_v *XYZTyped[TX, TY, TZ]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "x":
 		 _v.X.Set(value.(TX))
@@ -124,9 +149,10 @@ func (_v *XYZTyped[TX, TY, TZ]) SetComponentByName(name string, value any) {
 		 _v.Y.Set(value.(TY))
 	case "z":
 		 _v.Z.Set(value.(TZ))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an XYZ vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an XYZ vector", name)
 	}
+	return nil
 }
 
 func (_v XYZTyped[TX, TY, TZ]) String() string {

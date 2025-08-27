@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// HSL is a 3D vector of like-typed bounded.Number components.
+// HSL is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see HSLTyped.
 type HSL[T num.Primitive] = HSLTyped[T, T, T]
 
-// HSLTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// HSLTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see HSL.
 type HSLTyped[TH num.Primitive, TS num.Primitive, TL num.Primitive] struct {
 	Entity
-	H bounded.Number[TH]
-	S bounded.Number[TS]
-	L bounded.Number[TL]
+	H bounded.Numeric[TH]
+	S bounded.Numeric[TS]
+	L bounded.Numeric[TL]
 }
 
 func NewHSL[T num.Primitive](h T, s T, l T) *HSL[T] {
@@ -47,7 +47,7 @@ func NewHSLTyped[TH num.Primitive, TS num.Primitive, TL num.Primitive](h TH, s T
 	return _v
 }
 
-func (_v *HSLTyped[TH, TS, TL]) GetName() string {
+func (_v *HSLTyped[TH, TS, TL]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *HSLTyped[TH, TS, TL]) SetBoundaries(minH, maxH TH, minS, maxS TS, minL
 	return _v
 }
 
-func (_v *HSLTyped[TH, TS, TL]) GetComponent(index uint) any {
+func (_v *HSLTyped[TH, TS, TL]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.H)
+		return &_v.H, nil
 	case 1:
-		 return any(_v.S)
+		return &_v.S, nil
 	case 2:
-		 return any(_v.L)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an HSL vector", index))
+		return &_v.L, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an HSL vector", index)
 	}
 }
 
-func (_v *HSLTyped[TH, TS, TL]) GetComponentByName(name string) any {
+func (_v *HSLTyped[TH, TS, TL]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.H, &_v.S, &_v.L}
+}
+
+func (_v *HSLTyped[TH, TS, TL]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "h":
-		 return any(_v.H)
+		return &_v.H, nil
 	case "s":
-		 return any(_v.S)
+		return &_v.S, nil
 	case "l":
-		 return any(_v.L)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an HSL vector", name))
+		return &_v.L, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an HSL vector", name)
 	}
 }
 
-func (_v *HSLTyped[TH, TS, TL]) SetComponent(index uint, value any) {
+func (_v *HSLTyped[TH, TS, TL]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *HSLTyped[TH, TS, TL]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.H.Set(value.(TH))
@@ -111,12 +119,29 @@ func (_v *HSLTyped[TH, TS, TL]) SetComponent(index uint, value any) {
 		 _v.S.Set(value.(TS))
 	case 2:
 		 _v.L.Set(value.(TL))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an HSL vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an HSL vector", index)
 	}
+	return nil
 }
 
-func (_v *HSLTyped[TH, TS, TL]) SetComponentByName(name string, value any) {
+func (_v *HSLTyped[TH, TS, TL]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector HSL", len(values), )
+	}
+	if _, ok := values[0].(TH); !ok {
+		return fmt.Errorf("expected type %T for component H, got type %T", TH(0), values[0])	}
+	if _, ok := values[1].(TS); !ok {
+		return fmt.Errorf("expected type %T for component S, got type %T", TS(0), values[1])	}
+	if _, ok := values[2].(TL); !ok {
+		return fmt.Errorf("expected type %T for component L, got type %T", TL(0), values[2])	}
+	_v.H.Set(values[0].(TH))
+	_v.S.Set(values[1].(TS))
+	_v.L.Set(values[2].(TL))
+	return nil
+}
+
+func (_v *HSLTyped[TH, TS, TL]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "h":
 		 _v.H.Set(value.(TH))
@@ -124,9 +149,10 @@ func (_v *HSLTyped[TH, TS, TL]) SetComponentByName(name string, value any) {
 		 _v.S.Set(value.(TS))
 	case "l":
 		 _v.L.Set(value.(TL))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an HSL vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an HSL vector", name)
 	}
+	return nil
 }
 
 func (_v HSLTyped[TH, TS, TL]) String() string {

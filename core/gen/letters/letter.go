@@ -142,15 +142,23 @@ func run() error {
 	buildHeader()
 	buildTypes()
 	buildNewFuncs()
-	buildGetName()
+
+	buildName()
 	buildSetName()
+
 	buildSetFunc()
 	buildSetClampFunc()
 	buildSetBoundaries()
-	buildGetComponent()
-	buildGetComponentByName()
+
+	buildComponent()
+	buildComponents()
+	buildComponentByName()
+	buildComponentLen()
+
 	buildSetComponent()
+	buildSetComponents()
 	buildSetComponentByName()
+
 	buildStringFunc()
 
 	if canSwizzle {
@@ -187,19 +195,19 @@ func buildHeader() {
 
 func buildTypes() {
 	// Symmetrically-typed
-	fprintf("// %s is a %vD vector of like-typed bounded.Number components.\n", name, dim)
+	fprintf("// %s is a %vD vector of like-typed bounded.Numeric components.\n", name, dim)
 	fprintf("//\n")
 	fprintf("// NOTE: If you'd like asymmetric types, please see %sTyped.\n", name)
 	fprintf("type %s[T num.Primitive] = %sTyped[%s]\n\n", name, name, strings.Join(typesLike, ", "))
 
 	// Asymmetrically-typed
-	fprintf("// %sTyped is a %vD vector of asymmetrically typed bounded.Number components.\n", name, dim)
+	fprintf("// %sTyped is a %vD vector of asymmetrically typed bounded.Numeric components.\n", name, dim)
 	fprintf("//\n")
 	fprintf("// NOTE: If you'd like symmetric types, please see %s.\n", name)
 	fprintf("type %sTyped[%s num.Primitive] struct {\n", name, strings.Join(types, " num.Primitive, "))
 	fprintf("\tEntity\n")
 	for i, c := range componentsUpper {
-		fprintf("\t%s bounded.Number[%s]\n", c, types[i])
+		fprintf("\t%s bounded.Numeric[%s]\n", c, types[i])
 	}
 	fprintf("}\n\n")
 }
@@ -476,7 +484,7 @@ func buildSwizzleFunc(components ...string) {
 	fprintf(" }\n")
 }
 
-func buildGetName() {
+func buildName() {
 	fprintf("func (_v *%sTyped[", name)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
@@ -485,7 +493,7 @@ func buildGetName() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) GetName() string {\n")
+	fprintf("]) Name() string {\n")
 	fprintf("\treturn _v.GivenName.Name\n")
 	fprintf("}\n\n")
 }
@@ -513,7 +521,7 @@ func buildSetName() {
 	fprintf("}\n\n")
 }
 
-func buildGetComponent() {
+func buildComponents() {
 	fprintf("func (_v *%sTyped[", name)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
@@ -522,18 +530,79 @@ func buildGetComponent() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) GetComponent(index uint) any {\n")
+	fprintf("]) Components() []bounded.INumeric {\n")
+	fprintf("\treturn []bounded.INumeric{")
+	for i, c := range componentsUpper {
+		if i == 0 {
+			fprintf("&_v.%s", c)
+		} else {
+			fprintf(", &_v.%s", c)
+		}
+	}
+	fprintf("}\n")
+	fprintf("}\n\n")
+}
+
+func buildSetComponents() {
+	fprintf("func (_v *%sTyped[", name)
+	for i := 0; i < len(componentsUpper); i++ {
+		if i == 0 {
+			fprintf("T%s", componentsUpper[i])
+		} else {
+			fprintf(", T%s", componentsUpper[i])
+		}
+	}
+	fprintf("]) SetComponents(values []any) error {\n")
+	fprintf("\tif len(values) != %d {\n", len(componentsUpper))
+	fprintf("\t\treturn fmt.Errorf(\"cannot set %%d components of %dD vector %s\", len(values), )\n", len(componentsUpper), name)
+	fprintf("\t}\n")
+	for i := 0; i < len(componentsUpper); i++ {
+		fprintf("\tif _, ok := values[%d].(T%s); !ok {\n", i, componentsUpper[i])
+		fprintf("\t\treturn fmt.Errorf(\"expected type %%T for component %s, got type %%T\", T%s(0), values[%d])", componentsUpper[i], componentsUpper[i], i)
+		fprintf("\t}\n")
+	}
+	for i := 0; i < len(componentsUpper); i++ {
+		fprintf("\t_v.%s.Set(values[%d].(T%s))\n", componentsUpper[i], i, componentsUpper[i])
+	}
+	fprintf("\treturn nil\n")
+	fprintf("}\n\n")
+}
+
+func buildComponentLen() {
+	fprintf("func (_v *%sTyped[", name)
+	for i := 0; i < len(componentsUpper); i++ {
+		if i == 0 {
+			fprintf("T%s", componentsUpper[i])
+		} else {
+			fprintf(", T%s", componentsUpper[i])
+		}
+	}
+	fprintf("]) ComponentLen() uint {\n")
+	fprintf("\treturn %d\n", len(componentsUpper))
+	fprintf("}\n\n")
+}
+
+func buildComponent() {
+	fprintf("func (_v *%sTyped[", name)
+	for i := 0; i < len(componentsUpper); i++ {
+		if i == 0 {
+			fprintf("T%s", componentsUpper[i])
+		} else {
+			fprintf(", T%s", componentsUpper[i])
+		}
+	}
+	fprintf("]) Component(index uint) (bounded.INumeric, error) {\n")
 	fprintf("\tswitch index {\n")
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf("\tcase %d:\n", i)
-		fprintf("\t\t return any(_v.%s)\n", componentsUpper[i])
+		fprintf("\t\treturn &_v.%s, nil\n", componentsUpper[i])
 	}
-	fprintf("\t default:\n")
-	fprintf("\t\tpanic(fmt.Errorf(\"cannot get component index %%d of an %s vector\", index))\n", name)
+	fprintf("\tdefault:\n")
+	fprintf("\t\treturn nil, fmt.Errorf(\"cannot get component index %%d of an %s vector\", index)\n", name)
 	fprintf("\t}\n}\n\n")
 }
 
-func buildGetComponentByName() {
+func buildComponentByName() {
 	fprintf("func (_v *%sTyped[", name)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
@@ -542,14 +611,14 @@ func buildGetComponentByName() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) GetComponentByName(name string) any {\n")
+	fprintf("]) ComponentByName(name string) (bounded.INumeric, error) {\n")
 	fprintf("\tswitch strings.ToLower(name) {\n")
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf("\tcase \"%s\":\n", strings.ToLower(componentsLower[i]))
-		fprintf("\t\t return any(_v.%s)\n", componentsUpper[i])
+		fprintf("\t\treturn &_v.%s, nil\n", componentsUpper[i])
 	}
-	fprintf("\t default:\n")
-	fprintf("\t\tpanic(fmt.Errorf(\"cannot get component \\\"%%s\\\" of an %s vector\", name))\n", name)
+	fprintf("\tdefault:\n")
+	fprintf("\t\treturn nil, fmt.Errorf(\"cannot get component \\\"%%s\\\" of an %s vector\", name)\n", name)
 	fprintf("\t}\n}\n\n")
 }
 
@@ -562,15 +631,16 @@ func buildSetComponent() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) SetComponent(index uint, value any) {\n")
+	fprintf("]) SetComponent(index uint, value any) error {\n")
 	fprintf("\tswitch index {\n")
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf("\tcase %d:\n", i)
 		fprintf("\t\t _v.%s.Set(value.(T%s))\n", componentsUpper[i], componentsUpper[i])
 	}
-	fprintf("\t default:\n")
-	fprintf("\t\tpanic(fmt.Errorf(\"cannot set component index %%d of an %s vector\", index))\n", name)
+	fprintf("\tdefault:\n")
+	fprintf("\t\treturn fmt.Errorf(\"cannot set component index %%d of an %s vector\", index)\n", name)
 	fprintf("\t}\n")
+	fprintf("\treturn nil\n")
 	fprintf("}\n\n")
 }
 
@@ -583,14 +653,15 @@ func buildSetComponentByName() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) SetComponentByName(name string, value any) {\n")
+	fprintf("]) SetComponentByName(name string, value any) error {\n")
 	fprintf("\tswitch strings.ToLower(name) {\n")
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf("\tcase \"%s\":\n", strings.ToLower(componentsLower[i]))
 		fprintf("\t\t _v.%s.Set(value.(T%s))\n", componentsUpper[i], componentsUpper[i])
 	}
-	fprintf("\t default:\n")
-	fprintf("\t\tpanic(fmt.Errorf(\"cannot set component \\\"%%s\\\" of an %s vector\", name))\n", name)
+	fprintf("\tdefault:\n")
+	fprintf("\t\treturn fmt.Errorf(\"cannot set component \\\"%%s\\\" of an %s vector\", name)\n", name)
 	fprintf("\t}\n")
+	fprintf("\treturn nil\n")
 	fprintf("}\n\n")
 }

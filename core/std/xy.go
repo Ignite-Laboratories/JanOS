@@ -12,18 +12,18 @@ import (
 	"strings"
 )
 
-// XY is a 2D vector of like-typed bounded.Number components.
+// XY is a 2D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see XYTyped.
 type XY[T num.Primitive] = XYTyped[T, T]
 
-// XYTyped is a 2D vector of asymmetrically typed bounded.Number components.
+// XYTyped is a 2D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see XY.
 type XYTyped[TX num.Primitive, TY num.Primitive] struct {
 	Entity
-	X bounded.Number[TX]
-	Y bounded.Number[TY]
+	X bounded.Numeric[TX]
+	Y bounded.Numeric[TY]
 }
 
 func NewXY[T num.Primitive](x T, y T) *XY[T] {
@@ -44,7 +44,7 @@ func NewXYTyped[TX num.Primitive, TY num.Primitive](x TX, y TY) *XYTyped[TX, TY]
 	return _v
 }
 
-func (_v *XYTyped[TX, TY]) GetName() string {
+func (_v *XYTyped[TX, TY]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -71,48 +71,71 @@ func (_v *XYTyped[TX, TY]) SetBoundaries(minX, maxX TX, minY, maxY TY) *XYTyped[
 	return _v
 }
 
-func (_v *XYTyped[TX, TY]) GetComponent(index uint) any {
+func (_v *XYTyped[TX, TY]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.X)
+		return &_v.X, nil
 	case 1:
-		 return any(_v.Y)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an XY vector", index))
+		return &_v.Y, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an XY vector", index)
 	}
 }
 
-func (_v *XYTyped[TX, TY]) GetComponentByName(name string) any {
+func (_v *XYTyped[TX, TY]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.X, &_v.Y}
+}
+
+func (_v *XYTyped[TX, TY]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
-		 return any(_v.X)
+		return &_v.X, nil
 	case "y":
-		 return any(_v.Y)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an XY vector", name))
+		return &_v.Y, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an XY vector", name)
 	}
 }
 
-func (_v *XYTyped[TX, TY]) SetComponent(index uint, value any) {
+func (_v *XYTyped[TX, TY]) ComponentLen() uint {
+	return 2
+}
+
+func (_v *XYTyped[TX, TY]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.X.Set(value.(TX))
 	case 1:
 		 _v.Y.Set(value.(TY))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an XY vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an XY vector", index)
 	}
+	return nil
 }
 
-func (_v *XYTyped[TX, TY]) SetComponentByName(name string, value any) {
+func (_v *XYTyped[TX, TY]) SetComponents(values []any) error {
+	if len(values) != 2 {
+		return fmt.Errorf("cannot set %d components of 2D vector XY", len(values), )
+	}
+	if _, ok := values[0].(TX); !ok {
+		return fmt.Errorf("expected type %T for component X, got type %T", TX(0), values[0])	}
+	if _, ok := values[1].(TY); !ok {
+		return fmt.Errorf("expected type %T for component Y, got type %T", TY(0), values[1])	}
+	_v.X.Set(values[0].(TX))
+	_v.Y.Set(values[1].(TY))
+	return nil
+}
+
+func (_v *XYTyped[TX, TY]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "x":
 		 _v.X.Set(value.(TX))
 	case "y":
 		 _v.Y.Set(value.(TY))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an XY vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an XY vector", name)
 	}
+	return nil
 }
 
 func (_v XYTyped[TX, TY]) String() string {

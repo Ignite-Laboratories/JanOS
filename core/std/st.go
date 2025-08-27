@@ -12,18 +12,18 @@ import (
 	"strings"
 )
 
-// ST is a 2D vector of like-typed bounded.Number components.
+// ST is a 2D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see STTyped.
 type ST[T num.Primitive] = STTyped[T, T]
 
-// STTyped is a 2D vector of asymmetrically typed bounded.Number components.
+// STTyped is a 2D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see ST.
 type STTyped[TS num.Primitive, TT num.Primitive] struct {
 	Entity
-	S bounded.Number[TS]
-	T bounded.Number[TT]
+	S bounded.Numeric[TS]
+	T bounded.Numeric[TT]
 }
 
 func NewST[T num.Primitive](s T, t T) *ST[T] {
@@ -44,7 +44,7 @@ func NewSTTyped[TS num.Primitive, TT num.Primitive](s TS, t TT) *STTyped[TS, TT]
 	return _v
 }
 
-func (_v *STTyped[TS, TT]) GetName() string {
+func (_v *STTyped[TS, TT]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -71,48 +71,71 @@ func (_v *STTyped[TS, TT]) SetBoundaries(minS, maxS TS, minT, maxT TT) *STTyped[
 	return _v
 }
 
-func (_v *STTyped[TS, TT]) GetComponent(index uint) any {
+func (_v *STTyped[TS, TT]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.S)
+		return &_v.S, nil
 	case 1:
-		 return any(_v.T)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an ST vector", index))
+		return &_v.T, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an ST vector", index)
 	}
 }
 
-func (_v *STTyped[TS, TT]) GetComponentByName(name string) any {
+func (_v *STTyped[TS, TT]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.S, &_v.T}
+}
+
+func (_v *STTyped[TS, TT]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "s":
-		 return any(_v.S)
+		return &_v.S, nil
 	case "t":
-		 return any(_v.T)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an ST vector", name))
+		return &_v.T, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an ST vector", name)
 	}
 }
 
-func (_v *STTyped[TS, TT]) SetComponent(index uint, value any) {
+func (_v *STTyped[TS, TT]) ComponentLen() uint {
+	return 2
+}
+
+func (_v *STTyped[TS, TT]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.S.Set(value.(TS))
 	case 1:
 		 _v.T.Set(value.(TT))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an ST vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an ST vector", index)
 	}
+	return nil
 }
 
-func (_v *STTyped[TS, TT]) SetComponentByName(name string, value any) {
+func (_v *STTyped[TS, TT]) SetComponents(values []any) error {
+	if len(values) != 2 {
+		return fmt.Errorf("cannot set %d components of 2D vector ST", len(values), )
+	}
+	if _, ok := values[0].(TS); !ok {
+		return fmt.Errorf("expected type %T for component S, got type %T", TS(0), values[0])	}
+	if _, ok := values[1].(TT); !ok {
+		return fmt.Errorf("expected type %T for component T, got type %T", TT(0), values[1])	}
+	_v.S.Set(values[0].(TS))
+	_v.T.Set(values[1].(TT))
+	return nil
+}
+
+func (_v *STTyped[TS, TT]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "s":
 		 _v.S.Set(value.(TS))
 	case "t":
 		 _v.T.Set(value.(TT))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an ST vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an ST vector", name)
 	}
+	return nil
 }
 
 func (_v STTyped[TS, TT]) String() string {

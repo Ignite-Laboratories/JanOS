@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// HSB is a 3D vector of like-typed bounded.Number components.
+// HSB is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see HSBTyped.
 type HSB[T num.Primitive] = HSBTyped[T, T, T]
 
-// HSBTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// HSBTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see HSB.
 type HSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive] struct {
 	Entity
-	H bounded.Number[TH]
-	S bounded.Number[TS]
-	B bounded.Number[TB]
+	H bounded.Numeric[TH]
+	S bounded.Numeric[TS]
+	B bounded.Numeric[TB]
 }
 
 func NewHSB[T num.Primitive](h T, s T, b T) *HSB[T] {
@@ -47,7 +47,7 @@ func NewHSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive](h TH, s T
 	return _v
 }
 
-func (_v *HSBTyped[TH, TS, TB]) GetName() string {
+func (_v *HSBTyped[TH, TS, TB]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *HSBTyped[TH, TS, TB]) SetBoundaries(minH, maxH TH, minS, maxS TS, minB
 	return _v
 }
 
-func (_v *HSBTyped[TH, TS, TB]) GetComponent(index uint) any {
+func (_v *HSBTyped[TH, TS, TB]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.H)
+		return &_v.H, nil
 	case 1:
-		 return any(_v.S)
+		return &_v.S, nil
 	case 2:
-		 return any(_v.B)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an HSB vector", index))
+		return &_v.B, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an HSB vector", index)
 	}
 }
 
-func (_v *HSBTyped[TH, TS, TB]) GetComponentByName(name string) any {
+func (_v *HSBTyped[TH, TS, TB]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.H, &_v.S, &_v.B}
+}
+
+func (_v *HSBTyped[TH, TS, TB]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "h":
-		 return any(_v.H)
+		return &_v.H, nil
 	case "s":
-		 return any(_v.S)
+		return &_v.S, nil
 	case "b":
-		 return any(_v.B)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an HSB vector", name))
+		return &_v.B, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an HSB vector", name)
 	}
 }
 
-func (_v *HSBTyped[TH, TS, TB]) SetComponent(index uint, value any) {
+func (_v *HSBTyped[TH, TS, TB]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *HSBTyped[TH, TS, TB]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.H.Set(value.(TH))
@@ -111,12 +119,29 @@ func (_v *HSBTyped[TH, TS, TB]) SetComponent(index uint, value any) {
 		 _v.S.Set(value.(TS))
 	case 2:
 		 _v.B.Set(value.(TB))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an HSB vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an HSB vector", index)
 	}
+	return nil
 }
 
-func (_v *HSBTyped[TH, TS, TB]) SetComponentByName(name string, value any) {
+func (_v *HSBTyped[TH, TS, TB]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector HSB", len(values), )
+	}
+	if _, ok := values[0].(TH); !ok {
+		return fmt.Errorf("expected type %T for component H, got type %T", TH(0), values[0])	}
+	if _, ok := values[1].(TS); !ok {
+		return fmt.Errorf("expected type %T for component S, got type %T", TS(0), values[1])	}
+	if _, ok := values[2].(TB); !ok {
+		return fmt.Errorf("expected type %T for component B, got type %T", TB(0), values[2])	}
+	_v.H.Set(values[0].(TH))
+	_v.S.Set(values[1].(TS))
+	_v.B.Set(values[2].(TB))
+	return nil
+}
+
+func (_v *HSBTyped[TH, TS, TB]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "h":
 		 _v.H.Set(value.(TH))
@@ -124,9 +149,10 @@ func (_v *HSBTyped[TH, TS, TB]) SetComponentByName(name string, value any) {
 		 _v.S.Set(value.(TS))
 	case "b":
 		 _v.B.Set(value.(TB))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an HSB vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an HSB vector", name)
 	}
+	return nil
 }
 
 func (_v HSBTyped[TH, TS, TB]) String() string {

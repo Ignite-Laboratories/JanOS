@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// UVW is a 3D vector of like-typed bounded.Number components.
+// UVW is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see UVWTyped.
 type UVW[T num.Primitive] = UVWTyped[T, T, T]
 
-// UVWTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// UVWTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see UVW.
 type UVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive] struct {
 	Entity
-	U bounded.Number[TU]
-	V bounded.Number[TV]
-	W bounded.Number[TW]
+	U bounded.Numeric[TU]
+	V bounded.Numeric[TV]
+	W bounded.Numeric[TW]
 }
 
 func NewUVW[T num.Primitive](u T, v T, w T) *UVW[T] {
@@ -47,7 +47,7 @@ func NewUVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive](u TU, v T
 	return _v
 }
 
-func (_v *UVWTyped[TU, TV, TW]) GetName() string {
+func (_v *UVWTyped[TU, TV, TW]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *UVWTyped[TU, TV, TW]) SetBoundaries(minU, maxU TU, minV, maxV TV, minW
 	return _v
 }
 
-func (_v *UVWTyped[TU, TV, TW]) GetComponent(index uint) any {
+func (_v *UVWTyped[TU, TV, TW]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.U)
+		return &_v.U, nil
 	case 1:
-		 return any(_v.V)
+		return &_v.V, nil
 	case 2:
-		 return any(_v.W)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an UVW vector", index))
+		return &_v.W, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an UVW vector", index)
 	}
 }
 
-func (_v *UVWTyped[TU, TV, TW]) GetComponentByName(name string) any {
+func (_v *UVWTyped[TU, TV, TW]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.U, &_v.V, &_v.W}
+}
+
+func (_v *UVWTyped[TU, TV, TW]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "u":
-		 return any(_v.U)
+		return &_v.U, nil
 	case "v":
-		 return any(_v.V)
+		return &_v.V, nil
 	case "w":
-		 return any(_v.W)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an UVW vector", name))
+		return &_v.W, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an UVW vector", name)
 	}
 }
 
-func (_v *UVWTyped[TU, TV, TW]) SetComponent(index uint, value any) {
+func (_v *UVWTyped[TU, TV, TW]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *UVWTyped[TU, TV, TW]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.U.Set(value.(TU))
@@ -111,12 +119,29 @@ func (_v *UVWTyped[TU, TV, TW]) SetComponent(index uint, value any) {
 		 _v.V.Set(value.(TV))
 	case 2:
 		 _v.W.Set(value.(TW))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an UVW vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an UVW vector", index)
 	}
+	return nil
 }
 
-func (_v *UVWTyped[TU, TV, TW]) SetComponentByName(name string, value any) {
+func (_v *UVWTyped[TU, TV, TW]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector UVW", len(values), )
+	}
+	if _, ok := values[0].(TU); !ok {
+		return fmt.Errorf("expected type %T for component U, got type %T", TU(0), values[0])	}
+	if _, ok := values[1].(TV); !ok {
+		return fmt.Errorf("expected type %T for component V, got type %T", TV(0), values[1])	}
+	if _, ok := values[2].(TW); !ok {
+		return fmt.Errorf("expected type %T for component W, got type %T", TW(0), values[2])	}
+	_v.U.Set(values[0].(TU))
+	_v.V.Set(values[1].(TV))
+	_v.W.Set(values[2].(TW))
+	return nil
+}
+
+func (_v *UVWTyped[TU, TV, TW]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "u":
 		 _v.U.Set(value.(TU))
@@ -124,9 +149,10 @@ func (_v *UVWTyped[TU, TV, TW]) SetComponentByName(name string, value any) {
 		 _v.V.Set(value.(TV))
 	case "w":
 		 _v.W.Set(value.(TW))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an UVW vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an UVW vector", name)
 	}
+	return nil
 }
 
 func (_v UVWTyped[TU, TV, TW]) String() string {

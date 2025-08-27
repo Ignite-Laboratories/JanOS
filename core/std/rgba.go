@@ -12,20 +12,20 @@ import (
 	"strings"
 )
 
-// RGBA is a 4D vector of like-typed bounded.Number components.
+// RGBA is a 4D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see RGBATyped.
 type RGBA[T num.Primitive] = RGBATyped[T, T, T, T]
 
-// RGBATyped is a 4D vector of asymmetrically typed bounded.Number components.
+// RGBATyped is a 4D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see RGBA.
 type RGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive] struct {
 	Entity
-	R bounded.Number[TR]
-	G bounded.Number[TG]
-	B bounded.Number[TB]
-	A bounded.Number[TA]
+	R bounded.Numeric[TR]
+	G bounded.Numeric[TG]
+	B bounded.Numeric[TB]
+	A bounded.Numeric[TA]
 }
 
 func NewRGBA[T num.Primitive](r T, g T, b T, a T) *RGBA[T] {
@@ -50,7 +50,7 @@ func NewRGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.P
 	return _v
 }
 
-func (_v *RGBATyped[TR, TG, TB, TA]) GetName() string {
+func (_v *RGBATyped[TR, TG, TB, TA]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -83,37 +83,45 @@ func (_v *RGBATyped[TR, TG, TB, TA]) SetBoundaries(minR, maxR TR, minG, maxG TG,
 	return _v
 }
 
-func (_v *RGBATyped[TR, TG, TB, TA]) GetComponent(index uint) any {
+func (_v *RGBATyped[TR, TG, TB, TA]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.R)
+		return &_v.R, nil
 	case 1:
-		 return any(_v.G)
+		return &_v.G, nil
 	case 2:
-		 return any(_v.B)
+		return &_v.B, nil
 	case 3:
-		 return any(_v.A)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an RGBA vector", index))
+		return &_v.A, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an RGBA vector", index)
 	}
 }
 
-func (_v *RGBATyped[TR, TG, TB, TA]) GetComponentByName(name string) any {
+func (_v *RGBATyped[TR, TG, TB, TA]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.R, &_v.G, &_v.B, &_v.A}
+}
+
+func (_v *RGBATyped[TR, TG, TB, TA]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "r":
-		 return any(_v.R)
+		return &_v.R, nil
 	case "g":
-		 return any(_v.G)
+		return &_v.G, nil
 	case "b":
-		 return any(_v.B)
+		return &_v.B, nil
 	case "a":
-		 return any(_v.A)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an RGBA vector", name))
+		return &_v.A, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an RGBA vector", name)
 	}
 }
 
-func (_v *RGBATyped[TR, TG, TB, TA]) SetComponent(index uint, value any) {
+func (_v *RGBATyped[TR, TG, TB, TA]) ComponentLen() uint {
+	return 4
+}
+
+func (_v *RGBATyped[TR, TG, TB, TA]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.R.Set(value.(TR))
@@ -123,12 +131,32 @@ func (_v *RGBATyped[TR, TG, TB, TA]) SetComponent(index uint, value any) {
 		 _v.B.Set(value.(TB))
 	case 3:
 		 _v.A.Set(value.(TA))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an RGBA vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an RGBA vector", index)
 	}
+	return nil
 }
 
-func (_v *RGBATyped[TR, TG, TB, TA]) SetComponentByName(name string, value any) {
+func (_v *RGBATyped[TR, TG, TB, TA]) SetComponents(values []any) error {
+	if len(values) != 4 {
+		return fmt.Errorf("cannot set %d components of 4D vector RGBA", len(values), )
+	}
+	if _, ok := values[0].(TR); !ok {
+		return fmt.Errorf("expected type %T for component R, got type %T", TR(0), values[0])	}
+	if _, ok := values[1].(TG); !ok {
+		return fmt.Errorf("expected type %T for component G, got type %T", TG(0), values[1])	}
+	if _, ok := values[2].(TB); !ok {
+		return fmt.Errorf("expected type %T for component B, got type %T", TB(0), values[2])	}
+	if _, ok := values[3].(TA); !ok {
+		return fmt.Errorf("expected type %T for component A, got type %T", TA(0), values[3])	}
+	_v.R.Set(values[0].(TR))
+	_v.G.Set(values[1].(TG))
+	_v.B.Set(values[2].(TB))
+	_v.A.Set(values[3].(TA))
+	return nil
+}
+
+func (_v *RGBATyped[TR, TG, TB, TA]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "r":
 		 _v.R.Set(value.(TR))
@@ -138,9 +166,10 @@ func (_v *RGBATyped[TR, TG, TB, TA]) SetComponentByName(name string, value any) 
 		 _v.B.Set(value.(TB))
 	case "a":
 		 _v.A.Set(value.(TA))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an RGBA vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an RGBA vector", name)
 	}
+	return nil
 }
 
 func (_v RGBATyped[TR, TG, TB, TA]) String() string {

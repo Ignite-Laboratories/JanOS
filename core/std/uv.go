@@ -12,18 +12,18 @@ import (
 	"strings"
 )
 
-// UV is a 2D vector of like-typed bounded.Number components.
+// UV is a 2D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see UVTyped.
 type UV[T num.Primitive] = UVTyped[T, T]
 
-// UVTyped is a 2D vector of asymmetrically typed bounded.Number components.
+// UVTyped is a 2D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see UV.
 type UVTyped[TU num.Primitive, TV num.Primitive] struct {
 	Entity
-	U bounded.Number[TU]
-	V bounded.Number[TV]
+	U bounded.Numeric[TU]
+	V bounded.Numeric[TV]
 }
 
 func NewUV[T num.Primitive](u T, v T) *UV[T] {
@@ -44,7 +44,7 @@ func NewUVTyped[TU num.Primitive, TV num.Primitive](u TU, v TV) *UVTyped[TU, TV]
 	return _v
 }
 
-func (_v *UVTyped[TU, TV]) GetName() string {
+func (_v *UVTyped[TU, TV]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -71,48 +71,71 @@ func (_v *UVTyped[TU, TV]) SetBoundaries(minU, maxU TU, minV, maxV TV) *UVTyped[
 	return _v
 }
 
-func (_v *UVTyped[TU, TV]) GetComponent(index uint) any {
+func (_v *UVTyped[TU, TV]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.U)
+		return &_v.U, nil
 	case 1:
-		 return any(_v.V)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an UV vector", index))
+		return &_v.V, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an UV vector", index)
 	}
 }
 
-func (_v *UVTyped[TU, TV]) GetComponentByName(name string) any {
+func (_v *UVTyped[TU, TV]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.U, &_v.V}
+}
+
+func (_v *UVTyped[TU, TV]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "u":
-		 return any(_v.U)
+		return &_v.U, nil
 	case "v":
-		 return any(_v.V)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an UV vector", name))
+		return &_v.V, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an UV vector", name)
 	}
 }
 
-func (_v *UVTyped[TU, TV]) SetComponent(index uint, value any) {
+func (_v *UVTyped[TU, TV]) ComponentLen() uint {
+	return 2
+}
+
+func (_v *UVTyped[TU, TV]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.U.Set(value.(TU))
 	case 1:
 		 _v.V.Set(value.(TV))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an UV vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an UV vector", index)
 	}
+	return nil
 }
 
-func (_v *UVTyped[TU, TV]) SetComponentByName(name string, value any) {
+func (_v *UVTyped[TU, TV]) SetComponents(values []any) error {
+	if len(values) != 2 {
+		return fmt.Errorf("cannot set %d components of 2D vector UV", len(values), )
+	}
+	if _, ok := values[0].(TU); !ok {
+		return fmt.Errorf("expected type %T for component U, got type %T", TU(0), values[0])	}
+	if _, ok := values[1].(TV); !ok {
+		return fmt.Errorf("expected type %T for component V, got type %T", TV(0), values[1])	}
+	_v.U.Set(values[0].(TU))
+	_v.V.Set(values[1].(TV))
+	return nil
+}
+
+func (_v *UVTyped[TU, TV]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "u":
 		 _v.U.Set(value.(TU))
 	case "v":
 		 _v.V.Set(value.(TV))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an UV vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an UV vector", name)
 	}
+	return nil
 }
 
 func (_v UVTyped[TU, TV]) String() string {

@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// RGB is a 3D vector of like-typed bounded.Number components.
+// RGB is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see RGBTyped.
 type RGB[T num.Primitive] = RGBTyped[T, T, T]
 
-// RGBTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// RGBTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see RGB.
 type RGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive] struct {
 	Entity
-	R bounded.Number[TR]
-	G bounded.Number[TG]
-	B bounded.Number[TB]
+	R bounded.Numeric[TR]
+	G bounded.Numeric[TG]
+	B bounded.Numeric[TB]
 }
 
 func NewRGB[T num.Primitive](r T, g T, b T) *RGB[T] {
@@ -47,7 +47,7 @@ func NewRGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive](r TR, g T
 	return _v
 }
 
-func (_v *RGBTyped[TR, TG, TB]) GetName() string {
+func (_v *RGBTyped[TR, TG, TB]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *RGBTyped[TR, TG, TB]) SetBoundaries(minR, maxR TR, minG, maxG TG, minB
 	return _v
 }
 
-func (_v *RGBTyped[TR, TG, TB]) GetComponent(index uint) any {
+func (_v *RGBTyped[TR, TG, TB]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.R)
+		return &_v.R, nil
 	case 1:
-		 return any(_v.G)
+		return &_v.G, nil
 	case 2:
-		 return any(_v.B)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an RGB vector", index))
+		return &_v.B, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an RGB vector", index)
 	}
 }
 
-func (_v *RGBTyped[TR, TG, TB]) GetComponentByName(name string) any {
+func (_v *RGBTyped[TR, TG, TB]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.R, &_v.G, &_v.B}
+}
+
+func (_v *RGBTyped[TR, TG, TB]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "r":
-		 return any(_v.R)
+		return &_v.R, nil
 	case "g":
-		 return any(_v.G)
+		return &_v.G, nil
 	case "b":
-		 return any(_v.B)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an RGB vector", name))
+		return &_v.B, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an RGB vector", name)
 	}
 }
 
-func (_v *RGBTyped[TR, TG, TB]) SetComponent(index uint, value any) {
+func (_v *RGBTyped[TR, TG, TB]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *RGBTyped[TR, TG, TB]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.R.Set(value.(TR))
@@ -111,12 +119,29 @@ func (_v *RGBTyped[TR, TG, TB]) SetComponent(index uint, value any) {
 		 _v.G.Set(value.(TG))
 	case 2:
 		 _v.B.Set(value.(TB))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an RGB vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an RGB vector", index)
 	}
+	return nil
 }
 
-func (_v *RGBTyped[TR, TG, TB]) SetComponentByName(name string, value any) {
+func (_v *RGBTyped[TR, TG, TB]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector RGB", len(values), )
+	}
+	if _, ok := values[0].(TR); !ok {
+		return fmt.Errorf("expected type %T for component R, got type %T", TR(0), values[0])	}
+	if _, ok := values[1].(TG); !ok {
+		return fmt.Errorf("expected type %T for component G, got type %T", TG(0), values[1])	}
+	if _, ok := values[2].(TB); !ok {
+		return fmt.Errorf("expected type %T for component B, got type %T", TB(0), values[2])	}
+	_v.R.Set(values[0].(TR))
+	_v.G.Set(values[1].(TG))
+	_v.B.Set(values[2].(TB))
+	return nil
+}
+
+func (_v *RGBTyped[TR, TG, TB]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "r":
 		 _v.R.Set(value.(TR))
@@ -124,9 +149,10 @@ func (_v *RGBTyped[TR, TG, TB]) SetComponentByName(name string, value any) {
 		 _v.G.Set(value.(TG))
 	case "b":
 		 _v.B.Set(value.(TB))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an RGB vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an RGB vector", name)
 	}
+	return nil
 }
 
 func (_v RGBTyped[TR, TG, TB]) String() string {

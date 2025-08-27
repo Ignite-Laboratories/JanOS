@@ -12,20 +12,20 @@ import (
 	"strings"
 )
 
-// CMYK is a 4D vector of like-typed bounded.Number components.
+// CMYK is a 4D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see CMYKTyped.
 type CMYK[T num.Primitive] = CMYKTyped[T, T, T, T]
 
-// CMYKTyped is a 4D vector of asymmetrically typed bounded.Number components.
+// CMYKTyped is a 4D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see CMYK.
 type CMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.Primitive] struct {
 	Entity
-	C bounded.Number[TC]
-	M bounded.Number[TM]
-	Y bounded.Number[TY]
-	K bounded.Number[TK]
+	C bounded.Numeric[TC]
+	M bounded.Numeric[TM]
+	Y bounded.Numeric[TY]
+	K bounded.Numeric[TK]
 }
 
 func NewCMYK[T num.Primitive](c T, m T, y T, k T) *CMYK[T] {
@@ -50,7 +50,7 @@ func NewCMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.P
 	return _v
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) GetName() string {
+func (_v *CMYKTyped[TC, TM, TY, TK]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -83,37 +83,45 @@ func (_v *CMYKTyped[TC, TM, TY, TK]) SetBoundaries(minC, maxC TC, minM, maxM TM,
 	return _v
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) GetComponent(index uint) any {
+func (_v *CMYKTyped[TC, TM, TY, TK]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.C)
+		return &_v.C, nil
 	case 1:
-		 return any(_v.M)
+		return &_v.M, nil
 	case 2:
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case 3:
-		 return any(_v.K)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an CMYK vector", index))
+		return &_v.K, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an CMYK vector", index)
 	}
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) GetComponentByName(name string) any {
+func (_v *CMYKTyped[TC, TM, TY, TK]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.C, &_v.M, &_v.Y, &_v.K}
+}
+
+func (_v *CMYKTyped[TC, TM, TY, TK]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "c":
-		 return any(_v.C)
+		return &_v.C, nil
 	case "m":
-		 return any(_v.M)
+		return &_v.M, nil
 	case "y":
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case "k":
-		 return any(_v.K)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an CMYK vector", name))
+		return &_v.K, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an CMYK vector", name)
 	}
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponent(index uint, value any) {
+func (_v *CMYKTyped[TC, TM, TY, TK]) ComponentLen() uint {
+	return 4
+}
+
+func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.C.Set(value.(TC))
@@ -123,12 +131,32 @@ func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponent(index uint, value any) {
 		 _v.Y.Set(value.(TY))
 	case 3:
 		 _v.K.Set(value.(TK))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an CMYK vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an CMYK vector", index)
 	}
+	return nil
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponentByName(name string, value any) {
+func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponents(values []any) error {
+	if len(values) != 4 {
+		return fmt.Errorf("cannot set %d components of 4D vector CMYK", len(values), )
+	}
+	if _, ok := values[0].(TC); !ok {
+		return fmt.Errorf("expected type %T for component C, got type %T", TC(0), values[0])	}
+	if _, ok := values[1].(TM); !ok {
+		return fmt.Errorf("expected type %T for component M, got type %T", TM(0), values[1])	}
+	if _, ok := values[2].(TY); !ok {
+		return fmt.Errorf("expected type %T for component Y, got type %T", TY(0), values[2])	}
+	if _, ok := values[3].(TK); !ok {
+		return fmt.Errorf("expected type %T for component K, got type %T", TK(0), values[3])	}
+	_v.C.Set(values[0].(TC))
+	_v.M.Set(values[1].(TM))
+	_v.Y.Set(values[2].(TY))
+	_v.K.Set(values[3].(TK))
+	return nil
+}
+
+func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "c":
 		 _v.C.Set(value.(TC))
@@ -138,9 +166,10 @@ func (_v *CMYKTyped[TC, TM, TY, TK]) SetComponentByName(name string, value any) 
 		 _v.Y.Set(value.(TY))
 	case "k":
 		 _v.K.Set(value.(TK))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an CMYK vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an CMYK vector", name)
 	}
+	return nil
 }
 
 func (_v CMYKTyped[TC, TM, TY, TK]) String() string {

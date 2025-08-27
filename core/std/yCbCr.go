@@ -12,19 +12,19 @@ import (
 	"strings"
 )
 
-// YCbCr is a 3D vector of like-typed bounded.Number components.
+// YCbCr is a 3D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see YCbCrTyped.
 type YCbCr[T num.Primitive] = YCbCrTyped[T, T, T]
 
-// YCbCrTyped is a 3D vector of asymmetrically typed bounded.Number components.
+// YCbCrTyped is a 3D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see YCbCr.
 type YCbCrTyped[TY num.Primitive, TCb num.Primitive, TCr num.Primitive] struct {
 	Entity
-	Y bounded.Number[TY]
-	Cb bounded.Number[TCb]
-	Cr bounded.Number[TCr]
+	Y bounded.Numeric[TY]
+	Cb bounded.Numeric[TCb]
+	Cr bounded.Numeric[TCr]
 }
 
 func NewYCbCr[T num.Primitive](y T, cb T, cr T) *YCbCr[T] {
@@ -47,7 +47,7 @@ func NewYCbCrTyped[TY num.Primitive, TCb num.Primitive, TCr num.Primitive](y TY,
 	return _v
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) GetName() string {
+func (_v *YCbCrTyped[TY, TCb, TCr]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -77,33 +77,41 @@ func (_v *YCbCrTyped[TY, TCb, TCr]) SetBoundaries(minY, maxY TY, minCb, maxCb TC
 	return _v
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) GetComponent(index uint) any {
+func (_v *YCbCrTyped[TY, TCb, TCr]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case 1:
-		 return any(_v.Cb)
+		return &_v.Cb, nil
 	case 2:
-		 return any(_v.Cr)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an YCbCr vector", index))
+		return &_v.Cr, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an YCbCr vector", index)
 	}
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) GetComponentByName(name string) any {
+func (_v *YCbCrTyped[TY, TCb, TCr]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.Y, &_v.Cb, &_v.Cr}
+}
+
+func (_v *YCbCrTyped[TY, TCb, TCr]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "y":
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case "cb":
-		 return any(_v.Cb)
+		return &_v.Cb, nil
 	case "cr":
-		 return any(_v.Cr)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an YCbCr vector", name))
+		return &_v.Cr, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an YCbCr vector", name)
 	}
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponent(index uint, value any) {
+func (_v *YCbCrTyped[TY, TCb, TCr]) ComponentLen() uint {
+	return 3
+}
+
+func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.Y.Set(value.(TY))
@@ -111,12 +119,29 @@ func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponent(index uint, value any) {
 		 _v.Cb.Set(value.(TCb))
 	case 2:
 		 _v.Cr.Set(value.(TCr))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an YCbCr vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an YCbCr vector", index)
 	}
+	return nil
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponentByName(name string, value any) {
+func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponents(values []any) error {
+	if len(values) != 3 {
+		return fmt.Errorf("cannot set %d components of 3D vector YCbCr", len(values), )
+	}
+	if _, ok := values[0].(TY); !ok {
+		return fmt.Errorf("expected type %T for component Y, got type %T", TY(0), values[0])	}
+	if _, ok := values[1].(TCb); !ok {
+		return fmt.Errorf("expected type %T for component Cb, got type %T", TCb(0), values[1])	}
+	if _, ok := values[2].(TCr); !ok {
+		return fmt.Errorf("expected type %T for component Cr, got type %T", TCr(0), values[2])	}
+	_v.Y.Set(values[0].(TY))
+	_v.Cb.Set(values[1].(TCb))
+	_v.Cr.Set(values[2].(TCr))
+	return nil
+}
+
+func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "y":
 		 _v.Y.Set(value.(TY))
@@ -124,9 +149,10 @@ func (_v *YCbCrTyped[TY, TCb, TCr]) SetComponentByName(name string, value any) {
 		 _v.Cb.Set(value.(TCb))
 	case "cr":
 		 _v.Cr.Set(value.(TCr))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an YCbCr vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an YCbCr vector", name)
 	}
+	return nil
 }
 
 func (_v YCbCrTyped[TY, TCb, TCr]) String() string {

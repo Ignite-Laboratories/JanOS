@@ -8,24 +8,12 @@ import (
 	"math/big"
 )
 
-type INumber[T num.Primitive] interface {
-	Value() T
-	Minimum() T
-	Maximum() T
-	Range() uint64
-	Increment(amount ...T) error
-	Decrement(amount ...T) error
-	AddOrSubtract(amount T) error
-	SetAll(value, a, b T, clamp ...bool) error
-	SetBoundariesFromType() error
-}
-
-// Number represents a bounded numeric value bound within the closed set [minimum, maximum].
+// Numeric represents a bounded numeric value bound within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
 //
 // NOTE: All set operations return an error with the amount that the value overflowed or underflowed - otherwise nil.
-type Number[T num.Primitive] struct {
+type Numeric[T num.Primitive] struct {
 	value       T
 	minimum     T
 	maximum     T
@@ -33,14 +21,14 @@ type Number[T num.Primitive] struct {
 	Clamp       bool
 }
 
-// NewNumber creates a new instance of Number[T].
+// NewNumber creates a new instance of Numeric[T].
 //
 // NOTE: While you can call this directly, the convention is to use the 'std/bounded' package.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func NewNumber[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Number[T], error) {
+func NewNumber[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Numeric[T], error) {
 	c := len(clamp) > 0 && clamp[0]
-	b := Number[T]{
+	b := Numeric[T]{
 		value:       T(0),
 		minimum:     minimum,
 		maximum:     maximum,
@@ -51,7 +39,7 @@ func NewNumber[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Numbe
 	return b, err
 }
 
-func (bnd *Number[T]) sanityCheck() {
+func (bnd *Numeric[T]) sanityCheck() {
 	if !bnd.initialized {
 		bnd.minimum = num.MinValue[T]()
 		bnd.maximum = num.MaxValue[T]()
@@ -59,31 +47,52 @@ func (bnd *Number[T]) sanityCheck() {
 	}
 }
 
-// Value returns the currently held Number value.
-func (bnd *Number[T]) Value() T {
+// Value returns the currently held Numeric value.
+func (bnd *Numeric[T]) Value() T {
 	bnd.sanityCheck()
 
 	return bnd.value
 }
 
+// ValueAsAny returns the currently held Numeric value as an 'any' type, satisfying INumeric.
+func (bnd *Numeric[T]) ValueAsAny() any {
+	bnd.sanityCheck()
+
+	return any(bnd.Value())
+}
+
 // Minimum returns the current minimum boundary.
-func (bnd *Number[T]) Minimum() T {
+func (bnd *Numeric[T]) Minimum() T {
 	bnd.sanityCheck()
 
 	return bnd.minimum
 }
 
+// MinimumAsAny returns the current minimum boundary as an 'any' type, satisfying INumeric.
+func (bnd *Numeric[T]) MinimumAsAny() any {
+	bnd.sanityCheck()
+
+	return any(bnd.Minimum())
+}
+
 // Maximum returns the current maximum boundary.
-func (bnd *Number[T]) Maximum() T {
+func (bnd *Numeric[T]) Maximum() T {
 	bnd.sanityCheck()
 
 	return bnd.maximum
 }
 
+// MaximumAsAny returns the current maximum boundary as an 'any' type, satisfying INumeric.
+func (bnd *Numeric[T]) MaximumAsAny() any {
+	bnd.sanityCheck()
+
+	return any(bnd.Maximum())
+}
+
 // Range returns the bounded range -
 //
 //	(maximum - minimum) + 1
-func (bnd *Number[T]) Range() uint64 {
+func (bnd *Numeric[T]) Range() uint64 {
 	bnd.sanityCheck()
 
 	if num.IsFloat[T]() {
@@ -98,7 +107,7 @@ func (bnd *Number[T]) Range() uint64 {
 // NOTE: If you provide a negative number, this will 'decrement'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) Increment(amount ...T) error {
+func (bnd *Numeric[T]) Increment(amount ...T) error {
 	bnd.sanityCheck()
 
 	i := T(1)
@@ -113,7 +122,7 @@ func (bnd *Number[T]) Increment(amount ...T) error {
 // NOTE: If you provide a negative number, this will 'increment'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) Decrement(amount ...T) error {
+func (bnd *Numeric[T]) Decrement(amount ...T) error {
 	bnd.sanityCheck()
 
 	i := T(1)
@@ -126,7 +135,7 @@ func (bnd *Number[T]) Decrement(amount ...T) error {
 // AddOrSubtract adds or subtracts the provided amount to the bound value.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) AddOrSubtract(amount T) error {
+func (bnd *Numeric[T]) AddOrSubtract(amount T) error {
 	bnd.sanityCheck()
 
 	if amount < 0 {
@@ -141,15 +150,15 @@ func (bnd *Number[T]) AddOrSubtract(amount T) error {
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) SetAll(value, a, b T, clamp ...bool) error {
+func (bnd *Numeric[T]) SetAll(value, minimum, maximum T, clamp ...bool) error {
 	bnd.sanityCheck()
 
 	c := len(clamp) > 0 && clamp[0]
-	if a > b {
-		a, b = b, a
+	if minimum > maximum {
+		minimum, maximum = maximum, minimum
 	}
-	bnd.minimum = a
-	bnd.maximum = b
+	bnd.minimum = minimum
+	bnd.maximum = maximum
 	bnd.Clamp = c
 	return bnd.Set(value)
 }
@@ -157,7 +166,7 @@ func (bnd *Number[T]) SetAll(value, a, b T, clamp ...bool) error {
 // SetBoundariesFromType sets the boundaries to the implied limits of the bounded type before calling Set(current value).
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) SetBoundariesFromType() error {
+func (bnd *Numeric[T]) SetBoundariesFromType() error {
 	bnd.sanityCheck()
 
 	bnd.minimum = 0
@@ -170,22 +179,35 @@ func (bnd *Number[T]) SetBoundariesFromType() error {
 // NOTE: The boundary parameters are evaluated to ensure the lower bound is always the 'minimum'
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) SetBoundaries(a, b T) error {
+func (bnd *Numeric[T]) SetBoundaries(minimum, maximum T) error {
 	bnd.sanityCheck()
 
-	if a > b {
-		a, b = b, a
+	if minimum > maximum {
+		minimum, maximum = maximum, minimum
 	}
-	bnd.minimum = a
-	bnd.maximum = b
+	bnd.minimum = minimum
+	bnd.maximum = maximum
 	return bnd.Set(bnd.value)
 }
 
-// Normalize converts the Number value to a float64 unit vector in the interval [0.0, 1.0],
+// SetBoundariesUsingAny casts the provided values to T and then calls SetBoundariesAny.
+//
+// NOTE: In addition to the error from SetBoundariesAny, this will yield an error if the provided values are not of type T.
+func (bnd *Numeric[T]) SetBoundariesUsingAny(minimum, maximum any) error {
+	if _, ok := minimum.(T); !ok {
+		return fmt.Errorf("value 'a' was not of type %T", T(0))
+	}
+	if _, ok := maximum.(T); !ok {
+		return fmt.Errorf("value 'b' was not of type %T", T(0))
+	}
+	return bnd.SetBoundaries(minimum.(T), minimum.(T))
+}
+
+// Normalize converts the Numeric value to a float64 unit vector in the interval [0.0, 1.0],
 // by linearly mapping the value from its bounded interval's [minimum, maximum]. A value equal
 // to minimum maps to 0.0, a value equal to maximum maps to 1.0, and values in between
 // are linearly interpolated.
-func (bnd *Number[T]) Normalize() float64 {
+func (bnd *Numeric[T]) Normalize() float64 {
 	bnd.sanityCheck()
 
 	numerator := uint64(bnd.value - bnd.minimum)
@@ -204,9 +226,9 @@ func (bnd *Number[T]) Normalize() float64 {
 	return float64(numerator) / float64(denominator)
 }
 
-// Normalize32 converts the Number value to a float32 unit vector in the range [0.0, 1.0],
+// Normalize32 converts the Numeric value to a float32 unit vector in the range [0.0, 1.0],
 // where the bounded minimum maps to 0.0 and the bounded maximum maps to 1.0.
-func (bnd *Number[T]) Normalize32() float32 {
+func (bnd *Numeric[T]) Normalize32() float32 {
 	bnd.sanityCheck()
 
 	return float32(bnd.Normalize())
@@ -216,7 +238,7 @@ func (bnd *Number[T]) Normalize32() float32 {
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) SetFromNormalized(normalized float64) error {
+func (bnd *Numeric[T]) SetFromNormalized(normalized float64) error {
 	bnd.sanityCheck()
 
 	distance := uint64(bnd.maximum - bnd.minimum)
@@ -246,16 +268,26 @@ func (bnd *Number[T]) SetFromNormalized(normalized float64) error {
 // range, where 0.0 maps to the bounded minimum and 1.0 maps to the bounded maximum.
 //
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
-func (bnd *Number[T]) SetFromNormalized32(normalized float32) error {
+func (bnd *Numeric[T]) SetFromNormalized32(normalized float32) error {
 	bnd.sanityCheck()
 
 	return bnd.SetFromNormalized(float64(normalized))
 }
 
+// SetUsingAny casts the provided value to T and then calls Set.
+//
+// NOTE: In addition to the error from Set, this will yield an error if the provided value is not of type T.
+func (bnd *Numeric[T]) SetUsingAny(value any) error {
+	if _, ok := value.(T); !ok {
+		return fmt.Errorf("value was not of type %T", T(0))
+	}
+	return bnd.Set(value.(T))
+}
+
 // Set sets the bounded value.  If clamp is true, the value is "clamped" to the closed set [minimum, maximum] - otherwise,
 // the value overflows and underflows.  The amount that the value over and underflows is returned as an error, returning nil
 // when the assigned value was within the closed interval.
-func (bnd *Number[T]) Set(value T) error {
+func (bnd *Numeric[T]) Set(value T) error {
 	bnd.sanityCheck()
 
 	var err error
@@ -329,7 +361,7 @@ func (bnd *Number[T]) Set(value T) error {
 }
 
 // String returns the value as a numeric string.
-func (bnd Number[T]) String() string {
+func (bnd Numeric[T]) String() string {
 	bnd.sanityCheck()
 
 	var zero T

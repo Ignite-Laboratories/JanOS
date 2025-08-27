@@ -6,10 +6,16 @@ import (
 )
 
 func main() {
-	test(std.NewXYZ(1, 5, 3).SetName("Alpha"))
+	xyz := std.NewXYZ(1, 5, 3).SetName("Alpha")
+	v := test(xyz)
+	fmt.Println(v)
 }
 
-func test[T std.Vector](value T) {
+func test[T std.Vector](value T) std.Vector {
 	fmt.Println(value)
-	fmt.Println(value.GetComponentByName("Z"))
+
+	z, _ := value.ComponentByName("Z")
+	_ = z.SetUsingAny(2)
+	fmt.Println(z)
+	return value
 }

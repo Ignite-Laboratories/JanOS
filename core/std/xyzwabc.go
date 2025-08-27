@@ -12,23 +12,23 @@ import (
 	"strings"
 )
 
-// XYZWABC is a 7D vector of like-typed bounded.Number components.
+// XYZWABC is a 7D vector of like-typed bounded.Numeric components.
 //
 // NOTE: If you'd like asymmetric types, please see XYZWABCTyped.
 type XYZWABC[T num.Primitive] = XYZWABCTyped[T, T, T, T, T, T, T]
 
-// XYZWABCTyped is a 7D vector of asymmetrically typed bounded.Number components.
+// XYZWABCTyped is a 7D vector of asymmetrically typed bounded.Numeric components.
 //
 // NOTE: If you'd like symmetric types, please see XYZWABC.
 type XYZWABCTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive, TB num.Primitive, TC num.Primitive] struct {
 	Entity
-	X bounded.Number[TX]
-	Y bounded.Number[TY]
-	Z bounded.Number[TZ]
-	W bounded.Number[TW]
-	A bounded.Number[TA]
-	B bounded.Number[TB]
-	C bounded.Number[TC]
+	X bounded.Numeric[TX]
+	Y bounded.Numeric[TY]
+	Z bounded.Numeric[TZ]
+	W bounded.Numeric[TW]
+	A bounded.Numeric[TA]
+	B bounded.Numeric[TB]
+	C bounded.Numeric[TC]
 }
 
 func NewXYZWABC[T num.Primitive](x T, y T, z T, w T, a T, b T, c T) *XYZWABC[T] {
@@ -59,7 +59,7 @@ func NewXYZWABCTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW nu
 	return _v
 }
 
-func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) GetName() string {
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) Name() string {
 	return _v.GivenName.Name
 }
 
@@ -101,49 +101,57 @@ func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetBoundaries(minX, maxX TX,
 	return _v
 }
 
-func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) GetComponent(index uint) any {
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) Component(index uint) (bounded.INumeric, error) {
 	switch index {
 	case 0:
-		 return any(_v.X)
+		return &_v.X, nil
 	case 1:
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case 2:
-		 return any(_v.Z)
+		return &_v.Z, nil
 	case 3:
-		 return any(_v.W)
+		return &_v.W, nil
 	case 4:
-		 return any(_v.A)
+		return &_v.A, nil
 	case 5:
-		 return any(_v.B)
+		return &_v.B, nil
 	case 6:
-		 return any(_v.C)
-	 default:
-		panic(fmt.Errorf("cannot get component index %d of an XYZWABC vector", index))
+		return &_v.C, nil
+	default:
+		return nil, fmt.Errorf("cannot get component index %d of an XYZWABC vector", index)
 	}
 }
 
-func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) GetComponentByName(name string) any {
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) Components() []bounded.INumeric {
+	return []bounded.INumeric{&_v.X, &_v.Y, &_v.Z, &_v.W, &_v.A, &_v.B, &_v.C}
+}
+
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) ComponentByName(name string) (bounded.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
-		 return any(_v.X)
+		return &_v.X, nil
 	case "y":
-		 return any(_v.Y)
+		return &_v.Y, nil
 	case "z":
-		 return any(_v.Z)
+		return &_v.Z, nil
 	case "w":
-		 return any(_v.W)
+		return &_v.W, nil
 	case "a":
-		 return any(_v.A)
+		return &_v.A, nil
 	case "b":
-		 return any(_v.B)
+		return &_v.B, nil
 	case "c":
-		 return any(_v.C)
-	 default:
-		panic(fmt.Errorf("cannot get component \"%s\" of an XYZWABC vector", name))
+		return &_v.C, nil
+	default:
+		return nil, fmt.Errorf("cannot get component \"%s\" of an XYZWABC vector", name)
 	}
 }
 
-func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponent(index uint, value any) {
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) ComponentLen() uint {
+	return 7
+}
+
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponent(index uint, value any) error {
 	switch index {
 	case 0:
 		 _v.X.Set(value.(TX))
@@ -159,12 +167,41 @@ func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponent(index uint, val
 		 _v.B.Set(value.(TB))
 	case 6:
 		 _v.C.Set(value.(TC))
-	 default:
-		panic(fmt.Errorf("cannot set component index %d of an XYZWABC vector", index))
+	default:
+		return fmt.Errorf("cannot set component index %d of an XYZWABC vector", index)
 	}
+	return nil
 }
 
-func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponentByName(name string, value any) {
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponents(values []any) error {
+	if len(values) != 7 {
+		return fmt.Errorf("cannot set %d components of 7D vector XYZWABC", len(values), )
+	}
+	if _, ok := values[0].(TX); !ok {
+		return fmt.Errorf("expected type %T for component X, got type %T", TX(0), values[0])	}
+	if _, ok := values[1].(TY); !ok {
+		return fmt.Errorf("expected type %T for component Y, got type %T", TY(0), values[1])	}
+	if _, ok := values[2].(TZ); !ok {
+		return fmt.Errorf("expected type %T for component Z, got type %T", TZ(0), values[2])	}
+	if _, ok := values[3].(TW); !ok {
+		return fmt.Errorf("expected type %T for component W, got type %T", TW(0), values[3])	}
+	if _, ok := values[4].(TA); !ok {
+		return fmt.Errorf("expected type %T for component A, got type %T", TA(0), values[4])	}
+	if _, ok := values[5].(TB); !ok {
+		return fmt.Errorf("expected type %T for component B, got type %T", TB(0), values[5])	}
+	if _, ok := values[6].(TC); !ok {
+		return fmt.Errorf("expected type %T for component C, got type %T", TC(0), values[6])	}
+	_v.X.Set(values[0].(TX))
+	_v.Y.Set(values[1].(TY))
+	_v.Z.Set(values[2].(TZ))
+	_v.W.Set(values[3].(TW))
+	_v.A.Set(values[4].(TA))
+	_v.B.Set(values[5].(TB))
+	_v.C.Set(values[6].(TC))
+	return nil
+}
+
+func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponentByName(name string, value any) error {
 	switch strings.ToLower(name) {
 	case "x":
 		 _v.X.Set(value.(TX))
@@ -180,9 +217,10 @@ func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) SetComponentByName(name stri
 		 _v.B.Set(value.(TB))
 	case "c":
 		 _v.C.Set(value.(TC))
-	 default:
-		panic(fmt.Errorf("cannot set component \"%s\" of an XYZWABC vector", name))
+	default:
+		return fmt.Errorf("cannot set component \"%s\" of an XYZWABC vector", name)
 	}
+	return nil
 }
 
 func (_v XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) String() string {
