@@ -22,3 +22,10 @@ func (n Given) String() string {
 	}
 	return fmt.Sprintf("%v - %v", n.Name, n.Description)
 }
+
+func (n Given) StringQuoted() string {
+	if n.Description == "" {
+		return fmt.Sprintf("\"%v\"", n.Name)
+	}
+	return fmt.Sprintf("\"%v\" - %v", n.Name, n.Description)
+}
