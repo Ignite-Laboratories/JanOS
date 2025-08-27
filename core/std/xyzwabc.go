@@ -31,31 +31,62 @@ type XYZWABCTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.P
 	C bounded.Numeric[TC]
 }
 
-func NewXYZWABC[T num.Primitive](x T, y T, z T, w T, a T, b T, c T) *XYZWABC[T] {
-	typed := XYZWABC[T](*NewXYZWABCTyped[T, T, T, T, T, T, T](x, y, z, w, a, b, c))
+func NewXYZWABC[T num.Primitive](x T, y T, z T, w T, a T, b T, c T, name ...string) *XYZWABC[T] {
+	typed := XYZWABC[T](*NewXYZWABCTyped[T, T, T, T, T, T, T](x, y, z, w, a, b, c, name...))
 	return &typed
 }
 
-func NewXYZWABCTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive, TB num.Primitive, TC num.Primitive](x TX, y TY, z TZ, w TW, a TA, b TB, c TC) *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC] {
+func NewXYZWABCTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive, TB num.Primitive, TC num.Primitive](x TX, y TY, z TZ, w TW, a TA, b TB, c TC, name ...string) *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC] {
 	minX := num.MinValue[TX]()
 	maxX := num.MaxValue[TX]()
+	if num.IsFloat[TX]() {
+		minX = 0
+		maxX = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 	minZ := num.MinValue[TZ]()
 	maxZ := num.MaxValue[TZ]()
+	if num.IsFloat[TZ]() {
+		minZ = 0
+		maxZ = 1
+	}
 	minW := num.MinValue[TW]()
 	maxW := num.MaxValue[TW]()
+	if num.IsFloat[TW]() {
+		minW = 0
+		maxW = 1
+	}
 	minA := num.MinValue[TA]()
 	maxA := num.MaxValue[TA]()
+	if num.IsFloat[TA]() {
+		minA = 0
+		maxA = 1
+	}
 	minB := num.MinValue[TB]()
 	maxB := num.MaxValue[TB]()
+	if num.IsFloat[TB]() {
+		minB = 0
+		maxB = 1
+	}
 	minC := num.MinValue[TC]()
 	maxC := num.MaxValue[TC]()
+	if num.IsFloat[TC]() {
+		minC = 0
+		maxC = 1
+	}
 
 	_v := &XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ, minW, maxW, minA, maxA, minB, maxB, minC, maxC)
 	_v.Set(x, y, z, w, a, b, c)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -232,18 +263,6 @@ func (_v XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) String() string {
 	}
 	return fmt.Sprintf("xyzwabc[%T, %T, %T, %T, %T, %T, %T]{%v, %v, %v, %v, %v, %v, %v}(\"%v\")", TX(0), TY(0), TZ(0), TW(0), TA(0), TB(0), TC(0), _v.X.String(), _v.Y.String(), _v.Z.String(), _v.W.String(), _v.A.String(), _v.B.String(), _v.C.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) XX() (TX, TX) { return _v.X.Value(), _v.X.Value() }
 func (_v *XYZWABCTyped[TX, TY, TZ, TW, TA, TB, TC]) XY() (TX, TY) { return _v.X.Value(), _v.Y.Value() }

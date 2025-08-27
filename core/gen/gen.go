@@ -2,6 +2,7 @@
 Letter Types
 */
 
+//go:generate go run ./letters -pkg std -name FMA -nameL fma -cmpts Force,Mass,Acceleration -cmptsL force,mass,acceleration -out ../std/fma.go
 //go:generate go run ./letters -pkg std -name RGB -nameL rgb -cmpts R,G,B -cmptsL r,g,b -out ../std/rgb.go
 //go:generate go run ./letters -pkg std -name RGBA -nameL rgba -cmpts R,G,B,A -cmptsL r,g,b,a -out ../std/rgba.go
 //go:generate go run ./letters -pkg std -name HSB -nameL hsb -cmpts H,S,B -cmptsL h,s,b -out ../std/hsb.go

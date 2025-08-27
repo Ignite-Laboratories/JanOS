@@ -26,21 +26,32 @@ type STTyped[TS num.Primitive, TT num.Primitive] struct {
 	T bounded.Numeric[TT]
 }
 
-func NewST[T num.Primitive](s T, t T) *ST[T] {
-	typed := ST[T](*NewSTTyped[T, T](s, t))
+func NewST[T num.Primitive](s T, t T, name ...string) *ST[T] {
+	typed := ST[T](*NewSTTyped[T, T](s, t, name...))
 	return &typed
 }
 
-func NewSTTyped[TS num.Primitive, TT num.Primitive](s TS, t TT) *STTyped[TS, TT] {
+func NewSTTyped[TS num.Primitive, TT num.Primitive](s TS, t TT, name ...string) *STTyped[TS, TT] {
 	minS := num.MinValue[TS]()
 	maxS := num.MaxValue[TS]()
+	if num.IsFloat[TS]() {
+		minS = 0
+		maxS = 1
+	}
 	minT := num.MinValue[TT]()
 	maxT := num.MaxValue[TT]()
+	if num.IsFloat[TT]() {
+		minT = 0
+		maxT = 1
+	}
 
 	_v := &STTyped[TS, TT]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minS, maxS, minT, maxT)
 	_v.Set(s, t)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -147,18 +158,6 @@ func (_v STTyped[TS, TT]) String() string {
 	}
 	return fmt.Sprintf("st[%T, %T]{%v, %v}(\"%v\")", TS(0), TT(0), _v.S.String(), _v.T.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *STTyped[TS, TT]) SS() (TS, TS) { return _v.S.Value(), _v.S.Value() }
 func (_v *STTyped[TS, TT]) ST() (TS, TT) { return _v.S.Value(), _v.T.Value() }

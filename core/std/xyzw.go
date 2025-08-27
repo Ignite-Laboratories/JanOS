@@ -28,25 +28,44 @@ type XYZWTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Prim
 	W bounded.Numeric[TW]
 }
 
-func NewXYZW[T num.Primitive](x T, y T, z T, w T) *XYZW[T] {
-	typed := XYZW[T](*NewXYZWTyped[T, T, T, T](x, y, z, w))
+func NewXYZW[T num.Primitive](x T, y T, z T, w T, name ...string) *XYZW[T] {
+	typed := XYZW[T](*NewXYZWTyped[T, T, T, T](x, y, z, w, name...))
 	return &typed
 }
 
-func NewXYZWTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive](x TX, y TY, z TZ, w TW) *XYZWTyped[TX, TY, TZ, TW] {
+func NewXYZWTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive](x TX, y TY, z TZ, w TW, name ...string) *XYZWTyped[TX, TY, TZ, TW] {
 	minX := num.MinValue[TX]()
 	maxX := num.MaxValue[TX]()
+	if num.IsFloat[TX]() {
+		minX = 0
+		maxX = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 	minZ := num.MinValue[TZ]()
 	maxZ := num.MaxValue[TZ]()
+	if num.IsFloat[TZ]() {
+		minZ = 0
+		maxZ = 1
+	}
 	minW := num.MinValue[TW]()
 	maxW := num.MaxValue[TW]()
+	if num.IsFloat[TW]() {
+		minW = 0
+		maxW = 1
+	}
 
 	_v := &XYZWTyped[TX, TY, TZ, TW]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ, minW, maxW)
 	_v.Set(x, y, z, w)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -181,18 +200,6 @@ func (_v XYZWTyped[TX, TY, TZ, TW]) String() string {
 	}
 	return fmt.Sprintf("xyzw[%T, %T, %T, %T]{%v, %v, %v, %v}(\"%v\")", TX(0), TY(0), TZ(0), TW(0), _v.X.String(), _v.Y.String(), _v.Z.String(), _v.W.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *XYZWTyped[TX, TY, TZ, TW]) XX() (TX, TX) { return _v.X.Value(), _v.X.Value() }
 func (_v *XYZWTyped[TX, TY, TZ, TW]) XY() (TX, TY) { return _v.X.Value(), _v.Y.Value() }

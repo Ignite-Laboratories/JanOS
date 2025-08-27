@@ -29,27 +29,50 @@ type XYZWATyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Pri
 	A bounded.Numeric[TA]
 }
 
-func NewXYZWA[T num.Primitive](x T, y T, z T, w T, a T) *XYZWA[T] {
-	typed := XYZWA[T](*NewXYZWATyped[T, T, T, T, T](x, y, z, w, a))
+func NewXYZWA[T num.Primitive](x T, y T, z T, w T, a T, name ...string) *XYZWA[T] {
+	typed := XYZWA[T](*NewXYZWATyped[T, T, T, T, T](x, y, z, w, a, name...))
 	return &typed
 }
 
-func NewXYZWATyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive](x TX, y TY, z TZ, w TW, a TA) *XYZWATyped[TX, TY, TZ, TW, TA] {
+func NewXYZWATyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive](x TX, y TY, z TZ, w TW, a TA, name ...string) *XYZWATyped[TX, TY, TZ, TW, TA] {
 	minX := num.MinValue[TX]()
 	maxX := num.MaxValue[TX]()
+	if num.IsFloat[TX]() {
+		minX = 0
+		maxX = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 	minZ := num.MinValue[TZ]()
 	maxZ := num.MaxValue[TZ]()
+	if num.IsFloat[TZ]() {
+		minZ = 0
+		maxZ = 1
+	}
 	minW := num.MinValue[TW]()
 	maxW := num.MaxValue[TW]()
+	if num.IsFloat[TW]() {
+		minW = 0
+		maxW = 1
+	}
 	minA := num.MinValue[TA]()
 	maxA := num.MaxValue[TA]()
+	if num.IsFloat[TA]() {
+		minA = 0
+		maxA = 1
+	}
 
 	_v := &XYZWATyped[TX, TY, TZ, TW, TA]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ, minW, maxW, minA, maxA)
 	_v.Set(x, y, z, w, a)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -198,18 +221,6 @@ func (_v XYZWATyped[TX, TY, TZ, TW, TA]) String() string {
 	}
 	return fmt.Sprintf("xyzwa[%T, %T, %T, %T, %T]{%v, %v, %v, %v, %v}(\"%v\")", TX(0), TY(0), TZ(0), TW(0), TA(0), _v.X.String(), _v.Y.String(), _v.Z.String(), _v.W.String(), _v.A.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *XYZWATyped[TX, TY, TZ, TW, TA]) XX() (TX, TX) { return _v.X.Value(), _v.X.Value() }
 func (_v *XYZWATyped[TX, TY, TZ, TW, TA]) XY() (TX, TY) { return _v.X.Value(), _v.Y.Value() }

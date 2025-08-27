@@ -27,23 +27,38 @@ type RGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive] struct {
 	B bounded.Numeric[TB]
 }
 
-func NewRGB[T num.Primitive](r T, g T, b T) *RGB[T] {
-	typed := RGB[T](*NewRGBTyped[T, T, T](r, g, b))
+func NewRGB[T num.Primitive](r T, g T, b T, name ...string) *RGB[T] {
+	typed := RGB[T](*NewRGBTyped[T, T, T](r, g, b, name...))
 	return &typed
 }
 
-func NewRGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive](r TR, g TG, b TB) *RGBTyped[TR, TG, TB] {
+func NewRGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive](r TR, g TG, b TB, name ...string) *RGBTyped[TR, TG, TB] {
 	minR := num.MinValue[TR]()
 	maxR := num.MaxValue[TR]()
+	if num.IsFloat[TR]() {
+		minR = 0
+		maxR = 1
+	}
 	minG := num.MinValue[TG]()
 	maxG := num.MaxValue[TG]()
+	if num.IsFloat[TG]() {
+		minG = 0
+		maxG = 1
+	}
 	minB := num.MinValue[TB]()
 	maxB := num.MaxValue[TB]()
+	if num.IsFloat[TB]() {
+		minB = 0
+		maxB = 1
+	}
 
 	_v := &RGBTyped[TR, TG, TB]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minR, maxR, minG, maxG, minB, maxB)
 	_v.Set(r, g, b)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -164,18 +179,6 @@ func (_v RGBTyped[TR, TG, TB]) String() string {
 	}
 	return fmt.Sprintf("rgb[%T, %T, %T]{%v, %v, %v}(\"%v\")", TR(0), TG(0), TB(0), _v.R.String(), _v.G.String(), _v.B.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *RGBTyped[TR, TG, TB]) RR() (TR, TR) { return _v.R.Value(), _v.R.Value() }
 func (_v *RGBTyped[TR, TG, TB]) RG() (TR, TG) { return _v.R.Value(), _v.G.Value() }

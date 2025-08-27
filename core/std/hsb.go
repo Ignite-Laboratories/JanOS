@@ -27,23 +27,38 @@ type HSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive] struct {
 	B bounded.Numeric[TB]
 }
 
-func NewHSB[T num.Primitive](h T, s T, b T) *HSB[T] {
-	typed := HSB[T](*NewHSBTyped[T, T, T](h, s, b))
+func NewHSB[T num.Primitive](h T, s T, b T, name ...string) *HSB[T] {
+	typed := HSB[T](*NewHSBTyped[T, T, T](h, s, b, name...))
 	return &typed
 }
 
-func NewHSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive](h TH, s TS, b TB) *HSBTyped[TH, TS, TB] {
+func NewHSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive](h TH, s TS, b TB, name ...string) *HSBTyped[TH, TS, TB] {
 	minH := num.MinValue[TH]()
 	maxH := num.MaxValue[TH]()
+	if num.IsFloat[TH]() {
+		minH = 0
+		maxH = 1
+	}
 	minS := num.MinValue[TS]()
 	maxS := num.MaxValue[TS]()
+	if num.IsFloat[TS]() {
+		minS = 0
+		maxS = 1
+	}
 	minB := num.MinValue[TB]()
 	maxB := num.MaxValue[TB]()
+	if num.IsFloat[TB]() {
+		minB = 0
+		maxB = 1
+	}
 
 	_v := &HSBTyped[TH, TS, TB]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minH, maxH, minS, maxS, minB, maxB)
 	_v.Set(h, s, b)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -164,18 +179,6 @@ func (_v HSBTyped[TH, TS, TB]) String() string {
 	}
 	return fmt.Sprintf("hsb[%T, %T, %T]{%v, %v, %v}(\"%v\")", TH(0), TS(0), TB(0), _v.H.String(), _v.S.String(), _v.B.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *HSBTyped[TH, TS, TB]) HH() (TH, TH) { return _v.H.Value(), _v.H.Value() }
 func (_v *HSBTyped[TH, TS, TB]) HS() (TH, TS) { return _v.H.Value(), _v.S.Value() }

@@ -26,21 +26,32 @@ type XYTyped[TX num.Primitive, TY num.Primitive] struct {
 	Y bounded.Numeric[TY]
 }
 
-func NewXY[T num.Primitive](x T, y T) *XY[T] {
-	typed := XY[T](*NewXYTyped[T, T](x, y))
+func NewXY[T num.Primitive](x T, y T, name ...string) *XY[T] {
+	typed := XY[T](*NewXYTyped[T, T](x, y, name...))
 	return &typed
 }
 
-func NewXYTyped[TX num.Primitive, TY num.Primitive](x TX, y TY) *XYTyped[TX, TY] {
+func NewXYTyped[TX num.Primitive, TY num.Primitive](x TX, y TY, name ...string) *XYTyped[TX, TY] {
 	minX := num.MinValue[TX]()
 	maxX := num.MaxValue[TX]()
+	if num.IsFloat[TX]() {
+		minX = 0
+		maxX = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 
 	_v := &XYTyped[TX, TY]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minX, maxX, minY, maxY)
 	_v.Set(x, y)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -147,18 +158,6 @@ func (_v XYTyped[TX, TY]) String() string {
 	}
 	return fmt.Sprintf("xy[%T, %T]{%v, %v}(\"%v\")", TX(0), TY(0), _v.X.String(), _v.Y.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *XYTyped[TX, TY]) XX() (TX, TX) { return _v.X.Value(), _v.X.Value() }
 func (_v *XYTyped[TX, TY]) XY() (TX, TY) { return _v.X.Value(), _v.Y.Value() }

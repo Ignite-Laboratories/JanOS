@@ -28,25 +28,44 @@ type CMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.Prim
 	K bounded.Numeric[TK]
 }
 
-func NewCMYK[T num.Primitive](c T, m T, y T, k T) *CMYK[T] {
-	typed := CMYK[T](*NewCMYKTyped[T, T, T, T](c, m, y, k))
+func NewCMYK[T num.Primitive](c T, m T, y T, k T, name ...string) *CMYK[T] {
+	typed := CMYK[T](*NewCMYKTyped[T, T, T, T](c, m, y, k, name...))
 	return &typed
 }
 
-func NewCMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.Primitive](c TC, m TM, y TY, k TK) *CMYKTyped[TC, TM, TY, TK] {
+func NewCMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.Primitive](c TC, m TM, y TY, k TK, name ...string) *CMYKTyped[TC, TM, TY, TK] {
 	minC := num.MinValue[TC]()
 	maxC := num.MaxValue[TC]()
+	if num.IsFloat[TC]() {
+		minC = 0
+		maxC = 1
+	}
 	minM := num.MinValue[TM]()
 	maxM := num.MaxValue[TM]()
+	if num.IsFloat[TM]() {
+		minM = 0
+		maxM = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 	minK := num.MinValue[TK]()
 	maxK := num.MaxValue[TK]()
+	if num.IsFloat[TK]() {
+		minK = 0
+		maxK = 1
+	}
 
 	_v := &CMYKTyped[TC, TM, TY, TK]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minC, maxC, minM, maxM, minY, maxY, minK, maxK)
 	_v.Set(c, m, y, k)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -181,18 +200,6 @@ func (_v CMYKTyped[TC, TM, TY, TK]) String() string {
 	}
 	return fmt.Sprintf("cmyk[%T, %T, %T, %T]{%v, %v, %v, %v}(\"%v\")", TC(0), TM(0), TY(0), TK(0), _v.C.String(), _v.M.String(), _v.Y.String(), _v.K.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *CMYKTyped[TC, TM, TY, TK]) CC() (TC, TC) { return _v.C.Value(), _v.C.Value() }
 func (_v *CMYKTyped[TC, TM, TY, TK]) CM() (TC, TM) { return _v.C.Value(), _v.M.Value() }

@@ -27,23 +27,38 @@ type XYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive] struct {
 	Z bounded.Numeric[TZ]
 }
 
-func NewXYZ[T num.Primitive](x T, y T, z T) *XYZ[T] {
-	typed := XYZ[T](*NewXYZTyped[T, T, T](x, y, z))
+func NewXYZ[T num.Primitive](x T, y T, z T, name ...string) *XYZ[T] {
+	typed := XYZ[T](*NewXYZTyped[T, T, T](x, y, z, name...))
 	return &typed
 }
 
-func NewXYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive](x TX, y TY, z TZ) *XYZTyped[TX, TY, TZ] {
+func NewXYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive](x TX, y TY, z TZ, name ...string) *XYZTyped[TX, TY, TZ] {
 	minX := num.MinValue[TX]()
 	maxX := num.MaxValue[TX]()
+	if num.IsFloat[TX]() {
+		minX = 0
+		maxX = 1
+	}
 	minY := num.MinValue[TY]()
 	maxY := num.MaxValue[TY]()
+	if num.IsFloat[TY]() {
+		minY = 0
+		maxY = 1
+	}
 	minZ := num.MinValue[TZ]()
 	maxZ := num.MaxValue[TZ]()
+	if num.IsFloat[TZ]() {
+		minZ = 0
+		maxZ = 1
+	}
 
 	_v := &XYZTyped[TX, TY, TZ]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minX, maxX, minY, maxY, minZ, maxZ)
 	_v.Set(x, y, z)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -164,18 +179,6 @@ func (_v XYZTyped[TX, TY, TZ]) String() string {
 	}
 	return fmt.Sprintf("xyz[%T, %T, %T]{%v, %v, %v}(\"%v\")", TX(0), TY(0), TZ(0), _v.X.String(), _v.Y.String(), _v.Z.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *XYZTyped[TX, TY, TZ]) XX() (TX, TX) { return _v.X.Value(), _v.X.Value() }
 func (_v *XYZTyped[TX, TY, TZ]) XY() (TX, TY) { return _v.X.Value(), _v.Y.Value() }

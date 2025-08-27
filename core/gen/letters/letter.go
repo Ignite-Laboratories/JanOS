@@ -26,7 +26,6 @@ func (m *multiFlag) Set(v string) error {
 }
 
 var b *strings.Builder
-var canSwizzle bool
 var dontWrite bool
 var pkg string
 var fileOut string
@@ -72,13 +71,38 @@ func parseFlags() {
 	flag.Parse()
 	componentsUpper = support.Deduplicate(cmpts.Values)
 	componentsLower = support.Deduplicate(cmptsLow.Values)
-	canSwizzle = true
+}
 
-	for _, c := range componentsUpper {
-		if len(c) > 1 {
-			canSwizzle = false
-		}
+func setComponentCasing(i int, c string) {
+	if !support.IsAlphaNumeric(c) {
+		panic(fmt.Errorf("label '%s' is contains alphanumeric characters not in the set of [0-9, a-z, A-Z]", c))
 	}
+	if len(c) <= 0 {
+		panic(fmt.Errorf("label '%s' is empty", c))
+	}
+
+	lower := changeIndexCase(strings.Clone(c), 0, false)
+	for ii := 1; ii < len(c); ii++ {
+		lower = changeIndexCase(strings.Clone(c), ii, true)
+	}
+
+	upper := changeIndexCase(strings.Clone(c), 0, true)
+	for ii := 1; ii < len(c); ii++ {
+		lower = changeIndexCase(strings.Clone(c), ii, false)
+	}
+
+	componentsUpper[i] = upper
+	componentsLower[i] = lower
+}
+
+func changeIndexCase(s string, i int, upper bool) string {
+	runes := []rune(s)
+	if upper {
+		runes[i] = unicode.ToUpper(runes[i])
+	} else {
+		runes[i] = unicode.ToLower(runes[i])
+	}
+	return string(runes)
 }
 
 func splitAndTrim(s string) []string {
@@ -120,17 +144,7 @@ func run() error {
 	vectorName = fmt.Sprintf("VectorTyped%vD", dim)
 
 	for i, c := range componentsUpper {
-		if !support.IsAlphaNumeric(c) {
-			return fmt.Errorf("label '%s' is contains alphanumeric characters not in the set of [0-9, a-z, A-Z]", c)
-		}
-		if len(c) <= 0 {
-			return fmt.Errorf("label '%s' is empty", c)
-		}
-		runes := []rune(c)
-		runes[0] = unicode.ToLower(runes[0])
-		componentsLower[i] = string(runes)
-		runes[0] = unicode.ToUpper(runes[0])
-		componentsUpper[i] = string(runes)
+		setComponentCasing(i, c)
 		typesLike[i] = "T"
 		types[i] = "T" + componentsUpper[i]
 		mins[i] = "min" + componentsUpper[i]
@@ -141,6 +155,7 @@ func run() error {
 
 	buildHeader()
 	buildTypes()
+
 	buildNewFuncs()
 
 	buildName()
@@ -161,10 +176,7 @@ func run() error {
 
 	buildStringFunc()
 
-	if canSwizzle {
-		buildSwizzlePreamble()
-		buildSwizzleFuncs()
-	}
+	buildSwizzleFuncs()
 
 	// 3 - Output
 
@@ -222,7 +234,7 @@ func buildNewFuncs() {
 			fprintf(", %s T", componentsLower[i])
 		}
 	}
-	fprintf(") *%s[T] {\n", name)
+	fprintf(", name ...string) *%s[T] {\n", name)
 	fprintf("\ttyped := %s[T](*New%sTyped[%s](", name, name, strings.Join(typesLike, ", "))
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
@@ -231,7 +243,7 @@ func buildNewFuncs() {
 			fprintf(", %s", componentsLower[i])
 		}
 	}
-	fprintf("))\n")
+	fprintf(", name...))\n")
 	fprintf("\treturn &typed\n")
 	fprintf("}\n\n")
 
@@ -244,10 +256,14 @@ func buildNewFuncs() {
 			fprintf(", %s T%s", componentsLower[i], componentsUpper[i])
 		}
 	}
-	fprintf(") *%sTyped[%s] {\n", name, strings.Join(types, ", "))
+	fprintf(", name ...string) *%sTyped[%s] {\n", name, strings.Join(types, ", "))
 	for _, c := range componentsUpper {
 		fprintf("\tmin%s := num.MinValue[T%s]()\n", c, c)
 		fprintf("\tmax%s := num.MaxValue[T%s]()\n", c, c)
+		fprintf("\tif num.IsFloat[T%s]() {\n", c)
+		fprintf("\t\tmin%s = 0\n", c)
+		fprintf("\t\tmax%s = 1\n", c)
+		fprintf("\t}\n")
 	}
 	fprintf("\n")
 	fprintf("\t_v := &%sTyped[%s]{}\n", name, strings.Join(types, ", "))
@@ -262,6 +278,9 @@ func buildNewFuncs() {
 	}
 	fprintf(")\n")
 	fprintf("\t_v.Set(%s)\n", strings.Join(componentsLower, ", "))
+	fprintf("\tif len(name) > 0 {\n")
+	fprintf("\t\t_v.SetName(name[0])\n")
+	fprintf("\t}\n")
 	fprintf("\treturn _v\n")
 	fprintf("}\n\n")
 }
@@ -413,20 +432,6 @@ func buildSetBoundaries() {
 	}
 	fprintf("\treturn _v\n")
 	fprintf("}\n\n")
-}
-
-func buildSwizzlePreamble() {
-	fprintf("/**\n")
-	fprintf("Swizzling\n")
-	fprintf("\n")
-	fprintf("\tNOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in\n")
-	fprintf("\n")
-	fprintf("\tFind -\n")
-	fprintf("\tfunc \\*\\((.*?)\\) ([A-Z]{2,4})\\(\\) \\((.*?)\\)[ ]*\\{[\\n\\t ]*return(.*?)[\\n\\t ]*\\}\n")
-	fprintf("\n")
-	fprintf("\tReplace -\n")
-	fprintf("\tfunc \\*($1) $2() ($3) { return$4 }\n")
-	fprintf("*/\n\n")
 }
 
 func buildSwizzleFuncs() {

@@ -2,11 +2,15 @@ package main
 
 import (
 	"core/std"
+	"core/sys/num"
 	"fmt"
 )
 
 func main() {
-	xyz := std.NewXYZ(1, 5, 3).SetName("Alpha")
+	fma := std.NewFMA(num.MaxValue[float64](), -2.2, 3.3, "Alpha")
+	fmt.Println(fma)
+
+	xyz := std.NewXYZ(1, 5, 3, "Omega")
 	v := test(xyz)
 	fmt.Println(v)
 }

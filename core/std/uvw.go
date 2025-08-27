@@ -27,23 +27,38 @@ type UVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive] struct {
 	W bounded.Numeric[TW]
 }
 
-func NewUVW[T num.Primitive](u T, v T, w T) *UVW[T] {
-	typed := UVW[T](*NewUVWTyped[T, T, T](u, v, w))
+func NewUVW[T num.Primitive](u T, v T, w T, name ...string) *UVW[T] {
+	typed := UVW[T](*NewUVWTyped[T, T, T](u, v, w, name...))
 	return &typed
 }
 
-func NewUVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive](u TU, v TV, w TW) *UVWTyped[TU, TV, TW] {
+func NewUVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive](u TU, v TV, w TW, name ...string) *UVWTyped[TU, TV, TW] {
 	minU := num.MinValue[TU]()
 	maxU := num.MaxValue[TU]()
+	if num.IsFloat[TU]() {
+		minU = 0
+		maxU = 1
+	}
 	minV := num.MinValue[TV]()
 	maxV := num.MaxValue[TV]()
+	if num.IsFloat[TV]() {
+		minV = 0
+		maxV = 1
+	}
 	minW := num.MinValue[TW]()
 	maxW := num.MaxValue[TW]()
+	if num.IsFloat[TW]() {
+		minW = 0
+		maxW = 1
+	}
 
 	_v := &UVWTyped[TU, TV, TW]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minU, maxU, minV, maxV, minW, maxW)
 	_v.Set(u, v, w)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -164,18 +179,6 @@ func (_v UVWTyped[TU, TV, TW]) String() string {
 	}
 	return fmt.Sprintf("uvw[%T, %T, %T]{%v, %v, %v}(\"%v\")", TU(0), TV(0), TW(0), _v.U.String(), _v.V.String(), _v.W.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *UVWTyped[TU, TV, TW]) UU() (TU, TU) { return _v.U.Value(), _v.U.Value() }
 func (_v *UVWTyped[TU, TV, TW]) UV() (TU, TV) { return _v.U.Value(), _v.V.Value() }

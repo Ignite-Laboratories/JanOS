@@ -28,6 +28,9 @@ type Numeric[T num.Primitive] struct {
 // NOTE: This will return a safely ignorable 'under' or 'over' error if the value exceeded the boundaries.
 func NewNumber[T num.Primitive](value, minimum, maximum T, clamp ...bool) (Numeric[T], error) {
 	c := len(clamp) > 0 && clamp[0]
+	if len(clamp) == 0 && num.IsFloat[T]() {
+		c = true
+	}
 	b := Numeric[T]{
 		value:       T(0),
 		minimum:     minimum,
@@ -43,6 +46,9 @@ func (bnd *Numeric[T]) sanityCheck() {
 	if !bnd.initialized {
 		bnd.minimum = num.MinValue[T]()
 		bnd.maximum = num.MaxValue[T]()
+		if num.IsFloat[T]() {
+			bnd.Clamp = true
+		}
 		bnd.initialized = true
 	}
 }
@@ -288,6 +294,107 @@ func (bnd *Numeric[T]) SetUsingAny(value any) error {
 // the value overflows and underflows.  The amount that the value over and underflows is returned as an error, returning nil
 // when the assigned value was within the closed interval.
 func (bnd *Numeric[T]) Set(value T) error {
+	bnd.sanityCheck()
+
+	var err error
+
+	if bnd.Clamp {
+		if value > bnd.maximum {
+			overflow := value - bnd.maximum
+			value = bnd.maximum
+			err = errors.New(num.String[T](overflow))
+		} else if value < bnd.minimum {
+			underflow := bnd.minimum - value
+			value = bnd.minimum
+			err = errors.New("-" + num.String[T](underflow))
+		}
+	} else {
+		if value > bnd.maximum {
+			overflow := value - bnd.maximum
+			err = errors.New(num.String[T](overflow))
+
+			if num.IsFloat[T]() {
+				r := bnd.maximum - bnd.minimum
+				for value > bnd.maximum && overflow > 0 {
+					overflow = T(math.Mod(float64(overflow), float64(r)))
+					if overflow == 0 {
+						value = bnd.minimum
+					} else {
+						value = bnd.minimum + overflow
+					}
+				}
+				bnd.value = value
+				return err
+			}
+		} else if value < bnd.minimum {
+			underflow := value - bnd.minimum
+			err = errors.New(num.String[T](underflow))
+
+			if num.IsFloat[T]() {
+				r := bnd.maximum - bnd.minimum
+				for value < bnd.minimum && underflow < 0 {
+					underflow = T(math.Mod(float64(underflow), float64(r)))
+					if underflow == 0 {
+						value = bnd.maximum
+					} else {
+						value = bnd.maximum + underflow
+					}
+				}
+				bnd.value = value
+				return err
+			}
+		}
+
+		// NOTE: The maximum distance of a primitive type will ALWAYS be a uint64, which is very nice =)
+		distance := uint64(bnd.maximum-bnd.minimum) + 1
+		// NOTE: This circumvents conversion to a float64 when using Math.Abs()
+		if distance < 0 {
+			distance = -distance
+		}
+
+		// Check if the distance (or any of the stored values) exceeds an int64 - requiring big.Int
+		needsBig := distance > uint64(math.MaxInt64)
+		if !needsBig {
+			switch any(value).(type) {
+			case uint64, uint:
+				needsBig = uint64(value) > uint64(math.MaxInt64) ||
+					uint64(bnd.minimum) > uint64(math.MaxInt64) ||
+					uint64(bnd.maximum) > uint64(math.MaxInt64)
+			}
+		}
+
+		var diff uint64
+		if needsBig {
+			m := new(big.Int).SetUint64(uint64(bnd.minimum))
+			v := new(big.Int).SetUint64(uint64(value))
+			r := new(big.Int).SetUint64(distance)
+
+			d := new(big.Int).Sub(v, m)
+			if d.Sign() < 0 {
+				d = new(big.Int).Add(d, r)
+			}
+
+			diff = d.Uint64()
+		} else {
+			d := int64(value - bnd.minimum)
+			if d < 0 {
+				d += int64(distance)
+			}
+			diff = uint64(d)
+		}
+
+		mod := T(diff)
+		if distance > 0 {
+			mod = T(diff % distance)
+		}
+		value = bnd.minimum + mod
+	}
+
+	bnd.value = value
+	return err
+}
+
+func (bnd *Numeric[T]) SetOld(value T) error {
 	bnd.sanityCheck()
 
 	var err error

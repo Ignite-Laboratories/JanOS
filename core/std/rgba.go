@@ -28,25 +28,44 @@ type RGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Prim
 	A bounded.Numeric[TA]
 }
 
-func NewRGBA[T num.Primitive](r T, g T, b T, a T) *RGBA[T] {
-	typed := RGBA[T](*NewRGBATyped[T, T, T, T](r, g, b, a))
+func NewRGBA[T num.Primitive](r T, g T, b T, a T, name ...string) *RGBA[T] {
+	typed := RGBA[T](*NewRGBATyped[T, T, T, T](r, g, b, a, name...))
 	return &typed
 }
 
-func NewRGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive](r TR, g TG, b TB, a TA) *RGBATyped[TR, TG, TB, TA] {
+func NewRGBATyped[TR num.Primitive, TG num.Primitive, TB num.Primitive, TA num.Primitive](r TR, g TG, b TB, a TA, name ...string) *RGBATyped[TR, TG, TB, TA] {
 	minR := num.MinValue[TR]()
 	maxR := num.MaxValue[TR]()
+	if num.IsFloat[TR]() {
+		minR = 0
+		maxR = 1
+	}
 	minG := num.MinValue[TG]()
 	maxG := num.MaxValue[TG]()
+	if num.IsFloat[TG]() {
+		minG = 0
+		maxG = 1
+	}
 	minB := num.MinValue[TB]()
 	maxB := num.MaxValue[TB]()
+	if num.IsFloat[TB]() {
+		minB = 0
+		maxB = 1
+	}
 	minA := num.MinValue[TA]()
 	maxA := num.MaxValue[TA]()
+	if num.IsFloat[TA]() {
+		minA = 0
+		maxA = 1
+	}
 
 	_v := &RGBATyped[TR, TG, TB, TA]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minR, maxR, minG, maxG, minB, maxB, minA, maxA)
 	_v.Set(r, g, b, a)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -181,18 +200,6 @@ func (_v RGBATyped[TR, TG, TB, TA]) String() string {
 	}
 	return fmt.Sprintf("rgba[%T, %T, %T, %T]{%v, %v, %v, %v}(\"%v\")", TR(0), TG(0), TB(0), TA(0), _v.R.String(), _v.G.String(), _v.B.String(), _v.A.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *RGBATyped[TR, TG, TB, TA]) RR() (TR, TR) { return _v.R.Value(), _v.R.Value() }
 func (_v *RGBATyped[TR, TG, TB, TA]) RG() (TR, TG) { return _v.R.Value(), _v.G.Value() }

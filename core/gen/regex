@@ -1,0 +1,14 @@
+This is here cause it was useful, but I'm not sure if it's really needed any longer
+-- Alex - August 26th, 2025
+
+/**
+Swizzling
+
+	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
+
+	Find -
+	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
+
+	Replace -
+	func \*($1) $2() ($3) { return$4 }
+*/

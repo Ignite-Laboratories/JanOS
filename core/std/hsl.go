@@ -27,23 +27,38 @@ type HSLTyped[TH num.Primitive, TS num.Primitive, TL num.Primitive] struct {
 	L bounded.Numeric[TL]
 }
 
-func NewHSL[T num.Primitive](h T, s T, l T) *HSL[T] {
-	typed := HSL[T](*NewHSLTyped[T, T, T](h, s, l))
+func NewHSL[T num.Primitive](h T, s T, l T, name ...string) *HSL[T] {
+	typed := HSL[T](*NewHSLTyped[T, T, T](h, s, l, name...))
 	return &typed
 }
 
-func NewHSLTyped[TH num.Primitive, TS num.Primitive, TL num.Primitive](h TH, s TS, l TL) *HSLTyped[TH, TS, TL] {
+func NewHSLTyped[TH num.Primitive, TS num.Primitive, TL num.Primitive](h TH, s TS, l TL, name ...string) *HSLTyped[TH, TS, TL] {
 	minH := num.MinValue[TH]()
 	maxH := num.MaxValue[TH]()
+	if num.IsFloat[TH]() {
+		minH = 0
+		maxH = 1
+	}
 	minS := num.MinValue[TS]()
 	maxS := num.MaxValue[TS]()
+	if num.IsFloat[TS]() {
+		minS = 0
+		maxS = 1
+	}
 	minL := num.MinValue[TL]()
 	maxL := num.MaxValue[TL]()
+	if num.IsFloat[TL]() {
+		minL = 0
+		maxL = 1
+	}
 
 	_v := &HSLTyped[TH, TS, TL]{}
 	_v.Entity = NewEntity[format.Default]()
 	_v.SetBoundaries(minH, maxH, minS, maxS, minL, maxL)
 	_v.Set(h, s, l)
+	if len(name) > 0 {
+		_v.SetName(name[0])
+	}
 	return _v
 }
 
@@ -164,18 +179,6 @@ func (_v HSLTyped[TH, TS, TL]) String() string {
 	}
 	return fmt.Sprintf("hsl[%T, %T, %T]{%v, %v, %v}(\"%v\")", TH(0), TS(0), TL(0), _v.H.String(), _v.S.String(), _v.L.String(), _v.GivenName.Name)
 }
-
-/**
-Swizzling
-
-	NOTE: This is a regular expression to find and replace swizzle functions into a one-liner if the auto formatter ever kicks in
-
-	Find -
-	func \*\((.*?)\) ([A-Z]{2,4})\(\) \((.*?)\)[ ]*\{[\n\t ]*return(.*?)[\n\t ]*\}
-
-	Replace -
-	func \*($1) $2() ($3) { return$4 }
-*/
 
 func (_v *HSLTyped[TH, TS, TL]) HH() (TH, TH) { return _v.H.Value(), _v.H.Value() }
 func (_v *HSLTyped[TH, TS, TL]) HS() (TH, TS) { return _v.H.Value(), _v.S.Value() }
