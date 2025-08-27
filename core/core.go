@@ -34,8 +34,8 @@ func init() {
 		}
 
 		fmt.Printf("|-"+randDash()+"--"+randDash()+"--⇥ JanOS --"+randDash()+"--"+randDash()+"--⇥%v\n", version)
-		fmt.Println("|- © 2025, Ignite Laboratories ----" + randDash() + "----⇥")
-		fmt.Println("|- ↯ `" + Name.String() + "` ------⇥")
+		fmt.Println("|- © 2025, Alex Petz - Ignite Laboratories --" + randDash() + "--⇥")
+		fmt.Println("|- ↯ - " + Name.String() + " ------⇥")
 		fmt.Println("|- JanOS is provided as-is, without warranties or -" + randDash() + "-⇥")
 		fmt.Println("|- guarantees of any kind. Use at your own discretion. -" + randDash() + "⇥")
 		fmt.Println("|------" + randDash() + "---" + randDash() + "---" + randDash() + "---" + randDash() + "-----⇥")
