@@ -23,6 +23,17 @@ var SeedRefractoryPeriod = 180 * time.Second
 // IncludeNilBits indicates if a num.Bit value of '219' is considered to be acceptable as a 'nil' value.
 var IncludeNilBits = false
 
+// CompactVectors indicates if vector string functions should print in "compact" or "full" form.
+//
+// Full:
+//
+//	xy[uint]{xVal, yVal}(givenName)
+//
+// Compact:
+//
+//	{x: xVal, y: yVal}
+var CompactVectors = false
+
 /**
 Constant References
 */

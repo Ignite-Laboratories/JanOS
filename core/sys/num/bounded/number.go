@@ -2,6 +2,7 @@ package bounded
 
 import (
 	"core/sys/num"
+	"errors"
 	"fmt"
 	"math"
 	"math/big"
@@ -55,19 +56,6 @@ func (bnd *Number[T]) sanityCheck() {
 		bnd.minimum = num.MinValue[T]()
 		bnd.maximum = num.MaxValue[T]()
 		bnd.initialized = true
-	}
-}
-
-// ValueString returns the value as a numeric string.
-func (bnd *Number[T]) ValueString() string {
-	bnd.sanityCheck()
-
-	var zero T
-	switch any(zero).(type) {
-	case float32, float64:
-		return fmt.Sprintf("%f", bnd.Value())
-	default:
-		return fmt.Sprintf("%d", bnd.Value())
 	}
 }
 
@@ -329,10 +317,26 @@ func (bnd *Number[T]) Set(value T) error {
 			diff = uint64(d)
 		}
 
-		mod := T(diff % distance)
+		mod := T(diff)
+		if distance > 0 {
+			mod = T(diff % distance)
+		}
 		value = bnd.minimum + mod
 	}
 
 	bnd.value = value
 	return err
+}
+
+// String returns the value as a numeric string.
+func (bnd Number[T]) String() string {
+	bnd.sanityCheck()
+
+	var zero T
+	switch any(zero).(type) {
+	case float32, float64:
+		return fmt.Sprintf("%f", bnd.Value())
+	default:
+		return fmt.Sprintf("%d", bnd.Value())
+	}
 }

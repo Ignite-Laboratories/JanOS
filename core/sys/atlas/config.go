@@ -11,6 +11,7 @@ type config struct {
 	Precision            uint    `json:"precision"`
 	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
 	IncludeNilBits       *bool   `json:"includeNilBits"`
+	CompactVectors       *bool   `json:"compactVectors"`
 }
 
 func (c config) apply() {
@@ -31,5 +32,8 @@ func (c config) apply() {
 	}
 	if c.IncludeNilBits != nil {
 		IncludeNilBits = *c.IncludeNilBits
+	}
+	if c.CompactVectors != nil {
+		CompactVectors = *c.CompactVectors
 	}
 }

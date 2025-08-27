@@ -4,5 +4,6 @@
   "trimFrequency": 1024,
   "precision": 512,
   "seedRefractoryPeriod": "4s",
-  "includeNilBits" false,
+  "includeNilBits": false,
+  "compactVectors": false
 }
