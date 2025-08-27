@@ -2,8 +2,10 @@ package core
 
 import (
 	"core/sys/atlas"
+	"core/sys/blue"
 	"core/sys/name"
 	"core/sys/name/format"
+	"core/sys/num"
 	"debug/buildinfo"
 	"fmt"
 	"os"
@@ -23,11 +25,21 @@ func init() {
 			}
 		}
 
-		fmt.Printf("JanOS %v\n", version)
-		fmt.Println("© 2025, Ignite Laboratories")
-		fmt.Println(Name.String())
-		fmt.Println("---------------------------")
-		fmt.Println("JanOS is provided as-is, without warranties or guarantees of any kind. Use at your own discretion.")
+		randDash := func() string {
+			var builder strings.Builder
+			for i := num.Note(0); i < blue.Note; i++ {
+				builder.WriteString("-")
+			}
+			return builder.String()
+		}
+
+		fmt.Printf("|-"+randDash()+"--"+randDash()+"--⇥ JanOS --"+randDash()+"--"+randDash()+"--⇥%v\n", version)
+		fmt.Println("|- © 2025, Ignite Laboratories ----" + randDash() + "----⇥")
+		fmt.Println("|- ↯ `" + Name.String() + "` ------⇥")
+		fmt.Println("|- JanOS is provided as-is, without warranties or -" + randDash() + "-⇥")
+		fmt.Println("|- guarantees of any kind. Use at your own discretion. -" + randDash() + "⇥")
+		fmt.Println("|------" + randDash() + "---" + randDash() + "---" + randDash() + "---" + randDash() + "-----⇥")
+		fmt.Println()
 	}
 }
 
