@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Details represents the cultural and gender details behind a name.
+// Details represents the cultural origin and the culture's implied gender - this is purely for informational purposes.
 type Details struct {
 	Origin string
 	Gender gender.Gender

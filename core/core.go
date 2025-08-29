@@ -27,18 +27,17 @@ func init() {
 
 		randDash := func() string {
 			var builder strings.Builder
-			for i := num.Note(0); i < blue.Note; i++ {
+			for i := num.Note(0); i < blue.Note(); i++ {
 				builder.WriteString("-")
 			}
 			return builder.String()
 		}
 
-		fmt.Printf("|-"+randDash()+"--"+randDash()+"--⇥ JanOS --"+randDash()+"--"+randDash()+"--⇥%v\n", version)
-		fmt.Println("|- © 2025 Alex Petz --" + randDash() + "--⇥")
-		fmt.Println("|- Ignite Laboratories --" + randDash() + "--⇥")
-		fmt.Println("|------" + randDash() + "---" + randDash() + "---" + randDash() + "---" + randDash() + "-----⇥")
-		fmt.Println()
-		fmt.Println("[↯] -" + randDash() + "⇥ " + Name.StringQuoted())
+		fmt.Printf("⎧"+randDash()+"-⇥ JanOS %v\n", version)
+		fmt.Println("|" + randDash() + "-⇥ © 2025 Alex Petz")
+		fmt.Println("⎨" + randDash() + "-⇥ ⚛ Ignite Laboratories")
+		fmt.Println("|" + randDash() + "⇥")
+		fmt.Println("⎩" + randDash() + "⇥ ↯ " + Name.StringQuoted())
 		fmt.Println()
 	}
 }

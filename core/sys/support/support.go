@@ -4,7 +4,30 @@ import (
 	"math/rand/v2"
 	"reflect"
 	"slices"
+	"strings"
+	"unicode"
 )
+
+// SetCase changes the case of the input string.  If no indices are provided, the entire string is affected.
+// Otherwise, only the provided indices are manipulated.
+func SetCase(input string, upper bool, indices ...int) string {
+	if len(indices) == 0 {
+		if upper {
+			return strings.ToUpper(input)
+		}
+		return strings.ToLower(input)
+	}
+
+	runes := []rune(input)
+	for _, ii := range indices {
+		if upper {
+			runes[ii] = unicode.ToUpper(runes[ii])
+		} else {
+			runes[ii] = unicode.ToLower(runes[ii])
+		}
+	}
+	return string(runes)
+}
 
 // ShuffleSet clones and then shuffles the provided set using 'slices' and 'math/rand/v2', respectively.
 func ShuffleSet[T any](set []T) []T {

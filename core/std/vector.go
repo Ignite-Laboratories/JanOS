@@ -2,7 +2,7 @@ package std
 
 import "core/sys/num/bounded"
 
-// Vector represents any letter vector type - all letter vectors create these functions on generation.
+// Vector represents any "𝑙𝑒𝑡𝑡𝑒𝑟 𝑣𝑒𝑐𝑡𝑜𝑟" type, and all generated letter vectors create these functions at creation. See letters.Doc
 //
 // This provides a type-agnostic way of retrieving and setting vector information at runtime.  These
 // will intentionally panic if provided erroneous parameters, such as trying to 'Set' with a mismatched type.
