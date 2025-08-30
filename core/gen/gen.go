@@ -2,6 +2,8 @@
 Letter Types
 */
 
+//go:generate go run ./letters/main -pkg std -name _cursor -nameL _cursor -cmpts I -cmptsL i -out ../std/cursor_gen.go
+
 //go:generate go run ./letters/main -pkg std -name FMA -nameL fma -cmpts Force,Mass,Acceleration -cmptsL force,mass,acceleration -out ../std/fma.go
 //go:generate go run ./letters/main -pkg std -name RGB -nameL rgb -cmpts R,G,B -cmptsL r,g,b -out ../std/rgb.go
 //go:generate go run ./letters/main -pkg std -name RGBA -nameL rgba -cmpts R,G,B,A -cmptsL r,g,b,a -out ../std/rgba.go

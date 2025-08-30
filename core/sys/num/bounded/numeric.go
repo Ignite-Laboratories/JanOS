@@ -8,7 +8,7 @@ import (
 	"math/big"
 )
 
-// Numeric represents a bounded numeric value bound within the closed set [minimum, maximum].
+// Numeric represents a numeric value bounded within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
 //

@@ -9,7 +9,7 @@ import "core/sys/num/bounded"
 //
 // All vectors are components of bounded.Number values - vector operations pay no mind to the -actual- types involved,
 // so long as their primitive arithmetic operations are available.  This means you will need to perform type casting
-// to -your- bounded.Number type, which should be available to you.
+// to -your- bounded.Numeric type, which should be available to you.
 //
 // NOTE: By design, all vector components are organized by their self-described order.  For instance, an XYZW type's
 // components are logically ordered as X[0], Y[1], Z[2], W[3] - while a UV's is U[0], V[1].

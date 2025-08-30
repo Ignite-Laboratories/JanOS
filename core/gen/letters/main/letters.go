@@ -30,7 +30,9 @@ var dontWrite bool
 var pkg string
 var fileOut string
 var name string
+var nameTyped string
 var nameLower string
+var nameLowerTyped string
 var vectorName string
 var dim string
 var componentsUpper []string
@@ -71,6 +73,14 @@ func parseFlags() {
 	flag.Parse()
 	componentsUpper = support.Deduplicate(cmpts.Values)
 	componentsLower = support.Deduplicate(cmptsLow.Values)
+
+	nameTyped = name + "Typed"
+	nameLowerTyped = nameLower + "Typed"
+
+	if len(componentsUpper) == 1 {
+		nameTyped = name
+		nameLowerTyped = nameLower
+	}
 }
 
 func setComponentCasing(i int, c string) {
@@ -196,7 +206,9 @@ func buildHeader() {
 	fprintf("package %s\n\n", pkg)
 	fprintf("import (\n")
 	fprintf("\t\"core/sys/atlas\"\n")
-	fprintf("\t\"core/sys/name/format\"\n")
+	if name[0] != '_' {
+		fprintf("\t\"core/sys/name/format\"\n")
+	}
 	fprintf("\t\"core/sys/num\"\n")
 	fprintf("\t\"core/sys/num/bounded\"\n")
 	fprintf("\t\"core/sys/support\"\n")
@@ -207,16 +219,20 @@ func buildHeader() {
 
 func buildTypes() {
 	// Symmetrically-typed
-	fprintf("// %s is a %vD vector of like-typed bounded.Numeric components.\n", name, dim)
-	fprintf("//\n")
-	fprintf("// NOTE: If you'd like asymmetric types, please see %sTyped.\n", name)
-	fprintf("type %s[T num.Primitive] = %sTyped[%s]\n\n", name, name, strings.Join(typesLike, ", "))
+	if len(componentsUpper) > 1 {
+		fprintf("// %s is a %vD vector of like-typed bounded.Numeric components.\n", name, dim)
+		fprintf("//\n")
+		fprintf("// NOTE: If you'd like asymmetric types, please see %sTyped.\n", name)
+		fprintf("type %s[T num.Primitive] = %sTyped[%s]\n\n", name, name, strings.Join(typesLike, ", "))
+	}
 
 	// Asymmetrically-typed
-	fprintf("// %sTyped is a %vD vector of asymmetrically typed bounded.Numeric components.\n", name, dim)
-	fprintf("//\n")
-	fprintf("// NOTE: If you'd like symmetric types, please see %s.\n", name)
-	fprintf("type %sTyped[%s num.Primitive] struct {\n", name, strings.Join(types, " num.Primitive, "))
+	fprintf("// %s is a %vD vector of asymmetrically typed bounded.Numeric components.\n", nameTyped, dim)
+	if len(componentsUpper) > 1 {
+		fprintf("//\n")
+		fprintf("// NOTE: If you'd like symmetric types, please see %s.\n", name)
+	}
+	fprintf("type %s[%s num.Primitive] struct {\n", nameTyped, strings.Join(types, " num.Primitive, "))
 	fprintf("\tEntity\n")
 	for i, c := range componentsUpper {
 		fprintf("\t%s bounded.Numeric[%s]\n", c, types[i])
@@ -225,30 +241,36 @@ func buildTypes() {
 }
 
 func buildNewFuncs() {
+	if name[0] == '_' {
+		return
+	}
+
 	// Symmetrically-typed
-	fprintf("func New%s[T num.Primitive](", name)
-	for i := 0; i < len(componentsUpper); i++ {
-		if i == 0 {
-			fprintf("%s T", componentsLower[i])
-		} else {
-			fprintf(", %s T", componentsLower[i])
+	if len(componentsUpper) > 1 {
+		fprintf("func New%s[T num.Primitive](", name)
+		for i := 0; i < len(componentsUpper); i++ {
+			if i == 0 {
+				fprintf("%s T", componentsLower[i])
+			} else {
+				fprintf(", %s T", componentsLower[i])
+			}
 		}
-	}
-	fprintf(", name ...string) *%s[T] {\n", name)
-	fprintf("\ttyped := %s[T](*New%sTyped[%s](", name, name, strings.Join(typesLike, ", "))
-	for i := 0; i < len(componentsUpper); i++ {
-		if i == 0 {
-			fprintf("%s", componentsLower[i])
-		} else {
-			fprintf(", %s", componentsLower[i])
+		fprintf(", name ...string) *%s[T] {\n", name)
+		fprintf("\ttyped := %s[T](*New%sTyped[%s](", name, name, strings.Join(typesLike, ", "))
+		for i := 0; i < len(componentsUpper); i++ {
+			if i == 0 {
+				fprintf("%s", componentsLower[i])
+			} else {
+				fprintf(", %s", componentsLower[i])
+			}
 		}
+		fprintf(", name...))\n")
+		fprintf("\treturn &typed\n")
+		fprintf("}\n\n")
 	}
-	fprintf(", name...))\n")
-	fprintf("\treturn &typed\n")
-	fprintf("}\n\n")
 
 	// Asymmetrically-typed
-	fprintf("func New%sTyped[%s num.Primitive](", name, strings.Join(types, " num.Primitive, "))
+	fprintf("func New%s[%s num.Primitive](", nameTyped, strings.Join(types, " num.Primitive, "))
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("%s T%s", componentsLower[i], componentsUpper[i])
@@ -256,7 +278,7 @@ func buildNewFuncs() {
 			fprintf(", %s T%s", componentsLower[i], componentsUpper[i])
 		}
 	}
-	fprintf(", name ...string) *%sTyped[%s] {\n", name, strings.Join(types, ", "))
+	fprintf(", name ...string) *%s[%s] {\n", nameTyped, strings.Join(types, ", "))
 	for _, c := range componentsUpper {
 		fprintf("\tmin%s := num.MinValue[T%s]()\n", c, c)
 		fprintf("\tmax%s := num.MaxValue[T%s]()\n", c, c)
@@ -266,7 +288,7 @@ func buildNewFuncs() {
 		fprintf("\t}\n")
 	}
 	fprintf("\n")
-	fprintf("\t_v := &%sTyped[%s]{}\n", name, strings.Join(types, ", "))
+	fprintf("\t_v := &%s[%s]{}\n", nameTyped, strings.Join(types, ", "))
 	fprintf("\t_v.Entity = NewEntity[format.Default]()\n")
 	fprintf("\t_v.SetBoundaries(")
 	for i := 0; i < len(componentsUpper); i++ {
@@ -289,7 +311,7 @@ func buildStringFunc() {
 	/**
 	First branch
 	*/
-	fprintf("func (_v %sTyped[%s]) String() string {\n", name, strings.Join(types, ", "))
+	fprintf("func (_v %s[%s]) String() string {\n", nameTyped, strings.Join(types, ", "))
 
 	fprintf("\tif atlas.CompactVectors {\n")
 	fprintf("\t\treturn fmt.Sprintf(\"{")
@@ -368,7 +390,7 @@ func buildStringFunc() {
 }
 
 func buildSetFunc() {
-	fprintf("func (_v *%sTyped[%s]) Set(", name, strings.Join(types, ", "))
+	fprintf("func (_v *%s[%s]) Set(", nameTyped, strings.Join(types, ", "))
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("%s T%s", componentsLower[i], componentsUpper[i])
@@ -376,7 +398,7 @@ func buildSetFunc() {
 			fprintf(", %s T%s", componentsLower[i], componentsUpper[i])
 		}
 	}
-	fprintf(") *%sTyped[", name)
+	fprintf(") *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -393,7 +415,7 @@ func buildSetFunc() {
 }
 
 func buildSetClampFunc() {
-	fprintf("func (_v *%sTyped[%s]) SetClamp(clamp bool) *%sTyped[", name, strings.Join(types, ", "), name)
+	fprintf("func (_v *%s[%s]) SetClamp(clamp bool) *%s[", nameTyped, strings.Join(types, ", "), nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -410,7 +432,7 @@ func buildSetClampFunc() {
 }
 
 func buildSetBoundaries() {
-	fprintf("func (_v *%sTyped[%s]) SetBoundaries(", name, strings.Join(types, ", "))
+	fprintf("func (_v *%s[%s]) SetBoundaries(", nameTyped, strings.Join(types, ", "))
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("min%s, max%s T%s", componentsUpper[i], componentsUpper[i], componentsUpper[i])
@@ -418,7 +440,7 @@ func buildSetBoundaries() {
 			fprintf(", min%s, max%s T%s", componentsUpper[i], componentsUpper[i], componentsUpper[i])
 		}
 	}
-	fprintf(") *%sTyped[", name)
+	fprintf(") *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -470,7 +492,7 @@ func buildSwizzleFuncs() {
 }
 
 func buildSwizzleFunc(components ...string) {
-	fprintf("func (_v *%sTyped[%s]) %s() (", name, strings.Join(types, ", "), strings.Join(components, ""))
+	fprintf("func (_v *%s[%s]) %s() (", nameTyped, strings.Join(types, ", "), strings.Join(components, ""))
 	for i, c := range components {
 		if i == 0 {
 			fprintf("T%s", c)
@@ -490,7 +512,7 @@ func buildSwizzleFunc(components ...string) {
 }
 
 func buildName() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -504,7 +526,7 @@ func buildName() {
 }
 
 func buildSetName() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -512,7 +534,7 @@ func buildSetName() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) SetName(name string) *%sTyped[", name)
+	fprintf("]) SetName(name string) *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -527,7 +549,7 @@ func buildSetName() {
 }
 
 func buildComponents() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -549,7 +571,7 @@ func buildComponents() {
 }
 
 func buildSetComponents() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -574,7 +596,7 @@ func buildSetComponents() {
 }
 
 func buildComponentLen() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -588,7 +610,7 @@ func buildComponentLen() {
 }
 
 func buildComponent() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -608,7 +630,7 @@ func buildComponent() {
 }
 
 func buildComponentByName() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -628,7 +650,7 @@ func buildComponentByName() {
 }
 
 func buildSetComponent() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
@@ -650,7 +672,7 @@ func buildSetComponent() {
 }
 
 func buildSetComponentByName() {
-	fprintf("func (_v *%sTyped[", name)
+	fprintf("func (_v *%s[", nameTyped)
 	for i := 0; i < len(componentsUpper); i++ {
 		if i == 0 {
 			fprintf("T%s", componentsUpper[i])
