@@ -30906,24 +30906,17 @@ Phi	Greek Alphabet	Neutral	Greek symbol 'Φ' or 'φ'
 Chi	Greek Alphabet	Neutral	Greek symbol 'Χ' or 'χ'
 Psi	Greek Alphabet	Neutral	Greek symbol 'Ψ' or 'ψ'
 Omega	Greek Alphabet	Neutral	Greek symbol 'Ω' or 'ω'
-343	Monitor	Neutral	Forerunner	Guilty Spark
-2401	Monitor	Neutral	Forerunner	Penitent Tangent
-049	Monitor	Neutral	Forerunner	Abject Testament
-031	Monitor	Neutral	Forerunner	Exuberant Witness
-859	Monitor	Neutral	Forerunner	Static Carillon
-117649	Monitor	Neutral	Forerunner	Despondent Pyre
-686	Monitor	Neutral	Forerunner	Ebullient Prism
-000	Monitor	Neutral	Forerunner	Tragic Solitude
-001	Monitor	Neutral	Forerunner	Shamed Instrument
-007	Monitor	Neutral	Forerunner	Contrite Witness
-031	Monitor	Neutral	Forerunner	Exuberant Witness
-049	Monitor	Neutral	Forerunner	Abject Testament
-295	Monitor	Neutral	Forerunner	Enduring Bias
-295	Monitor	Neutral	Forerunner	Harken Watch
-343	Monitor	Neutral	Forerunner	Guilty Spark
-2401	Monitor	Neutral	Forerunner	Penitent Tangent
-16807	Monitor	Neutral	Forerunner	Abashed Eulogy
-117649	Monitor	Neutral	Forerunner	Despondent Pyre
-686	Monitor	Neutral	Forerunner	Ebullient Prism
-859	Monitor	Neutral	Forerunner	Static Carillon
-The Warden	Monitor	Neutral	Forerunner	Detained and provided defense for Forerunners accused of crime before the Capital Court
+343 Guilty Spark	Forerunner	Neutral	Former caretaker of Installation 04 and Installation 08, and current caretaker of Bastion
+2401 Penitent Tangent	Forerunner	Neutral	Caretaker of Installation 05
+049 Abject Testament	Forerunner	Neutral	Caretaker of Installation 03
+031 Exuberant Witness	Forerunner	Neutral	Caretaker of Genesis
+859 Static Carillon	Forerunner	Neutral	Caretaker of the Composer's Forge
+117649 Despondent Pyre	Forerunner	Neutral	Caretaker of Installation 07
+686 Ebullient Prism	Forerunner	Neutral	Caretaker of Line Installation 1-4
+000 Tragic Solitude	Forerunner	Neutral	Caretaker of Installation 00
+001 Shamed Instrument	Forerunner	Neutral	Caretaker of Installation 01
+007 Contrite Witness	Forerunner	Neutral	Caretaker of Installation 02
+295 Enduring Bias	Forerunner	Neutral	Caretaker of The Refuge
+295 Harken Watch	Forerunner	Neutral	Caretaker of Trove
+16807 Abashed Eulogy	Forerunner	Neutral	Caretaker of Installation 06
+The Warden	Forerunner	Neutral	Detained and provided defense for Forerunners accused of crime before the Capital Court

@@ -83,7 +83,7 @@ func parseIndex(indexFile string) {
 		for i := 0; i < synsetCount; i++ {
 			offset, _ := strconv.Atoi(fields[cursor])
 			switch pos {
-			case Adjective:
+			case Adjective, AdjectiveSatellite:
 				if s, ok := Synsets.Adjective[offset]; ok {
 					senses[i] = s
 					d.Senses = senses
@@ -123,7 +123,7 @@ func parseIndex(indexFile string) {
 		l.Untagged += d.Untagged
 
 		switch pos {
-		case Adjective:
+		case Adjective, AdjectiveSatellite:
 			l.Adjective = d
 		case Adverb:
 			l.Adverb = d
@@ -180,3 +180,21 @@ type Synset struct {
 //    - lex_id: two-digit hexadecimal (00–ff), unique per Lexis within the lex_filenum.
 //    - head_word: only present for ss_type = 5 (adj satellite); the head Lexis of its cluster.
 //    - head_id: two-digit hexadecimal, the lex_id of head_word.
+
+// data.____ format
+// 00003131 00 a 03 adducent 0 adductive 0 adducting 0 003 ;c 06090110 n 0000 + 01451829 v 0201 ! 00002956 a 0101 | especially of muscles; bringing together or drawing toward the midline of the body or toward an adjacent part
+//
+// 00003131 ← offset
+// 00 ← lexicographical file number (00-44)
+// a ← part of speech (string)
+// 03 ← number of word forms in this synset, in hexadecimal (00-FF)
+// adducent ← word (KEY: spaces have been replaced with underscores)
+// 0 ← syntactic marker (predicate, prenonimal, immediately postnominal)
+// adductive ← word
+// 0 ← syntactic marker
+// adducting ← word
+// 0 ← syntactic marker
+// 003 ← pointer count (decimal)
+// ;c ← pointer symbol
+// 06090110 ← offset
+// n ← part of speech
