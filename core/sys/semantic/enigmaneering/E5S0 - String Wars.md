@@ -35,7 +35,7 @@ that many creatives before me typically solved with clever pairings of words.  F
 "moral adjective + abstract noun" resonating well: `Enduring Bias` and `Exuberant Witness` _immediately_ strike the tone of
 a computed intelligence residing within a bounded space.
 
-Thus, I set out on a course for producing an engine that could _generate_ a similar name on the fly - _moral adjective_ + 
+Thus, I set out on a course for producing an engine that could _generate_ a similar name on the fly: _moral adjective_ + 
 _abstract noun._  Have you tried to Google how to do that?  How do you even _ask_ a computer how to semantically traverse
 through relational terms!?  Moreover - Halo's naming convention is occasionally, well, _dark:_  `001 Shamed Instrument` 
 `2401 Penitent Tangent` `000 Tragic Solitude` to name a few!  How do I filter my adjectives and nouns to more positive 
