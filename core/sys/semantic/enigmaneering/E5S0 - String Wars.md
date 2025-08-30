@@ -83,7 +83,7 @@ be a word or a phrase, but the string of characters is a cohesive _unit_ -
 
 Here, we've identified two different sets of related lemma through their hypernym and hyponym tree.  This is a _start_ towards
 our goal of a "moral adjective" finder, because it allows us to traverse up and down 'generalness' to find broader sets of 
-lemma.  WordNet affords us another traversal direction - _synonyms_ and _antonyms._  Using these four specific directions, we
-can theoretically use a set of starting terms and _intelligently_ traverse the entire data set to find qualitatively related words!  That fits
+lemma.  WordNet affords us another traversal direction - _synonyms_ and _antonyms._  Starting off in these four directions, we
+can theoretically take a set of starting terms and _intelligently_ traverse the entire data set to find qualitatively related lemma!  That fits
 every checkmark of what I aim to achieve - so, let's start parsing the WordNet files into a logical structure that's useful to
 _JanOS._
