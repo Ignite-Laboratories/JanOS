@@ -5,7 +5,7 @@
 
 ### Episode V - The Algorithm Strikes Back
 
-As is traditional in all temporal space operas, we begin somewhere in the middle!  This O.S. has evolved through many 
+As is traditional in all spatial operas, we begin somewhere in the middle!  This O.S. has evolved through many 
 different phases, each of which needs heavy revision before _its_ introduction into the JanOS code base - _this one,_ however, 
 must be written alongside the code it describes!  I made some bold claims at the start of this enigma, so let's get
 started with _how_ an algorithm could even begin to make _ethically sound decisions:_  it first gets to learn how to
