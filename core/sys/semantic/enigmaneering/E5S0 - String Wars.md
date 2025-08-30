@@ -60,7 +60,7 @@ Well - what do most instruments need, first?
 
 _Strings!_
 
-### Cursoring
+### Cursoring Through Prose
 
 In JanOS, all vector types are _bounded._  For example, when creating floating point vectors they're automatically 'clamped' to
 the closed interval `[0.0, 1.0]` - with clamping meaning you cannot overflow or underflow the boundaries.  A _cursor_ is a
