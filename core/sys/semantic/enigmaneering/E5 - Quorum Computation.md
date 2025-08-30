@@ -38,7 +38,7 @@ things _they_ must dream about to continue existing in _their_ reality.  What qu
 way to _put_ dreamable items into the entity's _perception._  A rock and a cloud don't require nearly _as much_
 processing power to exist, but that's truly the _only_ difference in each's ODP loop.  While I'm a long way 
 from describing the process of _using_ dreams, the notion is simple: when your body feels safest, it can finally 
-visualize and describe the traumas it has endured.  In a minimal operating state, such as rest where visual stimuli 
+visualize and describe the traumas it has endured.  In a minimal operating state such as rest, where visual stimuli 
 are no longer relied upon for continued operation, the mind can shift its focus towards processing the things it couldn't 
 while awake.
 
