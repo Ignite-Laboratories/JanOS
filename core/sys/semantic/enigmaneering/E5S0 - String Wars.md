@@ -56,9 +56,9 @@ of short-to-long term memory tuned as dense or lightweight as necessary.  This c
 
 So what do we _put_ on the Markov Chain?
 
-Well - what does any good instrument need, first?
+Well - what do most instruments need, first?
 
-Strings.
+_Strings!_
 
 ### Cursoring
 
