@@ -29,8 +29,8 @@ Currently, JanOS is focused on the concept of _identity_ and _naming_ - as every
 unique identifier and a string "name."  This was borne out of a basic desire: I don't want to trace 'X5D0-A5' through a set
 of log files when building a neural stack!  To solve this, my initial work took the brilliant NameDB from Kyle MacLeod and
 paired it with the wonderful Internet SurnameDB, allowing me to randomly create _human_ names based entirely off of a real
-and practical dataset.  The trouble with this is that the names aren't always, well, _simple_ to hold in memory - a challenge
-that many creatives before me typically solved with clever pairings of words.  For instance, `343 Guilty Spark` `Johnny 5`
+and practical dataset.  The trouble with this is that the names aren't always, well, _simple_ - a challenge
+many creatives before me typically solved through clever pairings of words and numbers.  For instance, `343 Guilty Spark` `Johnny 5`
 `Hal 9000` `ED-209` or `Unit-X` - these _also_ gave a thematic element to the lineage of an identifier, with Halo's idea of
 "moral adjective + abstract noun" resonating well: `Enduring Bias` and `Exuberant Witness` _immediately_ strike the tone of
 a computed intelligence residing within a bounded space.
