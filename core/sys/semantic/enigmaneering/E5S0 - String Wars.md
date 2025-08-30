@@ -51,7 +51,7 @@ How do you correlate _mellifluousness_ against a _**data set?**_
 The answer is an astoundingly resolute _yes!_  Not because it couldn't before, but because we've already given it the
 ability to _temporally_ identify context - in other words, JanOS has conscious awareness of however much of its surroundings
 we _give_ it access to.  This comes in the form of the vector system's temporal frame buffer, which can be considered a form 
-of short-to-long term memory - which you can tune to be as dense or lightweight as necessary.  This creates a kind of recursive
+of short-to-long term memory and can be tuned to be as dense or lightweight as necessary.  This creates a kind of recursive
 "Markov Chain" once you consider a vector cursor can be fed its output as an input - so long as your structures are well-formed.
 
 So what do we _put_ on the "Markov Chain?"
