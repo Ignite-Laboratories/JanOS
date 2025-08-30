@@ -37,7 +37,7 @@ a computed intelligence residing within a bounded space.
 
 Thus, I set out on a course for producing an engine that could _generate_ a similar name on the fly: _moral adjective_ + 
 _abstract noun._  Have you tried to Google how to do that?  How do you even _ask_ a computer how to semantically traverse
-through relational terms!?  Moreover - Halo's naming convention is occasionally, well, _dark:_  `001 Shamed Instrument` 
+through related lexicographical terms!?  Moreover - Halo's naming convention is occasionally, well, _dark:_  `001 Shamed Instrument` 
 `2401 Penitent Tangent` `000 Tragic Solitude` to name a few!  How do I filter my adjectives and nouns to more positive 
 terms, like `031 Exuberant Witness` or `686 Ebullient Prism`?  Hell, how do you ensure it could whimsically resolve that 
 a fitting name should riff off the numeric value, like the author's clever choice of `000 Tragic Solitude`?
