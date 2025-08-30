@@ -27,7 +27,7 @@ _Thank you._
 
 Currently, JanOS is focused on the concept of _identity_ and _naming_ - as every single entity in the stack comes with both a
 unique identifier and a string "name."  This was borne out of a basic desire: I don't want to trace 'X5D0-A5' through a set
-of log files when building a neural stack!  To solve this, my initial work took the brillian NameDB from Kyle MacLeod and
+of log files when building a neural stack!  To solve this, my initial work took the brilliant NameDB from Kyle MacLeod and
 paired it with the wonderful Internet SurnameDB, allowing me to randomly create _human_ names based entirely off of a real
 and practical dataset.  The trouble with this is that the names aren't always, well, _simple_ to hold in memory - a challenge
 that many creatives before me typically solved with clever pairings of words.  For instance, `343 Guilty Spark` `Johnny 5`
