@@ -54,9 +54,11 @@ we _give_ it access to.  This comes in the form of the vector system's temporal 
 of short-to-long term memory tuned as dense or lightweight as necessary.  This creates a kind of recursive
 "Markov Chain" once you consider a vector cursor can be fed its output as an input - so long as your structures are well-formed.
 
-So what do we _put_ on the "Markov Chain?"
+So what do we _put_ on the Markov Chain?
 
-Words.  And Data.
+Well - what does any good instrument need, first?
+
+Strings.
 
 ### Cursoring
 
