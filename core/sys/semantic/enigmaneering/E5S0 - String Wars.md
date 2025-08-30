@@ -65,7 +65,7 @@ _Strings!_
 In JanOS, all vector types are _bounded._  For example, when creating floating point vectors they're automatically 'clamped' to
 the closed interval `[0.0, 1.0]` - with clamping meaning you cannot overflow or underflow the boundaries.  A _cursor_ is a
 vector that uses this mechanic to bound itself within a finite dataset.  If a slice has 42 entries, a `Cursor[uint](0, 42)`
-immediately gives you a bounded numeric value which will error when you've reached the end of the slice's indices.  We don't 
+implies a bounded numeric value in a 42-element uint dataset which will error when you've reached the end of the slice's indices.  We don't 
 need to delve too far into the weeds beyond that - instead, let's consider a _finite recursive dataset._  How does one traverse
 such a structure without infinitely looping?  
 
