@@ -87,3 +87,5 @@ lemma.  WordNet affords us another traversal direction - _synonyms_ and _antonym
 can theoretically use a set of starting terms and traverse the entire data set to find qualitatively related words!  That fits
 every checkmark of what I aim to achieve - so, let's start parsing the WordNet files into a logical structure that's useful to
 _JanOS._
+
+Welcome to my course on "string theory" and multidimensional traversal =)
