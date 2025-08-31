@@ -3,6 +3,10 @@ package ordinal
 
 // Direction represents the logical directional order of elements.
 //
+// See Negative, Static, and Positive.
+//
+// Abstract -
+//
 // All dimensions can be distilled down to an infinitely repeating number line which can be traversed in binary directions -
 // but, as you layer these dimensions on top of each other, they orthographically align relative to one another.  The terminology
 // used to describe this is entirely dependent upon context, and as such I've provided a robust set of general abstract dimensions

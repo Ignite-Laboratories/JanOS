@@ -5,16 +5,11 @@ package lexeme
 // synonymous set of lemma.  In WordNet, this is where the pointers for traversal are attained - in JanOS,
 // these are "flattened" into their appropriate Sense types.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, and lexeme.Special
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Lexicon struct {
 	Lemma string
-
-	Adjective []Adjective
-	Adverb    []Adverb
-	Noun      []Noun
-	Verb      []Verb
 }
 
 func (l Lexicon) String() string {

@@ -5,5 +5,5 @@
   "precision": 512,
   "seedRefractoryPeriod": "4s",
   "includeNilBits": false,
-  "compactVectors": false
+  "compactVectors": true
 }

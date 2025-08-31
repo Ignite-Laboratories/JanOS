@@ -45,11 +45,14 @@ func (n Given) String() string {
 //	Without: "Kurt Weller"
 //
 // See Given, String, StringQuoted, and Italicize
-func (n Given) StringQuoted() string {
+func (n Given) StringQuoted(wrapDescription ...bool) string {
 	if n.Description == "" {
 		return fmt.Sprintf("\"%v\"", n.Name)
 	}
-	return fmt.Sprintf("\"%v\" - \"%v\"", n.Name, n.Description)
+	if len(wrapDescription) > 0 && wrapDescription[0] {
+		return fmt.Sprintf("\"%v\" - \"%v\"", n.Name, n.Description)
+	}
+	return fmt.Sprintf("\"%v\" - %v", n.Name, n.Description)
 }
 
 // Italicize walks the Name's runes and changes each English alphabetic character to their italicized mathematical variant,

@@ -1,4 +1,4 @@
-package wordnet
+package english
 
 type PartOfSpeech string
 

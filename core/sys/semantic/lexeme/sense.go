@@ -5,9 +5,9 @@ import "core/enum/partOfSpeech"
 // Sense is analogous to a flattened synset meant to provide direct access to all traversal dimensions associated
 // with a single lemma.  A Sense is what you reach when you have navigated deeper into a Lexicon, essentially.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, and lexeme.Special
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Sense struct {
 	Source Lexicon
 
@@ -31,9 +31,9 @@ func (s Sense) String() string {
 
 // Adjective is a kind of Sense that provides adjective-related dimensionality.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, lexeme.Special, and lexeme.Sense
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Adjective Sense
 
 func (a Adjective) String() string {
@@ -42,9 +42,9 @@ func (a Adjective) String() string {
 
 // Adverb is a kind of Sense that provides adverb-related dimensionality.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, lexeme.Special, and lexeme.Sense
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Adverb Sense
 
 func (r Adverb) String() string {
@@ -53,9 +53,9 @@ func (r Adverb) String() string {
 
 // Noun is a kind of Sense that provides noun-related dimensionality.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, lexeme.Special, and lexeme.Sense
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Noun Sense
 
 func (n Noun) String() string {
@@ -64,9 +64,9 @@ func (n Noun) String() string {
 
 // Verb is a kind of Sense that provides verb-related dimensionality.
 //
-// # Sense, Adjective, Adverb, Noun, and Verb
+// - Sense, Adjective, Adverb, Noun, and Verb
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, lexeme.Special, and lexeme.Sense
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Verb Sense
 
 func (v Verb) String() string {

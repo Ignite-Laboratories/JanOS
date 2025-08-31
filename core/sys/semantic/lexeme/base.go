@@ -1,10 +1,10 @@
 package lexeme
 
-// Base represents a concrete std.Lexeme.
+// Base represents a concrete basic std.Lexeme.
 //
-// The most primitive lexemes are Punctuation and Proto.
+// - Punctuation and Prototype.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, and lexeme.Special
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Base struct {
 	Lexeme string
 }
@@ -13,25 +13,25 @@ func (b Base) String() string {
 	return b.Lexeme
 }
 
-// Punctuation is any std.Lexeme used as a punctuation mark, such as '!' or '?' - or even the quote characters, themselves.
+// Punctuation is a Base std.Lexeme used as a punctuation mark, such as '!' or '?' - or even the quote characters, themselves.
 //
-// The most primitive lexemes are Punctuation and Proto.
+// - Punctuation and Prototype.
 //
-// See std.Lexeme, lexeme.Base
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Punctuation Base
 
 func (p Punctuation) String() string {
 	return p.Lexeme
 }
 
-// Proto represents any std.Lexeme of unknown classification.  This collection should be used as a source from which to
-// build the Lexicon over time.
+// Prototype is a Base std.Lexeme of unknown classification.  This collection should be used as a source from which to
+// build a Lexicon over time.
 //
-// The most primitive lexemes are Punctuation and Proto.
+// - Punctuation and Prototype.
 //
-// See std.Lexeme, lexeme.Base
-type Proto Base
+// See std.Lexeme, Base, Function, Lexicon, and Special
+type Prototype Base
 
-func (p Proto) String() string {
+func (p Prototype) String() string {
 	return p.Lexeme
 }

@@ -2,18 +2,20 @@ package lexeme
 
 // Function words are the semantic glue that holds language together.  They compose of many different categories,
 // each of which is a type of function word.  If you wish to describe 'any function word' use this interface - otherwise
-// you may describe the word using the below references:
+// you may describe it using the below references:
 //
-// AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
 //
-// # AuxiliaryVerbs, Conjunctions, Prepositions, Determiners, Pronouns, Quantifiers, and Particles
+// NOTE: Function words are always stored in lowercase form for disambiguation.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function, lexeme.Lexicon, and lexeme.Special
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Function Base
 
 // An AuxiliaryVerb helps a main verb to express tense, mood, or voice - see AuxiliaryVerbs.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function
 type AuxiliaryVerb Function
 
 // AuxiliaryVerbs - see AuxiliaryVerb
@@ -32,7 +34,9 @@ func (f AuxiliaryVerb) String() string {
 
 // A Conjunction links together words, phrases, or clauses of equal or unequal grammatical rank - see Conjunctions.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Conjunction Function
 
 // Conjunctions - see Conjunction.
@@ -49,7 +53,9 @@ func (f Conjunction) String() string {
 
 // A Preposition establishes a relationship, typically spatial or temporal, between a noun or pronoun and another word - see Prepositions.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Preposition Function
 
 // Prepositions - See Preposition
@@ -68,7 +74,9 @@ func (f Preposition) String() string {
 
 // A Determiner specifies the reference of a noun, providing context about its quantity, definiteness, or ownership - see Determiners.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Determiner Function
 
 // Determiners - See Determiner
@@ -88,7 +96,9 @@ func (f Determiner) String() string {
 
 // A Pronoun substitutes for a noun or noun phrase, often to prevent repetition - see Pronouns.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Pronoun Function
 
 // Pronouns - See Pronoun
@@ -109,7 +119,9 @@ func (f Pronoun) String() string {
 
 // A Quantifier indicates the quantity or amount of a noun without being a specific number - see Quantifiers.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Quantifier Function
 
 // Quantifiers - See Quantifier
@@ -126,7 +138,9 @@ func (f Quantifier) String() string {
 
 // A Particle modifies or connects other parts of a phrase - see Particles.
 //
-// See std.Lexeme, lexeme.Base, lexeme.Function
+// - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.
+//
+// See std.Lexeme, Base, Function, Lexicon, and Special
 type Particle Function
 
 // Particles - See Particle

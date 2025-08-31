@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+	fma := std.NewFMA[float32](0.1, 1.2, 3.3, "𝑎")
+	fmt.Println(fma)
+	fmt.Println(fma.ForceForceForce())
+
 	f := Proto{"Hello"}
 
 	Test(f)

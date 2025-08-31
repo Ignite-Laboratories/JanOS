@@ -34,10 +34,10 @@ func init() {
 		}
 
 		fmt.Printf("⎧"+randDash()+"-⇥ JanOS %v\n", version)
-		fmt.Println("|" + randDash() + "-⇥ © 2025 Alex Petz")
-		fmt.Println("⎨" + randDash() + "-⇥ ⚛ Ignite Laboratories")
+		fmt.Println("|" + randDash() + "-⇥ © 2025, Ignite Laboratories")
+		fmt.Println("⎨" + randDash() + "-⇥ Alex Petz")
 		fmt.Println("|" + randDash() + "⇥")
-		fmt.Println("⎩" + randDash() + "⇥ ↯ " + Name.StringQuoted())
+		fmt.Println("⎩" + randDash() + "⇥ ↯ " + Name.StringQuoted(false))
 		fmt.Println()
 	}
 }
