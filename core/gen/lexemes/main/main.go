@@ -64,7 +64,13 @@ func run() error {
 	fprintf("type Lexeme struct {\n\t%s string\n}\n\n", lexicon.Lexeme)
 
 	for _, t := range lexicon.Types {
-		fprintfDocs(t.Docs, lexicon.Related)
+		fprintfDocs(t.Docs)
+
+		if len(t.NameSet) > 0 {
+			fprintfDocs(fmt.Sprintf("\n- See %s\n", t.NameSet))
+		}
+
+		fprintfDocs(lexicon.Related)
 
 		if t.Base != "" {
 			fprintf("type %s %s\n\n", t.Name, t.Base)
@@ -96,6 +102,16 @@ func run() error {
 				}
 			}
 			fprintf("\n}\n\n")
+
+			fprintf("// Is%s tests if the provided Lexeme is a %s.\n", t.Name, t.Name)
+			fprintf("func Is%s(l std.Lexeme) bool {\n", t.Name)
+			fprintf("\tfor _, t := range %s {\n", t.NameSet)
+			fprintf("\t\tif t.String() == l.String() {\n")
+			fprintf("\t\t\treturn true\n")
+			fprintf("\t\t}\n")
+			fprintf("\t}\n")
+			fprintf("\treturn false\n")
+			fprintf("}\n\n")
 		}
 
 		if len(t.Alias) > 0 {

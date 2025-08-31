@@ -4,5 +4,6 @@ use (
 	./core
 	scratch/scratch0
 	scratch/scratch1
+	scratch/digitEmitter
 	scratch/wordnet
 )

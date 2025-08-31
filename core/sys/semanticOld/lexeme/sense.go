@@ -11,7 +11,7 @@ import "core/enum/partOfSpeech"
 type Sense struct {
 	Source Lexicon
 
-	PartOfSpeech partOfSpeech.POS
+	PartOfSpeech partOfSpeech.PartOfSpeech
 
 	Synonyms []Sense
 	Antonyms []Sense

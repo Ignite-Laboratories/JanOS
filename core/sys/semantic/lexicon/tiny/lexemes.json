@@ -10,7 +10,7 @@
     },
     {
       "name":"Base2",
-      "docs":"Base2 represents a single binary placeholder Digit - see Base2Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base2 represents a single binary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base2Digits",
       "alias":"Binary",
@@ -21,7 +21,7 @@
     },
     {
       "name":"Base3",
-      "docs":"Base3 represents a single ternary placeholder Digit - see Base3Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base3 represents a single ternary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base3Digits",
       "alias":"Ternary",
@@ -32,7 +32,7 @@
     },
     {
       "name":"Base4",
-      "docs":"Base4 represents a single quarternary placeholder Digit - see Base4Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base4 represents a single quarternary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base4Digits",
       "alias":"Quaternary",
@@ -43,7 +43,7 @@
     },
     {
       "name":"Base5",
-      "docs":"Base5 represents a single quinary placeholder Digit - see Base5Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base5 represents a single quinary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base5Digits",
       "alias":"Quinary",
@@ -54,7 +54,7 @@
     },
     {
       "name":"Base6",
-      "docs":"Base6 represents a single senary placeholder Digit - see Base6Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base6 represents a single senary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base6Digits",
       "alias":"Senary",
@@ -65,7 +65,7 @@
     },
     {
       "name":"Base7",
-      "docs":"Base7 represents a single septenary placeholder Digit - see Base7Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base7 represents a single septenary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base7Digits",
       "alias":"Septenary",
@@ -76,7 +76,7 @@
     },
     {
       "name":"Base8",
-      "docs":"Base8 represents a single octal placeholder Digit - see Base8Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base8 represents a single octal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base8Digits",
       "alias":"Octal",
@@ -87,7 +87,7 @@
     },
     {
       "name":"Base9",
-      "docs":"Base9 represents a single nonary placeholder Digit - see Base9Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base9 represents a single nonary placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base9Digits",
       "alias":"Nonary",
@@ -98,7 +98,7 @@
     },
     {
       "name":"Base10",
-      "docs":"Base10 represents a single decimal placeholder Digit - see Base10Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base10 represents a single decimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base10Digits",
       "alias":"Decimal",
@@ -109,7 +109,7 @@
     },
     {
       "name":"Base11",
-      "docs":"Base11 represents a single undecimal placeholder Digit - see Base11Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base11 represents a single undecimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base11Digits",
       "alias":"Undecimal",
@@ -120,7 +120,7 @@
     },
     {
       "name":"Base12",
-      "docs":"Base12 represents a single duodecimal placeholder Digit - see Base12Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base12 represents a single duodecimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base12Digits",
       "alias":"Duodecimal",
@@ -131,7 +131,7 @@
     },
     {
       "name":"Base13",
-      "docs":"Base13 represents a single tridecimal placeholder Digit - see Base13Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base13 represents a single tridecimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base13Digits",
       "alias":"Tridecimal",
@@ -142,7 +142,7 @@
     },
     {
       "name":"Base14",
-      "docs":"Base14 represents a single tetradecimal placeholder Digit - see Base14Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base14 represents a single tetradecimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base14Digits",
       "alias":"Tetradecimal",
@@ -153,7 +153,7 @@
     },
     {
       "name":"Base15",
-      "docs":"Base15 represents a single pentadecimal placeholder Digit - see Base15Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base15 represents a single pentadecimal placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base15Digits",
       "alias":"Pentadecimal",
@@ -164,7 +164,7 @@
     },
     {
       "name":"Base16",
-      "docs":"Base16 represents a single base-16 placeholder Digit - see Base16Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base16 represents a single base-16 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base16Digits",
       "alias":"Hexadecimal",
@@ -175,7 +175,7 @@
     },
     {
       "name":"Base17",
-      "docs":"Base17 represents a single base-17 placeholder Digit - see Base17Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base17 represents a single base-17 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base17Digits",
       "alias":"Heptadecimal",
@@ -186,7 +186,7 @@
     },
     {
       "name":"Base18",
-      "docs":"Base18 represents a single base-18 placeholder Digit - see Base18Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base18 represents a single base-18 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base18Digits",
       "alias":"Octodecimal",
@@ -197,7 +197,7 @@
     },
     {
       "name":"Base19",
-      "docs":"Base19 represents a single base-19 placeholder Digit - see Base19Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base19 represents a single base-19 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base19Digits",
       "alias":"Enneadecimal",
@@ -208,7 +208,7 @@
     },
     {
       "name":"Base20",
-      "docs":"Base20 represents a single base-20 placeholder Digit - see Base20Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base20 represents a single base-20 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base20Digits",
       "alias":"Vigesimal",
@@ -219,7 +219,7 @@
     },
     {
       "name":"Base21",
-      "docs":"Base21 represents a single base-21 placeholder Digit - see Base21Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base21 represents a single base-21 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base21Digits",
       "alias":"Unvigesimal",
@@ -230,7 +230,7 @@
     },
     {
       "name":"Base22",
-      "docs":"Base22 represents a single base-22 placeholder Digit - see Base22Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base22 represents a single base-22 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base22Digits",
       "alias":"Duovigesimal",
@@ -241,7 +241,7 @@
     },
     {
       "name":"Base23",
-      "docs":"Base23 represents a single base-23 placeholder Digit - see Base23Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base23 represents a single base-23 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base23Digits",
       "alias":"Trivigesimal",
@@ -252,7 +252,7 @@
     },
     {
       "name":"Base24",
-      "docs":"Base24 represents a single base-24 placeholder Digit - see Base24Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base24 represents a single base-24 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base24Digits",
       "alias":"Tetravigesimal",
@@ -263,7 +263,7 @@
     },
     {
       "name":"Base25",
-      "docs":"Base25 represents a single base-25 placeholder Digit - see Base25Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base25 represents a single base-25 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base25Digits",
       "alias":"Pentavigesimal",
@@ -274,7 +274,7 @@
     },
     {
       "name":"Base26",
-      "docs":"Base26 represents a single base-26 placeholder Digit - see Base26Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base26 represents a single base-26 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base26Digits",
       "alias":"Hexavigesimal",
@@ -285,7 +285,7 @@
     },
     {
       "name":"Base27",
-      "docs":"Base27 represents a single base-27 placeholder Digit - see Base27Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base27 represents a single base-27 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base27Digits",
       "alias":"Heptavigesimal",
@@ -296,7 +296,7 @@
     },
     {
       "name":"Base28",
-      "docs":"Base28 represents a single base-28 placeholder Digit - see Base28Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base28 represents a single base-28 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base28Digits",
       "alias":"Octovigesimal",
@@ -307,7 +307,7 @@
     },
     {
       "name":"Base29",
-      "docs":"Base29 represents a single base-29 placeholder Digit - see Base29Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base29 represents a single base-29 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base29Digits",
       "alias":"Enneavigesimal",
@@ -318,7 +318,7 @@
     },
     {
       "name":"Base30",
-      "docs":"Base30 represents a single base-30 placeholder Digit - see Base30Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base30 represents a single base-30 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base30Digits",
       "alias":"Trigesimal",
@@ -329,7 +329,7 @@
     },
     {
       "name":"Base31",
-      "docs":"Base31 represents a single base-31 placeholder Digit - see Base31Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base31 represents a single base-31 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base31Digits",
       "alias":"Untrigesimal",
@@ -340,7 +340,7 @@
     },
     {
       "name":"Base32",
-      "docs":"Base32 represents a single base-32 placeholder Digit - see Base32Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base32 represents a single base-32 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base32Digits",
       "alias":"Duotrigesimal",
@@ -351,7 +351,7 @@
     },
     {
       "name":"Base33",
-      "docs":"Base33 represents a single base-33 placeholder Digit - see Base33Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base33 represents a single base-33 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base33Digits",
       "alias":"Tritrigesimal",
@@ -362,7 +362,7 @@
     },
     {
       "name":"Base34",
-      "docs":"Base34 represents a single base-34 placeholder Digit - see Base34Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base34 represents a single base-34 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base34Digits",
       "alias":"Tetratrigesimal",
@@ -373,7 +373,7 @@
     },
     {
       "name":"Base35",
-      "docs":"Base35 represents a single base-35 placeholder Digit - see Base35Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base35 represents a single base-35 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base35Digits",
       "alias":"Pentatrigesimal",
@@ -384,7 +384,7 @@
     },
     {
       "name":"Base36",
-      "docs":"Base36 represents a single base-36 placeholder Digit - see Base36Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base36 represents a single base-36 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base36Digits",
       "alias":"Hexatrigesimal",
@@ -395,7 +395,7 @@
     },
     {
       "name":"Base37",
-      "docs":"Base37 represents a single base-37 placeholder Digit - see Base37Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base37 represents a single base-37 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base37Digits",
       "alias":"Heptatrigesimal",
@@ -406,7 +406,7 @@
     },
     {
       "name":"Base38",
-      "docs":"Base38 represents a single base-38 placeholder Digit - see Base38Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base38 represents a single base-38 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base38Digits",
       "alias":"Octotrigesimal",
@@ -417,7 +417,7 @@
     },
     {
       "name":"Base39",
-      "docs":"Base39 represents a single base-39 placeholder Digit - see Base39Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base39 represents a single base-39 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base39Digits",
       "alias":"Enneatrigesimal",
@@ -428,7 +428,7 @@
     },
     {
       "name":"Base40",
-      "docs":"Base40 represents a single base-40 placeholder Digit - see Base40Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base40 represents a single base-40 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base40Digits",
       "alias":"Quadragesimal",
@@ -439,7 +439,7 @@
     },
     {
       "name":"Base41",
-      "docs":"Base41 represents a single base-41 placeholder Digit - see Base41Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base41 represents a single base-41 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base41Digits",
       "alias":"Unquadragesimal",
@@ -450,7 +450,7 @@
     },
     {
       "name":"Base42",
-      "docs":"Base42 represents a single base-42 placeholder Digit - see Base42Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base42 represents a single base-42 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base42Digits",
       "alias":"Duoquadragesimal",
@@ -461,7 +461,7 @@
     },
     {
       "name":"Base43",
-      "docs":"Base43 represents a single base-43 placeholder Digit - see Base43Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base43 represents a single base-43 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base43Digits",
       "alias":"Triquadragesimal",
@@ -472,7 +472,7 @@
     },
     {
       "name":"Base44",
-      "docs":"Base44 represents a single base-44 placeholder Digit - see Base44Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base44 represents a single base-44 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base44Digits",
       "alias":"Tetrquadragesimal",
@@ -483,7 +483,7 @@
     },
     {
       "name":"Base45",
-      "docs":"Base45 represents a single base-45 placeholder Digit - see Base45Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base45 represents a single base-45 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base45Digits",
       "alias":"Pentquadragesimal",
@@ -494,7 +494,7 @@
     },
     {
       "name":"Base46",
-      "docs":"Base46 represents a single base-46 placeholder Digit - see Base46Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base46 represents a single base-46 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base46Digits",
       "alias":"Hexquadragesimal",
@@ -505,7 +505,7 @@
     },
     {
       "name":"Base47",
-      "docs":"Base47 represents a single base-47 placeholder Digit - see Base47Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base47 represents a single base-47 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base47Digits",
       "alias":"Heptquadragesimal",
@@ -516,7 +516,7 @@
     },
     {
       "name":"Base48",
-      "docs":"Base48 represents a single base-48 placeholder Digit - see Base48Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base48 represents a single base-48 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base48Digits",
       "alias":"Octoquadragesimal",
@@ -527,7 +527,7 @@
     },
     {
       "name":"Base49",
-      "docs":"Base49 represents a single base-49 placeholder Digit - see Base49Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base49 represents a single base-49 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base49Digits",
       "alias":"Ennequadragesimal",
@@ -538,7 +538,7 @@
     },
     {
       "name":"Base50",
-      "docs":"Base50 represents a single base-50 placeholder Digit - see Base50Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base50 represents a single base-50 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base50Digits",
       "alias":"Quinquagesimal",
@@ -549,7 +549,7 @@
     },
     {
       "name":"Base51",
-      "docs":"Base51 represents a single base-51 placeholder Digit - see Base51Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base51 represents a single base-51 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base51Digits",
       "alias":"Unquinquagesimal",
@@ -560,7 +560,7 @@
     },
     {
       "name":"Base52",
-      "docs":"Base52 represents a single base-52 placeholder Digit - see Base52Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base52 represents a single base-52 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base52Digits",
       "alias":"Duoquinquagesimal",
@@ -571,7 +571,7 @@
     },
     {
       "name":"Base53",
-      "docs":"Base53 represents a single base-53 placeholder Digit - see Base53Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base53 represents a single base-53 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base53Digits",
       "alias":"Triquinquagesimal",
@@ -582,7 +582,7 @@
     },
     {
       "name":"Base54",
-      "docs":"Base54 represents a single base-54 placeholder Digit - see Base54Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base54 represents a single base-54 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base54Digits",
       "alias":"Tetrquinquagesimal",
@@ -593,7 +593,7 @@
     },
     {
       "name":"Base55",
-      "docs":"Base55 represents a single base-55 placeholder Digit - see Base55Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base55 represents a single base-55 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base55Digits",
       "alias":"Pentquinquagesimal",
@@ -604,7 +604,7 @@
     },
     {
       "name":"Base56",
-      "docs":"Base56 represents a single base-56 placeholder Digit - see Base56Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base56 represents a single base-56 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base56Digits",
       "alias":"Hexquinquagesimal",
@@ -615,7 +615,7 @@
     },
     {
       "name":"Base57",
-      "docs":"Base57 represents a single base-57 placeholder Digit - see Base57Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base57 represents a single base-57 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base57Digits",
       "alias":"Heptquinquagesimal",
@@ -626,7 +626,7 @@
     },
     {
       "name":"Base58",
-      "docs":"Base58 represents a single base-58 placeholder Digit - see Base58Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base58 represents a single base-58 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base58Digits",
       "alias":"Octoquinquagesimal",
@@ -637,7 +637,7 @@
     },
     {
       "name":"Base59",
-      "docs":"Base59 represents a single base-59 placeholder Digit - see Base59Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base59 represents a single base-59 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base59Digits",
       "alias":"Ennequinquagesimal",
@@ -648,7 +648,7 @@
     },
     {
       "name":"Base60",
-      "docs":"Base60 represents a single base-60 placeholder Digit - see Base60Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base60 represents a single base-60 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base60Digits",
       "alias":"Sexagesimal",
@@ -659,7 +659,7 @@
     },
     {
       "name":"Base61",
-      "docs":"Base61 represents a single base-61 placeholder Digit - see Base61Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base61 represents a single base-61 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base61Digits",
       "exhaustive": true,
@@ -669,7 +669,7 @@
     },
     {
       "name":"Base62",
-      "docs":"Base62 represents a single base-62 placeholder Digit - see Base62Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base62 represents a single base-62 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base62Digits",
       "exhaustive": true,
@@ -679,7 +679,7 @@
     },
     {
       "name":"Base63",
-      "docs":"Base63 represents a single base-63 placeholder Digit - see Base63Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base63 represents a single base-63 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base63Digits",
       "exhaustive": true,
@@ -689,7 +689,7 @@
     },
     {
       "name":"Base64",
-      "docs":"Base64 represents a single base-64 placeholder Digit - see Base64Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base64 represents a single base-64 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base64Digits",
       "exhaustive": true,
@@ -699,7 +699,7 @@
     },
     {
       "name":"Base65",
-      "docs":"Base65 represents a single base-65 placeholder Digit - see Base65Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base65 represents a single base-65 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base65Digits",
       "exhaustive": true,
@@ -709,7 +709,7 @@
     },
     {
       "name":"Base66",
-      "docs":"Base66 represents a single base-66 placeholder Digit - see Base66Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base66 represents a single base-66 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base66Digits",
       "exhaustive": true,
@@ -719,7 +719,7 @@
     },
     {
       "name":"Base67",
-      "docs":"Base67 represents a single base-67 placeholder Digit - see Base67Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base67 represents a single base-67 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base67Digits",
       "exhaustive": true,
@@ -729,7 +729,7 @@
     },
     {
       "name":"Base68",
-      "docs":"Base68 represents a single base-68 placeholder Digit - see Base68Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base68 represents a single base-68 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base68Digits",
       "exhaustive": true,
@@ -739,7 +739,7 @@
     },
     {
       "name":"Base69",
-      "docs":"Base69 represents a single base-69 placeholder Digit - see Base69Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base69 represents a single base-69 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base69Digits",
       "exhaustive": true,
@@ -749,7 +749,7 @@
     },
     {
       "name":"Base70",
-      "docs":"Base70 represents a single base-70 placeholder Digit - see Base70Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base70 represents a single base-70 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base70Digits",
       "exhaustive": true,
@@ -759,7 +759,7 @@
     },
     {
       "name":"Base71",
-      "docs":"Base71 represents a single base-71 placeholder Digit - see Base71Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base71 represents a single base-71 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base71Digits",
       "exhaustive": true,
@@ -769,7 +769,7 @@
     },
     {
       "name":"Base72",
-      "docs":"Base72 represents a single base-72 placeholder Digit - see Base72Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base72 represents a single base-72 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base72Digits",
       "exhaustive": true,
@@ -779,7 +779,7 @@
     },
     {
       "name":"Base73",
-      "docs":"Base73 represents a single base-73 placeholder Digit - see Base73Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base73 represents a single base-73 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base73Digits",
       "exhaustive": true,
@@ -789,7 +789,7 @@
     },
     {
       "name":"Base74",
-      "docs":"Base74 represents a single base-74 placeholder Digit - see Base74Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base74 represents a single base-74 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base74Digits",
       "exhaustive": true,
@@ -799,7 +799,7 @@
     },
     {
       "name":"Base75",
-      "docs":"Base75 represents a single base-75 placeholder Digit - see Base75Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base75 represents a single base-75 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base75Digits",
       "exhaustive": true,
@@ -809,7 +809,7 @@
     },
     {
       "name":"Base76",
-      "docs":"Base76 represents a single base-76 placeholder Digit - see Base76Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base76 represents a single base-76 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base76Digits",
       "exhaustive": true,
@@ -819,7 +819,7 @@
     },
     {
       "name":"Base77",
-      "docs":"Base77 represents a single base-77 placeholder Digit - see Base77Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base77 represents a single base-77 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base77Digits",
       "exhaustive": true,
@@ -829,7 +829,7 @@
     },
     {
       "name":"Base78",
-      "docs":"Base78 represents a single base-78 placeholder Digit - see Base78Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base78 represents a single base-78 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base78Digits",
       "exhaustive": true,
@@ -839,7 +839,7 @@
     },
     {
       "name":"Base79",
-      "docs":"Base79 represents a single base-79 placeholder Digit - see Base79Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base79 represents a single base-79 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base79Digits",
       "exhaustive": true,
@@ -849,7 +849,7 @@
     },
     {
       "name":"Base80",
-      "docs":"Base80 represents a single base-80 placeholder Digit - see Base80Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base80 represents a single base-80 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base80Digits",
       "exhaustive": true,
@@ -859,7 +859,7 @@
     },
     {
       "name":"Base81",
-      "docs":"Base81 represents a single base-81 placeholder Digit - see Base81Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base81 represents a single base-81 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base81Digits",
       "exhaustive": true,
@@ -869,7 +869,7 @@
     },
     {
       "name":"Base82",
-      "docs":"Base82 represents a single base-82 placeholder Digit - see Base82Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base82 represents a single base-82 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base82Digits",
       "exhaustive": true,
@@ -879,7 +879,7 @@
     },
     {
       "name":"Base83",
-      "docs":"Base83 represents a single base-83 placeholder Digit - see Base83Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base83 represents a single base-83 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base83Digits",
       "exhaustive": true,
@@ -889,7 +889,7 @@
     },
     {
       "name":"Base84",
-      "docs":"Base84 represents a single base-84 placeholder Digit - see Base84Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base84 represents a single base-84 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base84Digits",
       "exhaustive": true,
@@ -899,7 +899,7 @@
     },
     {
       "name":"Base85",
-      "docs":"Base85 represents a single base-85 placeholder Digit - see Base85Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base85 represents a single base-85 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base85Digits",
       "exhaustive": true,
@@ -909,7 +909,7 @@
     },
     {
       "name":"Base86",
-      "docs":"Base86 represents a single base-86 placeholder Digit - see Base86Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base86 represents a single base-86 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base86Digits",
       "exhaustive": true,
@@ -919,7 +919,7 @@
     },
     {
       "name":"Base87",
-      "docs":"Base87 represents a single base-87 placeholder Digit - see Base87Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base87 represents a single base-87 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base87Digits",
       "exhaustive": true,
@@ -929,7 +929,7 @@
     },
     {
       "name":"Base88",
-      "docs":"Base88 represents a single base-88 placeholder Digit - see Base88Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base88 represents a single base-88 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base88Digits",
       "exhaustive": true,
@@ -939,7 +939,7 @@
     },
     {
       "name":"Base89",
-      "docs":"Base89 represents a single base-89 placeholder Digit - see Base89Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base89 represents a single base-89 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base89Digits",
       "exhaustive": true,
@@ -949,7 +949,7 @@
     },
     {
       "name":"Base90",
-      "docs":"Base90 represents a single base-90 placeholder Digit - see Base90Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base90 represents a single base-90 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base90Digits",
       "exhaustive": true,
@@ -959,7 +959,7 @@
     },
     {
       "name":"Base91",
-      "docs":"Base91 represents a single base-91 placeholder Digit - see Base91Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base91 represents a single base-91 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base91Digits",
       "exhaustive": true,
@@ -969,7 +969,7 @@
     },
     {
       "name":"Base92",
-      "docs":"Base92 represents a single base-92 placeholder Digit - see Base92Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base92 represents a single base-92 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base92Digits",
       "exhaustive": true,
@@ -979,7 +979,7 @@
     },
     {
       "name":"Base93",
-      "docs":"Base93 represents a single base-93 placeholder Digit - see Base93Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base93 represents a single base-93 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base93Digits",
       "exhaustive": true,
@@ -989,7 +989,7 @@
     },
     {
       "name":"Base94",
-      "docs":"Base94 represents a single base-94 placeholder Digit - see Base94Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base94 represents a single base-94 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base94Digits",
       "exhaustive": true,
@@ -999,7 +999,7 @@
     },
     {
       "name":"Base95",
-      "docs":"Base95 represents a single base-95 placeholder Digit - see Base95Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base95 represents a single base-95 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base95Digits",
       "exhaustive": true,
@@ -1009,7 +1009,7 @@
     },
     {
       "name":"Base96",
-      "docs":"Base96 represents a single base-96 placeholder Digit - see Base96Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base96 represents a single base-96 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base96Digits",
       "exhaustive": true,
@@ -1019,7 +1019,7 @@
     },
     {
       "name":"Base97",
-      "docs":"Base97 represents a single base-97 placeholder Digit - see Base97Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base97 represents a single base-97 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base97Digits",
       "exhaustive": true,
@@ -1029,7 +1029,7 @@
     },
     {
       "name":"Base98",
-      "docs":"Base98 represents a single base-98 placeholder Digit - see Base98Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base98 represents a single base-98 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base98Digits",
       "exhaustive": true,
@@ -1039,7 +1039,7 @@
     },
     {
       "name":"Base99",
-      "docs":"Base99 represents a single base-99 placeholder Digit - see Base99Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base99 represents a single base-99 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base99Digits",
       "exhaustive": true,
@@ -1049,7 +1049,7 @@
     },
     {
       "name":"Base100",
-      "docs":"Base100 represents a single base-100 placeholder Digit - see Base100Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base100 represents a single base-100 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base100Digits",
       "exhaustive": true,
@@ -1059,7 +1059,7 @@
     },
     {
       "name":"Base101",
-      "docs":"Base101 represents a single base-101 placeholder Digit - see Base101Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base101 represents a single base-101 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base101Digits",
       "exhaustive": true,
@@ -1069,7 +1069,7 @@
     },
     {
       "name":"Base102",
-      "docs":"Base102 represents a single base-102 placeholder Digit - see Base102Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base102 represents a single base-102 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base102Digits",
       "exhaustive": true,
@@ -1079,7 +1079,7 @@
     },
     {
       "name":"Base103",
-      "docs":"Base103 represents a single base-103 placeholder Digit - see Base103Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base103 represents a single base-103 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base103Digits",
       "exhaustive": true,
@@ -1089,7 +1089,7 @@
     },
     {
       "name":"Base104",
-      "docs":"Base104 represents a single base-104 placeholder Digit - see Base104Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base104 represents a single base-104 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base104Digits",
       "exhaustive": true,
@@ -1099,7 +1099,7 @@
     },
     {
       "name":"Base105",
-      "docs":"Base105 represents a single base-105 placeholder Digit - see Base105Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base105 represents a single base-105 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base105Digits",
       "exhaustive": true,
@@ -1109,7 +1109,7 @@
     },
     {
       "name":"Base106",
-      "docs":"Base106 represents a single base-106 placeholder Digit - see Base106Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base106 represents a single base-106 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base106Digits",
       "exhaustive": true,
@@ -1119,7 +1119,7 @@
     },
     {
       "name":"Base107",
-      "docs":"Base107 represents a single base-107 placeholder Digit - see Base107Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base107 represents a single base-107 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base107Digits",
       "exhaustive": true,
@@ -1129,7 +1129,7 @@
     },
     {
       "name":"Base108",
-      "docs":"Base108 represents a single base-108 placeholder Digit - see Base108Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base108 represents a single base-108 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base108Digits",
       "exhaustive": true,
@@ -1139,7 +1139,7 @@
     },
     {
       "name":"Base109",
-      "docs":"Base109 represents a single base-109 placeholder Digit - see Base109Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base109 represents a single base-109 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base109Digits",
       "exhaustive": true,
@@ -1149,7 +1149,7 @@
     },
     {
       "name":"Base110",
-      "docs":"Base110 represents a single base-110 placeholder Digit - see Base110Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base110 represents a single base-110 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base110Digits",
       "exhaustive": true,
@@ -1159,7 +1159,7 @@
     },
     {
       "name":"Base111",
-      "docs":"Base111 represents a single base-111 placeholder Digit - see Base111Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base111 represents a single base-111 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base111Digits",
       "exhaustive": true,
@@ -1169,7 +1169,7 @@
     },
     {
       "name":"Base112",
-      "docs":"Base112 represents a single base-112 placeholder Digit - see Base112Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base112 represents a single base-112 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base112Digits",
       "exhaustive": true,
@@ -1179,7 +1179,7 @@
     },
     {
       "name":"Base113",
-      "docs":"Base113 represents a single base-113 placeholder Digit - see Base113Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base113 represents a single base-113 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base113Digits",
       "exhaustive": true,
@@ -1189,7 +1189,7 @@
     },
     {
       "name":"Base114",
-      "docs":"Base114 represents a single base-114 placeholder Digit - see Base114Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base114 represents a single base-114 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base114Digits",
       "exhaustive": true,
@@ -1199,7 +1199,7 @@
     },
     {
       "name":"Base115",
-      "docs":"Base115 represents a single base-115 placeholder Digit - see Base115Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base115 represents a single base-115 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base115Digits",
       "exhaustive": true,
@@ -1209,7 +1209,7 @@
     },
     {
       "name":"Base116",
-      "docs":"Base116 represents a single base-116 placeholder Digit - see Base116Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base116 represents a single base-116 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base116Digits",
       "exhaustive": true,
@@ -1219,7 +1219,7 @@
     },
     {
       "name":"Base117",
-      "docs":"Base117 represents a single base-117 placeholder Digit - see Base117Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base117 represents a single base-117 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base117Digits",
       "exhaustive": true,
@@ -1229,7 +1229,7 @@
     },
     {
       "name":"Base118",
-      "docs":"Base118 represents a single base-118 placeholder Digit - see Base118Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base118 represents a single base-118 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base118Digits",
       "exhaustive": true,
@@ -1239,7 +1239,7 @@
     },
     {
       "name":"Base119",
-      "docs":"Base119 represents a single base-119 placeholder Digit - see Base119Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base119 represents a single base-119 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base119Digits",
       "exhaustive": true,
@@ -1249,7 +1249,7 @@
     },
     {
       "name":"Base120",
-      "docs":"Base120 represents a single base-120 placeholder Digit - see Base120Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base120 represents a single base-120 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base120Digits",
       "exhaustive": true,
@@ -1259,7 +1259,7 @@
     },
     {
       "name":"Base121",
-      "docs":"Base121 represents a single base-121 placeholder Digit - see Base121Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base121 represents a single base-121 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base121Digits",
       "exhaustive": true,
@@ -1269,7 +1269,7 @@
     },
     {
       "name":"Base122",
-      "docs":"Base122 represents a single base-122 placeholder Digit - see Base122Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base122 represents a single base-122 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base122Digits",
       "exhaustive": true,
@@ -1279,7 +1279,7 @@
     },
     {
       "name":"Base123",
-      "docs":"Base123 represents a single base-123 placeholder Digit - see Base123Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base123 represents a single base-123 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base123Digits",
       "exhaustive": true,
@@ -1289,7 +1289,7 @@
     },
     {
       "name":"Base124",
-      "docs":"Base124 represents a single base-124 placeholder Digit - see Base124Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base124 represents a single base-124 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base124Digits",
       "exhaustive": true,
@@ -1299,7 +1299,7 @@
     },
     {
       "name":"Base125",
-      "docs":"Base125 represents a single base-125 placeholder Digit - see Base125Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base125 represents a single base-125 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base125Digits",
       "exhaustive": true,
@@ -1309,7 +1309,7 @@
     },
     {
       "name":"Base126",
-      "docs":"Base126 represents a single base-126 placeholder Digit - see Base126Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base126 represents a single base-126 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base126Digits",
       "exhaustive": true,
@@ -1319,7 +1319,7 @@
     },
     {
       "name":"Base127",
-      "docs":"Base127 represents a single base-127 placeholder Digit - see Base127Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base127 represents a single base-127 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base127Digits",
       "exhaustive": true,
@@ -1329,7 +1329,7 @@
     },
     {
       "name":"Base128",
-      "docs":"Base128 represents a single base-128 placeholder Digit - see Base128Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base128 represents a single base-128 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base128Digits",
       "exhaustive": true,
@@ -1339,7 +1339,7 @@
     },
     {
       "name":"Base129",
-      "docs":"Base129 represents a single base-129 placeholder Digit - see Base129Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base129 represents a single base-129 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base129Digits",
       "exhaustive": true,
@@ -1349,7 +1349,7 @@
     },
     {
       "name":"Base130",
-      "docs":"Base130 represents a single base-130 placeholder Digit - see Base130Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base130 represents a single base-130 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base130Digits",
       "exhaustive": true,
@@ -1359,7 +1359,7 @@
     },
     {
       "name":"Base131",
-      "docs":"Base131 represents a single base-131 placeholder Digit - see Base131Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base131 represents a single base-131 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base131Digits",
       "exhaustive": true,
@@ -1369,7 +1369,7 @@
     },
     {
       "name":"Base132",
-      "docs":"Base132 represents a single base-132 placeholder Digit - see Base132Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base132 represents a single base-132 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base132Digits",
       "exhaustive": true,
@@ -1379,7 +1379,7 @@
     },
     {
       "name":"Base133",
-      "docs":"Base133 represents a single base-133 placeholder Digit - see Base133Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base133 represents a single base-133 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base133Digits",
       "exhaustive": true,
@@ -1389,7 +1389,7 @@
     },
     {
       "name":"Base134",
-      "docs":"Base134 represents a single base-134 placeholder Digit - see Base134Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base134 represents a single base-134 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base134Digits",
       "exhaustive": true,
@@ -1399,7 +1399,7 @@
     },
     {
       "name":"Base135",
-      "docs":"Base135 represents a single base-135 placeholder Digit - see Base135Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base135 represents a single base-135 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base135Digits",
       "exhaustive": true,
@@ -1409,7 +1409,7 @@
     },
     {
       "name":"Base136",
-      "docs":"Base136 represents a single base-136 placeholder Digit - see Base136Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base136 represents a single base-136 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base136Digits",
       "exhaustive": true,
@@ -1419,7 +1419,7 @@
     },
     {
       "name":"Base137",
-      "docs":"Base137 represents a single base-137 placeholder Digit - see Base137Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base137 represents a single base-137 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base137Digits",
       "exhaustive": true,
@@ -1429,7 +1429,7 @@
     },
     {
       "name":"Base138",
-      "docs":"Base138 represents a single base-138 placeholder Digit - see Base138Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base138 represents a single base-138 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base138Digits",
       "exhaustive": true,
@@ -1439,7 +1439,7 @@
     },
     {
       "name":"Base139",
-      "docs":"Base139 represents a single base-139 placeholder Digit - see Base139Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base139 represents a single base-139 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base139Digits",
       "exhaustive": true,
@@ -1449,7 +1449,7 @@
     },
     {
       "name":"Base140",
-      "docs":"Base140 represents a single base-140 placeholder Digit - see Base140Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base140 represents a single base-140 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base140Digits",
       "exhaustive": true,
@@ -1459,7 +1459,7 @@
     },
     {
       "name":"Base141",
-      "docs":"Base141 represents a single base-141 placeholder Digit - see Base141Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base141 represents a single base-141 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base141Digits",
       "exhaustive": true,
@@ -1469,7 +1469,7 @@
     },
     {
       "name":"Base142",
-      "docs":"Base142 represents a single base-142 placeholder Digit - see Base142Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base142 represents a single base-142 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base142Digits",
       "exhaustive": true,
@@ -1479,7 +1479,7 @@
     },
     {
       "name":"Base143",
-      "docs":"Base143 represents a single base-143 placeholder Digit - see Base143Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base143 represents a single base-143 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base143Digits",
       "exhaustive": true,
@@ -1489,7 +1489,7 @@
     },
     {
       "name":"Base144",
-      "docs":"Base144 represents a single base-144 placeholder Digit - see Base144Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base144 represents a single base-144 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base144Digits",
       "exhaustive": true,
@@ -1499,7 +1499,7 @@
     },
     {
       "name":"Base145",
-      "docs":"Base145 represents a single base-145 placeholder Digit - see Base145Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base145 represents a single base-145 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base145Digits",
       "exhaustive": true,
@@ -1509,7 +1509,7 @@
     },
     {
       "name":"Base146",
-      "docs":"Base146 represents a single base-146 placeholder Digit - see Base146Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base146 represents a single base-146 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base146Digits",
       "exhaustive": true,
@@ -1519,7 +1519,7 @@
     },
     {
       "name":"Base147",
-      "docs":"Base147 represents a single base-147 placeholder Digit - see Base147Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base147 represents a single base-147 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base147Digits",
       "exhaustive": true,
@@ -1529,7 +1529,7 @@
     },
     {
       "name":"Base148",
-      "docs":"Base148 represents a single base-148 placeholder Digit - see Base148Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base148 represents a single base-148 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base148Digits",
       "exhaustive": true,
@@ -1539,7 +1539,7 @@
     },
     {
       "name":"Base149",
-      "docs":"Base149 represents a single base-149 placeholder Digit - see Base149Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base149 represents a single base-149 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base149Digits",
       "exhaustive": true,
@@ -1549,7 +1549,7 @@
     },
     {
       "name":"Base150",
-      "docs":"Base150 represents a single base-150 placeholder Digit - see Base150Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base150 represents a single base-150 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base150Digits",
       "exhaustive": true,
@@ -1559,7 +1559,7 @@
     },
     {
       "name":"Base151",
-      "docs":"Base151 represents a single base-151 placeholder Digit - see Base151Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base151 represents a single base-151 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base151Digits",
       "exhaustive": true,
@@ -1569,7 +1569,7 @@
     },
     {
       "name":"Base152",
-      "docs":"Base152 represents a single base-152 placeholder Digit - see Base152Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base152 represents a single base-152 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base152Digits",
       "exhaustive": true,
@@ -1579,7 +1579,7 @@
     },
     {
       "name":"Base153",
-      "docs":"Base153 represents a single base-153 placeholder Digit - see Base153Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base153 represents a single base-153 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base153Digits",
       "exhaustive": true,
@@ -1589,7 +1589,7 @@
     },
     {
       "name":"Base154",
-      "docs":"Base154 represents a single base-154 placeholder Digit - see Base154Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base154 represents a single base-154 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base154Digits",
       "exhaustive": true,
@@ -1599,7 +1599,7 @@
     },
     {
       "name":"Base155",
-      "docs":"Base155 represents a single base-155 placeholder Digit - see Base155Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base155 represents a single base-155 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base155Digits",
       "exhaustive": true,
@@ -1609,7 +1609,7 @@
     },
     {
       "name":"Base156",
-      "docs":"Base156 represents a single base-156 placeholder Digit - see Base156Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base156 represents a single base-156 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base156Digits",
       "exhaustive": true,
@@ -1619,7 +1619,7 @@
     },
     {
       "name":"Base157",
-      "docs":"Base157 represents a single base-157 placeholder Digit - see Base157Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base157 represents a single base-157 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base157Digits",
       "exhaustive": true,
@@ -1629,7 +1629,7 @@
     },
     {
       "name":"Base158",
-      "docs":"Base158 represents a single base-158 placeholder Digit - see Base158Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base158 represents a single base-158 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base158Digits",
       "exhaustive": true,
@@ -1639,7 +1639,7 @@
     },
     {
       "name":"Base159",
-      "docs":"Base159 represents a single base-159 placeholder Digit - see Base159Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base159 represents a single base-159 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base159Digits",
       "exhaustive": true,
@@ -1649,7 +1649,7 @@
     },
     {
       "name":"Base160",
-      "docs":"Base160 represents a single base-160 placeholder Digit - see Base160Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base160 represents a single base-160 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base160Digits",
       "exhaustive": true,
@@ -1659,7 +1659,7 @@
     },
     {
       "name":"Base161",
-      "docs":"Base161 represents a single base-161 placeholder Digit - see Base161Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base161 represents a single base-161 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base161Digits",
       "exhaustive": true,
@@ -1669,7 +1669,7 @@
     },
     {
       "name":"Base162",
-      "docs":"Base162 represents a single base-162 placeholder Digit - see Base162Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base162 represents a single base-162 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base162Digits",
       "exhaustive": true,
@@ -1679,7 +1679,7 @@
     },
     {
       "name":"Base163",
-      "docs":"Base163 represents a single base-163 placeholder Digit - see Base163Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base163 represents a single base-163 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base163Digits",
       "exhaustive": true,
@@ -1689,7 +1689,7 @@
     },
     {
       "name":"Base164",
-      "docs":"Base164 represents a single base-164 placeholder Digit - see Base164Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base164 represents a single base-164 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base164Digits",
       "exhaustive": true,
@@ -1699,7 +1699,7 @@
     },
     {
       "name":"Base165",
-      "docs":"Base165 represents a single base-165 placeholder Digit - see Base165Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base165 represents a single base-165 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base165Digits",
       "exhaustive": true,
@@ -1709,7 +1709,7 @@
     },
     {
       "name":"Base166",
-      "docs":"Base166 represents a single base-166 placeholder Digit - see Base166Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base166 represents a single base-166 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base166Digits",
       "exhaustive": true,
@@ -1719,7 +1719,7 @@
     },
     {
       "name":"Base167",
-      "docs":"Base167 represents a single base-167 placeholder Digit - see Base167Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base167 represents a single base-167 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base167Digits",
       "exhaustive": true,
@@ -1729,7 +1729,7 @@
     },
     {
       "name":"Base168",
-      "docs":"Base168 represents a single base-168 placeholder Digit - see Base168Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base168 represents a single base-168 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base168Digits",
       "exhaustive": true,
@@ -1739,7 +1739,7 @@
     },
     {
       "name":"Base169",
-      "docs":"Base169 represents a single base-169 placeholder Digit - see Base169Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base169 represents a single base-169 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base169Digits",
       "exhaustive": true,
@@ -1749,7 +1749,7 @@
     },
     {
       "name":"Base170",
-      "docs":"Base170 represents a single base-170 placeholder Digit - see Base170Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base170 represents a single base-170 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base170Digits",
       "exhaustive": true,
@@ -1759,7 +1759,7 @@
     },
     {
       "name":"Base171",
-      "docs":"Base171 represents a single base-171 placeholder Digit - see Base171Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base171 represents a single base-171 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base171Digits",
       "exhaustive": true,
@@ -1769,7 +1769,7 @@
     },
     {
       "name":"Base172",
-      "docs":"Base172 represents a single base-172 placeholder Digit - see Base172Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base172 represents a single base-172 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base172Digits",
       "exhaustive": true,
@@ -1779,7 +1779,7 @@
     },
     {
       "name":"Base173",
-      "docs":"Base173 represents a single base-173 placeholder Digit - see Base173Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base173 represents a single base-173 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base173Digits",
       "exhaustive": true,
@@ -1789,7 +1789,7 @@
     },
     {
       "name":"Base174",
-      "docs":"Base174 represents a single base-174 placeholder Digit - see Base174Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base174 represents a single base-174 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base174Digits",
       "exhaustive": true,
@@ -1799,7 +1799,7 @@
     },
     {
       "name":"Base175",
-      "docs":"Base175 represents a single base-175 placeholder Digit - see Base175Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base175 represents a single base-175 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base175Digits",
       "exhaustive": true,
@@ -1809,7 +1809,7 @@
     },
     {
       "name":"Base176",
-      "docs":"Base176 represents a single base-176 placeholder Digit - see Base176Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base176 represents a single base-176 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base176Digits",
       "exhaustive": true,
@@ -1819,7 +1819,7 @@
     },
     {
       "name":"Base177",
-      "docs":"Base177 represents a single base-177 placeholder Digit - see Base177Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base177 represents a single base-177 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base177Digits",
       "exhaustive": true,
@@ -1829,7 +1829,7 @@
     },
     {
       "name":"Base178",
-      "docs":"Base178 represents a single base-178 placeholder Digit - see Base178Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base178 represents a single base-178 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base178Digits",
       "exhaustive": true,
@@ -1839,7 +1839,7 @@
     },
     {
       "name":"Base179",
-      "docs":"Base179 represents a single base-179 placeholder Digit - see Base179Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base179 represents a single base-179 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base179Digits",
       "exhaustive": true,
@@ -1849,7 +1849,7 @@
     },
     {
       "name":"Base180",
-      "docs":"Base180 represents a single base-180 placeholder Digit - see Base180Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base180 represents a single base-180 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base180Digits",
       "exhaustive": true,
@@ -1859,7 +1859,7 @@
     },
     {
       "name":"Base181",
-      "docs":"Base181 represents a single base-181 placeholder Digit - see Base181Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base181 represents a single base-181 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base181Digits",
       "exhaustive": true,
@@ -1869,7 +1869,7 @@
     },
     {
       "name":"Base182",
-      "docs":"Base182 represents a single base-182 placeholder Digit - see Base182Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base182 represents a single base-182 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base182Digits",
       "exhaustive": true,
@@ -1879,7 +1879,7 @@
     },
     {
       "name":"Base183",
-      "docs":"Base183 represents a single base-183 placeholder Digit - see Base183Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base183 represents a single base-183 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base183Digits",
       "exhaustive": true,
@@ -1889,7 +1889,7 @@
     },
     {
       "name":"Base184",
-      "docs":"Base184 represents a single base-184 placeholder Digit - see Base184Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base184 represents a single base-184 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base184Digits",
       "exhaustive": true,
@@ -1899,7 +1899,7 @@
     },
     {
       "name":"Base185",
-      "docs":"Base185 represents a single base-185 placeholder Digit - see Base185Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base185 represents a single base-185 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base185Digits",
       "exhaustive": true,
@@ -1909,7 +1909,7 @@
     },
     {
       "name":"Base186",
-      "docs":"Base186 represents a single base-186 placeholder Digit - see Base186Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base186 represents a single base-186 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base186Digits",
       "exhaustive": true,
@@ -1919,7 +1919,7 @@
     },
     {
       "name":"Base187",
-      "docs":"Base187 represents a single base-187 placeholder Digit - see Base187Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base187 represents a single base-187 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base187Digits",
       "exhaustive": true,
@@ -1929,7 +1929,7 @@
     },
     {
       "name":"Base188",
-      "docs":"Base188 represents a single base-188 placeholder Digit - see Base188Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base188 represents a single base-188 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base188Digits",
       "exhaustive": true,
@@ -1939,7 +1939,7 @@
     },
     {
       "name":"Base189",
-      "docs":"Base189 represents a single base-189 placeholder Digit - see Base189Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base189 represents a single base-189 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base189Digits",
       "exhaustive": true,
@@ -1949,7 +1949,7 @@
     },
     {
       "name":"Base190",
-      "docs":"Base190 represents a single base-190 placeholder Digit - see Base190Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base190 represents a single base-190 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base190Digits",
       "exhaustive": true,
@@ -1959,7 +1959,7 @@
     },
     {
       "name":"Base191",
-      "docs":"Base191 represents a single base-191 placeholder Digit - see Base191Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base191 represents a single base-191 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base191Digits",
       "exhaustive": true,
@@ -1969,7 +1969,7 @@
     },
     {
       "name":"Base192",
-      "docs":"Base192 represents a single base-192 placeholder Digit - see Base192Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base192 represents a single base-192 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base192Digits",
       "exhaustive": true,
@@ -1979,7 +1979,7 @@
     },
     {
       "name":"Base193",
-      "docs":"Base193 represents a single base-193 placeholder Digit - see Base193Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base193 represents a single base-193 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base193Digits",
       "exhaustive": true,
@@ -1989,7 +1989,7 @@
     },
     {
       "name":"Base194",
-      "docs":"Base194 represents a single base-194 placeholder Digit - see Base194Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base194 represents a single base-194 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base194Digits",
       "exhaustive": true,
@@ -1999,7 +1999,7 @@
     },
     {
       "name":"Base195",
-      "docs":"Base195 represents a single base-195 placeholder Digit - see Base195Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base195 represents a single base-195 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base195Digits",
       "exhaustive": true,
@@ -2009,7 +2009,7 @@
     },
     {
       "name":"Base196",
-      "docs":"Base196 represents a single base-196 placeholder Digit - see Base196Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base196 represents a single base-196 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base196Digits",
       "exhaustive": true,
@@ -2019,7 +2019,7 @@
     },
     {
       "name":"Base197",
-      "docs":"Base197 represents a single base-197 placeholder Digit - see Base197Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base197 represents a single base-197 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base197Digits",
       "exhaustive": true,
@@ -2029,7 +2029,7 @@
     },
     {
       "name":"Base198",
-      "docs":"Base198 represents a single base-198 placeholder Digit - see Base198Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base198 represents a single base-198 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base198Digits",
       "exhaustive": true,
@@ -2039,7 +2039,7 @@
     },
     {
       "name":"Base199",
-      "docs":"Base199 represents a single base-199 placeholder Digit - see Base199Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base199 represents a single base-199 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base199Digits",
       "exhaustive": true,
@@ -2049,7 +2049,7 @@
     },
     {
       "name":"Base200",
-      "docs":"Base200 represents a single base-200 placeholder Digit - see Base200Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base200 represents a single base-200 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base200Digits",
       "exhaustive": true,
@@ -2059,7 +2059,7 @@
     },
     {
       "name":"Base201",
-      "docs":"Base201 represents a single base-201 placeholder Digit - see Base201Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base201 represents a single base-201 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base201Digits",
       "exhaustive": true,
@@ -2069,7 +2069,7 @@
     },
     {
       "name":"Base202",
-      "docs":"Base202 represents a single base-202 placeholder Digit - see Base202Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base202 represents a single base-202 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base202Digits",
       "exhaustive": true,
@@ -2079,7 +2079,7 @@
     },
     {
       "name":"Base203",
-      "docs":"Base203 represents a single base-203 placeholder Digit - see Base203Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base203 represents a single base-203 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base203Digits",
       "exhaustive": true,
@@ -2089,7 +2089,7 @@
     },
     {
       "name":"Base204",
-      "docs":"Base204 represents a single base-204 placeholder Digit - see Base204Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base204 represents a single base-204 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base204Digits",
       "exhaustive": true,
@@ -2099,7 +2099,7 @@
     },
     {
       "name":"Base205",
-      "docs":"Base205 represents a single base-205 placeholder Digit - see Base205Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base205 represents a single base-205 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base205Digits",
       "exhaustive": true,
@@ -2109,7 +2109,7 @@
     },
     {
       "name":"Base206",
-      "docs":"Base206 represents a single base-206 placeholder Digit - see Base206Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base206 represents a single base-206 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base206Digits",
       "exhaustive": true,
@@ -2119,7 +2119,7 @@
     },
     {
       "name":"Base207",
-      "docs":"Base207 represents a single base-207 placeholder Digit - see Base207Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base207 represents a single base-207 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base207Digits",
       "exhaustive": true,
@@ -2129,7 +2129,7 @@
     },
     {
       "name":"Base208",
-      "docs":"Base208 represents a single base-208 placeholder Digit - see Base208Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base208 represents a single base-208 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base208Digits",
       "exhaustive": true,
@@ -2139,7 +2139,7 @@
     },
     {
       "name":"Base209",
-      "docs":"Base209 represents a single base-209 placeholder Digit - see Base209Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base209 represents a single base-209 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base209Digits",
       "exhaustive": true,
@@ -2149,7 +2149,7 @@
     },
     {
       "name":"Base210",
-      "docs":"Base210 represents a single base-210 placeholder Digit - see Base210Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base210 represents a single base-210 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base210Digits",
       "exhaustive": true,
@@ -2159,7 +2159,7 @@
     },
     {
       "name":"Base211",
-      "docs":"Base211 represents a single base-211 placeholder Digit - see Base211Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base211 represents a single base-211 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base211Digits",
       "exhaustive": true,
@@ -2169,7 +2169,7 @@
     },
     {
       "name":"Base212",
-      "docs":"Base212 represents a single base-212 placeholder Digit - see Base212Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base212 represents a single base-212 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base212Digits",
       "exhaustive": true,
@@ -2179,7 +2179,7 @@
     },
     {
       "name":"Base213",
-      "docs":"Base213 represents a single base-213 placeholder Digit - see Base213Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base213 represents a single base-213 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base213Digits",
       "exhaustive": true,
@@ -2189,7 +2189,7 @@
     },
     {
       "name":"Base214",
-      "docs":"Base214 represents a single base-214 placeholder Digit - see Base214Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base214 represents a single base-214 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base214Digits",
       "exhaustive": true,
@@ -2199,7 +2199,7 @@
     },
     {
       "name":"Base215",
-      "docs":"Base215 represents a single base-215 placeholder Digit - see Base215Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base215 represents a single base-215 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base215Digits",
       "exhaustive": true,
@@ -2209,7 +2209,7 @@
     },
     {
       "name":"Base216",
-      "docs":"Base216 represents a single base-216 placeholder Digit - see Base216Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base216 represents a single base-216 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base216Digits",
       "exhaustive": true,
@@ -2219,7 +2219,7 @@
     },
     {
       "name":"Base217",
-      "docs":"Base217 represents a single base-217 placeholder Digit - see Base217Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base217 represents a single base-217 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base217Digits",
       "exhaustive": true,
@@ -2229,7 +2229,7 @@
     },
     {
       "name":"Base218",
-      "docs":"Base218 represents a single base-218 placeholder Digit - see Base218Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base218 represents a single base-218 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base218Digits",
       "exhaustive": true,
@@ -2239,7 +2239,7 @@
     },
     {
       "name":"Base219",
-      "docs":"Base219 represents a single base-219 placeholder Digit - see Base219Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base219 represents a single base-219 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base219Digits",
       "exhaustive": true,
@@ -2249,7 +2249,7 @@
     },
     {
       "name":"Base220",
-      "docs":"Base220 represents a single base-220 placeholder Digit - see Base220Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base220 represents a single base-220 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base220Digits",
       "exhaustive": true,
@@ -2259,7 +2259,7 @@
     },
     {
       "name":"Base221",
-      "docs":"Base221 represents a single base-221 placeholder Digit - see Base221Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base221 represents a single base-221 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base221Digits",
       "exhaustive": true,
@@ -2269,7 +2269,7 @@
     },
     {
       "name":"Base222",
-      "docs":"Base222 represents a single base-222 placeholder Digit - see Base222Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base222 represents a single base-222 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base222Digits",
       "exhaustive": true,
@@ -2279,7 +2279,7 @@
     },
     {
       "name":"Base223",
-      "docs":"Base223 represents a single base-223 placeholder Digit - see Base223Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base223 represents a single base-223 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base223Digits",
       "exhaustive": true,
@@ -2289,7 +2289,7 @@
     },
     {
       "name":"Base224",
-      "docs":"Base224 represents a single base-224 placeholder Digit - see Base224Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base224 represents a single base-224 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base224Digits",
       "exhaustive": true,
@@ -2299,7 +2299,7 @@
     },
     {
       "name":"Base225",
-      "docs":"Base225 represents a single base-225 placeholder Digit - see Base225Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base225 represents a single base-225 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base225Digits",
       "exhaustive": true,
@@ -2309,7 +2309,7 @@
     },
     {
       "name":"Base226",
-      "docs":"Base226 represents a single base-226 placeholder Digit - see Base226Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base226 represents a single base-226 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base226Digits",
       "exhaustive": true,
@@ -2319,7 +2319,7 @@
     },
     {
       "name":"Base227",
-      "docs":"Base227 represents a single base-227 placeholder Digit - see Base227Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base227 represents a single base-227 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base227Digits",
       "exhaustive": true,
@@ -2329,7 +2329,7 @@
     },
     {
       "name":"Base228",
-      "docs":"Base228 represents a single base-228 placeholder Digit - see Base228Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base228 represents a single base-228 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base228Digits",
       "exhaustive": true,
@@ -2339,7 +2339,7 @@
     },
     {
       "name":"Base229",
-      "docs":"Base229 represents a single base-229 placeholder Digit - see Base229Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base229 represents a single base-229 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base229Digits",
       "exhaustive": true,
@@ -2349,7 +2349,7 @@
     },
     {
       "name":"Base230",
-      "docs":"Base230 represents a single base-230 placeholder Digit - see Base230Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base230 represents a single base-230 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base230Digits",
       "exhaustive": true,
@@ -2359,7 +2359,7 @@
     },
     {
       "name":"Base231",
-      "docs":"Base231 represents a single base-231 placeholder Digit - see Base231Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base231 represents a single base-231 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base231Digits",
       "exhaustive": true,
@@ -2369,7 +2369,7 @@
     },
     {
       "name":"Base232",
-      "docs":"Base232 represents a single base-232 placeholder Digit - see Base232Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base232 represents a single base-232 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base232Digits",
       "exhaustive": true,
@@ -2379,7 +2379,7 @@
     },
     {
       "name":"Base233",
-      "docs":"Base233 represents a single base-233 placeholder Digit - see Base233Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base233 represents a single base-233 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base233Digits",
       "exhaustive": true,
@@ -2389,7 +2389,7 @@
     },
     {
       "name":"Base234",
-      "docs":"Base234 represents a single base-234 placeholder Digit - see Base234Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base234 represents a single base-234 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base234Digits",
       "exhaustive": true,
@@ -2399,7 +2399,7 @@
     },
     {
       "name":"Base235",
-      "docs":"Base235 represents a single base-235 placeholder Digit - see Base235Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base235 represents a single base-235 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base235Digits",
       "exhaustive": true,
@@ -2409,7 +2409,7 @@
     },
     {
       "name":"Base236",
-      "docs":"Base236 represents a single base-236 placeholder Digit - see Base236Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base236 represents a single base-236 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base236Digits",
       "exhaustive": true,
@@ -2419,7 +2419,7 @@
     },
     {
       "name":"Base237",
-      "docs":"Base237 represents a single base-237 placeholder Digit - see Base237Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base237 represents a single base-237 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base237Digits",
       "exhaustive": true,
@@ -2429,7 +2429,7 @@
     },
     {
       "name":"Base238",
-      "docs":"Base238 represents a single base-238 placeholder Digit - see Base238Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base238 represents a single base-238 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base238Digits",
       "exhaustive": true,
@@ -2439,7 +2439,7 @@
     },
     {
       "name":"Base239",
-      "docs":"Base239 represents a single base-239 placeholder Digit - see Base239Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base239 represents a single base-239 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base239Digits",
       "exhaustive": true,
@@ -2449,7 +2449,7 @@
     },
     {
       "name":"Base240",
-      "docs":"Base240 represents a single base-240 placeholder Digit - see Base240Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base240 represents a single base-240 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base240Digits",
       "exhaustive": true,
@@ -2459,7 +2459,7 @@
     },
     {
       "name":"Base241",
-      "docs":"Base241 represents a single base-241 placeholder Digit - see Base241Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base241 represents a single base-241 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base241Digits",
       "exhaustive": true,
@@ -2469,7 +2469,7 @@
     },
     {
       "name":"Base242",
-      "docs":"Base242 represents a single base-242 placeholder Digit - see Base242Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base242 represents a single base-242 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base242Digits",
       "exhaustive": true,
@@ -2479,7 +2479,7 @@
     },
     {
       "name":"Base243",
-      "docs":"Base243 represents a single base-243 placeholder Digit - see Base243Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base243 represents a single base-243 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base243Digits",
       "exhaustive": true,
@@ -2489,7 +2489,7 @@
     },
     {
       "name":"Base244",
-      "docs":"Base244 represents a single base-244 placeholder Digit - see Base244Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base244 represents a single base-244 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base244Digits",
       "exhaustive": true,
@@ -2499,7 +2499,7 @@
     },
     {
       "name":"Base245",
-      "docs":"Base245 represents a single base-245 placeholder Digit - see Base245Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base245 represents a single base-245 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base245Digits",
       "exhaustive": true,
@@ -2509,7 +2509,7 @@
     },
     {
       "name":"Base246",
-      "docs":"Base246 represents a single base-246 placeholder Digit - see Base246Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base246 represents a single base-246 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base246Digits",
       "exhaustive": true,
@@ -2519,7 +2519,7 @@
     },
     {
       "name":"Base247",
-      "docs":"Base247 represents a single base-247 placeholder Digit - see Base247Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base247 represents a single base-247 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base247Digits",
       "exhaustive": true,
@@ -2529,7 +2529,7 @@
     },
     {
       "name":"Base248",
-      "docs":"Base248 represents a single base-248 placeholder Digit - see Base248Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base248 represents a single base-248 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base248Digits",
       "exhaustive": true,
@@ -2539,7 +2539,7 @@
     },
     {
       "name":"Base249",
-      "docs":"Base249 represents a single base-249 placeholder Digit - see Base249Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base249 represents a single base-249 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base249Digits",
       "exhaustive": true,
@@ -2549,7 +2549,7 @@
     },
     {
       "name":"Base250",
-      "docs":"Base250 represents a single base-250 placeholder Digit - see Base250Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base250 represents a single base-250 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base250Digits",
       "exhaustive": true,
@@ -2559,7 +2559,7 @@
     },
     {
       "name":"Base251",
-      "docs":"Base251 represents a single base-251 placeholder Digit - see Base251Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base251 represents a single base-251 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base251Digits",
       "exhaustive": true,
@@ -2569,7 +2569,7 @@
     },
     {
       "name":"Base252",
-      "docs":"Base252 represents a single base-252 placeholder Digit - see Base252Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base252 represents a single base-252 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base252Digits",
       "exhaustive": true,
@@ -2579,7 +2579,7 @@
     },
     {
       "name":"Base253",
-      "docs":"Base253 represents a single base-253 placeholder Digit - see Base253Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base253 represents a single base-253 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base253Digits",
       "exhaustive": true,
@@ -2589,7 +2589,7 @@
     },
     {
       "name":"Base254",
-      "docs":"Base254 represents a single base-254 placeholder Digit - see Base254Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base254 represents a single base-254 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base254Digits",
       "exhaustive": true,
@@ -2599,7 +2599,7 @@
     },
     {
       "name":"Base255",
-      "docs":"Base255 represents a single base-255 placeholder Digit - see Base255Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base255 represents a single base-255 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base255Digits",
       "exhaustive": true,
@@ -2609,7 +2609,7 @@
     },
     {
       "name":"Base256",
-      "docs":"Base256 represents a single base-256 placeholder Digit - see Base256Digits\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
+      "docs":"Base256 represents a single base-256 placeholder Digit.\n\nNOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.",
       "base":"Digit",
       "nameSet":"Base256Digits",
       "exhaustive": true,

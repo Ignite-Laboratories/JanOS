@@ -1,7 +1,7 @@
 {
   "lexeme": "Lemma",
   "docs": "Lexeme is the most basic unit of the English lexicon.  The English lexicon begins with\na \"Lemma\" string - named so from the English WordNet database which drives it.",
-  "related": "See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function",
+  "related": "See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset",
   "types": [
     {
       "name": "Prototype",
@@ -9,71 +9,77 @@
     },
     {
       "name": "PunctuationMark",
-      "docs": "PunctuationMark represents an English punctuation mark, such as '!' or '?' - see PunctuationMarks",
+      "docs": "PunctuationMark represents an English punctuation mark, such as '!' or '?'",
       "nameSet": "PunctuationMarks",
       "set": [".",",","?","!",":",";","(",")","[","]"]
     },
     {
       "name": "Quote",
-      "docs": "Quote represents an English quote character - See Quotes",
+      "docs": "Quote represents an English quote character",
       "nameSet": "Quotes",
       "set": ["`","'","\""]
     },
     {
       "name": "Dash",
-      "docs": "Dash represents an English dash character - See Dashes",
+      "docs": "Dash represents an English dash character",
       "nameSet": "Dashes",
       "set": ["-","–","—","―","﹘","﹣","－"]
     },
     {
+      "name": "ControlCharacter",
+      "docs": "ControlCharacter represents a special controlling character such as 'newline' or 'tab'.",
+      "nameSet": "ControlCharacters",
+      "set": ["\\n","\\t","\\r","\\b","\\f","\\v","\\a"]
+    },
+    {
       "name": "Function",
-      "docs": "Function words are the semantic glue that holds language together.  They compose of many different categories,\neach of which is a type of function word.  If you wish to describe 'any function word' use this interface - otherwise\nyou may describe it using the below references:\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.\n\nNOTE: Function words are always stored in lowercase form for disambiguation."
+      "docs": "Function words are the semantic glue that holds language together.  They compose of many different categories,\neach of which is a type of function word.  If you wish to describe 'any function word' use this interface - otherwise\nyou may describe it using the below references:\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.\n\nNOTE: Function words are always stored in lowercase form for disambiguation.\n"
     },
     {
       "name": "AuxiliaryVerb",
-      "docs": "An AuxiliaryVerb helps a main verb to express tense, mood, or voice - see AuxiliaryVerbs\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "An AuxiliaryVerb helps a main verb to express tense, mood, or voice\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "AuxiliaryVerbs",
       "set": ["be","am","is", "are","was","were","being","been","have","has","had","having","do","does","did","will","can","could","may","might","must","would","shall","should"]
     },
     {
       "name": "Conjunction",
-      "docs": "A Conjunction links together words, phrases, or clauses of equal or unequal grammatical rank - see Conjunctions\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Conjunction links together words, phrases, or clauses of equal or unequal grammatical rank\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Conjunctions",
       "set": ["and","but","or","not","so","yet","for","although","because","since","unless","while","whereas","if","though"]
     },
     {
       "name": "Preposition",
-      "docs": "A Preposition establishes a relationship, typically spatial or temporal, between a noun or pronoun and another word - see Prepositions\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Preposition establishes a relationship, typically spatial or temporal, between a noun or pronoun and another word\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Prepositions",
       "set": ["of","to","in","on","at","by","for","with","about","over","under","between","through","during","against","among","across","behind","beyond","inside","outside","without","within","upon"]
     },
     {
       "name": "Determiner",
-      "docs": "A Determiner specifies the reference of a noun, providing context about its quantity, definiteness, or ownership - see Determiners\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Determiner specifies the reference of a noun, providing context about its quantity, definiteness, or ownership\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Determiners",
       "set": ["a","an","the","this","that","these","those","my","your","his","her","its","our","their","some","any","no","each","every","either","neither","much","many","few","several","all","both"]
     },
     {
       "name": "Pronoun",
-      "docs": "A Pronoun substitutes for a noun or noun phrase, often to prevent repetition - see Pronouns\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Pronoun substitutes for a noun or noun phrase, often to prevent repetition\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Pronouns",
       "set": ["I","you","he","she","it","we","they","me","him","her","us","them","myself","yourself","himself","herself","itself","ourselves","yourselves","themselves","who","whom","whose","which","what","anyone","someone","everyone","nobody","nothing","anything","everything"]
     },
     {
       "name": "Quantifier",
-      "docs": "A Quantifier indicates the quantity or amount of a noun without being a specific number - see Quantifiers\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Quantifier indicates the quantity or amount of a noun without being a specific number\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Quantifiers",
       "set": ["few","little","much","many","several","all","some","any","enough","more","most","less","least"]
     },
     {
       "name": "Particle",
-      "docs": "A Particle modifies or connects other parts of a phrase - see Particles\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
+      "docs": "A Particle modifies or connects other parts of a phrase\n\n- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle",
       "base": "Function",
       "nameSet": "Particles",
       "set": ["not","no","nor","only","just","even","still","yet","already","also","too","there","here","then","now","how","when","where","why","yes","no","okay","well"]
