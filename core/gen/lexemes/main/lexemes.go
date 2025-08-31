@@ -7,6 +7,7 @@ import (
 
 type Lexicon struct {
 	Lexeme  string   `json:"lexeme"`
+	Type    string   `json:"type"`
 	Docs    string   `json:"docs"`
 	Related string   `json:"related"`
 	Types   []Lexeme `json:"types"`

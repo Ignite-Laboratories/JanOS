@@ -7,8550 +7,2229 @@ package tiny
 //
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Lexeme struct {
-	Placeholder string
+	Placeholder uint8
 }
 
 // Digits are a single placeholder - if you wish to describe any abstract digit, use this interface.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Digit Lexeme
 
-func (t Digit) String() string { return t.Placeholder } 
+func (t Digit) String() string { return Lexeme(t).String() } 
 
-// Base2 represents a single binary placeholder Digit - see Base2Digits
+// Base2 represents a single binary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// 
+// - See Base2Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base2 Digit
 
-func (t Base2) String() string { return t.Placeholder } 
+func (t Base2) String() string { return Digit(t).String() } 
 
-// Base2Digits - see Base2
-var Base2Digits = []Base2{
-	{"0"},{"1"},
-}
-
-// Binary represents a single binary placeholder Digit - see Base2Digits
+// Base3 represents a single ternary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Binary = Base2
-
-// Base3 represents a single ternary placeholder Digit - see Base3Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base3Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base3 Digit
 
-func (t Base3) String() string { return t.Placeholder } 
+func (t Base3) String() string { return Digit(t).String() } 
 
-// Base3Digits - see Base3
-var Base3Digits = []Base3{
-	{"0"},{"1"},{"2"},
-}
-
-// Ternary represents a single ternary placeholder Digit - see Base3Digits
+// Base4 represents a single quarternary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Ternary = Base3
-
-// Base4 represents a single quarternary placeholder Digit - see Base4Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base4Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base4 Digit
 
-func (t Base4) String() string { return t.Placeholder } 
+func (t Base4) String() string { return Digit(t).String() } 
 
-// Base4Digits - see Base4
-var Base4Digits = []Base4{
-	{"0"},{"1"},{"2"},{"3"},
-}
-
-// Quaternary represents a single quarternary placeholder Digit - see Base4Digits
+// Base5 represents a single quinary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Quaternary = Base4
-
-// Base5 represents a single quinary placeholder Digit - see Base5Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base5Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base5 Digit
 
-func (t Base5) String() string { return t.Placeholder } 
+func (t Base5) String() string { return Digit(t).String() } 
 
-// Base5Digits - see Base5
-var Base5Digits = []Base5{
-	{"0"},{"1"},{"2"},{"3"},{"4"},
-}
-
-// Quinary represents a single quinary placeholder Digit - see Base5Digits
+// Base6 represents a single senary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Quinary = Base5
-
-// Base6 represents a single senary placeholder Digit - see Base6Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base6Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base6 Digit
 
-func (t Base6) String() string { return t.Placeholder } 
+func (t Base6) String() string { return Digit(t).String() } 
 
-// Base6Digits - see Base6
-var Base6Digits = []Base6{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},
-}
-
-// Senary represents a single senary placeholder Digit - see Base6Digits
+// Base7 represents a single septenary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Senary = Base6
-
-// Base7 represents a single septenary placeholder Digit - see Base7Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base7Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base7 Digit
 
-func (t Base7) String() string { return t.Placeholder } 
+func (t Base7) String() string { return Digit(t).String() } 
 
-// Base7Digits - see Base7
-var Base7Digits = []Base7{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-}
-
-// Septenary represents a single septenary placeholder Digit - see Base7Digits
+// Base8 represents a single octal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Septenary = Base7
-
-// Base8 represents a single octal placeholder Digit - see Base8Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base8Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base8 Digit
 
-func (t Base8) String() string { return t.Placeholder } 
+func (t Base8) String() string { return Digit(t).String() } 
 
-// Base8Digits - see Base8
-var Base8Digits = []Base8{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},
-}
-
-// Octal represents a single octal placeholder Digit - see Base8Digits
+// Base9 represents a single nonary placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octal = Base8
-
-// Base9 represents a single nonary placeholder Digit - see Base9Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base9Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base9 Digit
 
-func (t Base9) String() string { return t.Placeholder } 
+func (t Base9) String() string { return Digit(t).String() } 
 
-// Base9Digits - see Base9
-var Base9Digits = []Base9{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},
-}
-
-// Nonary represents a single nonary placeholder Digit - see Base9Digits
+// Base10 represents a single decimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Nonary = Base9
-
-// Base10 represents a single decimal placeholder Digit - see Base10Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base10Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base10 Digit
 
-func (t Base10) String() string { return t.Placeholder } 
+func (t Base10) String() string { return Digit(t).String() } 
 
-// Base10Digits - see Base10
-var Base10Digits = []Base10{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},
-}
-
-// Decimal represents a single decimal placeholder Digit - see Base10Digits
+// Base11 represents a single undecimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Decimal = Base10
-
-// Base11 represents a single undecimal placeholder Digit - see Base11Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base11Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base11 Digit
 
-func (t Base11) String() string { return t.Placeholder } 
+func (t Base11) String() string { return Digit(t).String() } 
 
-// Base11Digits - see Base11
-var Base11Digits = []Base11{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},
-}
-
-// Undecimal represents a single undecimal placeholder Digit - see Base11Digits
+// Base12 represents a single duodecimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Undecimal = Base11
-
-// Base12 represents a single duodecimal placeholder Digit - see Base12Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base12Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base12 Digit
 
-func (t Base12) String() string { return t.Placeholder } 
+func (t Base12) String() string { return Digit(t).String() } 
 
-// Base12Digits - see Base12
-var Base12Digits = []Base12{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},{"B"},
-}
-
-// Duodecimal represents a single duodecimal placeholder Digit - see Base12Digits
+// Base13 represents a single tridecimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Duodecimal = Base12
-
-// Base13 represents a single tridecimal placeholder Digit - see Base13Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base13Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base13 Digit
 
-func (t Base13) String() string { return t.Placeholder } 
+func (t Base13) String() string { return Digit(t).String() } 
 
-// Base13Digits - see Base13
-var Base13Digits = []Base13{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},{"B"},{"C"},
-}
-
-// Tridecimal represents a single tridecimal placeholder Digit - see Base13Digits
+// Base14 represents a single tetradecimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tridecimal = Base13
-
-// Base14 represents a single tetradecimal placeholder Digit - see Base14Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base14Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base14 Digit
 
-func (t Base14) String() string { return t.Placeholder } 
+func (t Base14) String() string { return Digit(t).String() } 
 
-// Base14Digits - see Base14
-var Base14Digits = []Base14{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},{"B"},{"C"},{"D"},
-}
-
-// Tetradecimal represents a single tetradecimal placeholder Digit - see Base14Digits
+// Base15 represents a single pentadecimal placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tetradecimal = Base14
-
-// Base15 represents a single pentadecimal placeholder Digit - see Base15Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base15Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base15 Digit
 
-func (t Base15) String() string { return t.Placeholder } 
+func (t Base15) String() string { return Digit(t).String() } 
 
-// Base15Digits - see Base15
-var Base15Digits = []Base15{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},{"B"},{"C"},{"D"},
-	{"E"},
-}
-
-// Pentadecimal represents a single pentadecimal placeholder Digit - see Base15Digits
+// Base16 represents a single base-16 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Pentadecimal = Base15
-
-// Base16 represents a single base-16 placeholder Digit - see Base16Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base16Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base16 Digit
 
-func (t Base16) String() string { return t.Placeholder } 
+func (t Base16) String() string { return Digit(t).String() } 
 
-// Base16Digits - see Base16
-var Base16Digits = []Base16{
-	{"0"},{"1"},{"2"},{"3"},{"4"},{"5"},{"6"},
-	{"7"},{"8"},{"9"},{"A"},{"B"},{"C"},{"D"},
-	{"E"},{"F"},
-}
-
-// Hexadecimal represents a single base-16 placeholder Digit - see Base16Digits
+// Base17 represents a single base-17 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Hexadecimal = Base16
-
-// Base17 represents a single base-17 placeholder Digit - see Base17Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base17Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base17 Digit
 
-func (t Base17) String() string { return t.Placeholder } 
+func (t Base17) String() string { return Digit(t).String() } 
 
-// Base17Digits - see Base17
-var Base17Digits = []Base17{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},
-}
-
-// Heptadecimal represents a single base-17 placeholder Digit - see Base17Digits
+// Base18 represents a single base-18 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Heptadecimal = Base17
-
-// Base18 represents a single base-18 placeholder Digit - see Base18Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base18Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base18 Digit
 
-func (t Base18) String() string { return t.Placeholder } 
+func (t Base18) String() string { return Digit(t).String() } 
 
-// Base18Digits - see Base18
-var Base18Digits = []Base18{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},
-}
-
-// Octodecimal represents a single base-18 placeholder Digit - see Base18Digits
+// Base19 represents a single base-19 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octodecimal = Base18
-
-// Base19 represents a single base-19 placeholder Digit - see Base19Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base19Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base19 Digit
 
-func (t Base19) String() string { return t.Placeholder } 
+func (t Base19) String() string { return Digit(t).String() } 
 
-// Base19Digits - see Base19
-var Base19Digits = []Base19{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},
-}
-
-// Enneadecimal represents a single base-19 placeholder Digit - see Base19Digits
+// Base20 represents a single base-20 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Enneadecimal = Base19
-
-// Base20 represents a single base-20 placeholder Digit - see Base20Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base20Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base20 Digit
 
-func (t Base20) String() string { return t.Placeholder } 
+func (t Base20) String() string { return Digit(t).String() } 
 
-// Base20Digits - see Base20
-var Base20Digits = []Base20{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},
-}
-
-// Vigesimal represents a single base-20 placeholder Digit - see Base20Digits
+// Base21 represents a single base-21 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Vigesimal = Base20
-
-// Base21 represents a single base-21 placeholder Digit - see Base21Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base21Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base21 Digit
 
-func (t Base21) String() string { return t.Placeholder } 
+func (t Base21) String() string { return Digit(t).String() } 
 
-// Base21Digits - see Base21
-var Base21Digits = []Base21{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-}
-
-// Unvigesimal represents a single base-21 placeholder Digit - see Base21Digits
+// Base22 represents a single base-22 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Unvigesimal = Base21
-
-// Base22 represents a single base-22 placeholder Digit - see Base22Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base22Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base22 Digit
 
-func (t Base22) String() string { return t.Placeholder } 
+func (t Base22) String() string { return Digit(t).String() } 
 
-// Base22Digits - see Base22
-var Base22Digits = []Base22{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},
-}
-
-// Duovigesimal represents a single base-22 placeholder Digit - see Base22Digits
+// Base23 represents a single base-23 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Duovigesimal = Base22
-
-// Base23 represents a single base-23 placeholder Digit - see Base23Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base23Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base23 Digit
 
-func (t Base23) String() string { return t.Placeholder } 
+func (t Base23) String() string { return Digit(t).String() } 
 
-// Base23Digits - see Base23
-var Base23Digits = []Base23{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},
-}
-
-// Trivigesimal represents a single base-23 placeholder Digit - see Base23Digits
+// Base24 represents a single base-24 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Trivigesimal = Base23
-
-// Base24 represents a single base-24 placeholder Digit - see Base24Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base24Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base24 Digit
 
-func (t Base24) String() string { return t.Placeholder } 
+func (t Base24) String() string { return Digit(t).String() } 
 
-// Base24Digits - see Base24
-var Base24Digits = []Base24{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},
-}
-
-// Tetravigesimal represents a single base-24 placeholder Digit - see Base24Digits
+// Base25 represents a single base-25 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tetravigesimal = Base24
-
-// Base25 represents a single base-25 placeholder Digit - see Base25Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base25Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base25 Digit
 
-func (t Base25) String() string { return t.Placeholder } 
+func (t Base25) String() string { return Digit(t).String() } 
 
-// Base25Digits - see Base25
-var Base25Digits = []Base25{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},
-}
-
-// Pentavigesimal represents a single base-25 placeholder Digit - see Base25Digits
+// Base26 represents a single base-26 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Pentavigesimal = Base25
-
-// Base26 represents a single base-26 placeholder Digit - see Base26Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base26Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base26 Digit
 
-func (t Base26) String() string { return t.Placeholder } 
+func (t Base26) String() string { return Digit(t).String() } 
 
-// Base26Digits - see Base26
-var Base26Digits = []Base26{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},
-}
-
-// Hexavigesimal represents a single base-26 placeholder Digit - see Base26Digits
+// Base27 represents a single base-27 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Hexavigesimal = Base26
-
-// Base27 represents a single base-27 placeholder Digit - see Base27Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base27Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base27 Digit
 
-func (t Base27) String() string { return t.Placeholder } 
+func (t Base27) String() string { return Digit(t).String() } 
 
-// Base27Digits - see Base27
-var Base27Digits = []Base27{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},
-}
-
-// Heptavigesimal represents a single base-27 placeholder Digit - see Base27Digits
+// Base28 represents a single base-28 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Heptavigesimal = Base27
-
-// Base28 represents a single base-28 placeholder Digit - see Base28Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base28Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base28 Digit
 
-func (t Base28) String() string { return t.Placeholder } 
+func (t Base28) String() string { return Digit(t).String() } 
 
-// Base28Digits - see Base28
-var Base28Digits = []Base28{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-}
-
-// Octovigesimal represents a single base-28 placeholder Digit - see Base28Digits
+// Base29 represents a single base-29 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octovigesimal = Base28
-
-// Base29 represents a single base-29 placeholder Digit - see Base29Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base29Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base29 Digit
 
-func (t Base29) String() string { return t.Placeholder } 
+func (t Base29) String() string { return Digit(t).String() } 
 
-// Base29Digits - see Base29
-var Base29Digits = []Base29{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},
-}
-
-// Enneavigesimal represents a single base-29 placeholder Digit - see Base29Digits
+// Base30 represents a single base-30 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Enneavigesimal = Base29
-
-// Base30 represents a single base-30 placeholder Digit - see Base30Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base30Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base30 Digit
 
-func (t Base30) String() string { return t.Placeholder } 
+func (t Base30) String() string { return Digit(t).String() } 
 
-// Base30Digits - see Base30
-var Base30Digits = []Base30{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},
-}
-
-// Trigesimal represents a single base-30 placeholder Digit - see Base30Digits
+// Base31 represents a single base-31 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Trigesimal = Base30
-
-// Base31 represents a single base-31 placeholder Digit - see Base31Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base31Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base31 Digit
 
-func (t Base31) String() string { return t.Placeholder } 
+func (t Base31) String() string { return Digit(t).String() } 
 
-// Base31Digits - see Base31
-var Base31Digits = []Base31{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},
-}
-
-// Untrigesimal represents a single base-31 placeholder Digit - see Base31Digits
+// Base32 represents a single base-32 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Untrigesimal = Base31
-
-// Base32 represents a single base-32 placeholder Digit - see Base32Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base32Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base32 Digit
 
-func (t Base32) String() string { return t.Placeholder } 
+func (t Base32) String() string { return Digit(t).String() } 
 
-// Base32Digits - see Base32
-var Base32Digits = []Base32{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},
-}
-
-// Duotrigesimal represents a single base-32 placeholder Digit - see Base32Digits
+// Base33 represents a single base-33 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Duotrigesimal = Base32
-
-// Base33 represents a single base-33 placeholder Digit - see Base33Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base33Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base33 Digit
 
-func (t Base33) String() string { return t.Placeholder } 
+func (t Base33) String() string { return Digit(t).String() } 
 
-// Base33Digits - see Base33
-var Base33Digits = []Base33{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},
-}
-
-// Tritrigesimal represents a single base-33 placeholder Digit - see Base33Digits
+// Base34 represents a single base-34 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tritrigesimal = Base33
-
-// Base34 represents a single base-34 placeholder Digit - see Base34Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base34Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base34 Digit
 
-func (t Base34) String() string { return t.Placeholder } 
+func (t Base34) String() string { return Digit(t).String() } 
 
-// Base34Digits - see Base34
-var Base34Digits = []Base34{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},
-}
-
-// Tetratrigesimal represents a single base-34 placeholder Digit - see Base34Digits
+// Base35 represents a single base-35 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tetratrigesimal = Base34
-
-// Base35 represents a single base-35 placeholder Digit - see Base35Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base35Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base35 Digit
 
-func (t Base35) String() string { return t.Placeholder } 
+func (t Base35) String() string { return Digit(t).String() } 
 
-// Base35Digits - see Base35
-var Base35Digits = []Base35{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-}
-
-// Pentatrigesimal represents a single base-35 placeholder Digit - see Base35Digits
+// Base36 represents a single base-36 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Pentatrigesimal = Base35
-
-// Base36 represents a single base-36 placeholder Digit - see Base36Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base36Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base36 Digit
 
-func (t Base36) String() string { return t.Placeholder } 
+func (t Base36) String() string { return Digit(t).String() } 
 
-// Base36Digits - see Base36
-var Base36Digits = []Base36{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},
-}
-
-// Hexatrigesimal represents a single base-36 placeholder Digit - see Base36Digits
+// Base37 represents a single base-37 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Hexatrigesimal = Base36
-
-// Base37 represents a single base-37 placeholder Digit - see Base37Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base37Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base37 Digit
 
-func (t Base37) String() string { return t.Placeholder } 
+func (t Base37) String() string { return Digit(t).String() } 
 
-// Base37Digits - see Base37
-var Base37Digits = []Base37{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},
-}
-
-// Heptatrigesimal represents a single base-37 placeholder Digit - see Base37Digits
+// Base38 represents a single base-38 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Heptatrigesimal = Base37
-
-// Base38 represents a single base-38 placeholder Digit - see Base38Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base38Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base38 Digit
 
-func (t Base38) String() string { return t.Placeholder } 
+func (t Base38) String() string { return Digit(t).String() } 
 
-// Base38Digits - see Base38
-var Base38Digits = []Base38{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},
-}
-
-// Octotrigesimal represents a single base-38 placeholder Digit - see Base38Digits
+// Base39 represents a single base-39 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octotrigesimal = Base38
-
-// Base39 represents a single base-39 placeholder Digit - see Base39Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base39Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base39 Digit
 
-func (t Base39) String() string { return t.Placeholder } 
+func (t Base39) String() string { return Digit(t).String() } 
 
-// Base39Digits - see Base39
-var Base39Digits = []Base39{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},
-}
-
-// Enneatrigesimal represents a single base-39 placeholder Digit - see Base39Digits
+// Base40 represents a single base-40 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Enneatrigesimal = Base39
-
-// Base40 represents a single base-40 placeholder Digit - see Base40Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base40Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base40 Digit
 
-func (t Base40) String() string { return t.Placeholder } 
+func (t Base40) String() string { return Digit(t).String() } 
 
-// Base40Digits - see Base40
-var Base40Digits = []Base40{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},
-}
-
-// Quadragesimal represents a single base-40 placeholder Digit - see Base40Digits
+// Base41 represents a single base-41 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Quadragesimal = Base40
-
-// Base41 represents a single base-41 placeholder Digit - see Base41Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base41Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base41 Digit
 
-func (t Base41) String() string { return t.Placeholder } 
+func (t Base41) String() string { return Digit(t).String() } 
 
-// Base41Digits - see Base41
-var Base41Digits = []Base41{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},
-}
-
-// Unquadragesimal represents a single base-41 placeholder Digit - see Base41Digits
+// Base42 represents a single base-42 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Unquadragesimal = Base41
-
-// Base42 represents a single base-42 placeholder Digit - see Base42Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base42Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base42 Digit
 
-func (t Base42) String() string { return t.Placeholder } 
+func (t Base42) String() string { return Digit(t).String() } 
 
-// Base42Digits - see Base42
-var Base42Digits = []Base42{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-}
-
-// Duoquadragesimal represents a single base-42 placeholder Digit - see Base42Digits
+// Base43 represents a single base-43 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Duoquadragesimal = Base42
-
-// Base43 represents a single base-43 placeholder Digit - see Base43Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base43Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base43 Digit
 
-func (t Base43) String() string { return t.Placeholder } 
+func (t Base43) String() string { return Digit(t).String() } 
 
-// Base43Digits - see Base43
-var Base43Digits = []Base43{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},
-}
-
-// Triquadragesimal represents a single base-43 placeholder Digit - see Base43Digits
+// Base44 represents a single base-44 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Triquadragesimal = Base43
-
-// Base44 represents a single base-44 placeholder Digit - see Base44Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base44Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base44 Digit
 
-func (t Base44) String() string { return t.Placeholder } 
+func (t Base44) String() string { return Digit(t).String() } 
 
-// Base44Digits - see Base44
-var Base44Digits = []Base44{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},
-}
-
-// Tetrquadragesimal represents a single base-44 placeholder Digit - see Base44Digits
+// Base45 represents a single base-45 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tetrquadragesimal = Base44
-
-// Base45 represents a single base-45 placeholder Digit - see Base45Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base45Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base45 Digit
 
-func (t Base45) String() string { return t.Placeholder } 
+func (t Base45) String() string { return Digit(t).String() } 
 
-// Base45Digits - see Base45
-var Base45Digits = []Base45{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},
-}
-
-// Pentquadragesimal represents a single base-45 placeholder Digit - see Base45Digits
+// Base46 represents a single base-46 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Pentquadragesimal = Base45
-
-// Base46 represents a single base-46 placeholder Digit - see Base46Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base46Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base46 Digit
 
-func (t Base46) String() string { return t.Placeholder } 
+func (t Base46) String() string { return Digit(t).String() } 
 
-// Base46Digits - see Base46
-var Base46Digits = []Base46{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},
-}
-
-// Hexquadragesimal represents a single base-46 placeholder Digit - see Base46Digits
+// Base47 represents a single base-47 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Hexquadragesimal = Base46
-
-// Base47 represents a single base-47 placeholder Digit - see Base47Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base47Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base47 Digit
 
-func (t Base47) String() string { return t.Placeholder } 
+func (t Base47) String() string { return Digit(t).String() } 
 
-// Base47Digits - see Base47
-var Base47Digits = []Base47{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},
-}
-
-// Heptquadragesimal represents a single base-47 placeholder Digit - see Base47Digits
+// Base48 represents a single base-48 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Heptquadragesimal = Base47
-
-// Base48 represents a single base-48 placeholder Digit - see Base48Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base48Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base48 Digit
 
-func (t Base48) String() string { return t.Placeholder } 
+func (t Base48) String() string { return Digit(t).String() } 
 
-// Base48Digits - see Base48
-var Base48Digits = []Base48{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},
-}
-
-// Octoquadragesimal represents a single base-48 placeholder Digit - see Base48Digits
+// Base49 represents a single base-49 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octoquadragesimal = Base48
-
-// Base49 represents a single base-49 placeholder Digit - see Base49Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base49Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base49 Digit
 
-func (t Base49) String() string { return t.Placeholder } 
+func (t Base49) String() string { return Digit(t).String() } 
 
-// Base49Digits - see Base49
-var Base49Digits = []Base49{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-}
-
-// Ennequadragesimal represents a single base-49 placeholder Digit - see Base49Digits
+// Base50 represents a single base-50 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Ennequadragesimal = Base49
-
-// Base50 represents a single base-50 placeholder Digit - see Base50Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base50Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base50 Digit
 
-func (t Base50) String() string { return t.Placeholder } 
+func (t Base50) String() string { return Digit(t).String() } 
 
-// Base50Digits - see Base50
-var Base50Digits = []Base50{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},
-}
-
-// Quinquagesimal represents a single base-50 placeholder Digit - see Base50Digits
+// Base51 represents a single base-51 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Quinquagesimal = Base50
-
-// Base51 represents a single base-51 placeholder Digit - see Base51Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base51Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base51 Digit
 
-func (t Base51) String() string { return t.Placeholder } 
+func (t Base51) String() string { return Digit(t).String() } 
 
-// Base51Digits - see Base51
-var Base51Digits = []Base51{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},
-}
-
-// Unquinquagesimal represents a single base-51 placeholder Digit - see Base51Digits
+// Base52 represents a single base-52 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Unquinquagesimal = Base51
-
-// Base52 represents a single base-52 placeholder Digit - see Base52Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base52Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base52 Digit
 
-func (t Base52) String() string { return t.Placeholder } 
+func (t Base52) String() string { return Digit(t).String() } 
 
-// Base52Digits - see Base52
-var Base52Digits = []Base52{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},
-}
-
-// Duoquinquagesimal represents a single base-52 placeholder Digit - see Base52Digits
+// Base53 represents a single base-53 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Duoquinquagesimal = Base52
-
-// Base53 represents a single base-53 placeholder Digit - see Base53Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base53Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base53 Digit
 
-func (t Base53) String() string { return t.Placeholder } 
+func (t Base53) String() string { return Digit(t).String() } 
 
-// Base53Digits - see Base53
-var Base53Digits = []Base53{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},
-}
-
-// Triquinquagesimal represents a single base-53 placeholder Digit - see Base53Digits
+// Base54 represents a single base-54 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Triquinquagesimal = Base53
-
-// Base54 represents a single base-54 placeholder Digit - see Base54Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base54Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base54 Digit
 
-func (t Base54) String() string { return t.Placeholder } 
+func (t Base54) String() string { return Digit(t).String() } 
 
-// Base54Digits - see Base54
-var Base54Digits = []Base54{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},
-}
-
-// Tetrquinquagesimal represents a single base-54 placeholder Digit - see Base54Digits
+// Base55 represents a single base-55 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Tetrquinquagesimal = Base54
-
-// Base55 represents a single base-55 placeholder Digit - see Base55Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base55Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base55 Digit
 
-func (t Base55) String() string { return t.Placeholder } 
+func (t Base55) String() string { return Digit(t).String() } 
 
-// Base55Digits - see Base55
-var Base55Digits = []Base55{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},
-}
-
-// Pentquinquagesimal represents a single base-55 placeholder Digit - see Base55Digits
+// Base56 represents a single base-56 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Pentquinquagesimal = Base55
-
-// Base56 represents a single base-56 placeholder Digit - see Base56Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base56Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base56 Digit
 
-func (t Base56) String() string { return t.Placeholder } 
+func (t Base56) String() string { return Digit(t).String() } 
 
-// Base56Digits - see Base56
-var Base56Digits = []Base56{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-}
-
-// Hexquinquagesimal represents a single base-56 placeholder Digit - see Base56Digits
+// Base57 represents a single base-57 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Hexquinquagesimal = Base56
-
-// Base57 represents a single base-57 placeholder Digit - see Base57Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base57Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base57 Digit
 
-func (t Base57) String() string { return t.Placeholder } 
+func (t Base57) String() string { return Digit(t).String() } 
 
-// Base57Digits - see Base57
-var Base57Digits = []Base57{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},
-}
-
-// Heptquinquagesimal represents a single base-57 placeholder Digit - see Base57Digits
+// Base58 represents a single base-58 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Heptquinquagesimal = Base57
-
-// Base58 represents a single base-58 placeholder Digit - see Base58Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base58Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base58 Digit
 
-func (t Base58) String() string { return t.Placeholder } 
+func (t Base58) String() string { return Digit(t).String() } 
 
-// Base58Digits - see Base58
-var Base58Digits = []Base58{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},
-}
-
-// Octoquinquagesimal represents a single base-58 placeholder Digit - see Base58Digits
+// Base59 represents a single base-59 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Octoquinquagesimal = Base58
-
-// Base59 represents a single base-59 placeholder Digit - see Base59Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base59Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base59 Digit
 
-func (t Base59) String() string { return t.Placeholder } 
+func (t Base59) String() string { return Digit(t).String() } 
 
-// Base59Digits - see Base59
-var Base59Digits = []Base59{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},
-}
-
-// Ennequinquagesimal represents a single base-59 placeholder Digit - see Base59Digits
+// Base60 represents a single base-60 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Ennequinquagesimal = Base59
-
-// Base60 represents a single base-60 placeholder Digit - see Base60Digits
 // 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
+// - See Base60Digits
+// 
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base60 Digit
 
-func (t Base60) String() string { return t.Placeholder } 
+func (t Base60) String() string { return Digit(t).String() } 
 
-// Base60Digits - see Base60
-var Base60Digits = []Base60{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},
-}
-
-// Sexagesimal represents a single base-60 placeholder Digit - see Base60Digits
+// Base61 represents a single base-61 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
-// See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
-type Sexagesimal = Base60
-
-// Base61 represents a single base-61 placeholder Digit - see Base61Digits
-// 
-// NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base61 Digit
 
-func (t Base61) String() string { return t.Placeholder } 
+func (t Base61) String() string { return Digit(t).String() } 
 
-// Base61Digits - see Base61
-var Base61Digits = []Base61{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},
-}
-
-// Base62 represents a single base-62 placeholder Digit - see Base62Digits
+// Base62 represents a single base-62 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base62 Digit
 
-func (t Base62) String() string { return t.Placeholder } 
+func (t Base62) String() string { return Digit(t).String() } 
 
-// Base62Digits - see Base62
-var Base62Digits = []Base62{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},
-}
-
-// Base63 represents a single base-63 placeholder Digit - see Base63Digits
+// Base63 represents a single base-63 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base63 Digit
 
-func (t Base63) String() string { return t.Placeholder } 
+func (t Base63) String() string { return Digit(t).String() } 
 
-// Base63Digits - see Base63
-var Base63Digits = []Base63{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-}
-
-// Base64 represents a single base-64 placeholder Digit - see Base64Digits
+// Base64 represents a single base-64 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base64 Digit
 
-func (t Base64) String() string { return t.Placeholder } 
+func (t Base64) String() string { return Digit(t).String() } 
 
-// Base64Digits - see Base64
-var Base64Digits = []Base64{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},
-}
-
-// Base65 represents a single base-65 placeholder Digit - see Base65Digits
+// Base65 represents a single base-65 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base65 Digit
 
-func (t Base65) String() string { return t.Placeholder } 
+func (t Base65) String() string { return Digit(t).String() } 
 
-// Base65Digits - see Base65
-var Base65Digits = []Base65{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},
-}
-
-// Base66 represents a single base-66 placeholder Digit - see Base66Digits
+// Base66 represents a single base-66 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base66 Digit
 
-func (t Base66) String() string { return t.Placeholder } 
+func (t Base66) String() string { return Digit(t).String() } 
 
-// Base66Digits - see Base66
-var Base66Digits = []Base66{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},
-}
-
-// Base67 represents a single base-67 placeholder Digit - see Base67Digits
+// Base67 represents a single base-67 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base67 Digit
 
-func (t Base67) String() string { return t.Placeholder } 
+func (t Base67) String() string { return Digit(t).String() } 
 
-// Base67Digits - see Base67
-var Base67Digits = []Base67{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},
-}
-
-// Base68 represents a single base-68 placeholder Digit - see Base68Digits
+// Base68 represents a single base-68 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base68 Digit
 
-func (t Base68) String() string { return t.Placeholder } 
+func (t Base68) String() string { return Digit(t).String() } 
 
-// Base68Digits - see Base68
-var Base68Digits = []Base68{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},
-}
-
-// Base69 represents a single base-69 placeholder Digit - see Base69Digits
+// Base69 represents a single base-69 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base69 Digit
 
-func (t Base69) String() string { return t.Placeholder } 
+func (t Base69) String() string { return Digit(t).String() } 
 
-// Base69Digits - see Base69
-var Base69Digits = []Base69{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},
-}
-
-// Base70 represents a single base-70 placeholder Digit - see Base70Digits
+// Base70 represents a single base-70 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base70 Digit
 
-func (t Base70) String() string { return t.Placeholder } 
+func (t Base70) String() string { return Digit(t).String() } 
 
-// Base70Digits - see Base70
-var Base70Digits = []Base70{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-}
-
-// Base71 represents a single base-71 placeholder Digit - see Base71Digits
+// Base71 represents a single base-71 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base71 Digit
 
-func (t Base71) String() string { return t.Placeholder } 
+func (t Base71) String() string { return Digit(t).String() } 
 
-// Base71Digits - see Base71
-var Base71Digits = []Base71{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},
-}
-
-// Base72 represents a single base-72 placeholder Digit - see Base72Digits
+// Base72 represents a single base-72 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base72 Digit
 
-func (t Base72) String() string { return t.Placeholder } 
+func (t Base72) String() string { return Digit(t).String() } 
 
-// Base72Digits - see Base72
-var Base72Digits = []Base72{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},
-}
-
-// Base73 represents a single base-73 placeholder Digit - see Base73Digits
+// Base73 represents a single base-73 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base73 Digit
 
-func (t Base73) String() string { return t.Placeholder } 
+func (t Base73) String() string { return Digit(t).String() } 
 
-// Base73Digits - see Base73
-var Base73Digits = []Base73{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},
-}
-
-// Base74 represents a single base-74 placeholder Digit - see Base74Digits
+// Base74 represents a single base-74 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base74 Digit
 
-func (t Base74) String() string { return t.Placeholder } 
+func (t Base74) String() string { return Digit(t).String() } 
 
-// Base74Digits - see Base74
-var Base74Digits = []Base74{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},
-}
-
-// Base75 represents a single base-75 placeholder Digit - see Base75Digits
+// Base75 represents a single base-75 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base75 Digit
 
-func (t Base75) String() string { return t.Placeholder } 
+func (t Base75) String() string { return Digit(t).String() } 
 
-// Base75Digits - see Base75
-var Base75Digits = []Base75{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},
-}
-
-// Base76 represents a single base-76 placeholder Digit - see Base76Digits
+// Base76 represents a single base-76 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base76 Digit
 
-func (t Base76) String() string { return t.Placeholder } 
+func (t Base76) String() string { return Digit(t).String() } 
 
-// Base76Digits - see Base76
-var Base76Digits = []Base76{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},
-}
-
-// Base77 represents a single base-77 placeholder Digit - see Base77Digits
+// Base77 represents a single base-77 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base77 Digit
 
-func (t Base77) String() string { return t.Placeholder } 
+func (t Base77) String() string { return Digit(t).String() } 
 
-// Base77Digits - see Base77
-var Base77Digits = []Base77{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-}
-
-// Base78 represents a single base-78 placeholder Digit - see Base78Digits
+// Base78 represents a single base-78 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base78 Digit
 
-func (t Base78) String() string { return t.Placeholder } 
+func (t Base78) String() string { return Digit(t).String() } 
 
-// Base78Digits - see Base78
-var Base78Digits = []Base78{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},
-}
-
-// Base79 represents a single base-79 placeholder Digit - see Base79Digits
+// Base79 represents a single base-79 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base79 Digit
 
-func (t Base79) String() string { return t.Placeholder } 
+func (t Base79) String() string { return Digit(t).String() } 
 
-// Base79Digits - see Base79
-var Base79Digits = []Base79{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},
-}
-
-// Base80 represents a single base-80 placeholder Digit - see Base80Digits
+// Base80 represents a single base-80 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base80 Digit
 
-func (t Base80) String() string { return t.Placeholder } 
+func (t Base80) String() string { return Digit(t).String() } 
 
-// Base80Digits - see Base80
-var Base80Digits = []Base80{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},
-}
-
-// Base81 represents a single base-81 placeholder Digit - see Base81Digits
+// Base81 represents a single base-81 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base81 Digit
 
-func (t Base81) String() string { return t.Placeholder } 
+func (t Base81) String() string { return Digit(t).String() } 
 
-// Base81Digits - see Base81
-var Base81Digits = []Base81{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},
-}
-
-// Base82 represents a single base-82 placeholder Digit - see Base82Digits
+// Base82 represents a single base-82 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base82 Digit
 
-func (t Base82) String() string { return t.Placeholder } 
+func (t Base82) String() string { return Digit(t).String() } 
 
-// Base82Digits - see Base82
-var Base82Digits = []Base82{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},
-}
-
-// Base83 represents a single base-83 placeholder Digit - see Base83Digits
+// Base83 represents a single base-83 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base83 Digit
 
-func (t Base83) String() string { return t.Placeholder } 
+func (t Base83) String() string { return Digit(t).String() } 
 
-// Base83Digits - see Base83
-var Base83Digits = []Base83{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},
-}
-
-// Base84 represents a single base-84 placeholder Digit - see Base84Digits
+// Base84 represents a single base-84 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base84 Digit
 
-func (t Base84) String() string { return t.Placeholder } 
+func (t Base84) String() string { return Digit(t).String() } 
 
-// Base84Digits - see Base84
-var Base84Digits = []Base84{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-}
-
-// Base85 represents a single base-85 placeholder Digit - see Base85Digits
+// Base85 represents a single base-85 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base85 Digit
 
-func (t Base85) String() string { return t.Placeholder } 
+func (t Base85) String() string { return Digit(t).String() } 
 
-// Base85Digits - see Base85
-var Base85Digits = []Base85{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},
-}
-
-// Base86 represents a single base-86 placeholder Digit - see Base86Digits
+// Base86 represents a single base-86 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base86 Digit
 
-func (t Base86) String() string { return t.Placeholder } 
+func (t Base86) String() string { return Digit(t).String() } 
 
-// Base86Digits - see Base86
-var Base86Digits = []Base86{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},
-}
-
-// Base87 represents a single base-87 placeholder Digit - see Base87Digits
+// Base87 represents a single base-87 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base87 Digit
 
-func (t Base87) String() string { return t.Placeholder } 
+func (t Base87) String() string { return Digit(t).String() } 
 
-// Base87Digits - see Base87
-var Base87Digits = []Base87{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},
-}
-
-// Base88 represents a single base-88 placeholder Digit - see Base88Digits
+// Base88 represents a single base-88 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base88 Digit
 
-func (t Base88) String() string { return t.Placeholder } 
+func (t Base88) String() string { return Digit(t).String() } 
 
-// Base88Digits - see Base88
-var Base88Digits = []Base88{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},
-}
-
-// Base89 represents a single base-89 placeholder Digit - see Base89Digits
+// Base89 represents a single base-89 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base89 Digit
 
-func (t Base89) String() string { return t.Placeholder } 
+func (t Base89) String() string { return Digit(t).String() } 
 
-// Base89Digits - see Base89
-var Base89Digits = []Base89{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},
-}
-
-// Base90 represents a single base-90 placeholder Digit - see Base90Digits
+// Base90 represents a single base-90 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base90 Digit
 
-func (t Base90) String() string { return t.Placeholder } 
+func (t Base90) String() string { return Digit(t).String() } 
 
-// Base90Digits - see Base90
-var Base90Digits = []Base90{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},
-}
-
-// Base91 represents a single base-91 placeholder Digit - see Base91Digits
+// Base91 represents a single base-91 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base91 Digit
 
-func (t Base91) String() string { return t.Placeholder } 
+func (t Base91) String() string { return Digit(t).String() } 
 
-// Base91Digits - see Base91
-var Base91Digits = []Base91{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-}
-
-// Base92 represents a single base-92 placeholder Digit - see Base92Digits
+// Base92 represents a single base-92 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base92 Digit
 
-func (t Base92) String() string { return t.Placeholder } 
+func (t Base92) String() string { return Digit(t).String() } 
 
-// Base92Digits - see Base92
-var Base92Digits = []Base92{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},
-}
-
-// Base93 represents a single base-93 placeholder Digit - see Base93Digits
+// Base93 represents a single base-93 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base93 Digit
 
-func (t Base93) String() string { return t.Placeholder } 
+func (t Base93) String() string { return Digit(t).String() } 
 
-// Base93Digits - see Base93
-var Base93Digits = []Base93{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},
-}
-
-// Base94 represents a single base-94 placeholder Digit - see Base94Digits
+// Base94 represents a single base-94 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base94 Digit
 
-func (t Base94) String() string { return t.Placeholder } 
+func (t Base94) String() string { return Digit(t).String() } 
 
-// Base94Digits - see Base94
-var Base94Digits = []Base94{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},
-}
-
-// Base95 represents a single base-95 placeholder Digit - see Base95Digits
+// Base95 represents a single base-95 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base95 Digit
 
-func (t Base95) String() string { return t.Placeholder } 
+func (t Base95) String() string { return Digit(t).String() } 
 
-// Base95Digits - see Base95
-var Base95Digits = []Base95{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},
-}
-
-// Base96 represents a single base-96 placeholder Digit - see Base96Digits
+// Base96 represents a single base-96 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base96 Digit
 
-func (t Base96) String() string { return t.Placeholder } 
+func (t Base96) String() string { return Digit(t).String() } 
 
-// Base96Digits - see Base96
-var Base96Digits = []Base96{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},
-}
-
-// Base97 represents a single base-97 placeholder Digit - see Base97Digits
+// Base97 represents a single base-97 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base97 Digit
 
-func (t Base97) String() string { return t.Placeholder } 
+func (t Base97) String() string { return Digit(t).String() } 
 
-// Base97Digits - see Base97
-var Base97Digits = []Base97{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},
-}
-
-// Base98 represents a single base-98 placeholder Digit - see Base98Digits
+// Base98 represents a single base-98 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base98 Digit
 
-func (t Base98) String() string { return t.Placeholder } 
+func (t Base98) String() string { return Digit(t).String() } 
 
-// Base98Digits - see Base98
-var Base98Digits = []Base98{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-}
-
-// Base99 represents a single base-99 placeholder Digit - see Base99Digits
+// Base99 represents a single base-99 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base99 Digit
 
-func (t Base99) String() string { return t.Placeholder } 
+func (t Base99) String() string { return Digit(t).String() } 
 
-// Base99Digits - see Base99
-var Base99Digits = []Base99{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},
-}
-
-// Base100 represents a single base-100 placeholder Digit - see Base100Digits
+// Base100 represents a single base-100 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base100 Digit
 
-func (t Base100) String() string { return t.Placeholder } 
+func (t Base100) String() string { return Digit(t).String() } 
 
-// Base100Digits - see Base100
-var Base100Digits = []Base100{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},
-}
-
-// Base101 represents a single base-101 placeholder Digit - see Base101Digits
+// Base101 represents a single base-101 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base101 Digit
 
-func (t Base101) String() string { return t.Placeholder } 
+func (t Base101) String() string { return Digit(t).String() } 
 
-// Base101Digits - see Base101
-var Base101Digits = []Base101{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},
-}
-
-// Base102 represents a single base-102 placeholder Digit - see Base102Digits
+// Base102 represents a single base-102 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base102 Digit
 
-func (t Base102) String() string { return t.Placeholder } 
+func (t Base102) String() string { return Digit(t).String() } 
 
-// Base102Digits - see Base102
-var Base102Digits = []Base102{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},
-}
-
-// Base103 represents a single base-103 placeholder Digit - see Base103Digits
+// Base103 represents a single base-103 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base103 Digit
 
-func (t Base103) String() string { return t.Placeholder } 
+func (t Base103) String() string { return Digit(t).String() } 
 
-// Base103Digits - see Base103
-var Base103Digits = []Base103{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},
-}
-
-// Base104 represents a single base-104 placeholder Digit - see Base104Digits
+// Base104 represents a single base-104 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base104 Digit
 
-func (t Base104) String() string { return t.Placeholder } 
+func (t Base104) String() string { return Digit(t).String() } 
 
-// Base104Digits - see Base104
-var Base104Digits = []Base104{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},
-}
-
-// Base105 represents a single base-105 placeholder Digit - see Base105Digits
+// Base105 represents a single base-105 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base105 Digit
 
-func (t Base105) String() string { return t.Placeholder } 
+func (t Base105) String() string { return Digit(t).String() } 
 
-// Base105Digits - see Base105
-var Base105Digits = []Base105{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-}
-
-// Base106 represents a single base-106 placeholder Digit - see Base106Digits
+// Base106 represents a single base-106 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base106 Digit
 
-func (t Base106) String() string { return t.Placeholder } 
+func (t Base106) String() string { return Digit(t).String() } 
 
-// Base106Digits - see Base106
-var Base106Digits = []Base106{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},
-}
-
-// Base107 represents a single base-107 placeholder Digit - see Base107Digits
+// Base107 represents a single base-107 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base107 Digit
 
-func (t Base107) String() string { return t.Placeholder } 
+func (t Base107) String() string { return Digit(t).String() } 
 
-// Base107Digits - see Base107
-var Base107Digits = []Base107{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},
-}
-
-// Base108 represents a single base-108 placeholder Digit - see Base108Digits
+// Base108 represents a single base-108 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base108 Digit
 
-func (t Base108) String() string { return t.Placeholder } 
+func (t Base108) String() string { return Digit(t).String() } 
 
-// Base108Digits - see Base108
-var Base108Digits = []Base108{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},
-}
-
-// Base109 represents a single base-109 placeholder Digit - see Base109Digits
+// Base109 represents a single base-109 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base109 Digit
 
-func (t Base109) String() string { return t.Placeholder } 
+func (t Base109) String() string { return Digit(t).String() } 
 
-// Base109Digits - see Base109
-var Base109Digits = []Base109{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},
-}
-
-// Base110 represents a single base-110 placeholder Digit - see Base110Digits
+// Base110 represents a single base-110 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base110 Digit
 
-func (t Base110) String() string { return t.Placeholder } 
+func (t Base110) String() string { return Digit(t).String() } 
 
-// Base110Digits - see Base110
-var Base110Digits = []Base110{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},
-}
-
-// Base111 represents a single base-111 placeholder Digit - see Base111Digits
+// Base111 represents a single base-111 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base111 Digit
 
-func (t Base111) String() string { return t.Placeholder } 
+func (t Base111) String() string { return Digit(t).String() } 
 
-// Base111Digits - see Base111
-var Base111Digits = []Base111{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},
-}
-
-// Base112 represents a single base-112 placeholder Digit - see Base112Digits
+// Base112 represents a single base-112 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base112 Digit
 
-func (t Base112) String() string { return t.Placeholder } 
+func (t Base112) String() string { return Digit(t).String() } 
 
-// Base112Digits - see Base112
-var Base112Digits = []Base112{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-}
-
-// Base113 represents a single base-113 placeholder Digit - see Base113Digits
+// Base113 represents a single base-113 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base113 Digit
 
-func (t Base113) String() string { return t.Placeholder } 
+func (t Base113) String() string { return Digit(t).String() } 
 
-// Base113Digits - see Base113
-var Base113Digits = []Base113{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},
-}
-
-// Base114 represents a single base-114 placeholder Digit - see Base114Digits
+// Base114 represents a single base-114 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base114 Digit
 
-func (t Base114) String() string { return t.Placeholder } 
+func (t Base114) String() string { return Digit(t).String() } 
 
-// Base114Digits - see Base114
-var Base114Digits = []Base114{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},
-}
-
-// Base115 represents a single base-115 placeholder Digit - see Base115Digits
+// Base115 represents a single base-115 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base115 Digit
 
-func (t Base115) String() string { return t.Placeholder } 
+func (t Base115) String() string { return Digit(t).String() } 
 
-// Base115Digits - see Base115
-var Base115Digits = []Base115{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},
-}
-
-// Base116 represents a single base-116 placeholder Digit - see Base116Digits
+// Base116 represents a single base-116 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base116 Digit
 
-func (t Base116) String() string { return t.Placeholder } 
+func (t Base116) String() string { return Digit(t).String() } 
 
-// Base116Digits - see Base116
-var Base116Digits = []Base116{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},
-}
-
-// Base117 represents a single base-117 placeholder Digit - see Base117Digits
+// Base117 represents a single base-117 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base117 Digit
 
-func (t Base117) String() string { return t.Placeholder } 
+func (t Base117) String() string { return Digit(t).String() } 
 
-// Base117Digits - see Base117
-var Base117Digits = []Base117{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},
-}
-
-// Base118 represents a single base-118 placeholder Digit - see Base118Digits
+// Base118 represents a single base-118 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base118 Digit
 
-func (t Base118) String() string { return t.Placeholder } 
+func (t Base118) String() string { return Digit(t).String() } 
 
-// Base118Digits - see Base118
-var Base118Digits = []Base118{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},
-}
-
-// Base119 represents a single base-119 placeholder Digit - see Base119Digits
+// Base119 represents a single base-119 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base119 Digit
 
-func (t Base119) String() string { return t.Placeholder } 
+func (t Base119) String() string { return Digit(t).String() } 
 
-// Base119Digits - see Base119
-var Base119Digits = []Base119{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-}
-
-// Base120 represents a single base-120 placeholder Digit - see Base120Digits
+// Base120 represents a single base-120 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base120 Digit
 
-func (t Base120) String() string { return t.Placeholder } 
+func (t Base120) String() string { return Digit(t).String() } 
 
-// Base120Digits - see Base120
-var Base120Digits = []Base120{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},
-}
-
-// Base121 represents a single base-121 placeholder Digit - see Base121Digits
+// Base121 represents a single base-121 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base121 Digit
 
-func (t Base121) String() string { return t.Placeholder } 
+func (t Base121) String() string { return Digit(t).String() } 
 
-// Base121Digits - see Base121
-var Base121Digits = []Base121{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},
-}
-
-// Base122 represents a single base-122 placeholder Digit - see Base122Digits
+// Base122 represents a single base-122 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base122 Digit
 
-func (t Base122) String() string { return t.Placeholder } 
+func (t Base122) String() string { return Digit(t).String() } 
 
-// Base122Digits - see Base122
-var Base122Digits = []Base122{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},
-}
-
-// Base123 represents a single base-123 placeholder Digit - see Base123Digits
+// Base123 represents a single base-123 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base123 Digit
 
-func (t Base123) String() string { return t.Placeholder } 
+func (t Base123) String() string { return Digit(t).String() } 
 
-// Base123Digits - see Base123
-var Base123Digits = []Base123{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},
-}
-
-// Base124 represents a single base-124 placeholder Digit - see Base124Digits
+// Base124 represents a single base-124 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base124 Digit
 
-func (t Base124) String() string { return t.Placeholder } 
+func (t Base124) String() string { return Digit(t).String() } 
 
-// Base124Digits - see Base124
-var Base124Digits = []Base124{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},
-}
-
-// Base125 represents a single base-125 placeholder Digit - see Base125Digits
+// Base125 represents a single base-125 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base125 Digit
 
-func (t Base125) String() string { return t.Placeholder } 
+func (t Base125) String() string { return Digit(t).String() } 
 
-// Base125Digits - see Base125
-var Base125Digits = []Base125{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},
-}
-
-// Base126 represents a single base-126 placeholder Digit - see Base126Digits
+// Base126 represents a single base-126 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base126 Digit
 
-func (t Base126) String() string { return t.Placeholder } 
+func (t Base126) String() string { return Digit(t).String() } 
 
-// Base126Digits - see Base126
-var Base126Digits = []Base126{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-}
-
-// Base127 represents a single base-127 placeholder Digit - see Base127Digits
+// Base127 represents a single base-127 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base127 Digit
 
-func (t Base127) String() string { return t.Placeholder } 
+func (t Base127) String() string { return Digit(t).String() } 
 
-// Base127Digits - see Base127
-var Base127Digits = []Base127{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},
-}
-
-// Base128 represents a single base-128 placeholder Digit - see Base128Digits
+// Base128 represents a single base-128 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base128 Digit
 
-func (t Base128) String() string { return t.Placeholder } 
+func (t Base128) String() string { return Digit(t).String() } 
 
-// Base128Digits - see Base128
-var Base128Digits = []Base128{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},
-}
-
-// Base129 represents a single base-129 placeholder Digit - see Base129Digits
+// Base129 represents a single base-129 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base129 Digit
 
-func (t Base129) String() string { return t.Placeholder } 
+func (t Base129) String() string { return Digit(t).String() } 
 
-// Base129Digits - see Base129
-var Base129Digits = []Base129{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},
-}
-
-// Base130 represents a single base-130 placeholder Digit - see Base130Digits
+// Base130 represents a single base-130 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base130 Digit
 
-func (t Base130) String() string { return t.Placeholder } 
+func (t Base130) String() string { return Digit(t).String() } 
 
-// Base130Digits - see Base130
-var Base130Digits = []Base130{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},
-}
-
-// Base131 represents a single base-131 placeholder Digit - see Base131Digits
+// Base131 represents a single base-131 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base131 Digit
 
-func (t Base131) String() string { return t.Placeholder } 
+func (t Base131) String() string { return Digit(t).String() } 
 
-// Base131Digits - see Base131
-var Base131Digits = []Base131{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},
-}
-
-// Base132 represents a single base-132 placeholder Digit - see Base132Digits
+// Base132 represents a single base-132 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base132 Digit
 
-func (t Base132) String() string { return t.Placeholder } 
+func (t Base132) String() string { return Digit(t).String() } 
 
-// Base132Digits - see Base132
-var Base132Digits = []Base132{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},
-}
-
-// Base133 represents a single base-133 placeholder Digit - see Base133Digits
+// Base133 represents a single base-133 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base133 Digit
 
-func (t Base133) String() string { return t.Placeholder } 
+func (t Base133) String() string { return Digit(t).String() } 
 
-// Base133Digits - see Base133
-var Base133Digits = []Base133{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-}
-
-// Base134 represents a single base-134 placeholder Digit - see Base134Digits
+// Base134 represents a single base-134 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base134 Digit
 
-func (t Base134) String() string { return t.Placeholder } 
+func (t Base134) String() string { return Digit(t).String() } 
 
-// Base134Digits - see Base134
-var Base134Digits = []Base134{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},
-}
-
-// Base135 represents a single base-135 placeholder Digit - see Base135Digits
+// Base135 represents a single base-135 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base135 Digit
 
-func (t Base135) String() string { return t.Placeholder } 
+func (t Base135) String() string { return Digit(t).String() } 
 
-// Base135Digits - see Base135
-var Base135Digits = []Base135{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},
-}
-
-// Base136 represents a single base-136 placeholder Digit - see Base136Digits
+// Base136 represents a single base-136 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base136 Digit
 
-func (t Base136) String() string { return t.Placeholder } 
+func (t Base136) String() string { return Digit(t).String() } 
 
-// Base136Digits - see Base136
-var Base136Digits = []Base136{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},
-}
-
-// Base137 represents a single base-137 placeholder Digit - see Base137Digits
+// Base137 represents a single base-137 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base137 Digit
 
-func (t Base137) String() string { return t.Placeholder } 
+func (t Base137) String() string { return Digit(t).String() } 
 
-// Base137Digits - see Base137
-var Base137Digits = []Base137{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},
-}
-
-// Base138 represents a single base-138 placeholder Digit - see Base138Digits
+// Base138 represents a single base-138 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base138 Digit
 
-func (t Base138) String() string { return t.Placeholder } 
+func (t Base138) String() string { return Digit(t).String() } 
 
-// Base138Digits - see Base138
-var Base138Digits = []Base138{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},
-}
-
-// Base139 represents a single base-139 placeholder Digit - see Base139Digits
+// Base139 represents a single base-139 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base139 Digit
 
-func (t Base139) String() string { return t.Placeholder } 
+func (t Base139) String() string { return Digit(t).String() } 
 
-// Base139Digits - see Base139
-var Base139Digits = []Base139{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},
-}
-
-// Base140 represents a single base-140 placeholder Digit - see Base140Digits
+// Base140 represents a single base-140 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base140 Digit
 
-func (t Base140) String() string { return t.Placeholder } 
+func (t Base140) String() string { return Digit(t).String() } 
 
-// Base140Digits - see Base140
-var Base140Digits = []Base140{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-}
-
-// Base141 represents a single base-141 placeholder Digit - see Base141Digits
+// Base141 represents a single base-141 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base141 Digit
 
-func (t Base141) String() string { return t.Placeholder } 
+func (t Base141) String() string { return Digit(t).String() } 
 
-// Base141Digits - see Base141
-var Base141Digits = []Base141{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},
-}
-
-// Base142 represents a single base-142 placeholder Digit - see Base142Digits
+// Base142 represents a single base-142 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base142 Digit
 
-func (t Base142) String() string { return t.Placeholder } 
+func (t Base142) String() string { return Digit(t).String() } 
 
-// Base142Digits - see Base142
-var Base142Digits = []Base142{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},
-}
-
-// Base143 represents a single base-143 placeholder Digit - see Base143Digits
+// Base143 represents a single base-143 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base143 Digit
 
-func (t Base143) String() string { return t.Placeholder } 
+func (t Base143) String() string { return Digit(t).String() } 
 
-// Base143Digits - see Base143
-var Base143Digits = []Base143{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},
-}
-
-// Base144 represents a single base-144 placeholder Digit - see Base144Digits
+// Base144 represents a single base-144 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base144 Digit
 
-func (t Base144) String() string { return t.Placeholder } 
+func (t Base144) String() string { return Digit(t).String() } 
 
-// Base144Digits - see Base144
-var Base144Digits = []Base144{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},
-}
-
-// Base145 represents a single base-145 placeholder Digit - see Base145Digits
+// Base145 represents a single base-145 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base145 Digit
 
-func (t Base145) String() string { return t.Placeholder } 
+func (t Base145) String() string { return Digit(t).String() } 
 
-// Base145Digits - see Base145
-var Base145Digits = []Base145{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},
-}
-
-// Base146 represents a single base-146 placeholder Digit - see Base146Digits
+// Base146 represents a single base-146 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base146 Digit
 
-func (t Base146) String() string { return t.Placeholder } 
+func (t Base146) String() string { return Digit(t).String() } 
 
-// Base146Digits - see Base146
-var Base146Digits = []Base146{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},
-}
-
-// Base147 represents a single base-147 placeholder Digit - see Base147Digits
+// Base147 represents a single base-147 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base147 Digit
 
-func (t Base147) String() string { return t.Placeholder } 
+func (t Base147) String() string { return Digit(t).String() } 
 
-// Base147Digits - see Base147
-var Base147Digits = []Base147{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-}
-
-// Base148 represents a single base-148 placeholder Digit - see Base148Digits
+// Base148 represents a single base-148 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base148 Digit
 
-func (t Base148) String() string { return t.Placeholder } 
+func (t Base148) String() string { return Digit(t).String() } 
 
-// Base148Digits - see Base148
-var Base148Digits = []Base148{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},
-}
-
-// Base149 represents a single base-149 placeholder Digit - see Base149Digits
+// Base149 represents a single base-149 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base149 Digit
 
-func (t Base149) String() string { return t.Placeholder } 
+func (t Base149) String() string { return Digit(t).String() } 
 
-// Base149Digits - see Base149
-var Base149Digits = []Base149{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},
-}
-
-// Base150 represents a single base-150 placeholder Digit - see Base150Digits
+// Base150 represents a single base-150 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base150 Digit
 
-func (t Base150) String() string { return t.Placeholder } 
+func (t Base150) String() string { return Digit(t).String() } 
 
-// Base150Digits - see Base150
-var Base150Digits = []Base150{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},
-}
-
-// Base151 represents a single base-151 placeholder Digit - see Base151Digits
+// Base151 represents a single base-151 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base151 Digit
 
-func (t Base151) String() string { return t.Placeholder } 
+func (t Base151) String() string { return Digit(t).String() } 
 
-// Base151Digits - see Base151
-var Base151Digits = []Base151{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},
-}
-
-// Base152 represents a single base-152 placeholder Digit - see Base152Digits
+// Base152 represents a single base-152 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base152 Digit
 
-func (t Base152) String() string { return t.Placeholder } 
+func (t Base152) String() string { return Digit(t).String() } 
 
-// Base152Digits - see Base152
-var Base152Digits = []Base152{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},
-}
-
-// Base153 represents a single base-153 placeholder Digit - see Base153Digits
+// Base153 represents a single base-153 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base153 Digit
 
-func (t Base153) String() string { return t.Placeholder } 
+func (t Base153) String() string { return Digit(t).String() } 
 
-// Base153Digits - see Base153
-var Base153Digits = []Base153{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},
-}
-
-// Base154 represents a single base-154 placeholder Digit - see Base154Digits
+// Base154 represents a single base-154 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base154 Digit
 
-func (t Base154) String() string { return t.Placeholder } 
+func (t Base154) String() string { return Digit(t).String() } 
 
-// Base154Digits - see Base154
-var Base154Digits = []Base154{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-}
-
-// Base155 represents a single base-155 placeholder Digit - see Base155Digits
+// Base155 represents a single base-155 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base155 Digit
 
-func (t Base155) String() string { return t.Placeholder } 
+func (t Base155) String() string { return Digit(t).String() } 
 
-// Base155Digits - see Base155
-var Base155Digits = []Base155{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},
-}
-
-// Base156 represents a single base-156 placeholder Digit - see Base156Digits
+// Base156 represents a single base-156 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base156 Digit
 
-func (t Base156) String() string { return t.Placeholder } 
+func (t Base156) String() string { return Digit(t).String() } 
 
-// Base156Digits - see Base156
-var Base156Digits = []Base156{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},
-}
-
-// Base157 represents a single base-157 placeholder Digit - see Base157Digits
+// Base157 represents a single base-157 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base157 Digit
 
-func (t Base157) String() string { return t.Placeholder } 
+func (t Base157) String() string { return Digit(t).String() } 
 
-// Base157Digits - see Base157
-var Base157Digits = []Base157{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},
-}
-
-// Base158 represents a single base-158 placeholder Digit - see Base158Digits
+// Base158 represents a single base-158 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base158 Digit
 
-func (t Base158) String() string { return t.Placeholder } 
+func (t Base158) String() string { return Digit(t).String() } 
 
-// Base158Digits - see Base158
-var Base158Digits = []Base158{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},
-}
-
-// Base159 represents a single base-159 placeholder Digit - see Base159Digits
+// Base159 represents a single base-159 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base159 Digit
 
-func (t Base159) String() string { return t.Placeholder } 
+func (t Base159) String() string { return Digit(t).String() } 
 
-// Base159Digits - see Base159
-var Base159Digits = []Base159{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},
-}
-
-// Base160 represents a single base-160 placeholder Digit - see Base160Digits
+// Base160 represents a single base-160 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base160 Digit
 
-func (t Base160) String() string { return t.Placeholder } 
+func (t Base160) String() string { return Digit(t).String() } 
 
-// Base160Digits - see Base160
-var Base160Digits = []Base160{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},
-}
-
-// Base161 represents a single base-161 placeholder Digit - see Base161Digits
+// Base161 represents a single base-161 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base161 Digit
 
-func (t Base161) String() string { return t.Placeholder } 
+func (t Base161) String() string { return Digit(t).String() } 
 
-// Base161Digits - see Base161
-var Base161Digits = []Base161{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-}
-
-// Base162 represents a single base-162 placeholder Digit - see Base162Digits
+// Base162 represents a single base-162 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base162 Digit
 
-func (t Base162) String() string { return t.Placeholder } 
+func (t Base162) String() string { return Digit(t).String() } 
 
-// Base162Digits - see Base162
-var Base162Digits = []Base162{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},
-}
-
-// Base163 represents a single base-163 placeholder Digit - see Base163Digits
+// Base163 represents a single base-163 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base163 Digit
 
-func (t Base163) String() string { return t.Placeholder } 
+func (t Base163) String() string { return Digit(t).String() } 
 
-// Base163Digits - see Base163
-var Base163Digits = []Base163{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},
-}
-
-// Base164 represents a single base-164 placeholder Digit - see Base164Digits
+// Base164 represents a single base-164 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base164 Digit
 
-func (t Base164) String() string { return t.Placeholder } 
+func (t Base164) String() string { return Digit(t).String() } 
 
-// Base164Digits - see Base164
-var Base164Digits = []Base164{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},
-}
-
-// Base165 represents a single base-165 placeholder Digit - see Base165Digits
+// Base165 represents a single base-165 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base165 Digit
 
-func (t Base165) String() string { return t.Placeholder } 
+func (t Base165) String() string { return Digit(t).String() } 
 
-// Base165Digits - see Base165
-var Base165Digits = []Base165{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},
-}
-
-// Base166 represents a single base-166 placeholder Digit - see Base166Digits
+// Base166 represents a single base-166 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base166 Digit
 
-func (t Base166) String() string { return t.Placeholder } 
+func (t Base166) String() string { return Digit(t).String() } 
 
-// Base166Digits - see Base166
-var Base166Digits = []Base166{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},
-}
-
-// Base167 represents a single base-167 placeholder Digit - see Base167Digits
+// Base167 represents a single base-167 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base167 Digit
 
-func (t Base167) String() string { return t.Placeholder } 
+func (t Base167) String() string { return Digit(t).String() } 
 
-// Base167Digits - see Base167
-var Base167Digits = []Base167{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},
-}
-
-// Base168 represents a single base-168 placeholder Digit - see Base168Digits
+// Base168 represents a single base-168 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base168 Digit
 
-func (t Base168) String() string { return t.Placeholder } 
+func (t Base168) String() string { return Digit(t).String() } 
 
-// Base168Digits - see Base168
-var Base168Digits = []Base168{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-}
-
-// Base169 represents a single base-169 placeholder Digit - see Base169Digits
+// Base169 represents a single base-169 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base169 Digit
 
-func (t Base169) String() string { return t.Placeholder } 
+func (t Base169) String() string { return Digit(t).String() } 
 
-// Base169Digits - see Base169
-var Base169Digits = []Base169{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},
-}
-
-// Base170 represents a single base-170 placeholder Digit - see Base170Digits
+// Base170 represents a single base-170 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base170 Digit
 
-func (t Base170) String() string { return t.Placeholder } 
+func (t Base170) String() string { return Digit(t).String() } 
 
-// Base170Digits - see Base170
-var Base170Digits = []Base170{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},
-}
-
-// Base171 represents a single base-171 placeholder Digit - see Base171Digits
+// Base171 represents a single base-171 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base171 Digit
 
-func (t Base171) String() string { return t.Placeholder } 
+func (t Base171) String() string { return Digit(t).String() } 
 
-// Base171Digits - see Base171
-var Base171Digits = []Base171{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},
-}
-
-// Base172 represents a single base-172 placeholder Digit - see Base172Digits
+// Base172 represents a single base-172 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base172 Digit
 
-func (t Base172) String() string { return t.Placeholder } 
+func (t Base172) String() string { return Digit(t).String() } 
 
-// Base172Digits - see Base172
-var Base172Digits = []Base172{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},
-}
-
-// Base173 represents a single base-173 placeholder Digit - see Base173Digits
+// Base173 represents a single base-173 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base173 Digit
 
-func (t Base173) String() string { return t.Placeholder } 
+func (t Base173) String() string { return Digit(t).String() } 
 
-// Base173Digits - see Base173
-var Base173Digits = []Base173{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},
-}
-
-// Base174 represents a single base-174 placeholder Digit - see Base174Digits
+// Base174 represents a single base-174 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base174 Digit
 
-func (t Base174) String() string { return t.Placeholder } 
+func (t Base174) String() string { return Digit(t).String() } 
 
-// Base174Digits - see Base174
-var Base174Digits = []Base174{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},
-}
-
-// Base175 represents a single base-175 placeholder Digit - see Base175Digits
+// Base175 represents a single base-175 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base175 Digit
 
-func (t Base175) String() string { return t.Placeholder } 
+func (t Base175) String() string { return Digit(t).String() } 
 
-// Base175Digits - see Base175
-var Base175Digits = []Base175{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-}
-
-// Base176 represents a single base-176 placeholder Digit - see Base176Digits
+// Base176 represents a single base-176 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base176 Digit
 
-func (t Base176) String() string { return t.Placeholder } 
+func (t Base176) String() string { return Digit(t).String() } 
 
-// Base176Digits - see Base176
-var Base176Digits = []Base176{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},
-}
-
-// Base177 represents a single base-177 placeholder Digit - see Base177Digits
+// Base177 represents a single base-177 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base177 Digit
 
-func (t Base177) String() string { return t.Placeholder } 
+func (t Base177) String() string { return Digit(t).String() } 
 
-// Base177Digits - see Base177
-var Base177Digits = []Base177{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},
-}
-
-// Base178 represents a single base-178 placeholder Digit - see Base178Digits
+// Base178 represents a single base-178 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base178 Digit
 
-func (t Base178) String() string { return t.Placeholder } 
+func (t Base178) String() string { return Digit(t).String() } 
 
-// Base178Digits - see Base178
-var Base178Digits = []Base178{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},
-}
-
-// Base179 represents a single base-179 placeholder Digit - see Base179Digits
+// Base179 represents a single base-179 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base179 Digit
 
-func (t Base179) String() string { return t.Placeholder } 
+func (t Base179) String() string { return Digit(t).String() } 
 
-// Base179Digits - see Base179
-var Base179Digits = []Base179{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},
-}
-
-// Base180 represents a single base-180 placeholder Digit - see Base180Digits
+// Base180 represents a single base-180 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base180 Digit
 
-func (t Base180) String() string { return t.Placeholder } 
+func (t Base180) String() string { return Digit(t).String() } 
 
-// Base180Digits - see Base180
-var Base180Digits = []Base180{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},
-}
-
-// Base181 represents a single base-181 placeholder Digit - see Base181Digits
+// Base181 represents a single base-181 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base181 Digit
 
-func (t Base181) String() string { return t.Placeholder } 
+func (t Base181) String() string { return Digit(t).String() } 
 
-// Base181Digits - see Base181
-var Base181Digits = []Base181{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},
-}
-
-// Base182 represents a single base-182 placeholder Digit - see Base182Digits
+// Base182 represents a single base-182 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base182 Digit
 
-func (t Base182) String() string { return t.Placeholder } 
+func (t Base182) String() string { return Digit(t).String() } 
 
-// Base182Digits - see Base182
-var Base182Digits = []Base182{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-}
-
-// Base183 represents a single base-183 placeholder Digit - see Base183Digits
+// Base183 represents a single base-183 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base183 Digit
 
-func (t Base183) String() string { return t.Placeholder } 
+func (t Base183) String() string { return Digit(t).String() } 
 
-// Base183Digits - see Base183
-var Base183Digits = []Base183{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},
-}
-
-// Base184 represents a single base-184 placeholder Digit - see Base184Digits
+// Base184 represents a single base-184 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base184 Digit
 
-func (t Base184) String() string { return t.Placeholder } 
+func (t Base184) String() string { return Digit(t).String() } 
 
-// Base184Digits - see Base184
-var Base184Digits = []Base184{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},
-}
-
-// Base185 represents a single base-185 placeholder Digit - see Base185Digits
+// Base185 represents a single base-185 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base185 Digit
 
-func (t Base185) String() string { return t.Placeholder } 
+func (t Base185) String() string { return Digit(t).String() } 
 
-// Base185Digits - see Base185
-var Base185Digits = []Base185{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},
-}
-
-// Base186 represents a single base-186 placeholder Digit - see Base186Digits
+// Base186 represents a single base-186 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base186 Digit
 
-func (t Base186) String() string { return t.Placeholder } 
+func (t Base186) String() string { return Digit(t).String() } 
 
-// Base186Digits - see Base186
-var Base186Digits = []Base186{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},
-}
-
-// Base187 represents a single base-187 placeholder Digit - see Base187Digits
+// Base187 represents a single base-187 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base187 Digit
 
-func (t Base187) String() string { return t.Placeholder } 
+func (t Base187) String() string { return Digit(t).String() } 
 
-// Base187Digits - see Base187
-var Base187Digits = []Base187{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},
-}
-
-// Base188 represents a single base-188 placeholder Digit - see Base188Digits
+// Base188 represents a single base-188 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base188 Digit
 
-func (t Base188) String() string { return t.Placeholder } 
+func (t Base188) String() string { return Digit(t).String() } 
 
-// Base188Digits - see Base188
-var Base188Digits = []Base188{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},
-}
-
-// Base189 represents a single base-189 placeholder Digit - see Base189Digits
+// Base189 represents a single base-189 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base189 Digit
 
-func (t Base189) String() string { return t.Placeholder } 
+func (t Base189) String() string { return Digit(t).String() } 
 
-// Base189Digits - see Base189
-var Base189Digits = []Base189{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-}
-
-// Base190 represents a single base-190 placeholder Digit - see Base190Digits
+// Base190 represents a single base-190 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base190 Digit
 
-func (t Base190) String() string { return t.Placeholder } 
+func (t Base190) String() string { return Digit(t).String() } 
 
-// Base190Digits - see Base190
-var Base190Digits = []Base190{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},
-}
-
-// Base191 represents a single base-191 placeholder Digit - see Base191Digits
+// Base191 represents a single base-191 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base191 Digit
 
-func (t Base191) String() string { return t.Placeholder } 
+func (t Base191) String() string { return Digit(t).String() } 
 
-// Base191Digits - see Base191
-var Base191Digits = []Base191{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},
-}
-
-// Base192 represents a single base-192 placeholder Digit - see Base192Digits
+// Base192 represents a single base-192 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base192 Digit
 
-func (t Base192) String() string { return t.Placeholder } 
+func (t Base192) String() string { return Digit(t).String() } 
 
-// Base192Digits - see Base192
-var Base192Digits = []Base192{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},
-}
-
-// Base193 represents a single base-193 placeholder Digit - see Base193Digits
+// Base193 represents a single base-193 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base193 Digit
 
-func (t Base193) String() string { return t.Placeholder } 
+func (t Base193) String() string { return Digit(t).String() } 
 
-// Base193Digits - see Base193
-var Base193Digits = []Base193{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},
-}
-
-// Base194 represents a single base-194 placeholder Digit - see Base194Digits
+// Base194 represents a single base-194 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base194 Digit
 
-func (t Base194) String() string { return t.Placeholder } 
+func (t Base194) String() string { return Digit(t).String() } 
 
-// Base194Digits - see Base194
-var Base194Digits = []Base194{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},
-}
-
-// Base195 represents a single base-195 placeholder Digit - see Base195Digits
+// Base195 represents a single base-195 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base195 Digit
 
-func (t Base195) String() string { return t.Placeholder } 
+func (t Base195) String() string { return Digit(t).String() } 
 
-// Base195Digits - see Base195
-var Base195Digits = []Base195{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},
-}
-
-// Base196 represents a single base-196 placeholder Digit - see Base196Digits
+// Base196 represents a single base-196 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base196 Digit
 
-func (t Base196) String() string { return t.Placeholder } 
+func (t Base196) String() string { return Digit(t).String() } 
 
-// Base196Digits - see Base196
-var Base196Digits = []Base196{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-}
-
-// Base197 represents a single base-197 placeholder Digit - see Base197Digits
+// Base197 represents a single base-197 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base197 Digit
 
-func (t Base197) String() string { return t.Placeholder } 
+func (t Base197) String() string { return Digit(t).String() } 
 
-// Base197Digits - see Base197
-var Base197Digits = []Base197{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},
-}
-
-// Base198 represents a single base-198 placeholder Digit - see Base198Digits
+// Base198 represents a single base-198 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base198 Digit
 
-func (t Base198) String() string { return t.Placeholder } 
+func (t Base198) String() string { return Digit(t).String() } 
 
-// Base198Digits - see Base198
-var Base198Digits = []Base198{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},
-}
-
-// Base199 represents a single base-199 placeholder Digit - see Base199Digits
+// Base199 represents a single base-199 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base199 Digit
 
-func (t Base199) String() string { return t.Placeholder } 
+func (t Base199) String() string { return Digit(t).String() } 
 
-// Base199Digits - see Base199
-var Base199Digits = []Base199{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},
-}
-
-// Base200 represents a single base-200 placeholder Digit - see Base200Digits
+// Base200 represents a single base-200 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base200 Digit
 
-func (t Base200) String() string { return t.Placeholder } 
+func (t Base200) String() string { return Digit(t).String() } 
 
-// Base200Digits - see Base200
-var Base200Digits = []Base200{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},
-}
-
-// Base201 represents a single base-201 placeholder Digit - see Base201Digits
+// Base201 represents a single base-201 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base201 Digit
 
-func (t Base201) String() string { return t.Placeholder } 
+func (t Base201) String() string { return Digit(t).String() } 
 
-// Base201Digits - see Base201
-var Base201Digits = []Base201{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},
-}
-
-// Base202 represents a single base-202 placeholder Digit - see Base202Digits
+// Base202 represents a single base-202 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base202 Digit
 
-func (t Base202) String() string { return t.Placeholder } 
+func (t Base202) String() string { return Digit(t).String() } 
 
-// Base202Digits - see Base202
-var Base202Digits = []Base202{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},
-}
-
-// Base203 represents a single base-203 placeholder Digit - see Base203Digits
+// Base203 represents a single base-203 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base203 Digit
 
-func (t Base203) String() string { return t.Placeholder } 
+func (t Base203) String() string { return Digit(t).String() } 
 
-// Base203Digits - see Base203
-var Base203Digits = []Base203{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-}
-
-// Base204 represents a single base-204 placeholder Digit - see Base204Digits
+// Base204 represents a single base-204 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base204 Digit
 
-func (t Base204) String() string { return t.Placeholder } 
+func (t Base204) String() string { return Digit(t).String() } 
 
-// Base204Digits - see Base204
-var Base204Digits = []Base204{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},
-}
-
-// Base205 represents a single base-205 placeholder Digit - see Base205Digits
+// Base205 represents a single base-205 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base205 Digit
 
-func (t Base205) String() string { return t.Placeholder } 
+func (t Base205) String() string { return Digit(t).String() } 
 
-// Base205Digits - see Base205
-var Base205Digits = []Base205{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},
-}
-
-// Base206 represents a single base-206 placeholder Digit - see Base206Digits
+// Base206 represents a single base-206 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base206 Digit
 
-func (t Base206) String() string { return t.Placeholder } 
+func (t Base206) String() string { return Digit(t).String() } 
 
-// Base206Digits - see Base206
-var Base206Digits = []Base206{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},
-}
-
-// Base207 represents a single base-207 placeholder Digit - see Base207Digits
+// Base207 represents a single base-207 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base207 Digit
 
-func (t Base207) String() string { return t.Placeholder } 
+func (t Base207) String() string { return Digit(t).String() } 
 
-// Base207Digits - see Base207
-var Base207Digits = []Base207{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},
-}
-
-// Base208 represents a single base-208 placeholder Digit - see Base208Digits
+// Base208 represents a single base-208 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base208 Digit
 
-func (t Base208) String() string { return t.Placeholder } 
+func (t Base208) String() string { return Digit(t).String() } 
 
-// Base208Digits - see Base208
-var Base208Digits = []Base208{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},
-}
-
-// Base209 represents a single base-209 placeholder Digit - see Base209Digits
+// Base209 represents a single base-209 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base209 Digit
 
-func (t Base209) String() string { return t.Placeholder } 
+func (t Base209) String() string { return Digit(t).String() } 
 
-// Base209Digits - see Base209
-var Base209Digits = []Base209{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},
-}
-
-// Base210 represents a single base-210 placeholder Digit - see Base210Digits
+// Base210 represents a single base-210 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base210 Digit
 
-func (t Base210) String() string { return t.Placeholder } 
+func (t Base210) String() string { return Digit(t).String() } 
 
-// Base210Digits - see Base210
-var Base210Digits = []Base210{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-}
-
-// Base211 represents a single base-211 placeholder Digit - see Base211Digits
+// Base211 represents a single base-211 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base211 Digit
 
-func (t Base211) String() string { return t.Placeholder } 
+func (t Base211) String() string { return Digit(t).String() } 
 
-// Base211Digits - see Base211
-var Base211Digits = []Base211{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},
-}
-
-// Base212 represents a single base-212 placeholder Digit - see Base212Digits
+// Base212 represents a single base-212 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base212 Digit
 
-func (t Base212) String() string { return t.Placeholder } 
+func (t Base212) String() string { return Digit(t).String() } 
 
-// Base212Digits - see Base212
-var Base212Digits = []Base212{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},
-}
-
-// Base213 represents a single base-213 placeholder Digit - see Base213Digits
+// Base213 represents a single base-213 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base213 Digit
 
-func (t Base213) String() string { return t.Placeholder } 
+func (t Base213) String() string { return Digit(t).String() } 
 
-// Base213Digits - see Base213
-var Base213Digits = []Base213{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},
-}
-
-// Base214 represents a single base-214 placeholder Digit - see Base214Digits
+// Base214 represents a single base-214 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base214 Digit
 
-func (t Base214) String() string { return t.Placeholder } 
+func (t Base214) String() string { return Digit(t).String() } 
 
-// Base214Digits - see Base214
-var Base214Digits = []Base214{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},
-}
-
-// Base215 represents a single base-215 placeholder Digit - see Base215Digits
+// Base215 represents a single base-215 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base215 Digit
 
-func (t Base215) String() string { return t.Placeholder } 
+func (t Base215) String() string { return Digit(t).String() } 
 
-// Base215Digits - see Base215
-var Base215Digits = []Base215{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},
-}
-
-// Base216 represents a single base-216 placeholder Digit - see Base216Digits
+// Base216 represents a single base-216 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base216 Digit
 
-func (t Base216) String() string { return t.Placeholder } 
+func (t Base216) String() string { return Digit(t).String() } 
 
-// Base216Digits - see Base216
-var Base216Digits = []Base216{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},
-}
-
-// Base217 represents a single base-217 placeholder Digit - see Base217Digits
+// Base217 represents a single base-217 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base217 Digit
 
-func (t Base217) String() string { return t.Placeholder } 
+func (t Base217) String() string { return Digit(t).String() } 
 
-// Base217Digits - see Base217
-var Base217Digits = []Base217{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-}
-
-// Base218 represents a single base-218 placeholder Digit - see Base218Digits
+// Base218 represents a single base-218 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base218 Digit
 
-func (t Base218) String() string { return t.Placeholder } 
+func (t Base218) String() string { return Digit(t).String() } 
 
-// Base218Digits - see Base218
-var Base218Digits = []Base218{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},
-}
-
-// Base219 represents a single base-219 placeholder Digit - see Base219Digits
+// Base219 represents a single base-219 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base219 Digit
 
-func (t Base219) String() string { return t.Placeholder } 
+func (t Base219) String() string { return Digit(t).String() } 
 
-// Base219Digits - see Base219
-var Base219Digits = []Base219{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},
-}
-
-// Base220 represents a single base-220 placeholder Digit - see Base220Digits
+// Base220 represents a single base-220 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base220 Digit
 
-func (t Base220) String() string { return t.Placeholder } 
+func (t Base220) String() string { return Digit(t).String() } 
 
-// Base220Digits - see Base220
-var Base220Digits = []Base220{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},
-}
-
-// Base221 represents a single base-221 placeholder Digit - see Base221Digits
+// Base221 represents a single base-221 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base221 Digit
 
-func (t Base221) String() string { return t.Placeholder } 
+func (t Base221) String() string { return Digit(t).String() } 
 
-// Base221Digits - see Base221
-var Base221Digits = []Base221{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},
-}
-
-// Base222 represents a single base-222 placeholder Digit - see Base222Digits
+// Base222 represents a single base-222 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base222 Digit
 
-func (t Base222) String() string { return t.Placeholder } 
+func (t Base222) String() string { return Digit(t).String() } 
 
-// Base222Digits - see Base222
-var Base222Digits = []Base222{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},
-}
-
-// Base223 represents a single base-223 placeholder Digit - see Base223Digits
+// Base223 represents a single base-223 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base223 Digit
 
-func (t Base223) String() string { return t.Placeholder } 
+func (t Base223) String() string { return Digit(t).String() } 
 
-// Base223Digits - see Base223
-var Base223Digits = []Base223{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},
-}
-
-// Base224 represents a single base-224 placeholder Digit - see Base224Digits
+// Base224 represents a single base-224 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base224 Digit
 
-func (t Base224) String() string { return t.Placeholder } 
+func (t Base224) String() string { return Digit(t).String() } 
 
-// Base224Digits - see Base224
-var Base224Digits = []Base224{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-}
-
-// Base225 represents a single base-225 placeholder Digit - see Base225Digits
+// Base225 represents a single base-225 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base225 Digit
 
-func (t Base225) String() string { return t.Placeholder } 
+func (t Base225) String() string { return Digit(t).String() } 
 
-// Base225Digits - see Base225
-var Base225Digits = []Base225{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},
-}
-
-// Base226 represents a single base-226 placeholder Digit - see Base226Digits
+// Base226 represents a single base-226 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base226 Digit
 
-func (t Base226) String() string { return t.Placeholder } 
+func (t Base226) String() string { return Digit(t).String() } 
 
-// Base226Digits - see Base226
-var Base226Digits = []Base226{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},
-}
-
-// Base227 represents a single base-227 placeholder Digit - see Base227Digits
+// Base227 represents a single base-227 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base227 Digit
 
-func (t Base227) String() string { return t.Placeholder } 
+func (t Base227) String() string { return Digit(t).String() } 
 
-// Base227Digits - see Base227
-var Base227Digits = []Base227{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},
-}
-
-// Base228 represents a single base-228 placeholder Digit - see Base228Digits
+// Base228 represents a single base-228 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base228 Digit
 
-func (t Base228) String() string { return t.Placeholder } 
+func (t Base228) String() string { return Digit(t).String() } 
 
-// Base228Digits - see Base228
-var Base228Digits = []Base228{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},
-}
-
-// Base229 represents a single base-229 placeholder Digit - see Base229Digits
+// Base229 represents a single base-229 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base229 Digit
 
-func (t Base229) String() string { return t.Placeholder } 
+func (t Base229) String() string { return Digit(t).String() } 
 
-// Base229Digits - see Base229
-var Base229Digits = []Base229{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},
-}
-
-// Base230 represents a single base-230 placeholder Digit - see Base230Digits
+// Base230 represents a single base-230 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base230 Digit
 
-func (t Base230) String() string { return t.Placeholder } 
+func (t Base230) String() string { return Digit(t).String() } 
 
-// Base230Digits - see Base230
-var Base230Digits = []Base230{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},
-}
-
-// Base231 represents a single base-231 placeholder Digit - see Base231Digits
+// Base231 represents a single base-231 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base231 Digit
 
-func (t Base231) String() string { return t.Placeholder } 
+func (t Base231) String() string { return Digit(t).String() } 
 
-// Base231Digits - see Base231
-var Base231Digits = []Base231{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-}
-
-// Base232 represents a single base-232 placeholder Digit - see Base232Digits
+// Base232 represents a single base-232 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base232 Digit
 
-func (t Base232) String() string { return t.Placeholder } 
+func (t Base232) String() string { return Digit(t).String() } 
 
-// Base232Digits - see Base232
-var Base232Digits = []Base232{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},
-}
-
-// Base233 represents a single base-233 placeholder Digit - see Base233Digits
+// Base233 represents a single base-233 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base233 Digit
 
-func (t Base233) String() string { return t.Placeholder } 
+func (t Base233) String() string { return Digit(t).String() } 
 
-// Base233Digits - see Base233
-var Base233Digits = []Base233{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},
-}
-
-// Base234 represents a single base-234 placeholder Digit - see Base234Digits
+// Base234 represents a single base-234 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base234 Digit
 
-func (t Base234) String() string { return t.Placeholder } 
+func (t Base234) String() string { return Digit(t).String() } 
 
-// Base234Digits - see Base234
-var Base234Digits = []Base234{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},
-}
-
-// Base235 represents a single base-235 placeholder Digit - see Base235Digits
+// Base235 represents a single base-235 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base235 Digit
 
-func (t Base235) String() string { return t.Placeholder } 
+func (t Base235) String() string { return Digit(t).String() } 
 
-// Base235Digits - see Base235
-var Base235Digits = []Base235{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},
-}
-
-// Base236 represents a single base-236 placeholder Digit - see Base236Digits
+// Base236 represents a single base-236 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base236 Digit
 
-func (t Base236) String() string { return t.Placeholder } 
+func (t Base236) String() string { return Digit(t).String() } 
 
-// Base236Digits - see Base236
-var Base236Digits = []Base236{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},
-}
-
-// Base237 represents a single base-237 placeholder Digit - see Base237Digits
+// Base237 represents a single base-237 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base237 Digit
 
-func (t Base237) String() string { return t.Placeholder } 
+func (t Base237) String() string { return Digit(t).String() } 
 
-// Base237Digits - see Base237
-var Base237Digits = []Base237{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},
-}
-
-// Base238 represents a single base-238 placeholder Digit - see Base238Digits
+// Base238 represents a single base-238 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base238 Digit
 
-func (t Base238) String() string { return t.Placeholder } 
+func (t Base238) String() string { return Digit(t).String() } 
 
-// Base238Digits - see Base238
-var Base238Digits = []Base238{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-}
-
-// Base239 represents a single base-239 placeholder Digit - see Base239Digits
+// Base239 represents a single base-239 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base239 Digit
 
-func (t Base239) String() string { return t.Placeholder } 
+func (t Base239) String() string { return Digit(t).String() } 
 
-// Base239Digits - see Base239
-var Base239Digits = []Base239{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},
-}
-
-// Base240 represents a single base-240 placeholder Digit - see Base240Digits
+// Base240 represents a single base-240 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base240 Digit
 
-func (t Base240) String() string { return t.Placeholder } 
+func (t Base240) String() string { return Digit(t).String() } 
 
-// Base240Digits - see Base240
-var Base240Digits = []Base240{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},
-}
-
-// Base241 represents a single base-241 placeholder Digit - see Base241Digits
+// Base241 represents a single base-241 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base241 Digit
 
-func (t Base241) String() string { return t.Placeholder } 
+func (t Base241) String() string { return Digit(t).String() } 
 
-// Base241Digits - see Base241
-var Base241Digits = []Base241{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},
-}
-
-// Base242 represents a single base-242 placeholder Digit - see Base242Digits
+// Base242 represents a single base-242 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base242 Digit
 
-func (t Base242) String() string { return t.Placeholder } 
+func (t Base242) String() string { return Digit(t).String() } 
 
-// Base242Digits - see Base242
-var Base242Digits = []Base242{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},
-}
-
-// Base243 represents a single base-243 placeholder Digit - see Base243Digits
+// Base243 represents a single base-243 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base243 Digit
 
-func (t Base243) String() string { return t.Placeholder } 
+func (t Base243) String() string { return Digit(t).String() } 
 
-// Base243Digits - see Base243
-var Base243Digits = []Base243{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},
-}
-
-// Base244 represents a single base-244 placeholder Digit - see Base244Digits
+// Base244 represents a single base-244 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base244 Digit
 
-func (t Base244) String() string { return t.Placeholder } 
+func (t Base244) String() string { return Digit(t).String() } 
 
-// Base244Digits - see Base244
-var Base244Digits = []Base244{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},
-}
-
-// Base245 represents a single base-245 placeholder Digit - see Base245Digits
+// Base245 represents a single base-245 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base245 Digit
 
-func (t Base245) String() string { return t.Placeholder } 
+func (t Base245) String() string { return Digit(t).String() } 
 
-// Base245Digits - see Base245
-var Base245Digits = []Base245{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-}
-
-// Base246 represents a single base-246 placeholder Digit - see Base246Digits
+// Base246 represents a single base-246 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base246 Digit
 
-func (t Base246) String() string { return t.Placeholder } 
+func (t Base246) String() string { return Digit(t).String() } 
 
-// Base246Digits - see Base246
-var Base246Digits = []Base246{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},
-}
-
-// Base247 represents a single base-247 placeholder Digit - see Base247Digits
+// Base247 represents a single base-247 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base247 Digit
 
-func (t Base247) String() string { return t.Placeholder } 
+func (t Base247) String() string { return Digit(t).String() } 
 
-// Base247Digits - see Base247
-var Base247Digits = []Base247{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},
-}
-
-// Base248 represents a single base-248 placeholder Digit - see Base248Digits
+// Base248 represents a single base-248 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base248 Digit
 
-func (t Base248) String() string { return t.Placeholder } 
+func (t Base248) String() string { return Digit(t).String() } 
 
-// Base248Digits - see Base248
-var Base248Digits = []Base248{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},
-}
-
-// Base249 represents a single base-249 placeholder Digit - see Base249Digits
+// Base249 represents a single base-249 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base249 Digit
 
-func (t Base249) String() string { return t.Placeholder } 
+func (t Base249) String() string { return Digit(t).String() } 
 
-// Base249Digits - see Base249
-var Base249Digits = []Base249{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},
-}
-
-// Base250 represents a single base-250 placeholder Digit - see Base250Digits
+// Base250 represents a single base-250 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base250 Digit
 
-func (t Base250) String() string { return t.Placeholder } 
+func (t Base250) String() string { return Digit(t).String() } 
 
-// Base250Digits - see Base250
-var Base250Digits = []Base250{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},
-}
-
-// Base251 represents a single base-251 placeholder Digit - see Base251Digits
+// Base251 represents a single base-251 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base251 Digit
 
-func (t Base251) String() string { return t.Placeholder } 
+func (t Base251) String() string { return Digit(t).String() } 
 
-// Base251Digits - see Base251
-var Base251Digits = []Base251{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},
-}
-
-// Base252 represents a single base-252 placeholder Digit - see Base252Digits
+// Base252 represents a single base-252 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base252 Digit
 
-func (t Base252) String() string { return t.Placeholder } 
+func (t Base252) String() string { return Digit(t).String() } 
 
-// Base252Digits - see Base252
-var Base252Digits = []Base252{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},{"FB"},
-}
-
-// Base253 represents a single base-253 placeholder Digit - see Base253Digits
+// Base253 represents a single base-253 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base253 Digit
 
-func (t Base253) String() string { return t.Placeholder } 
+func (t Base253) String() string { return Digit(t).String() } 
 
-// Base253Digits - see Base253
-var Base253Digits = []Base253{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},{"FB"},
-	{"FC"},
-}
-
-// Base254 represents a single base-254 placeholder Digit - see Base254Digits
+// Base254 represents a single base-254 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base254 Digit
 
-func (t Base254) String() string { return t.Placeholder } 
+func (t Base254) String() string { return Digit(t).String() } 
 
-// Base254Digits - see Base254
-var Base254Digits = []Base254{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},{"FB"},
-	{"FC"},{"FD"},
-}
-
-// Base255 represents a single base-255 placeholder Digit - see Base255Digits
+// Base255 represents a single base-255 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base255 Digit
 
-func (t Base255) String() string { return t.Placeholder } 
+func (t Base255) String() string { return Digit(t).String() } 
 
-// Base255Digits - see Base255
-var Base255Digits = []Base255{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},{"FB"},
-	{"FC"},{"FD"},{"FE"},
-}
-
-// Base256 represents a single base-256 placeholder Digit - see Base256Digits
+// Base256 represents a single base-256 placeholder Digit.
 // 
 // NOTE: All 𝑡𝑖𝑛𝑦 placeholder lexeme digits are hexadecimal.
-//
 // See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal
 type Base256 Digit
 
-func (t Base256) String() string { return t.Placeholder } 
-
-// Base256Digits - see Base256
-var Base256Digits = []Base256{
-	{"00"},{"01"},{"02"},{"03"},{"04"},{"05"},{"06"},
-	{"07"},{"08"},{"09"},{"0A"},{"0B"},{"0C"},{"0D"},
-	{"0E"},{"0F"},{"10"},{"11"},{"12"},{"13"},{"14"},
-	{"15"},{"16"},{"17"},{"18"},{"19"},{"1A"},{"1B"},
-	{"1C"},{"1D"},{"1E"},{"1F"},{"20"},{"21"},{"22"},
-	{"23"},{"24"},{"25"},{"26"},{"27"},{"28"},{"29"},
-	{"2A"},{"2B"},{"2C"},{"2D"},{"2E"},{"2F"},{"30"},
-	{"31"},{"32"},{"33"},{"34"},{"35"},{"36"},{"37"},
-	{"38"},{"39"},{"3A"},{"3B"},{"3C"},{"3D"},{"3E"},
-	{"3F"},{"40"},{"41"},{"42"},{"43"},{"44"},{"45"},
-	{"46"},{"47"},{"48"},{"49"},{"4A"},{"4B"},{"4C"},
-	{"4D"},{"4E"},{"4F"},{"50"},{"51"},{"52"},{"53"},
-	{"54"},{"55"},{"56"},{"57"},{"58"},{"59"},{"5A"},
-	{"5B"},{"5C"},{"5D"},{"5E"},{"5F"},{"60"},{"61"},
-	{"62"},{"63"},{"64"},{"65"},{"66"},{"67"},{"68"},
-	{"69"},{"6A"},{"6B"},{"6C"},{"6D"},{"6E"},{"6F"},
-	{"70"},{"71"},{"72"},{"73"},{"74"},{"75"},{"76"},
-	{"77"},{"78"},{"79"},{"7A"},{"7B"},{"7C"},{"7D"},
-	{"7E"},{"7F"},{"80"},{"81"},{"82"},{"83"},{"84"},
-	{"85"},{"86"},{"87"},{"88"},{"89"},{"8A"},{"8B"},
-	{"8C"},{"8D"},{"8E"},{"8F"},{"90"},{"91"},{"92"},
-	{"93"},{"94"},{"95"},{"96"},{"97"},{"98"},{"99"},
-	{"9A"},{"9B"},{"9C"},{"9D"},{"9E"},{"9F"},{"A0"},
-	{"A1"},{"A2"},{"A3"},{"A4"},{"A5"},{"A6"},{"A7"},
-	{"A8"},{"A9"},{"AA"},{"AB"},{"AC"},{"AD"},{"AE"},
-	{"AF"},{"B0"},{"B1"},{"B2"},{"B3"},{"B4"},{"B5"},
-	{"B6"},{"B7"},{"B8"},{"B9"},{"BA"},{"BB"},{"BC"},
-	{"BD"},{"BE"},{"BF"},{"C0"},{"C1"},{"C2"},{"C3"},
-	{"C4"},{"C5"},{"C6"},{"C7"},{"C8"},{"C9"},{"CA"},
-	{"CB"},{"CC"},{"CD"},{"CE"},{"CF"},{"D0"},{"D1"},
-	{"D2"},{"D3"},{"D4"},{"D5"},{"D6"},{"D7"},{"D8"},
-	{"D9"},{"DA"},{"DB"},{"DC"},{"DD"},{"DE"},{"DF"},
-	{"E0"},{"E1"},{"E2"},{"E3"},{"E4"},{"E5"},{"E6"},
-	{"E7"},{"E8"},{"E9"},{"EA"},{"EB"},{"EC"},{"ED"},
-	{"EE"},{"EF"},{"F0"},{"F1"},{"F2"},{"F3"},{"F4"},
-	{"F5"},{"F6"},{"F7"},{"F8"},{"F9"},{"FA"},{"FB"},
-	{"FC"},{"FD"},{"FE"},{"FF"},
-}
+func (t Base256) String() string { return Digit(t).String() } 
 

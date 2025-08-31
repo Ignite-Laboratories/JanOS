@@ -5,5 +5,8 @@ import (
 )
 
 func main() {
-	fmt.Println("\a")
+	base := 256
+	for i := 2; i < base; i++ {
+		fmt.Println(fmt.Sprintf("%x", i))
+	}
 }

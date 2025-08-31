@@ -15,7 +15,7 @@ type Lexeme struct {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Prototype Lexeme
 
-func (t Prototype) String() string { return t.Lemma } 
+func (t Prototype) String() string { return Lexeme(t).String() } 
 
 // PunctuationMark represents an English punctuation mark, such as '!' or '?'
 // 
@@ -24,7 +24,7 @@ func (t Prototype) String() string { return t.Lemma }
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type PunctuationMark Lexeme
 
-func (t PunctuationMark) String() string { return t.Lemma } 
+func (t PunctuationMark) String() string { return Lexeme(t).String() } 
 
 // PunctuationMarks - see PunctuationMark
 //
@@ -51,7 +51,7 @@ func IsPunctuationMark(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Quote Lexeme
 
-func (t Quote) String() string { return t.Lemma } 
+func (t Quote) String() string { return Lexeme(t).String() } 
 
 // Quotes - see Quote
 //
@@ -77,7 +77,7 @@ func IsQuote(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Dash Lexeme
 
-func (t Dash) String() string { return t.Lemma } 
+func (t Dash) String() string { return Lexeme(t).String() } 
 
 // Dashes - see Dash
 //
@@ -103,7 +103,7 @@ func IsDash(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type ControlCharacter Lexeme
 
-func (t ControlCharacter) String() string { return t.Lemma } 
+func (t ControlCharacter) String() string { return Lexeme(t).String() } 
 
 // ControlCharacters - see ControlCharacter
 //
@@ -133,7 +133,7 @@ func IsControlCharacter(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Function Lexeme
 
-func (t Function) String() string { return t.Lemma } 
+func (t Function) String() string { return Lexeme(t).String() } 
 
 // An AuxiliaryVerb helps a main verb to express tense, mood, or voice
 // 
@@ -144,7 +144,7 @@ func (t Function) String() string { return t.Lemma }
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type AuxiliaryVerb Function
 
-func (t AuxiliaryVerb) String() string { return t.Lemma } 
+func (t AuxiliaryVerb) String() string { return Function(t).String() } 
 
 // AuxiliaryVerbs - see AuxiliaryVerb
 //
@@ -175,7 +175,7 @@ func IsAuxiliaryVerb(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Conjunction Function
 
-func (t Conjunction) String() string { return t.Lemma } 
+func (t Conjunction) String() string { return Function(t).String() } 
 
 // Conjunctions - see Conjunction
 //
@@ -205,7 +205,7 @@ func IsConjunction(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Preposition Function
 
-func (t Preposition) String() string { return t.Lemma } 
+func (t Preposition) String() string { return Function(t).String() } 
 
 // Prepositions - see Preposition
 //
@@ -236,7 +236,7 @@ func IsPreposition(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Determiner Function
 
-func (t Determiner) String() string { return t.Lemma } 
+func (t Determiner) String() string { return Function(t).String() } 
 
 // Determiners - see Determiner
 //
@@ -267,7 +267,7 @@ func IsDeterminer(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Pronoun Function
 
-func (t Pronoun) String() string { return t.Lemma } 
+func (t Pronoun) String() string { return Function(t).String() } 
 
 // Pronouns - see Pronoun
 //
@@ -299,7 +299,7 @@ func IsPronoun(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Quantifier Function
 
-func (t Quantifier) String() string { return t.Lemma } 
+func (t Quantifier) String() string { return Function(t).String() } 
 
 // Quantifiers - see Quantifier
 //
@@ -328,7 +328,7 @@ func IsQuantifier(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Particle Function
 
-func (t Particle) String() string { return t.Lemma } 
+func (t Particle) String() string { return Function(t).String() } 
 
 // Particles - see Particle
 //
