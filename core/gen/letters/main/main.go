@@ -55,7 +55,7 @@ func main() {
 	b = new(strings.Builder)
 
 	if err := run(); err != nil {
-		fmt.Fprintf(os.Stderr, "genletters: %v\n", err)
+		fmt.Fprintf(os.Stderr, "letter generation: %v\n", err)
 		os.Exit(1)
 	}
 }

@@ -3,5 +3,6 @@ go 1.24.0
 use (
 	./core
 	scratch/scratch0
+	scratch/scratch1
 	scratch/wordnet
 )

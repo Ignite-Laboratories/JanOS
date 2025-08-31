@@ -1,4 +1,4 @@
-package semantic
+package semanticOld
 
 /**
 Base lexemes

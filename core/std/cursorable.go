@@ -21,7 +21,7 @@ import (
 //	Jump absolutely to position 𝑖
 //
 //	JumpAlongPath( 𝑝𝑎𝑡ℎ() ) 𝑒𝑙𝑒𝑚𝑒𝑛𝑡
-//	Jump absolutely to the result of 𝑝𝑎𝑡ℎ()
+//	Jump absolutely to the result of 𝑝𝑎𝑡ℎ(), which dictates the target, stride, and direction.
 //
 // 'Walk' functions, which step at a 𝑠𝑡𝑟𝑖𝑑𝑒 interval to a target and yield the found elements.
 //
@@ -31,8 +31,8 @@ import (
 //	WalkTo( 𝑖, 𝑠𝑡𝑟𝑖𝑑𝑒, ...𝑑𝑖𝑟𝑒𝑐𝑡𝑖𝑜𝑛 ) []𝑒𝑙𝑒𝑚𝑒𝑛𝑡
 //	Walk absolutely to position 𝑖 along the shortest path, or in an optional direction
 //
-//	WalkAlongPath( 𝑝𝑎𝑡ℎ(), 𝑠𝑡𝑟𝑖𝑑𝑒, ...𝑑𝑖𝑟𝑒𝑐𝑡𝑖𝑜𝑛 ) []𝑒𝑙𝑒𝑚𝑒𝑛𝑡
-//	Walk absolutely to the result of 𝑝𝑎𝑡ℎ() along the shortest path, or in an optional direction
+//	WalkAlongPath( 𝑝𝑎𝑡ℎ() ) []𝑒𝑙𝑒𝑚𝑒𝑛𝑡
+//	Walk absolutely to the result of 𝑝𝑎𝑡ℎ(), which dictates the target, stride, and direction.
 //
 // NOTES:
 //

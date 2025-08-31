@@ -10,6 +10,11 @@ package lexeme
 // See std.Lexeme, Base, Function, Lexicon, and Special
 type Lexicon struct {
 	Lemma string
+
+	Adjective []Adjective
+	Adverb    []Adverb
+	Noun      []Noun
+	Verb      []Verb
 }
 
 func (l Lexicon) String() string {
