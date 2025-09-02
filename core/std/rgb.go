@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type RGB[T num.Primitive] = RGBTyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see RGB.
 type RGBTyped[TR num.Primitive, TG num.Primitive, TB num.Primitive] struct {
 	Entity
-	R bounded.Numeric[TR]
-	G bounded.Numeric[TG]
-	B bounded.Numeric[TB]
+	R num.Numeric[TR]
+	G num.Numeric[TG]
+	B num.Numeric[TB]
 }
 
 func NewRGB[T num.Primitive](r T, g T, b T, name ...string) *RGB[T] {
@@ -92,7 +91,7 @@ func (_v *RGBTyped[TR, TG, TB]) SetBoundaries(minR, maxR TR, minG, maxG TG, minB
 	return _v
 }
 
-func (_v *RGBTyped[TR, TG, TB]) Component(index uint) (bounded.INumeric, error) {
+func (_v *RGBTyped[TR, TG, TB]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.R, nil
@@ -105,11 +104,11 @@ func (_v *RGBTyped[TR, TG, TB]) Component(index uint) (bounded.INumeric, error) 
 	}
 }
 
-func (_v *RGBTyped[TR, TG, TB]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.R, &_v.G, &_v.B}
+func (_v *RGBTyped[TR, TG, TB]) Components() []num.INumeric {
+	return []num.INumeric{&_v.R, &_v.G, &_v.B}
 }
 
-func (_v *RGBTyped[TR, TG, TB]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *RGBTyped[TR, TG, TB]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "r":
 		return &_v.R, nil

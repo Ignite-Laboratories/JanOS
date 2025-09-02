@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,12 +21,12 @@ type XYZWAB[T num.Primitive] = XYZWABTyped[T, T, T, T, T, T]
 // NOTE: If you'd like symmetric types, please see XYZWAB.
 type XYZWABTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive, TW num.Primitive, TA num.Primitive, TB num.Primitive] struct {
 	Entity
-	X bounded.Numeric[TX]
-	Y bounded.Numeric[TY]
-	Z bounded.Numeric[TZ]
-	W bounded.Numeric[TW]
-	A bounded.Numeric[TA]
-	B bounded.Numeric[TB]
+	X num.Numeric[TX]
+	Y num.Numeric[TY]
+	Z num.Numeric[TZ]
+	W num.Numeric[TW]
+	A num.Numeric[TA]
+	B num.Numeric[TB]
 }
 
 func NewXYZWAB[T num.Primitive](x T, y T, z T, w T, a T, b T, name ...string) *XYZWAB[T] {
@@ -122,7 +121,7 @@ func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) SetBoundaries(minX, maxX TX, minY
 	return _v
 }
 
-func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) Component(index uint) (bounded.INumeric, error) {
+func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.X, nil
@@ -141,11 +140,11 @@ func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) Component(index uint) (bounded.IN
 	}
 }
 
-func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.X, &_v.Y, &_v.Z, &_v.W, &_v.A, &_v.B}
+func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) Components() []num.INumeric {
+	return []num.INumeric{&_v.X, &_v.Y, &_v.Z, &_v.W, &_v.A, &_v.B}
 }
 
-func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *XYZWABTyped[TX, TY, TZ, TW, TA, TB]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
 		return &_v.X, nil

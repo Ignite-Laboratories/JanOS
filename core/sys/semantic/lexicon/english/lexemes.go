@@ -3,95 +3,118 @@ package english
 
 import "core/std"
 
-// Lexeme is the most basic unit of the English lexicon.  The English lexicon begins with
-// a "Lemma" string - named so from the English WordNet database which drives it.
-//
-// See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
-type Lexeme struct {
-	Lemma string
-}
-
 // Prototype is a Lexeme of unknown classification.  This collection should be used as a source from which to evolve a Lexicon over time.
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Prototype Lexeme
 
-func (t Prototype) String() string { return Lexeme(t).String() } 
-
 // PunctuationMark represents an English punctuation mark, such as '!' or '?'
 // 
 // - See PunctuationMarks
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type PunctuationMark Lexeme
-
-func (t PunctuationMark) String() string { return Lexeme(t).String() } 
 
 // PunctuationMarks - see PunctuationMark
 //
 // NOTE: This list is not necessarily exhaustive!
-var PunctuationMarks = []PunctuationMark{
-	{"."},{","},{"?"},{"!"},{":"},{";"},{"("},
-	{")"},{"["},{"]"},
+var PunctuationMarks = map[string]PunctuationMark{
+		",": PunctuationMark("ASCII Comma (U+002C)"),
+	"?": PunctuationMark("ASCII Question Mark (U+003F)"),
+	"!": PunctuationMark("ASCII Exclamation Mark (U+0021)"),
+	")": PunctuationMark("ASCII Right Parenthesis (U+0029)"),
+	"{": PunctuationMark("ASCII Left Curly Bracket (Brace) (U+007B)"),
+	"}": PunctuationMark("ASCII Right Curly Bracket (Brace) (U+007D)"),
+	".": PunctuationMark("ASCII Full Stop (Period) (U+002E)"),
+	":": PunctuationMark("ASCII Colon (U+003A)"),
+	";": PunctuationMark("ASCII Semicolon (U+003B)"),
+	"(": PunctuationMark("ASCII Left Parenthesis (U+0028)"),
+	"[": PunctuationMark("ASCII Left Square Bracket (U+005B)"),
+	"]": PunctuationMark("ASCII Right Square Bracket (U+005D)"),
 }
 
 // IsPunctuationMark tests if the provided Lexeme is a PunctuationMark.
 func IsPunctuationMark(l std.Lexeme) bool {
-	for _, t := range PunctuationMarks {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := PunctuationMarks[l.String()]; ok {
+		return true
 	}
 	return false
 }
 
-// Quote represents an English quote character
+// Operator represents an arithmetic operator, such as '+' or '-'
+// 
+// - See Operators
+//
+// See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
+type Operator Lexeme
+
+// Operators - see Operator
+//
+// NOTE: This list is not necessarily exhaustive!
+var Operators = map[string]Operator{
+		"/": Operator("ASCII Solidus (Slash) (U+002F)"),
+	"*": Operator("ASCII Asterisk (U+002A)"),
+	"%": Operator("ASCII Percent Sign (U+0025)"),
+	"^": Operator("ASCII Circumflex Accent (Caret) (U+005E)"),
+	"+": Operator("ASCII Plus Sign (U+002B)"),
+	"-": Operator("ASCII Hyphen-Minus (U+002D)"),
+}
+
+// IsOperator tests if the provided Lexeme is a Operator.
+func IsOperator(l std.Lexeme) bool {
+	if _, ok := Operators[l.String()]; ok {
+		return true
+	}
+	return false
+}
+
+// Quote represents a quote character
 // 
 // - See Quotes
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Quote Lexeme
-
-func (t Quote) String() string { return Lexeme(t).String() } 
 
 // Quotes - see Quote
 //
 // NOTE: This list is not necessarily exhaustive!
-var Quotes = []Quote{
-	{"`"},{"'"},{"\""},
+var Quotes = map[string]Quote{
+		"`": Quote("ASCII Grave Accent (Backtick) (U+0060)"),
+	"'": Quote("ASCII Apostrophe (Single Quote) (U+0027)"),
+	"\"": Quote("ASCII Quotation Mark (Double Quote) (U+0022)"),
 }
 
 // IsQuote tests if the provided Lexeme is a Quote.
 func IsQuote(l std.Lexeme) bool {
-	for _, t := range Quotes {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Quotes[l.String()]; ok {
+		return true
 	}
 	return false
 }
 
-// Dash represents an English dash character
+// Dash represents a dash character
 // 
 // - See Dashes
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Dash Lexeme
-
-func (t Dash) String() string { return Lexeme(t).String() } 
 
 // Dashes - see Dash
 //
 // NOTE: This list is not necessarily exhaustive!
-var Dashes = []Dash{
-	{"-"},{"–"},{"—"},{"―"},{"﹘"},{"﹣"},{"－"},
+var Dashes = map[string]Dash{
+		"―": Dash("Horizontal Bar (Quotation Dash) — General Punctuation (U+2015)"),
+	"-": Dash("ASCII Hyphen-Minus (U+002D)"),
+	"﹣": Dash("Small Hyphen-Minus — CJK Small Form (U+FE63)"),
+	"－": Dash("Fullwidth Hyphen-Minus — CJK Fullwidth (U+FF0D)"),
+	"–": Dash("EN Dash — General Punctuation (U+2013)"),
+	"﹘": Dash("Small EM Dash — CJK Small Form (U+FE58)"),
+	"—": Dash("EM Dash — General Punctuation (U+2014)"),
 }
 
 // IsDash tests if the provided Lexeme is a Dash.
 func IsDash(l std.Lexeme) bool {
-	for _, t := range Dashes {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Dashes[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -99,25 +122,27 @@ func IsDash(l std.Lexeme) bool {
 // ControlCharacter represents a special controlling character such as 'newline' or 'tab'.
 // 
 // - See ControlCharacters
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type ControlCharacter Lexeme
-
-func (t ControlCharacter) String() string { return Lexeme(t).String() } 
 
 // ControlCharacters - see ControlCharacter
 //
 // NOTE: This list is not necessarily exhaustive!
-var ControlCharacters = []ControlCharacter{
-	{"\n"},{"\t"},{"\r"},{"\b"},{"\f"},{"\v"},{"\a"},
+var ControlCharacters = map[string]ControlCharacter{
+		"\b": ControlCharacter("ASCII Backspace (BS) — C0 Control (U+0008)"),
+	"\f": ControlCharacter("ASCII Form Feed (FF) — C0 Control (U+000C)"),
+	"\v": ControlCharacter("ASCII Vertical Tab (VT) — C0 Control (U+000B)"),
+	"\a": ControlCharacter("ASCII Bell (Alert, BEL) — C0 Control (U+0007)"),
+	"\n": ControlCharacter("ASCII Line Feed (LF) — C0 Control (U+000A)"),
+	"\t": ControlCharacter("ASCII Horizontal Tab (HT) — C0 Control (U+0009)"),
+	"\r": ControlCharacter("ASCII Carriage Return (CR) — C0 Control (U+000D)"),
 }
 
 // IsControlCharacter tests if the provided Lexeme is a ControlCharacter.
 func IsControlCharacter(l std.Lexeme) bool {
-	for _, t := range ControlCharacters {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := ControlCharacters[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -133,35 +158,49 @@ func IsControlCharacter(l std.Lexeme) bool {
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Function Lexeme
 
-func (t Function) String() string { return Lexeme(t).String() } 
-
 // An AuxiliaryVerb helps a main verb to express tense, mood, or voice
 // 
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See AuxiliaryVerbs
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type AuxiliaryVerb Function
-
-func (t AuxiliaryVerb) String() string { return Function(t).String() } 
 
 // AuxiliaryVerbs - see AuxiliaryVerb
 //
 // NOTE: This list is not necessarily exhaustive!
-var AuxiliaryVerbs = []AuxiliaryVerb{
-	{"be"},{"am"},{"is"},{"are"},{"was"},{"were"},{"being"},
-	{"been"},{"have"},{"has"},{"had"},{"having"},{"do"},{"does"},
-	{"did"},{"will"},{"can"},{"could"},{"may"},{"might"},{"must"},
-	{"would"},{"shall"},{"should"},
+var AuxiliaryVerbs = map[string]AuxiliaryVerb{
+		"is": AuxiliaryVerb("An auxiliary verb"),
+	"was": AuxiliaryVerb("An auxiliary verb"),
+	"had": AuxiliaryVerb("An auxiliary verb"),
+	"could": AuxiliaryVerb("An auxiliary verb"),
+	"does": AuxiliaryVerb("An auxiliary verb"),
+	"be": AuxiliaryVerb("An auxiliary verb"),
+	"being": AuxiliaryVerb("An auxiliary verb"),
+	"been": AuxiliaryVerb("An auxiliary verb"),
+	"have": AuxiliaryVerb("An auxiliary verb"),
+	"has": AuxiliaryVerb("An auxiliary verb"),
+	"did": AuxiliaryVerb("An auxiliary verb"),
+	"can": AuxiliaryVerb("An auxiliary verb"),
+	"having": AuxiliaryVerb("An auxiliary verb"),
+	"do": AuxiliaryVerb("An auxiliary verb"),
+	"may": AuxiliaryVerb("An auxiliary verb"),
+	"might": AuxiliaryVerb("An auxiliary verb"),
+	"must": AuxiliaryVerb("An auxiliary verb"),
+	"would": AuxiliaryVerb("An auxiliary verb"),
+	"shall": AuxiliaryVerb("An auxiliary verb"),
+	"should": AuxiliaryVerb("An auxiliary verb"),
+	"am": AuxiliaryVerb("An auxiliary verb"),
+	"are": AuxiliaryVerb("An auxiliary verb"),
+	"were": AuxiliaryVerb("An auxiliary verb"),
+	"will": AuxiliaryVerb("An auxiliary verb"),
 }
 
 // IsAuxiliaryVerb tests if the provided Lexeme is a AuxiliaryVerb.
 func IsAuxiliaryVerb(l std.Lexeme) bool {
-	for _, t := range AuxiliaryVerbs {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := AuxiliaryVerbs[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -171,27 +210,35 @@ func IsAuxiliaryVerb(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Conjunctions
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Conjunction Function
-
-func (t Conjunction) String() string { return Function(t).String() } 
 
 // Conjunctions - see Conjunction
 //
 // NOTE: This list is not necessarily exhaustive!
-var Conjunctions = []Conjunction{
-	{"and"},{"but"},{"or"},{"not"},{"so"},{"yet"},{"for"},
-	{"although"},{"because"},{"since"},{"unless"},{"while"},{"whereas"},{"if"},
-	{"though"},
+var Conjunctions = map[string]Conjunction{
+		"although": Conjunction("A conjunction"),
+	"though": Conjunction("A conjunction"),
+	"or": Conjunction("A conjunction"),
+	"since": Conjunction("A conjunction"),
+	"unless": Conjunction("A conjunction"),
+	"whereas": Conjunction("A conjunction"),
+	"because": Conjunction("A conjunction"),
+	"while": Conjunction("A conjunction"),
+	"if": Conjunction("A conjunction"),
+	"and": Conjunction("A conjunction"),
+	"but": Conjunction("A conjunction"),
+	"so": Conjunction("A conjunction"),
+	"yet": Conjunction("A conjunction"),
+	"for": Conjunction("A conjunction"),
+	"not": Conjunction("A conjunction"),
 }
 
 // IsConjunction tests if the provided Lexeme is a Conjunction.
 func IsConjunction(l std.Lexeme) bool {
-	for _, t := range Conjunctions {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Conjunctions[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -201,28 +248,44 @@ func IsConjunction(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Prepositions
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Preposition Function
-
-func (t Preposition) String() string { return Function(t).String() } 
 
 // Prepositions - see Preposition
 //
 // NOTE: This list is not necessarily exhaustive!
-var Prepositions = []Preposition{
-	{"of"},{"to"},{"in"},{"on"},{"at"},{"by"},{"for"},
-	{"with"},{"about"},{"over"},{"under"},{"between"},{"through"},{"during"},
-	{"against"},{"among"},{"across"},{"behind"},{"beyond"},{"inside"},{"outside"},
-	{"without"},{"within"},{"upon"},
+var Prepositions = map[string]Preposition{
+		"in": Preposition("A preposition"),
+	"between": Preposition("A preposition"),
+	"through": Preposition("A preposition"),
+	"during": Preposition("A preposition"),
+	"among": Preposition("A preposition"),
+	"across": Preposition("A preposition"),
+	"within": Preposition("A preposition"),
+	"to": Preposition("A preposition"),
+	"on": Preposition("A preposition"),
+	"by": Preposition("A preposition"),
+	"about": Preposition("A preposition"),
+	"without": Preposition("A preposition"),
+	"upon": Preposition("A preposition"),
+	"of": Preposition("A preposition"),
+	"at": Preposition("A preposition"),
+	"for": Preposition("A preposition"),
+	"over": Preposition("A preposition"),
+	"against": Preposition("A preposition"),
+	"behind": Preposition("A preposition"),
+	"inside": Preposition("A preposition"),
+	"with": Preposition("A preposition"),
+	"under": Preposition("A preposition"),
+	"beyond": Preposition("A preposition"),
+	"outside": Preposition("A preposition"),
 }
 
 // IsPreposition tests if the provided Lexeme is a Preposition.
 func IsPreposition(l std.Lexeme) bool {
-	for _, t := range Prepositions {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Prepositions[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -232,28 +295,47 @@ func IsPreposition(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Determiners
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Determiner Function
-
-func (t Determiner) String() string { return Function(t).String() } 
 
 // Determiners - see Determiner
 //
 // NOTE: This list is not necessarily exhaustive!
-var Determiners = []Determiner{
-	{"a"},{"an"},{"the"},{"this"},{"that"},{"these"},{"those"},
-	{"my"},{"your"},{"his"},{"her"},{"its"},{"our"},{"their"},
-	{"some"},{"any"},{"no"},{"each"},{"every"},{"either"},{"neither"},
-	{"much"},{"many"},{"few"},{"several"},{"all"},{"both"},
+var Determiners = map[string]Determiner{
+		"an": Determiner("A determiner"),
+	"this": Determiner("A determiner"),
+	"these": Determiner("A determiner"),
+	"those": Determiner("A determiner"),
+	"my": Determiner("A determiner"),
+	"her": Determiner("A determiner"),
+	"its": Determiner("A determiner"),
+	"our": Determiner("A determiner"),
+	"no": Determiner("A determiner"),
+	"each": Determiner("A determiner"),
+	"either": Determiner("A determiner"),
+	"neither": Determiner("A determiner"),
+	"much": Determiner("A determiner"),
+	"many": Determiner("A determiner"),
+	"all": Determiner("A determiner"),
+	"both": Determiner("A determiner"),
+	"the": Determiner("A determiner"),
+	"that": Determiner("A determiner"),
+	"your": Determiner("A determiner"),
+	"his": Determiner("A determiner"),
+	"some": Determiner("A determiner"),
+	"several": Determiner("A determiner"),
+	"a": Determiner("A determiner"),
+	"their": Determiner("A determiner"),
+	"any": Determiner("A determiner"),
+	"every": Determiner("A determiner"),
+	"few": Determiner("A determiner"),
 }
 
 // IsDeterminer tests if the provided Lexeme is a Determiner.
 func IsDeterminer(l std.Lexeme) bool {
-	for _, t := range Determiners {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Determiners[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -263,29 +345,52 @@ func IsDeterminer(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Pronouns
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Pronoun Function
-
-func (t Pronoun) String() string { return Function(t).String() } 
 
 // Pronouns - see Pronoun
 //
 // NOTE: This list is not necessarily exhaustive!
-var Pronouns = []Pronoun{
-	{"I"},{"you"},{"he"},{"she"},{"it"},{"we"},{"they"},
-	{"me"},{"him"},{"her"},{"us"},{"them"},{"myself"},{"yourself"},
-	{"himself"},{"herself"},{"itself"},{"ourselves"},{"yourselves"},{"themselves"},{"who"},
-	{"whom"},{"whose"},{"which"},{"what"},{"anyone"},{"someone"},{"everyone"},
-	{"nobody"},{"nothing"},{"anything"},{"everything"},
+var Pronouns = map[string]Pronoun{
+		"it": Pronoun("A pronoun"),
+	"yourselves": Pronoun("A pronoun"),
+	"me": Pronoun("A pronoun"),
+	"herself": Pronoun("A pronoun"),
+	"someone": Pronoun("A pronoun"),
+	"nobody": Pronoun("A pronoun"),
+	"you": Pronoun("A pronoun"),
+	"which": Pronoun("A pronoun"),
+	"what": Pronoun("A pronoun"),
+	"her": Pronoun("A pronoun"),
+	"itself": Pronoun("A pronoun"),
+	"who": Pronoun("A pronoun"),
+	"whom": Pronoun("A pronoun"),
+	"whose": Pronoun("A pronoun"),
+	"anyone": Pronoun("A pronoun"),
+	"nothing": Pronoun("A pronoun"),
+	"everything": Pronoun("A pronoun"),
+	"she": Pronoun("A pronoun"),
+	"them": Pronoun("A pronoun"),
+	"ourselves": Pronoun("A pronoun"),
+	"everyone": Pronoun("A pronoun"),
+	"anything": Pronoun("A pronoun"),
+	"yourself": Pronoun("A pronoun"),
+	"I": Pronoun("A pronoun"),
+	"we": Pronoun("A pronoun"),
+	"they": Pronoun("A pronoun"),
+	"him": Pronoun("A pronoun"),
+	"us": Pronoun("A pronoun"),
+	"himself": Pronoun("A pronoun"),
+	"he": Pronoun("A pronoun"),
+	"myself": Pronoun("A pronoun"),
+	"themselves": Pronoun("A pronoun"),
 }
 
 // IsPronoun tests if the provided Lexeme is a Pronoun.
 func IsPronoun(l std.Lexeme) bool {
-	for _, t := range Pronouns {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Pronouns[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -295,26 +400,33 @@ func IsPronoun(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Quantifiers
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Quantifier Function
-
-func (t Quantifier) String() string { return Function(t).String() } 
 
 // Quantifiers - see Quantifier
 //
 // NOTE: This list is not necessarily exhaustive!
-var Quantifiers = []Quantifier{
-	{"few"},{"little"},{"much"},{"many"},{"several"},{"all"},{"some"},
-	{"any"},{"enough"},{"more"},{"most"},{"less"},{"least"},
+var Quantifiers = map[string]Quantifier{
+		"much": Quantifier("A quantifier"),
+	"several": Quantifier("A quantifier"),
+	"all": Quantifier("A quantifier"),
+	"some": Quantifier("A quantifier"),
+	"enough": Quantifier("A quantifier"),
+	"more": Quantifier("A quantifier"),
+	"less": Quantifier("A quantifier"),
+	"few": Quantifier("A quantifier"),
+	"little": Quantifier("A quantifier"),
+	"many": Quantifier("A quantifier"),
+	"any": Quantifier("A quantifier"),
+	"most": Quantifier("A quantifier"),
+	"least": Quantifier("A quantifier"),
 }
 
 // IsQuantifier tests if the provided Lexeme is a Quantifier.
 func IsQuantifier(l std.Lexeme) bool {
-	for _, t := range Quantifiers {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Quantifiers[l.String()]; ok {
+		return true
 	}
 	return false
 }
@@ -324,28 +436,42 @@ func IsQuantifier(l std.Lexeme) bool {
 // - AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle
 // 
 // - See Particles
-// 
+//
 // See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset
 type Particle Function
-
-func (t Particle) String() string { return Function(t).String() } 
 
 // Particles - see Particle
 //
 // NOTE: This list is not necessarily exhaustive!
-var Particles = []Particle{
-	{"not"},{"no"},{"nor"},{"only"},{"just"},{"even"},{"still"},
-	{"yet"},{"already"},{"also"},{"too"},{"there"},{"here"},{"then"},
-	{"now"},{"how"},{"when"},{"where"},{"why"},{"yes"},{"no"},
-	{"okay"},{"well"},
+var Particles = map[string]Particle{
+		"where": Particle("A particle"),
+	"why": Particle("A particle"),
+	"not": Particle("A particle"),
+	"only": Particle("A particle"),
+	"yet": Particle("A particle"),
+	"too": Particle("A particle"),
+	"well": Particle("A particle"),
+	"nor": Particle("A particle"),
+	"just": Particle("A particle"),
+	"also": Particle("A particle"),
+	"then": Particle("A particle"),
+	"how": Particle("A particle"),
+	"no": Particle("A particle"),
+	"even": Particle("A particle"),
+	"already": Particle("A particle"),
+	"now": Particle("A particle"),
+	"yes": Particle("A particle"),
+	"okay": Particle("A particle"),
+	"still": Particle("A particle"),
+	"there": Particle("A particle"),
+	"here": Particle("A particle"),
+	"when": Particle("A particle"),
 }
 
 // IsParticle tests if the provided Lexeme is a Particle.
 func IsParticle(l std.Lexeme) bool {
-	for _, t := range Particles {
-		if t.String() == l.String() {
-			return true
-		}
+	if _, ok := Particles[l.String()]; ok {
+		return true
 	}
 	return false
 }

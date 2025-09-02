@@ -15,7 +15,7 @@ func main() {
 	fmt.Println(v)
 }
 
-func test[T std.Vector](value T) std.Vector {
+func test[T num.Vector](value T) num.Vector {
 	fmt.Println(value)
 
 	z, _ := value.ComponentByName("Z")

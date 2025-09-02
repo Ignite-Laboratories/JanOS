@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type FMA[T num.Primitive] = FMATyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see FMA.
 type FMATyped[TForce num.Primitive, TMass num.Primitive, TAcceleration num.Primitive] struct {
 	Entity
-	Force bounded.Numeric[TForce]
-	Mass bounded.Numeric[TMass]
-	Acceleration bounded.Numeric[TAcceleration]
+	Force        num.Numeric[TForce]
+	Mass         num.Numeric[TMass]
+	Acceleration num.Numeric[TAcceleration]
 }
 
 func NewFMA[T num.Primitive](Force T, Mass T, Acceleration T, name ...string) *FMA[T] {
@@ -92,7 +91,7 @@ func (_v *FMATyped[TForce, TMass, TAcceleration]) SetBoundaries(minForce, maxFor
 	return _v
 }
 
-func (_v *FMATyped[TForce, TMass, TAcceleration]) Component(index uint) (bounded.INumeric, error) {
+func (_v *FMATyped[TForce, TMass, TAcceleration]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.Force, nil
@@ -105,11 +104,11 @@ func (_v *FMATyped[TForce, TMass, TAcceleration]) Component(index uint) (bounded
 	}
 }
 
-func (_v *FMATyped[TForce, TMass, TAcceleration]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.Force, &_v.Mass, &_v.Acceleration}
+func (_v *FMATyped[TForce, TMass, TAcceleration]) Components() []num.INumeric {
+	return []num.INumeric{&_v.Force, &_v.Mass, &_v.Acceleration}
 }
 
-func (_v *FMATyped[TForce, TMass, TAcceleration]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *FMATyped[TForce, TMass, TAcceleration]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "force":
 		return &_v.Force, nil

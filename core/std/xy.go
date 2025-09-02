@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,8 +21,8 @@ type XY[T num.Primitive] = XYTyped[T, T]
 // NOTE: If you'd like symmetric types, please see XY.
 type XYTyped[TX num.Primitive, TY num.Primitive] struct {
 	Entity
-	X bounded.Numeric[TX]
-	Y bounded.Numeric[TY]
+	X num.Numeric[TX]
+	Y num.Numeric[TY]
 }
 
 func NewXY[T num.Primitive](x T, y T, name ...string) *XY[T] {
@@ -82,7 +81,7 @@ func (_v *XYTyped[TX, TY]) SetBoundaries(minX, maxX TX, minY, maxY TY) *XYTyped[
 	return _v
 }
 
-func (_v *XYTyped[TX, TY]) Component(index uint) (bounded.INumeric, error) {
+func (_v *XYTyped[TX, TY]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.X, nil
@@ -93,11 +92,11 @@ func (_v *XYTyped[TX, TY]) Component(index uint) (bounded.INumeric, error) {
 	}
 }
 
-func (_v *XYTyped[TX, TY]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.X, &_v.Y}
+func (_v *XYTyped[TX, TY]) Components() []num.INumeric {
+	return []num.INumeric{&_v.X, &_v.Y}
 }
 
-func (_v *XYTyped[TX, TY]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *XYTyped[TX, TY]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
 		return &_v.X, nil

@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type YCbCr[T num.Primitive] = YCbCrTyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see YCbCr.
 type YCbCrTyped[TY num.Primitive, TCb num.Primitive, TCr num.Primitive] struct {
 	Entity
-	Y bounded.Numeric[TY]
-	Cb bounded.Numeric[TCb]
-	Cr bounded.Numeric[TCr]
+	Y  num.Numeric[TY]
+	Cb num.Numeric[TCb]
+	Cr num.Numeric[TCr]
 }
 
 func NewYCbCr[T num.Primitive](y T, Cb T, Cr T, name ...string) *YCbCr[T] {
@@ -92,7 +91,7 @@ func (_v *YCbCrTyped[TY, TCb, TCr]) SetBoundaries(minY, maxY TY, minCb, maxCb TC
 	return _v
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) Component(index uint) (bounded.INumeric, error) {
+func (_v *YCbCrTyped[TY, TCb, TCr]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.Y, nil
@@ -105,11 +104,11 @@ func (_v *YCbCrTyped[TY, TCb, TCr]) Component(index uint) (bounded.INumeric, err
 	}
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.Y, &_v.Cb, &_v.Cr}
+func (_v *YCbCrTyped[TY, TCb, TCr]) Components() []num.INumeric {
+	return []num.INumeric{&_v.Y, &_v.Cb, &_v.Cr}
 }
 
-func (_v *YCbCrTyped[TY, TCb, TCr]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *YCbCrTyped[TY, TCb, TCr]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "y":
 		return &_v.Y, nil

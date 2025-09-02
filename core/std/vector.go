@@ -1,6 +1,6 @@
 package std
 
-import "core/sys/num/bounded"
+import "core/sys/num"
 
 // Vector represents any "𝑙𝑒𝑡𝑡𝑒𝑟 𝑣𝑒𝑐𝑡𝑜𝑟" type, and all generated letter vectors create these functions at creation. See letters.Doc
 //
@@ -20,18 +20,18 @@ type Vector interface {
 	ComponentLen() uint
 
 	// Components returns a slice of the bounded.Number components in the vector.
-	Components() []bounded.INumeric
+	Components() []num.INumeric
 
 	// Component gets the component value at the provided index.
 	//
 	// NOTE: By design, all vector components are organized by their self-described order.  For instance, an XYZW type's
 	// components are logically ordered as X[0], Y[1], Z[2], W[3] - while a UV's is U[0], V[1].
-	Component(uint) (bounded.INumeric, error)
+	Component(uint) (num.INumeric, error)
 
 	// ComponentByName gets the named component's value.
 	//
 	// NOTE: Name retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
-	ComponentByName(string) (bounded.INumeric, error)
+	ComponentByName(string) (num.INumeric, error)
 
 	// SetComponents treats the input slice as a 1:1 mapping with the underlying components of the appropriate types before setting their values.
 	SetComponents([]any) error
@@ -48,4 +48,8 @@ type Vector interface {
 	SetComponentByName(string, any) error
 
 	String() string
+}
+
+func test(a num.INumeric) {
+
 }

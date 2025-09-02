@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,10 +21,10 @@ type CMYK[T num.Primitive] = CMYKTyped[T, T, T, T]
 // NOTE: If you'd like symmetric types, please see CMYK.
 type CMYKTyped[TC num.Primitive, TM num.Primitive, TY num.Primitive, TK num.Primitive] struct {
 	Entity
-	C bounded.Numeric[TC]
-	M bounded.Numeric[TM]
-	Y bounded.Numeric[TY]
-	K bounded.Numeric[TK]
+	C num.Numeric[TC]
+	M num.Numeric[TM]
+	Y num.Numeric[TY]
+	K num.Numeric[TK]
 }
 
 func NewCMYK[T num.Primitive](c T, m T, y T, k T, name ...string) *CMYK[T] {
@@ -102,7 +101,7 @@ func (_v *CMYKTyped[TC, TM, TY, TK]) SetBoundaries(minC, maxC TC, minM, maxM TM,
 	return _v
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) Component(index uint) (bounded.INumeric, error) {
+func (_v *CMYKTyped[TC, TM, TY, TK]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.C, nil
@@ -117,11 +116,11 @@ func (_v *CMYKTyped[TC, TM, TY, TK]) Component(index uint) (bounded.INumeric, er
 	}
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.C, &_v.M, &_v.Y, &_v.K}
+func (_v *CMYKTyped[TC, TM, TY, TK]) Components() []num.INumeric {
+	return []num.INumeric{&_v.C, &_v.M, &_v.Y, &_v.K}
 }
 
-func (_v *CMYKTyped[TC, TM, TY, TK]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *CMYKTyped[TC, TM, TY, TK]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "c":
 		return &_v.C, nil

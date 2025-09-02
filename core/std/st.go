@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,8 +21,8 @@ type ST[T num.Primitive] = STTyped[T, T]
 // NOTE: If you'd like symmetric types, please see ST.
 type STTyped[TS num.Primitive, TT num.Primitive] struct {
 	Entity
-	S bounded.Numeric[TS]
-	T bounded.Numeric[TT]
+	S num.Numeric[TS]
+	T num.Numeric[TT]
 }
 
 func NewST[T num.Primitive](s T, t T, name ...string) *ST[T] {
@@ -82,7 +81,7 @@ func (_v *STTyped[TS, TT]) SetBoundaries(minS, maxS TS, minT, maxT TT) *STTyped[
 	return _v
 }
 
-func (_v *STTyped[TS, TT]) Component(index uint) (bounded.INumeric, error) {
+func (_v *STTyped[TS, TT]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.S, nil
@@ -93,11 +92,11 @@ func (_v *STTyped[TS, TT]) Component(index uint) (bounded.INumeric, error) {
 	}
 }
 
-func (_v *STTyped[TS, TT]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.S, &_v.T}
+func (_v *STTyped[TS, TT]) Components() []num.INumeric {
+	return []num.INumeric{&_v.S, &_v.T}
 }
 
-func (_v *STTyped[TS, TT]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *STTyped[TS, TT]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "s":
 		return &_v.S, nil

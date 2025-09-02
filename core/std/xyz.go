@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type XYZ[T num.Primitive] = XYZTyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see XYZ.
 type XYZTyped[TX num.Primitive, TY num.Primitive, TZ num.Primitive] struct {
 	Entity
-	X bounded.Numeric[TX]
-	Y bounded.Numeric[TY]
-	Z bounded.Numeric[TZ]
+	X num.Numeric[TX]
+	Y num.Numeric[TY]
+	Z num.Numeric[TZ]
 }
 
 func NewXYZ[T num.Primitive](x T, y T, z T, name ...string) *XYZ[T] {
@@ -92,7 +91,7 @@ func (_v *XYZTyped[TX, TY, TZ]) SetBoundaries(minX, maxX TX, minY, maxY TY, minZ
 	return _v
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) Component(index uint) (bounded.INumeric, error) {
+func (_v *XYZTyped[TX, TY, TZ]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.X, nil
@@ -105,11 +104,11 @@ func (_v *XYZTyped[TX, TY, TZ]) Component(index uint) (bounded.INumeric, error) 
 	}
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.X, &_v.Y, &_v.Z}
+func (_v *XYZTyped[TX, TY, TZ]) Components() []num.INumeric {
+	return []num.INumeric{&_v.X, &_v.Y, &_v.Z}
 }
 
-func (_v *XYZTyped[TX, TY, TZ]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *XYZTyped[TX, TY, TZ]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "x":
 		return &_v.X, nil

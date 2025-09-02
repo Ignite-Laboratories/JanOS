@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type HSB[T num.Primitive] = HSBTyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see HSB.
 type HSBTyped[TH num.Primitive, TS num.Primitive, TB num.Primitive] struct {
 	Entity
-	H bounded.Numeric[TH]
-	S bounded.Numeric[TS]
-	B bounded.Numeric[TB]
+	H num.Numeric[TH]
+	S num.Numeric[TS]
+	B num.Numeric[TB]
 }
 
 func NewHSB[T num.Primitive](h T, s T, b T, name ...string) *HSB[T] {
@@ -92,7 +91,7 @@ func (_v *HSBTyped[TH, TS, TB]) SetBoundaries(minH, maxH TH, minS, maxS TS, minB
 	return _v
 }
 
-func (_v *HSBTyped[TH, TS, TB]) Component(index uint) (bounded.INumeric, error) {
+func (_v *HSBTyped[TH, TS, TB]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.H, nil
@@ -105,11 +104,11 @@ func (_v *HSBTyped[TH, TS, TB]) Component(index uint) (bounded.INumeric, error) 
 	}
 }
 
-func (_v *HSBTyped[TH, TS, TB]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.H, &_v.S, &_v.B}
+func (_v *HSBTyped[TH, TS, TB]) Components() []num.INumeric {
+	return []num.INumeric{&_v.H, &_v.S, &_v.B}
 }
 
-func (_v *HSBTyped[TH, TS, TB]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *HSBTyped[TH, TS, TB]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "h":
 		return &_v.H, nil

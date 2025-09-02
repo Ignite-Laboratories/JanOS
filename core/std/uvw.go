@@ -6,7 +6,6 @@ import (
 	"core/sys/atlas"
 	"core/sys/name/format"
 	"core/sys/num"
-	"core/sys/num/bounded"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -22,9 +21,9 @@ type UVW[T num.Primitive] = UVWTyped[T, T, T]
 // NOTE: If you'd like symmetric types, please see UVW.
 type UVWTyped[TU num.Primitive, TV num.Primitive, TW num.Primitive] struct {
 	Entity
-	U bounded.Numeric[TU]
-	V bounded.Numeric[TV]
-	W bounded.Numeric[TW]
+	U num.Numeric[TU]
+	V num.Numeric[TV]
+	W num.Numeric[TW]
 }
 
 func NewUVW[T num.Primitive](u T, v T, w T, name ...string) *UVW[T] {
@@ -92,7 +91,7 @@ func (_v *UVWTyped[TU, TV, TW]) SetBoundaries(minU, maxU TU, minV, maxV TV, minW
 	return _v
 }
 
-func (_v *UVWTyped[TU, TV, TW]) Component(index uint) (bounded.INumeric, error) {
+func (_v *UVWTyped[TU, TV, TW]) Component(index uint) (num.INumeric, error) {
 	switch index {
 	case 0:
 		return &_v.U, nil
@@ -105,11 +104,11 @@ func (_v *UVWTyped[TU, TV, TW]) Component(index uint) (bounded.INumeric, error) 
 	}
 }
 
-func (_v *UVWTyped[TU, TV, TW]) Components() []bounded.INumeric {
-	return []bounded.INumeric{&_v.U, &_v.V, &_v.W}
+func (_v *UVWTyped[TU, TV, TW]) Components() []num.INumeric {
+	return []num.INumeric{&_v.U, &_v.V, &_v.W}
 }
 
-func (_v *UVWTyped[TU, TV, TW]) ComponentByName(name string) (bounded.INumeric, error) {
+func (_v *UVWTyped[TU, TV, TW]) ComponentByName(name string) (num.INumeric, error) {
 	switch strings.ToLower(name) {
 	case "u":
 		return &_v.U, nil

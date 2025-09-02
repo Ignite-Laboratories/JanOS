@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -42,15 +43,15 @@ func main() {
 	}
 }
 
-func fprintfDocs(docs string, related ...string) {
-	for _, line := range strings.Split(docs, "\n") {
+func fprintfDocs(docs []string, related ...string) {
+	for _, line := range docs {
 		fprintf("// %s\n", line)
 	}
 
 	if len(related) > 0 {
 		fprintf("//\n")
 
-		for _, line := range strings.Split(related[0], "\n") {
+		for _, line := range related {
 			fprintf("// %s\n", line)
 		}
 	}
@@ -67,64 +68,54 @@ func run() error {
 		}
 	}
 
-	fprintfDocs(lexicon.Docs, lexicon.Related)
-	fprintf("type Lexeme struct {\n\t%s %s\n}\n\n", lexicon.Lexeme, lexicon.Type)
-
 	for _, t := range lexicon.Types {
 		fprintfDocs(t.Docs)
 
 		if len(t.NameSet) > 0 {
-			fprintfDocs(fmt.Sprintf("\n- See %s\n", t.NameSet))
+			fprintfDocs([]string{"", fmt.Sprintf("- See %s\n//", t.NameSet)})
 		}
 
 		fprintfDocs(lexicon.Related)
 
 		if t.Base != "" {
 			fprintf("type %s %s\n\n", t.Name, t.Base)
-			fprintf("func (t %s) String() string { return %s(t).String() } \n\n", t.Name, t.Base)
 		} else {
 			fprintf("type %s Lexeme\n\n", t.Name)
-			fprintf("func (t %s) String() string { return Lexeme(t).String() } \n\n", t.Name)
 		}
 
 		if len(t.NameSet) > 0 && len(t.Set) > 0 {
 			if t.Exhaustive {
-				fprintfDocs(fmt.Sprintf("%s - see %s", t.NameSet, t.Name))
+				fprintfDocs([]string{fmt.Sprintf("%s - see %s", t.NameSet, t.Name)})
 			} else {
-				fprintfDocs(fmt.Sprintf("%s - see %s", t.NameSet, t.Name), NotExhaustive)
+				fprintfDocs([]string{fmt.Sprintf("%s - see %s", t.NameSet, t.Name)}, NotExhaustive)
 			}
-			fprintf("var %s = []%s{\n\t", t.NameSet, t.Name)
+			fprintf("var %s = map[string]%s{\n\t", t.NameSet, t.Name)
 
-			ii := 0
-			for i := 0; i < len(t.Set); i++ {
-				if t.Set[i] == "\"" {
-					t.Set[i] = "\\\""
+			for k, v := range t.Set {
+				if k == "\"" {
+					k = "\\\""
 				}
 
-				fprintf("{\"%s\"},", t.Set[i])
-				ii++
-				if ii >= newlineAt && i < len(t.Set)-1 {
-					fprintf("\n\t")
-					ii = 0
-				}
+				fprintf("\t\"%s\": %s(\"%s\"),\n", k, t.Name, v)
 			}
-			fprintf("\n}\n\n")
+			fprintf("}\n\n")
 
 			fprintf("// Is%s tests if the provided Lexeme is a %s.\n", t.Name, t.Name)
 			fprintf("func Is%s(l std.Lexeme) bool {\n", t.Name)
-			fprintf("\tfor _, t := range %s {\n", t.NameSet)
-			fprintf("\t\tif t.String() == l.String() {\n")
-			fprintf("\t\t\treturn true\n")
-			fprintf("\t\t}\n")
+			fprintf("\tif _, ok := %s[l.String()]; ok {\n", t.NameSet)
+			fprintf("\t\treturn true\n")
 			fprintf("\t}\n")
 			fprintf("\treturn false\n")
 			fprintf("}\n\n")
 		}
 
 		if len(t.Alias) > 0 {
-			aliasDocs := strings.Replace(t.Docs, t.Name, t.Alias, 1)
+			aliasDocs := slices.Clone(t.Docs)
+			for i, d := range aliasDocs {
+				aliasDocs[i] = strings.Replace(d, t.Name, t.Alias, 1)
+			}
 
-			fprintfDocs(aliasDocs, lexicon.Related)
+			fprintfDocs(aliasDocs, lexicon.Related...)
 			fprintf("type %s = %s\n\n", t.Alias, t.Name)
 		}
 	}

@@ -16,9 +16,9 @@ var allZerosPattern = regexp.MustCompile(`^[+-]?(?:0+(?:\.0*)?|\.(?:0)+)$`)
 func Smallest[TOut Primitive](a, b any) TOut {
 	result := Compare(a, b)
 	if result < 0 {
-		return Cast[TOut](a)
+		return TypeAssert[TOut](a)
 	}
-	return Cast[TOut](b)
+	return TypeAssert[TOut](b)
 }
 
 // Largest returns the larger of the two provided operands.
@@ -27,9 +27,9 @@ func Smallest[TOut Primitive](a, b any) TOut {
 func Largest[TOut Primitive](a, b any) TOut {
 	result := Compare(a, b)
 	if result > 0 {
-		return Cast[TOut](a)
+		return TypeAssert[TOut](a)
 	}
-	return Cast[TOut](b)
+	return TypeAssert[TOut](b)
 }
 
 // Compare performs a base-10 string comparison of whether 𝑎 is less than (-1), equal to (0), or greater than (1) 𝑏.
@@ -37,8 +37,12 @@ func Largest[TOut Primitive](a, b any) TOut {
 // NOTE: If working with IEEE 754 floating point types, 'Inf' is treated as a finite value beyond the other operand's value
 // and NaN panics when both operands are NaN (otherwise it returns whichever IS a number).
 func Compare(a, b any) int {
-	if !IsPrimitive(a, b) {
-		panic("cannot compare non-primitive types")
+	if !IsNumeric(a, b) {
+		panic("cannot compare non Numeric-compatible types")
+	}
+
+	if IsComplex(a, b) {
+		panic("cannot compare complex numbers")
 	}
 
 	if IsNaN(a) || IsNaN(b) {
