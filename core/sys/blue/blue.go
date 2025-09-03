@@ -1,8 +1,13 @@
 package blue
 
-import "core/sys/num"
+import (
+	"core/enum/sub"
+)
 
-// "The Blue Note" is a fixed value from 0-7 improvised on startup.
-func Note() num.Note {
-	return num.Random[num.Note]()
+// Note - "𝑇ℎ𝑒 𝐵𝑙𝑢𝑒 𝑁𝑜𝑡𝑒" is an improvised value from 0-7.
+//
+// See sub.SubByte
+func Note() byte {
+	n := sub.NewNote()
+	return byte(n.Value())
 }

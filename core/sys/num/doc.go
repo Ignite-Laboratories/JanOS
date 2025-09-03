@@ -17,7 +17,7 @@ Random number generation -
 Random, RandomWithinRange, RandomSet, RandomSetWithinRange
 
 Anonymous procedures -
-ToString, TypeAssert, Smallest, Largest, Compare
+ToString, TypeAssert, Smallest, Largest, Compare, IsNumeric, IsPrimitive, IsSigned, IsFloat, IsComplex, IsInteger, IsInf, and IsNaN
 
 Minimum/Maximums -
 MinValue[Primitive], MaxValue[Primitive]

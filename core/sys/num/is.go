@@ -1,7 +1,6 @@
 package num
 
 import (
-	"core/sys/num/tiny"
 	"math"
 )
 
@@ -13,7 +12,7 @@ func IsNumeric(values ...any) bool {
 
 	for _, v := range values {
 		switch v.(type) {
-		case tiny.Placeholder, tiny.Natural, tiny.Real,
+		case Natural, Real,
 			uint, uint8, uint16, uint32, uint64, uintptr,
 			int, int8, int16, int32, int64,
 			float32, float64,
@@ -25,16 +24,41 @@ func IsNumeric(values ...any) bool {
 	return true
 }
 
-// IsNaN uses 'any' to return whether the value is an IEEE 754 floating point 'NaN' value.
-func IsNaN(a any) bool {
-	switch typed := a.(type) {
-	case float32:
-		return math.IsNaN(float64(typed))
-	case float64:
-		return math.IsNaN(typed)
-	default:
+// IsPrimitive returns whether the provided values are all primitive Go numeric types.
+func IsPrimitive(values ...any) bool {
+	if len(values) == 0 {
 		return false
 	}
+
+	for _, v := range values {
+		switch v.(type) {
+		case uint, uint8, uint16, uint32, uint64, uintptr,
+			int, int8, int16, int32, int64,
+			float32, float64,
+			complex64, complex128:
+		default:
+			return false
+		}
+	}
+	return true
+}
+
+// IsNaN uses 'any' to return whether the provided values are an IEEE 754 floating point 'NaN' value.
+func IsNaN(a ...any) bool {
+	if len(a) == 0 {
+		return false
+	}
+	for _, v := range a {
+		switch typed := v.(type) {
+		case float32:
+			return math.IsNaN(float64(typed))
+		case float64:
+			return math.IsNaN(typed)
+		default:
+			return false
+		}
+	}
+	return false
 }
 
 // IsInf uses 'any' to return whether the value is 'Inf' and whether it's negative.
@@ -63,7 +87,7 @@ func IsInteger(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case tiny.Placeholder, tiny.Natural,
+		case Natural,
 			int, int8, int16, int32, int64,
 			uint, uint8, uint16, uint32, uint64, uintptr:
 		default:
@@ -97,7 +121,7 @@ func IsFloat(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case tiny.Real, float32, float64:
+		case Real, float32, float64, complex64, complex128:
 		default:
 			return false
 		}
@@ -114,7 +138,7 @@ func IsSigned(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case tiny.Real, int, int8, int16, int32, int64, float32, float64, complex64, complex128:
+		case Real, int, int8, int16, int32, int64, float32, float64, complex64, complex128:
 		default:
 			return false
 		}

@@ -32,7 +32,7 @@ func Largest[TOut Primitive](a, b any) TOut {
 	return TypeAssert[TOut](b)
 }
 
-// Compare performs a base-10 string comparison of whether 𝑎 is less than (-1), equal to (0), or greater than (1) 𝑏.
+// Compare performs a base-10 string comparison of whether the value of 𝑎 is less than (-1), equal to (0), or greater than (1) the value of 𝑏.
 //
 // NOTE: If working with IEEE 754 floating point types, 'Inf' is treated as a finite value beyond the other operand's value
 // and NaN panics when both operands are NaN (otherwise it returns whichever IS a number).
@@ -125,8 +125,8 @@ func Compare(a, b any) int {
 	aWhole := pad.String[rune](scheme.Tile, ordinal.Negative, uint(wholeSize), aParts[whole], "0")
 	bWhole := pad.String[rune](scheme.Tile, ordinal.Negative, uint(wholeSize), bParts[whole], "0")
 
-	aFractional := pad.String[rune](scheme.Tile, ordinal.Negative, uint(fractionalSize), aParts[fractional], "0")
-	bFractional := pad.String[rune](scheme.Tile, ordinal.Negative, uint(fractionalSize), bParts[fractional], "0")
+	aFractional := pad.String[rune](scheme.Tile, ordinal.Positive, uint(fractionalSize), aParts[fractional], "0")
+	bFractional := pad.String[rune](scheme.Tile, ordinal.Positive, uint(fractionalSize), bParts[fractional], "0")
 
 	aCombined := aWhole + aFractional
 	bCombined := bWhole + bFractional

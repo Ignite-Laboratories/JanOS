@@ -1,25 +1,28 @@
 package main
 
 import (
-	"core/std"
 	"core/sys/num"
 	"fmt"
 )
 
 func main() {
-	fma := std.NewFMA(num.MaxValue[float64](), -2.2, 3.3, "Alpha")
-	fmt.Println(fma)
+	for i := 0; i < 256; i++ {
+		hex := fmt.Sprintf("%x", i)
+		b := byte(hex[0])
+		fmt.Println(hex + " - " + string(b))
+	}
 
-	xyz := std.NewXYZ(1, 5, 3, "Omega")
-	v := test(xyz)
-	fmt.Println(v)
-}
+	a := num.NewReal(0.05)
+	b := num.NewReal(1.0)
+	c := num.NewReal(555)
+	d := num.NewReal(-22)
+	e := num.NewReal(-0.00042)
+	f := num.NewReal(1024.04)
 
-func test[T num.Vector](value T) num.Vector {
-	fmt.Println(value)
-
-	z, _ := value.ComponentByName("Z")
-	_ = z.SetUsingAny(2)
-	fmt.Println(z)
-	return value
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(c)
+	fmt.Println(d)
+	fmt.Println(e)
+	fmt.Println(f)
 }

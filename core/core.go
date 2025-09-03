@@ -5,7 +5,6 @@ import (
 	"core/sys/blue"
 	"core/sys/name"
 	"core/sys/name/format"
-	"core/sys/num"
 	"debug/buildinfo"
 	"fmt"
 	"os"
@@ -27,7 +26,7 @@ func init() {
 
 		randDash := func() string {
 			var builder strings.Builder
-			for i := num.Note(0); i < blue.Note(); i++ {
+			for i := byte(0); i < blue.Note(); i++ {
 				builder.WriteString("-")
 			}
 			return builder.String()

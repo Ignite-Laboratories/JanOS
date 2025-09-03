@@ -27,6 +27,7 @@ func Test_Compare(t *testing.T) {
 		{"-0 vs 5", -0.0, 5.0, -1, false},
 		{"-1 vs -0.9", -1.0, -0.9, -1, false},
 		{"-0.01 vs -0.1", -0.01, -0.1, 1, false},
+		{"5.0505 vs 5.55", 5.0505, 5.55, -1, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,7 +1,6 @@
 package num
 
 import (
-	"core/sys/num/tiny"
 	"fmt"
 	"math"
 	"math/big"
@@ -25,7 +24,7 @@ type Numeric[T Advanced] struct {
 func (bnd *Numeric[T]) sanityCheck() {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		sanityCheckAdvanced(bnd)
@@ -138,7 +137,7 @@ func (bnd *Numeric[T]) MaximumAsAny() any {
 func (bnd *Numeric[T]) Range() uint64 {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return rangeAdvanced(bnd)
@@ -195,6 +194,60 @@ Basic Arithmetic
 
 */
 
+// Random sets the value to a random number within the bounded range.  For unbounded numbers, this will use [ MinValue, MaxValue ]
+//
+// NOTE: tiny.Natural and tiny.Real do not have an upper boundary - thus, this method will panic if unbounded.
+func (bnd *Numeric[T]) Random() T {
+	var zero T
+	switch any(zero).(type) {
+	case Natural, Real, complex64, complex128:
+		// CRITICAL: This does NOT type assert the string advanced types!!!
+		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
+		return randomAdvanced[T](bnd)
+	case int:
+		return any(randomPrimitive[int](any(bnd).(*Numeric[int]))).(T)
+	case int8:
+		return any(randomPrimitive[int8](any(bnd).(*Numeric[int8]))).(T)
+	case int16:
+		return any(randomPrimitive[int16](any(bnd).(*Numeric[int16]))).(T)
+	case int32:
+		return any(randomPrimitive[int32](any(bnd).(*Numeric[int32]))).(T)
+	case int64:
+		return any(randomPrimitive[int64](any(bnd).(*Numeric[int64]))).(T)
+	case uint:
+		return any(randomPrimitive[uint](any(bnd).(*Numeric[uint]))).(T)
+	case uint8:
+		return any(randomPrimitive[uint8](any(bnd).(*Numeric[uint8]))).(T)
+	case uint16:
+		return any(randomPrimitive[uint16](any(bnd).(*Numeric[uint16]))).(T)
+	case uint32:
+		return any(randomPrimitive[uint32](any(bnd).(*Numeric[uint32]))).(T)
+	case uint64:
+		return any(randomPrimitive[uint64](any(bnd).(*Numeric[uint64]))).(T)
+	case uintptr:
+		return any(randomPrimitive[uintptr](any(bnd).(*Numeric[uintptr]))).(T)
+	case float32:
+		return any(randomPrimitive[float32](any(bnd).(*Numeric[float32]))).(T)
+	case float64:
+		return any(randomPrimitive[float64](any(bnd).(*Numeric[float64]))).(T)
+	default:
+		panic(fmt.Errorf("unknown type %T", zero))
+	}
+}
+
+func randomAdvanced[T Advanced](bnd *Numeric[T]) T {
+	var zero T
+	// TODO: Implement this
+	return zero
+}
+
+func randomPrimitive[T Primitive](bnd *Numeric[T]) T {
+	if bnd.unbounded {
+		return Random[T]()
+	}
+	return RandomWithinRange(bnd.minimum, bnd.maximum)
+}
+
 // Increment adds 1 or the provided amount to the bound value.
 //
 // NOTE: If you provide a negative number, this will 'decrement'
@@ -203,7 +256,7 @@ Basic Arithmetic
 func (bnd *Numeric[T]) Increment(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return incrementAdvanced(bnd, amount...)
@@ -261,7 +314,7 @@ func incrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) Decrement(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return decrementAdvanced(bnd, amount...)
@@ -317,7 +370,7 @@ func decrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) AddOrSubtract(amount T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return addOrSubtractAdvanced(bnd, amount)
@@ -447,7 +500,7 @@ Normalize
 func (bnd *Numeric[T]) Normalize() (float64, error) {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return normalizeAdvanced(bnd)
@@ -542,7 +595,7 @@ func (bnd *Numeric[T]) SetFromNormalized32(normalized float32) (Breach, error) {
 func (bnd *Numeric[T]) SetFromNormalized(normalized float64) (Breach, error) {
 	var zero T
 	switch any(zero).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setFromNormalizedAdvanced(bnd, normalized)
@@ -635,7 +688,7 @@ func (bnd *Numeric[T]) SetUsingAny(value any) (Breach, error) {
 // empty breach.
 func (bnd *Numeric[T]) Set(value T) Breach {
 	switch raw := any(value).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setAdvanced(bnd, value)
@@ -745,7 +798,7 @@ func setPrimitive[T Primitive](bnd *Numeric[T], value T) Breach {
 		needsBig := distance > uint64(math.MaxInt64)
 		if !needsBig {
 			switch any(value).(type) {
-			case uint64, uint:
+			case uint64, uint, uintptr:
 				needsBig = uint64(value) > uint64(math.MaxInt64) ||
 					uint64(bnd.minimum) > uint64(math.MaxInt64) ||
 					uint64(bnd.maximum) > uint64(math.MaxInt64)

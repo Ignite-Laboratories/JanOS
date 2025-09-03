@@ -1,11 +1,12 @@
 package num
 
 import (
-	"core/sys/num/tiny"
 	"fmt"
 )
 
-// NewNumericBounded creates a new instance of Numeric[T] bounded in the closed interval [minimum, maximum] and returns the value's Breach.
+// NewNumericBounded creates a new instance of Numeric[T] bounded in the closed interval [minimum, maximum] and returns the initial set operation's Breach.
+//
+// See Numeric, NewNumeric, and NewNumericBounded
 func NewNumericBounded[T Advanced](value, minimum, maximum T, clamp ...bool) (Numeric[T], Breach) {
 	c := len(clamp) > 0 && clamp[0]
 	var zero T
@@ -24,9 +25,11 @@ func NewNumericBounded[T Advanced](value, minimum, maximum T, clamp ...bool) (Nu
 }
 
 // NewNumeric creates a new instance of Numeric[T] which does not intercept the provided types boundaries.
+//
+// See Numeric, NewNumeric, and NewNumericBounded
 func NewNumeric[T Advanced](value T) Numeric[T] {
 	switch raw := any(value).(type) {
-	case tiny.Placeholder, tiny.Natural, tiny.Real, complex64, complex128:
+	case Natural, Real, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return newNumericAdvanced(value)

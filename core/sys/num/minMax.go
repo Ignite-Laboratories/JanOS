@@ -79,6 +79,11 @@ func boundaryValue[T Primitive](min bool) T {
 			return 0
 		}
 		out = math.MaxUint
+	case uintptr:
+		if min {
+			return 0
+		}
+		out = math.MaxUint64
 	case float32, float64, complex64, complex128:
 		if min {
 			return T(0)
@@ -146,6 +151,11 @@ func boundaryValue[T Primitive](min bool) T {
 				return 0
 			}
 			out = math.MaxUint
+		case reflect.Uintptr:
+			if min {
+				return 0
+			}
+			out = math.MaxUint64
 		default:
 			panic(fmt.Errorf("unknown type %T", zero))
 		}

@@ -1,8 +1,14 @@
 package std
 
-import "core/sys/num"
-
-// Vector represents any "𝑙𝑒𝑡𝑡𝑒𝑟 𝑣𝑒𝑐𝑡𝑜𝑟" type, and all generated letter vectors create these functions at creation. See letters.Doc
+// A Vector is any type that can dynamically retrieve named components.
+//
+// NOTE: Component names are case invariant!
+//
+// See ComponentLen, Components, and Component
+// Vector represents any "𝑙𝑒𝑡𝑡𝑒𝑟 𝑣𝑒𝑐𝑡𝑜𝑟" type, and all generated letter vectors are given these functions at creation. See letters.Doc
+//
+// Vectors, abstractly, are any type that can dynamically retrieve named components.  The underlying type of each component is
+// unique to each vector, but
 //
 // This provides a type-agnostic way of retrieving and setting vector information at runtime.  These
 // will intentionally panic if provided erroneous parameters, such as trying to 'Set' with a mismatched type.
@@ -16,40 +22,27 @@ import "core/sys/num"
 //
 // NOTE: Name retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
 type Vector interface {
-	// ComponentLen returns the number of components in the vector.
+	// ComponentLen ( ) retrieves the number of components managed by this Vector.
+	//
+	// See ComponentLen, Components, and Component
 	ComponentLen() uint
 
-	// Components returns a slice of the bounded.Number components in the vector.
-	Components() []num.INumeric
-
-	// Component gets the component value at the provided index.
+	// Components ( ...𝑛𝑎𝑚𝑒𝑠 ) returns multiple components by 𝑛𝑎𝑚𝑒.
 	//
-	// NOTE: By design, all vector components are organized by their self-described order.  For instance, an XYZW type's
-	// components are logically ordered as X[0], Y[1], Z[2], W[3] - while a UV's is U[0], V[1].
-	Component(uint) (num.INumeric, error)
-
-	// ComponentByName gets the named component's value.
+	// NOTE: Component names are case invariant!
 	//
-	// NOTE: Name retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
-	ComponentByName(string) (num.INumeric, error)
+	// See ComponentLen, Components, and Component
+	Components(names ...string) map[string]any
 
-	// SetComponents treats the input slice as a 1:1 mapping with the underlying components of the appropriate types before setting their values.
-	SetComponents([]any) error
-
-	// SetComponent sets the component value at the provided index.
+	// Component ( 𝑛𝑎𝑚𝑒𝑑 ) returns a single 𝑛𝑎𝑚𝑒𝑑 component.
 	//
-	// NOTE: By design, all vector components are organized by their self-described order.  For instance, an XYZW type's
-	// components are logically ordered as X[0], Y[1], Z[2], W[3] - while a UV's is U[0], V[1].
-	SetComponent(uint, any) error
-
-	// SetComponentByName sets the named component's value.
+	// NOTE: Component names are case invariant!
 	//
-	// NOTE: Name retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
-	SetComponentByName(string, any) error
+	// See ComponentLen, Components, and Component
+	Component(named string) any
+
+	// Set ( 𝑛𝑎𝑚𝑒𝑑, 𝑣𝑎𝑙𝑢𝑒 ) assigns the provided value to the 𝑛𝑎𝑚𝑒𝑑 component.
+	Set(named string, value any) Vector
 
 	String() string
-}
-
-func test(a num.INumeric) {
-
 }

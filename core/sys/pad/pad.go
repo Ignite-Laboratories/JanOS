@@ -2,6 +2,7 @@ package pad
 
 import (
 	"core/enum/direction/ordinal"
+	"core/sys/pad/pattern"
 	"core/sys/pad/scheme"
 	"core/sys/support"
 	"slices"
@@ -21,16 +22,14 @@ func String[T ByteOrRune](patternScheme scheme.Scheme, side ordinal.Direction, t
 		panic("cannot pad without data to pad with")
 	}
 
-	return source
-
-	//switch any(T(0)).(type) {
-	//case byte:
-	//	return string(UsingPattern(patternScheme, side, totalWidth, []byte(source), pattern.Fixed([]byte(toPad)...), roll...))
-	//case rune:
-	//	return string(UsingPattern(patternScheme, side, totalWidth, []rune(source), pattern.Fixed([]rune(toPad)...), roll...))
-	//default:
-	//	panic("invalid type - this function only supports byte or rune")
-	//}
+	switch any(T(0)).(type) {
+	case byte:
+		return string(UsingPatternOLD(patternScheme, side, totalWidth, []byte(source), pattern.Fixed([]byte(toPad)...), roll...))
+	case rune:
+		return string(UsingPatternOLD(patternScheme, side, totalWidth, []rune(source), pattern.Fixed([]rune(toPad)...), roll...))
+	default:
+		panic("invalid type - this function only supports byte or rune")
+	}
 }
 
 func RollOnto[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, count uint, source []T, pattern func(uint) T) []T {
