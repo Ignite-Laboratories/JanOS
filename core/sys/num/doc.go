@@ -25,9 +25,7 @@ MinValue[Primitive], MaxValue[Primitive]
 ---------
 Transcendentals
 
-Transcendentals are commonly used values which need not be calculated "on the fly" - however, 𝑡𝑖𝑛𝑦 is an infinitely
-precise calculator!  That means these constants HAVE to be calculated "on the fly!"  Otherwise, whatever value we
-calculate will get rounded off to a fixed placeholder width - thus, the transcendentals are 'cached constants' -
-meaning they are calculated ONCE for each requested placeholder width "on demand."
+Transcendentals are 'cached constants' - this means that they hold an anonymous method which makes them irrational,
+but they are constantly referenceable from the num package as: num.Pi and num.E
 */
 package num

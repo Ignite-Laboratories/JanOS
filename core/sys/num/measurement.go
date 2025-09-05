@@ -41,7 +41,7 @@ func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 
 	digits := make([]string, len(out))
 	for i, d := range out {
-		digits[i] = fmt.Sprintf("%x", d)
+		digits[i] = fmt.Sprintf("%02x", d)
 	}
 
 	if b > 16 {

@@ -94,7 +94,7 @@ func (r *Realized) evaluate() {
 	r.Transcendental = IsTranscendental(*r)
 }
 
-// String prints a Realized in a human-legible form using the below convention:
+// String prints a Realized in a legibly-encoded form using the below convention:
 //
 //	 "123"         ← An integer value
 //	"-123"         ← An negative integer value
@@ -102,11 +102,11 @@ func (r *Realized) evaluate() {
 //	 "123.45"      ← A floating point value
 //	"-123.45"      ← A negative floating point value
 //
-//	 "123.45‾6"    ← A periodic value
-//	"-123.45‾6"    ← A negative periodic value
+//	 "123.45‾678"  ← A periodic value
+//	"-123.45‾678"  ← A negative periodic value
 //
-//	  "~1.4142136" ← An irrational value to atlas.PrecisionMinimum (default 7) digits [√2]
-//	 "~-1.4142136" ← A negative irrational value to atlas.PrecisionMinimum (default 7) digits [-√2]
+//	  "~1.7320508" ← An irrational value to atlas.PrecisionMinimum digits (default 7) [√3]
+//	 "~-1.7320508" ← A negative irrational value to atlas.PrecisionMinimum digits (default 7) [-√3]
 //	   "ℯ"         ← Euler's number
 //	   "π"         ← Pi
 //
@@ -117,11 +117,9 @@ func (r *Realized) evaluate() {
 // 𝑡𝑖𝑛𝑦 will print out (to keep the output "reasonable" to read) is defined by atlas.PrecisionMinimum.
 //
 // For base₁₇ and above, all positions are printed with a space character between and the digits are represented
-// as two-digit hexadecimal values up to base₂₅₅ - which is 𝑡𝑖𝑛𝑦's limit.
+// as two-digit hexadecimal values up to base₂₅₆ - which is 𝑡𝑖𝑛𝑦's limit.
 //
-//	"2 A . 9 6 F 6 2 E F D 1 D 7 5 C 10 0 4 9 2 4 D" ← "44.5533" converted to base₁₇
-//
-// NOTE: The same rules for periodicity and irrationality apply to all bases, with -every- single character being spaced apart.
+//	"~ - 02 0A . 09 06 0F 06 02 0E 0F 0D 01 0D 07 05 0C 10 00 04 09 02 04 0D" ← "~-44.5533" in base₁₇
 func (r Realized) String() string {
 	// 0 - Check if it's negative
 	sign := ""
