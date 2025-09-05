@@ -24,17 +24,268 @@ import "core/sys/num"
 // See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 type SubByte uint
 
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const BitMax SubByte = 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const CrumbMax SubByte = 1<<2 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const NoteMax SubByte = 1<<3 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const NibbleMax SubByte = 1<<4 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const FlakeMax SubByte = 1<<5 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const MorselMax SubByte = 1<<6 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const ShredMax SubByte = 1<<7 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const ByteMax SubByte = 1<<8 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const RunMax SubByte = 1<<10 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const ScaleMax SubByte = 1<<12 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const RiffMax SubByte = 1<<24 - 1
+
+// A SubByte is an implied integer of a non-standard bit width.
+//
+// NOTE: These originally only defined sub-byte unsigned integers, but evolved to include a few extras between a byte and uint64.
+//
+// "The Extended Unsigned Integer Types"
+//
+//	  Name | Width | Overflow
+//	   Bit |    1  | 2
+//	 Crumb |    2  | 2² (4)
+//	  Note |    3  | 2³ (8)
+//	Nibble |    4  | 2⁴ (16)
+//	 Flake |    5  | 2⁵ (32)
+//	Morsel |    6  | 2⁶ (64)
+//	 Shred |    7  | 2⁷ (128)
+//	   Run |   10  | 2¹⁰ (1,024)
+//	 Scale |   12  | 2¹² (4,096)
+//	  Riff |   24  | 2²⁴ (16,777,216)
+//	  Hook |   48  | 2⁴⁸ (281,474,976,710,656)
+//
+// See NewBit, NewCrumb, NewNote, NewNibble, NewFlake, NewMorsel, NewShred, NewByte, NewRun, NewScale, NewRiff, and NewHook
 const HookMax SubByte = 1<<48 - 1
 
 // NewBit returns a num.Numeric[uint] bounded in the closed interval [0, 1]

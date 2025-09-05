@@ -6,23 +6,10 @@ import (
 )
 
 func main() {
-	for i := 0; i < 256; i++ {
-		hex := fmt.Sprintf("%x", i)
-		b := byte(hex[0])
-		fmt.Println(hex + " - " + string(b))
-	}
+	rl1 := num.NewReal(-1234.555555555555)
+	rl1.ChangeBase(10)
 
-	a := num.NewReal(0.05)
-	b := num.NewReal(1.0)
-	c := num.NewReal(555)
-	d := num.NewReal(-22)
-	e := num.NewReal(-0.00042)
-	f := num.NewReal(1024.04)
+	rl2 := num.NewReal(5)
 
-	fmt.Println(a)
-	fmt.Println(b)
-	fmt.Println(c)
-	fmt.Println(d)
-	fmt.Println(e)
-	fmt.Println(f)
+	fmt.Println(rl1, rl2)
 }

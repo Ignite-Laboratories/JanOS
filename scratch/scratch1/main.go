@@ -2,7 +2,7 @@ package main
 
 import (
 	"core/std"
-	"core/sys/num"
+	"core/sys/num/tiny"
 	"reflect"
 	"strings"
 )
@@ -28,13 +28,13 @@ func (v *XYZW) Add(operands ...std.Vector) *XYZW {
 		for name, value := range operand.Components() {
 			switch strings.ToLower(name) {
 			case "x":
-				v.X += num.Add[float64](v.X, value.(float64))
+				v.X += tiny.Add[float64](v.X, value.(float64))
 			case "y":
-				v.Y += num.Add[float64](v.Y, value.(float64))
+				v.Y += tiny.Add[float64](v.Y, value.(float64))
 			case "z":
-				v.Z += num.Add[float64](v.Z, value.(float64))
+				v.Z += tiny.Add[float64](v.Z, value.(float64))
 			case "w":
-				v.W += num.Add[float64](v.W, value.(float64))
+				v.W += tiny.Add[float64](v.W, value.(float64))
 			}
 		}
 	}

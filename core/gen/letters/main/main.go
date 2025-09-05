@@ -207,7 +207,7 @@ func buildHeader() {
 	fprintf("import (\n")
 	fprintf("\t\"core/sys/atlas\"\n")
 	if name[0] != '_' {
-		fprintf("\t\"core/sys/name/format\"\n")
+		fprintf("\t\"core/sys/given/format\"\n")
 	}
 	fprintf("\t\"core/sys/num\"\n")
 	fprintf("\t\"core/sys/num/bounded\"\n")

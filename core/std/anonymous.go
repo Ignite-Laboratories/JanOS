@@ -29,6 +29,13 @@ func (a Anonymous) Set(named string, value any) Vector {
 	return a
 }
 
+func (a Anonymous) From(other Anonymous) Vector {
+	for k, v := range other {
+		a[k] = v
+	}
+	return a
+}
+
 func (a Anonymous) String() string {
 	// TODO: Write this like the letter vectors output themselves, but without a name
 	return fmt.Sprintf("%v", a)

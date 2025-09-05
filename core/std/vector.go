@@ -44,5 +44,8 @@ type Vector interface {
 	// Set ( 𝑛𝑎𝑚𝑒𝑑, 𝑣𝑎𝑙𝑢𝑒 ) assigns the provided value to the 𝑛𝑎𝑚𝑒𝑑 component.
 	Set(named string, value any) Vector
 
+	// From ( 𝑎𝑛𝑜𝑛𝑦𝑚𝑜𝑢𝑠 ) assigns any of the matching named anonymous components from the provided map.
+	From(Anonymous) Vector
+
 	String() string
 }

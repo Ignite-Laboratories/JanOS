@@ -1,9 +1,9 @@
 package std
 
 import (
+	"core/sys/given"
+	"core/sys/given/format"
 	"core/sys/id"
-	"core/sys/name"
-	"core/sys/name/format"
 	"fmt"
 )
 
@@ -11,35 +11,41 @@ import (
 //
 // NOTE: Entity's String function.
 type Entity struct {
-	id        uint64
-	GivenName name.Given
+	id   uint64
+	Name given.Name
 }
 
 func (e Entity) GetID() uint64 {
 	return e.id
 }
 
-// String returns the Entity's identifier and GivenName as "[ID](Name)"
+// String returns the Entity's identifier and Name as "[ID](Name)"
 func (e Entity) String() string {
-	return fmt.Sprintf("[%d](%v)", e.id, e.GivenName.String())
+	return fmt.Sprintf("[%d](%v)", e.id, e.Name.String())
+}
+
+// NewEntityNamed creates a new entity, assigns it a unique identifier, and gives it the provided name.
+//
+// See NewEntity and NewEntityNamed
+func NewEntityNamed(name string) Entity {
+	return NewEntity[format.Default](given.New(name))
 }
 
 // NewEntity creates a new entity, assigns it a unique identifier, and gives it a random name.
 //
-// If you'd prefer to directly name your entity, provide it as a parameter here.  Otherwise,
-// a random entry from the provided name.Format database type is chosen.
-func NewEntity[T format.Format](str ...name.Given) Entity {
+// See NewEntity and NewEntityNamed
+func NewEntity[T format.Format](name ...given.Name) Entity {
 	i := id.Next()
-	var given name.Given
-	if len(str) > 0 {
-		given = str[0]
+	var g given.Name
+	if len(name) > 0 {
+		g = name[0]
 	} else {
-		given, _ = name.Random[T](i)
+		g, _ = given.Random[T](i)
 	}
 
 	ne := Entity{
-		id:        i,
-		GivenName: given,
+		id:   i,
+		Name: g,
 	}
 
 	return ne

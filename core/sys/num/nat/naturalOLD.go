@@ -1,8 +1,7 @@
-package num
+package nat
 
 import (
-	"core/sys/num/helpers"
-	"encoding/hex"
+	"core/sys/num"
 	"fmt"
 	"strings"
 )
@@ -28,14 +27,14 @@ import (
 // above base 1, which might consider that to be 'zero'.  When factoring this trait in, I call it the "programmatic set" of
 // numbers.  I can't stop you from setting your natural phrase to it - but I can empower you with awareness of it =)
 type Natural struct {
-	value Measurement
-	base  uint16
+	digits []num.Numeric[byte]
+	base   uint16
 }
 
 // ParseNatural takes an input string in the provided base and converts it to a new Natural number.
 //
 // NOTE: If no base is provided, the input is assumed to be base₁₀
-func ParseNatural(input string, base ...uint16) Realized {
+func ParseNatural(input string, base ...uint16) num.Realized {
 	// TODO: Implement this
 	panic("cannot yet parse strings into naturals")
 }
@@ -50,54 +49,35 @@ func NewNatural(input string, base ...uint16) Natural {
 		b = base[0]
 	}
 
-	binary, _, _ := helpers.DecimalToBaseDigits(input, 2)
-	bits := make([]Bit, len(binary))
-	for i := 0; i < len(binary); i++ {
-		bits[i] = Bit(binary[i])
+	n := Natural{
+		digits: make([]num.Numeric[byte], len(input)),
+		base:   b,
 	}
-
-	return Natural{
-		value: NewMeasurement(bits...),
-		base:  b,
-	}
-}
-
-func (n *Natural) Digits() []byte {
-	str, _ := n.value.ToNaturalString(n.base)
-
-	var strDigits []string
-	if n.base > 16 {
-		strDigits = strings.Split(str, " ")
-	} else {
-		strDigits = strings.Split(str, "")
-	}
-
-	digits := make([]byte, len(strDigits))
-	for i, d := range strDigits {
-		if len(d) == 1 {
-			d = "0" + d
+	for i := len(input) - 1; i >= 0; i-- {
+		var bnd num.Numeric[byte]
+		switch input[i] {
+		case '-':
+			panic("natural numbers cannot be negative")
+		case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+			bnd, _ = num.NewNumericBounded[byte](input[i], 0, 10)
+		default:
+			panic("invalid character")
 		}
-		ds, _ := hex.DecodeString(d)
-		digits[i] = ds[0]
+		n.digits[i] = bnd
 	}
 
-	//str, _, _ := helpers.BaseToDecimalString(n.String(), n.base)
-	//digits, _, _ := helpers.DecimalToBaseDigits(str, n.base)
-	return digits
+	n.ChangeBase(b)
+	return n
 }
 
 func (n *Natural) ChangeBase(base uint16) {
-	if base < 2 || base > 256 {
-		panic(fmt.Errorf("invalid base '%d' - must be between 2 and 256", base))
-	}
-
 	n.base = base
+	// TODO: Convert to the desired base
+	panic("cannot change bases yet")
 }
 
 func (n *Natural) Width() uint {
-	_, placecount := n.value.ToNaturalString(n.base)
-
-	return placecount
+	return uint(len(n.digits))
 }
 
 func (n *Natural) Base() uint16 {
@@ -105,6 +85,12 @@ func (n *Natural) Base() uint16 {
 }
 
 func (n Natural) String() string {
-	str, _ := n.value.ToNaturalString(n.base)
-	return str
+	out := make([]string, len(n.digits))
+	for i, d := range n.digits {
+		out[i] = fmt.Sprintf("%x", d.Value())
+	}
+	if n.base > 16 {
+		return strings.Join(out, " ")
+	}
+	return strings.Join(out, "")
 }

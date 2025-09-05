@@ -15,7 +15,7 @@ const strInf = "Inf"
 // between traditional and raster-based computational arithmetic.  If you accept this interface level, you
 // must be able to parse 'any' input into a logical number.
 type Advanced interface {
-	Primitive | complex64 | complex128 | Natural | Real
+	Primitive | complex64 | complex128 | Natural | Realized
 }
 
 // Primitive represents any general primitive Numeric-compatible type.  These retain the standard mathematical operators,
@@ -30,7 +30,7 @@ type Primitive interface {
 
 // Signed represents any Numeric-compatible type that's signed.
 type Signed interface {
-	Real |
+	Realized |
 		int | int8 | int16 | int32 | int64 |
 		float32 | float64 | complex64 | complex128
 }
@@ -45,7 +45,7 @@ type Integer interface {
 
 // Float represents any Numeric-compatible type that supports floating-point preceision.
 type Float interface {
-	Real |
+	Realized |
 		float32 | float64 | complex64 | complex128
 }
 
@@ -127,17 +127,23 @@ func ToStringAligned(operands ...any) []string {
 	return out
 }
 
-// ToString uses strconv to format a string representation of the number in base 10.
+// ToString uses strconv to format a string representation of the number in base₁₀.
 // The output will be a decimal value and not in notation form, using strconv's 'f' format whenever possible.
+//
+// NOTE: If provided a num.Realized, this will print the output using Realized.StringRaw, rather than Real.String
 //
 // NOTE: This will panic if provided a non Numeric-compatible type.
 func ToString(value any) string {
 	var out string
-	switch typed := any(value).(type) {
+	switch typed := value.(type) {
+	case string:
+		// TODO: Parse complex string types into a primitive base₁₀ string
+		// For instance, handle the periodic overscore character by omitting it
+		return value.(string)
 	case Natural:
 		return typed.String()
-	case Real:
-		return typed.String()
+	case Realized:
+		return typed.StringRaw()
 	case float32:
 		out = strconv.FormatFloat(float64(typed), 'f', -1, 32)
 	case float64:

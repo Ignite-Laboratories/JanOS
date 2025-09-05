@@ -12,7 +12,7 @@ func IsNumeric(values ...any) bool {
 
 	for _, v := range values {
 		switch v.(type) {
-		case Natural, Real,
+		case Natural, Realized,
 			uint, uint8, uint16, uint32, uint64, uintptr,
 			int, int8, int16, int32, int64,
 			float32, float64,
@@ -80,7 +80,7 @@ func IsInf(a any) (isInf bool, negative bool) {
 
 // IsInteger returns whether the provided Primitive type is an integer type.
 //
-// NOTE: tiny.Real is not an integer type, though it can hold integer values.
+// NOTE: tiny.Realized is not an integer type, though it can hold integer values.
 func IsInteger(values ...any) bool {
 	if len(values) == 0 {
 		return false
@@ -114,14 +114,14 @@ func IsComplex(values ...any) bool {
 
 // IsFloat returns whether the provided Primitive type is a floating point value.
 //
-// NOTE: tiny.Real is a floating point type.
+// NOTE: tiny.Realized is a floating point type.
 func IsFloat(values ...any) bool {
 	if len(values) == 0 {
 		return false
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case Real, float32, float64, complex64, complex128:
+		case Realized, float32, float64, complex64, complex128:
 		default:
 			return false
 		}
@@ -131,14 +131,14 @@ func IsFloat(values ...any) bool {
 
 // IsSigned returns whether the provided Primitive is a signable type or not.
 //
-// NOTE: tiny.Real is a signable type.
+// NOTE: tiny.Realized is a signable type.
 func IsSigned(values ...any) bool {
 	if len(values) == 0 {
 		return false
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case Real, int, int8, int16, int32, int64, float32, float64, complex64, complex128:
+		case Realized, int, int8, int16, int32, int64, float32, float64, complex64, complex128:
 		default:
 			return false
 		}

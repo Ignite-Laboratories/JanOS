@@ -3,8 +3,8 @@ package core
 import (
 	"core/sys/atlas"
 	"core/sys/blue"
-	"core/sys/name"
-	"core/sys/name/format"
+	"core/sys/given"
+	"core/sys/given/format"
 	"debug/buildinfo"
 	"fmt"
 	"os"
@@ -54,7 +54,7 @@ var alive = true
 var Inception = time.Now()
 
 // Name provides the randomly selected name of this instance.
-var Name, _ = name.Random[format.Default]()
+var Name, _ = given.Random[format.Default]()
 
 // Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
 // '0' is implied.

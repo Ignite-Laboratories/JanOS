@@ -24,7 +24,7 @@ type Numeric[T Advanced] struct {
 func (bnd *Numeric[T]) sanityCheck() {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		sanityCheckAdvanced(bnd)
@@ -137,7 +137,7 @@ func (bnd *Numeric[T]) MaximumAsAny() any {
 func (bnd *Numeric[T]) Range() uint64 {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return rangeAdvanced(bnd)
@@ -196,11 +196,11 @@ Basic Arithmetic
 
 // Random sets the value to a random number within the bounded range.  For unbounded numbers, this will use [ MinValue, MaxValue ]
 //
-// NOTE: tiny.Natural and tiny.Real do not have an upper boundary - thus, this method will panic if unbounded.
+// NOTE: tiny.Natural and tiny.Realized do not have an upper boundary - thus, this method will panic if unbounded.
 func (bnd *Numeric[T]) Random() T {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return randomAdvanced[T](bnd)
@@ -256,7 +256,7 @@ func randomPrimitive[T Primitive](bnd *Numeric[T]) T {
 func (bnd *Numeric[T]) Increment(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return incrementAdvanced(bnd, amount...)
@@ -314,7 +314,7 @@ func incrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) Decrement(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return decrementAdvanced(bnd, amount...)
@@ -370,7 +370,7 @@ func decrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) AddOrSubtract(amount T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return addOrSubtractAdvanced(bnd, amount)
@@ -500,7 +500,7 @@ Normalize
 func (bnd *Numeric[T]) Normalize() (float64, error) {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return normalizeAdvanced(bnd)
@@ -595,7 +595,7 @@ func (bnd *Numeric[T]) SetFromNormalized32(normalized float32) (Breach, error) {
 func (bnd *Numeric[T]) SetFromNormalized(normalized float64) (Breach, error) {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setFromNormalizedAdvanced(bnd, normalized)
@@ -688,7 +688,7 @@ func (bnd *Numeric[T]) SetUsingAny(value any) (Breach, error) {
 // empty breach.
 func (bnd *Numeric[T]) Set(value T) Breach {
 	switch raw := any(value).(type) {
-	case Natural, Real, complex64, complex128:
+	case Natural, Realized, complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setAdvanced(bnd, value)

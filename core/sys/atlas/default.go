@@ -13,8 +13,29 @@ var ObservanceWindow = 2 * time.Second
 // TrimFrequency sets the default global frequency for dimensional trimmers.
 var TrimFrequency = 1024.0 //hz
 
-// Precision is the global placeholder precision for floating point arithmetic.
+// EnableRealCoercion indicates if the engine is allowed to use num.Real to perform intelligent num.Primitive type coercion.
+//
+// If false, attempts to perform 𝑡𝑖𝑛𝑦 arithmetic operations with mismatched num.Primitive types will panic.
+//
+// If true, 𝑡𝑖𝑛𝑦 will convert all operands to the num.Real type to perform arithmetic.
+//
+// NOTE: num.Real is REALLY inefficient compared to num.Primitive calculation!  This is by design, as 𝑡𝑖𝑛𝑦 was built to
+// "show its work" - most simulations can be built entirely within the confines of a float32 or float64.
+var EnableRealCoercion = true
+
+// PeriodicDenominator indicates the placeholder precision amount to observe as 'repeating' before indicating a num.Real is
+// 'periodic'.  For instance, a value of '4' indicates that at least ¼ of the fractional component must contain all repeating
+// elements before indicating a num.Real as 'periodic'.
+var PeriodicDenominator uint = 4
+
+// Precision is the global maximum number of placeholders to consider in the fractional part of a num.Real.
 var Precision uint = 256
+
+// PrecisionMinimum indicates the minimum width to synthesize irrational or periodic fractional components to during
+// printing. 𝑡𝑖𝑛𝑦 will also round the value accordingly, meaning √2 would render as "~1.4142136" instead of "~1.4142135"
+//
+// NOTE: This defaults to a 7 placeholder minimum.
+var PrecisionMinimum uint = 7
 
 // SeedRefractoryPeriod is the default amount of time a seed pool will retain its current random value set for.
 // This allows a small batch of fixed random numbers to be referenced ad-hoc without neurons having to track their own concept of temporality.

@@ -17,6 +17,17 @@ func GetArchitectureEndianness() endian.Endianness {
 	return endian.Little
 }
 
+// GetBits returns a slice of 0 or 1 bytes representing the input byte.
+func GetBits(b byte) [8]byte {
+	bits := [8]byte{}
+	ii := 0
+	for i := byte(7); i < 8; i-- {
+		bits[ii] = (b >> i) & 1
+		ii++
+	}
+	return bits
+}
+
 // ReverseByte reverses all the bits of a byte.
 func ReverseByte(b byte) byte {
 	b = (b&0xF0)>>4 | (b&0x0F)<<4

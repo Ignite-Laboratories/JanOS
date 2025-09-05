@@ -1,11 +1,11 @@
-package name
+package given
 
 import (
 	"core/enum/italic"
 	"fmt"
 )
 
-// Given represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names
+// Name represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names
 // to entities as needed.  Bear in mind, however, that legible names like 'Johnny-5' or 'Α' and 'Ω' are FAR easier
 // to track in the trace output than '4DCE9-A9' =)
 //
@@ -15,8 +15,8 @@ import (
 //
 //	tl;dr - you own your identifier, not the other way around!
 //
-// See Given, String, StringQuoted, and Italicize
-type Given struct {
+// See Name, String, StringQuoted, and Italicize
+type Name struct {
 	Name        string
 	Description string
 	Details     Details
@@ -29,8 +29,8 @@ type Given struct {
 //	With:    Jane Doe - Tenacious Mystery
 //	Without: Kurt Weller
 //
-// See Given, String, StringQuoted, and Italicize
-func (n Given) String() string {
+// See Name, String, StringQuoted, and Italicize
+func (n Name) String() string {
 	if n.Description == "" {
 		return fmt.Sprintf("%v", n.Name)
 	}
@@ -44,8 +44,8 @@ func (n Given) String() string {
 //	With:    "Jane Doe" - "Tenacious Mystery"
 //	Without: "Kurt Weller"
 //
-// See Given, String, StringQuoted, and Italicize
-func (n Given) StringQuoted(wrapDescription ...bool) string {
+// See Name, String, StringQuoted, and Italicize
+func (n Name) StringQuoted(wrapDescription ...bool) string {
 	if n.Description == "" {
 		return fmt.Sprintf("\"%v\"", n.Name)
 	}
@@ -59,7 +59,7 @@ func (n Given) StringQuoted(wrapDescription ...bool) string {
 // leaving the other characters alone.
 //
 // See italic.Italicize.
-func (n Given) Italicize() Given {
+func (n Name) Italicize() Name {
 	n.Name = italic.Italicize(n.Name)
 	return n
 }

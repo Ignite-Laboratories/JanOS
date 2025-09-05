@@ -4,7 +4,7 @@ import (
 	"core/sys/num"
 )
 
-var r = num.Real{}
+var r = num.Realized{}
 var n = num.Natural{}
 var i = int(0)
 var i8 = int8(i)
