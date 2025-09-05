@@ -9,7 +9,6 @@ type config struct {
 	ObservanceWindow     string  `json:"observanceWindow"`
 	TrimFrequency        float64 `json:"trimFrequency"`
 	EnableRealCoercion   *bool   `json:"enableRealCoercion"`
-	PeriodicDenominator  uint    `json:"periodicDenominator"`
 	Precision            uint    `json:"precision"`
 	PrecisionMinimum     uint    `json:"precisionMinimum"`
 	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
@@ -29,9 +28,6 @@ func (c config) apply() {
 	}
 	if c.EnableRealCoercion != nil {
 		EnableRealCoercion = *c.EnableRealCoercion
-	}
-	if c.PeriodicDenominator > 0 {
-		PeriodicDenominator = c.PeriodicDenominator
 	}
 	if c.Precision > 0 {
 		Precision = c.Precision

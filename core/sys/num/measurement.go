@@ -29,7 +29,7 @@ type Measurement struct {
 }
 
 // ToNaturalString takes the current value of the measurement and outputs it as a baseₙ string.  If no base is
-// provided, base₁₀ is implied.
+// provided, base₁₀ is implied.  This also returns the number of digits embedded within the output string.
 func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 	b := uint16(10)
 	if len(base) > 0 {
@@ -48,6 +48,19 @@ func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 		return strings.Join(digits, " "), uint(len(out))
 	}
 	return strings.Join(digits, ""), uint(len(out))
+}
+
+// ToNaturalDigits takes the current value of the measurement and outputs it as baseₙ bytes.  If no base is
+// provided, base₁₀ is implied.
+func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
+	b := uint16(10)
+	if len(base) > 0 {
+		b = base[0]
+	}
+
+	str, _ := helpers.BinaryToDecimalString(a.String())
+	out, _, _ := helpers.DecimalToBaseDigits(str, b)
+	return out
 }
 
 // NewMeasurementFromNaturalString creates a new measurement from a natural string of the provided base.  If no

@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	rl1 := num.NewReal(-1234.555555555555)
+	rl1 := num.NewRealized(-1234.555555555555)
 	rl1.ChangeBase(10)
 
-	rl2 := num.NewReal(5)
+	rl2 := num.NewRealized(5)
 
 	fmt.Println(rl1, rl2)
 }

@@ -2,7 +2,6 @@ package num
 
 import (
 	"core/enum/transcendental"
-	"core/sys/num/helpers"
 	"fmt"
 	"math"
 	"strings"
@@ -10,22 +9,27 @@ import (
 
 // A Realized number is a real number consisting of a Whole Natural part and a Fractional Natural part.
 // This differs from a "real" number in that the periodic aspect of the fractional component is also tracked,
-// allowing infinite reconstruction of a 'periodic' value - thus, the number technically only exists in
-// memory as a "realizable" value and only becomes a real number in the context of an arithmetic operation.
+// allowing infinite reconstruction of a 'periodic' value - thus, the number technically exists in memory as
+// a "realizable value" and only becomes a "real number" in the context of an arithmetic operation.
+//
+// This also carries into its ability to track irrational numbers.  Rather than storing the irrational result,
+// an anonymous closure is made over the irrational operation which can be called on demand.  This allows the system
+// to track an irrational result of any placeholder width, rather than tracking the formulae that generated the
+// irrational condition.
 type Realized struct {
 	Negative       bool
 	Whole          Natural
 	Fractional     Natural
 	PeriodicWidth  uint
 	Transcendental transcendental.Transcendental
-	Irrational     bool
+	Irrational     func(uint)
 	base           uint16
 }
 
-// NewReal creates a new instance of a Realized number using the provided operand, then converts it to the provided base.
+// NewRealized creates a new instance of a Realized number using the provided operand, then converts it to the provided base.
 //
 // NOTE: If no base is provided, it implies 'base-10'
-func NewReal(operand any, base ...uint16) Realized {
+func NewRealized(operand any, base ...uint16) Realized {
 	b := uint16(10)
 	if len(base) > 0 {
 		b = base[0]
@@ -85,18 +89,9 @@ func (r *Realized) ChangeBase(base uint16) {
 	r.evaluate()
 }
 
-// evaluate looks at the currently stored real number and determines if it's periodic or transcendental.
+// evaluate looks at the currently stored real number and determines if it's transcendental.
 func (r *Realized) evaluate() {
 	r.Transcendental = IsTranscendental(*r)
-
-	_, repeating, count := helpers.FindPeriodic(r.Fractional.Digits())
-	fmt.Println(repeating)
-	if count > 0 {
-		r.Fractional
-		r.PeriodicWidth = uint(len(repeating))
-	} else {
-		r.PeriodicWidth = 0
-	}
 }
 
 // String prints a Realized in a human-legible form using the below convention:
@@ -144,7 +139,7 @@ func (r Realized) String() string {
 
 	// 2 - Check if it's irrational
 	irrational := ""
-	if r.Irrational {
+	if r.Irrational != nil {
 		irrational = "~"
 	}
 
@@ -173,9 +168,4 @@ func (r Realized) String() string {
 		return join(irrational, sign, r.Whole.String(), ".", r.Fractional.String())
 	}
 	return join(irrational, sign, r.Whole.String())
-}
-
-// StringRaw behaves exactly as String, except it does not incorporate the periodic aspect.
-func (r Realized) StringRaw() string {
-
 }

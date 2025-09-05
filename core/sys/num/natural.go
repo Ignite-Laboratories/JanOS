@@ -2,9 +2,7 @@ package num
 
 import (
 	"core/sys/num/helpers"
-	"encoding/hex"
 	"fmt"
-	"strings"
 )
 
 // Natural represents a value belonging to the set of naturally countable numbers - or all positive whole numbers, including zero.
@@ -63,27 +61,7 @@ func NewNatural(input string, base ...uint16) Natural {
 }
 
 func (n *Natural) Digits() []byte {
-	str, _ := n.value.ToNaturalString(n.base)
-
-	var strDigits []string
-	if n.base > 16 {
-		strDigits = strings.Split(str, " ")
-	} else {
-		strDigits = strings.Split(str, "")
-	}
-
-	digits := make([]byte, len(strDigits))
-	for i, d := range strDigits {
-		if len(d) == 1 {
-			d = "0" + d
-		}
-		ds, _ := hex.DecodeString(d)
-		digits[i] = ds[0]
-	}
-
-	//str, _, _ := helpers.BaseToDecimalString(n.String(), n.base)
-	//digits, _, _ := helpers.DecimalToBaseDigits(str, n.base)
-	return digits
+	return n.value.ToNaturalDigits(n.base)
 }
 
 func (n *Natural) ChangeBase(base uint16) {

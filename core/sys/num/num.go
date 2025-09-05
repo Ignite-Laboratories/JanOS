@@ -136,18 +136,14 @@ func ToStringAligned(operands ...any) []string {
 func ToString(value any) string {
 	var out string
 	switch typed := value.(type) {
-	case string:
-		// TODO: Parse complex string types into a primitive base₁₀ string
-		// For instance, handle the periodic overscore character by omitting it
-		return value.(string)
 	case Natural:
 		return typed.String()
 	case Realized:
-		return typed.StringRaw()
+		return typed.String()
 	case float32:
 		out = strconv.FormatFloat(float64(typed), 'f', -1, 32)
 	case float64:
-		out = strconv.FormatFloat(float64(typed), 'f', -1, 64)
+		out = strconv.FormatFloat(typed, 'f', -1, 64)
 	case uint:
 		out = strconv.FormatUint(uint64(typed), 10)
 	case uint8:

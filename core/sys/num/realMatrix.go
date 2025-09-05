@@ -24,7 +24,7 @@ package num
 //		data: make([]Realized, len(operands)),
 //	}
 //	for i, operand := range operands {
-//		m.data[i] = NewReal(operand)
+//		m.data[i] = NewRealized(operand)
 //	}
 //	m.Align()
 //	return m

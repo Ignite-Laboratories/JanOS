@@ -87,17 +87,24 @@ func BinaryToDecimalString(s string) (string, error) {
 	return out, nil
 }
 
-// FindPeriodic finds the periodic component of a num.Real.  It deems a real is 'periodic' by
+// findPeriodic finds the periodic component of a num.Realized.  It deems a real is 'periodic' by
 // checking if ceil(atlas.Precision/atlas.PeriodicDenominator) worth of trailing placeholders
 // all contain a periodic value.
-func FindPeriodic(digits []byte) (pre, period []byte, repeats int) {
+func findPeriodic(digits []byte) (pre, period []byte, repeats int) {
+	// NOTE: This is just here for posterity - my original idea was that periodicity could be 'observed'
+	// off of the number of repeating values in the fractional component, since we control the limit of
+	// placeholders.  This naive thinking is what got me across the line on the Realized type, so I feel
+	// it's REALLY important to keep here for posterity's sake - Alex
+
 	n := len(digits)
 	if n == 0 || uint(n) < atlas.Precision {
 		return digits, nil, 0
 	}
 
+	depth := 4
+
 	// NOTE: This uses ceiling division: d = (x + d - 1) / d
-	threshold := int((atlas.Precision + (atlas.PeriodicDenominator - 1)) / atlas.PeriodicDenominator)
+	threshold := (int(atlas.Precision) + (depth - 1)) / depth
 
 	// Reverse digits -> rev
 	rev := make([]byte, n)
