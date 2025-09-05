@@ -26,22 +26,113 @@ type Realized struct {
 	base           uint16
 }
 
-// NewRealized creates a new instance of a Realized number using the provided operand, then converts it to the provided base.
+// ParseRealized creates a new instance of a Realized number using the provided base-encoded source string - (see
+// Realized.String for the standard encoding format) - if no source base is provided, this implies the source string
+// is encoded in base₁₀.
 //
-// NOTE: If no base is provided, it implies 'base-10'
-func NewRealized(operand any, base ...uint16) Realized {
+// NOTE: Transcendentals -
+//
+// If you wish to parse a transcendental number, you can - but this simply short-circuits to the Transcendental methods.
+// For instance, "-π" will yield you a negative instance of π from the cached constants.  For the STRING constants themselves,
+// please see the transcendental.Transcendental enumeration package.
+//
+// NOTE: Irrationals -
+//
+// Irrational numbers can ONLY be identified during an arithmetic operation, as their infinitely repeating quality
+// must be OBSERVED.  Thus, the '~' character is entirely ignored during parsing and the number is treated at face value.
+func ParseRealized(source string, sourceBase ...uint16) Realized {
 	b := uint16(10)
-	if len(base) > 0 {
-		b = base[0]
-		if b < 2 {
-			panic(fmt.Sprintf("cannot create Realized from base %d", base))
+	if len(sourceBase) > 0 {
+		b = sourceBase[0]
+	}
+
+	if len(source) == 0 {
+		return Realized{
+			Negative:   false,
+			Whole:      ParseNatural("0"),
+			Fractional: ParseNatural("0"),
+			base:       b,
 		}
 	}
 
-	switch raw := operand.(type) {
-	case string:
-	case Natural, Realized,
-		uint, uint8, uint16, uint32, uint64, uintptr,
+	negative := false
+	if source[0] == '~' {
+		source = source[1:]
+	}
+	if source[0] == '-' {
+		source = source[1:]
+		negative = true
+	}
+
+	t := transcendental.IsIdentifier(source)
+	if t != transcendental.Non {
+		switch t {
+		case transcendental.Pi:
+			r := Transcendental.Pi(b)
+			r.Negative = negative
+			return r
+		case transcendental.E:
+			r := Transcendental.E(b)
+			r.Negative = negative
+			return r
+		}
+	}
+
+	var digits []string
+	if b > 16 {
+		digits = strings.Split(source, " ")
+	} else {
+		digits = strings.Split(source, "")
+	}
+
+	var wholeDigits []string
+	var fractionalDigits []string
+
+	isWholePart := true
+	for i := 0; i < len(digits); i++ {
+		if digits[i] == "." {
+			isWholePart = false
+		}
+
+		if isWholePart {
+			wholeDigits = append(wholeDigits, digits[i])
+		} else {
+			fractionalDigits = append(fractionalDigits, digits[i])
+		}
+	}
+
+	var wholePart string
+	var fractionalPart string
+	if b > 16 {
+		wholePart = strings.Join(wholeDigits, " ")
+		fractionalPart = strings.Join(fractionalDigits, " ")
+	} else {
+		wholePart = strings.Join(wholeDigits, "")
+		fractionalPart = strings.Join(fractionalDigits, "")
+	}
+
+	r := Realized{
+		Negative:   negative,
+		Whole:      ParseNatural(wholePart, b),
+		Fractional: ParseNatural(fractionalPart, b),
+		base:       b,
+	}
+	if t == transcendental.Non {
+		r.Transcendental = Transcendental.Is(r)
+	} else {
+		r.Transcendental = t
+	}
+	return r
+}
+
+// NewRealized creates a new instance of a Realized number using the provided Primitive operand
+//
+// NOTE: ALL primitive operands in Go are base₁₀!  For parsing a real from a different base, please see ParseRealized
+//
+// NOTE: This will panic if provided a float32 or float64 value of 'Inf' or 'NaN'.
+func NewRealized[T Primitive](operand T) Realized {
+	switch raw := any(operand).(type) {
+	case uint, uint8, uint16, uint32, uint64, uintptr,
 		int, int8, int16, int32, int64:
 	case float32:
 		if math.IsInf(float64(raw), 0) {
@@ -61,22 +152,7 @@ func NewRealized(operand any, base ...uint16) Realized {
 		panic(fmt.Sprintf("cannot create a Realized from type %T", raw))
 	}
 
-	str := ToString(operand)
-	parts := decimalPattern.FindStringSubmatch(str)
-	if parts == nil {
-		panic("cannot create Realized: unknown input type")
-	}
-
-	negative := len(parts[1]) > 0 && parts[1][0] == '-'
-	fractional := NewNatural(parts[4], b)
-	whole := NewNatural(parts[2], b)
-
-	return Realized{
-		Negative:   negative,
-		Whole:      whole,
-		Fractional: fractional,
-		base:       b,
-	}
+	return ParseRealized(ToString(operand))
 }
 
 func (r *Realized) Base() uint16 {
@@ -86,12 +162,7 @@ func (r *Realized) Base() uint16 {
 func (r *Realized) ChangeBase(base uint16) {
 	r.Whole.ChangeBase(base)
 	r.Fractional.ChangeBase(base)
-	r.evaluate()
-}
-
-// evaluate looks at the currently stored real number and determines if it's transcendental.
-func (r *Realized) evaluate() {
-	r.Transcendental = IsTranscendental(*r)
+	r.Transcendental = Transcendental.Is(*r)
 }
 
 // String prints a Realized in a legibly-encoded form using the below convention:
@@ -102,24 +173,33 @@ func (r *Realized) evaluate() {
 //	 "123.45"      ← A floating point value
 //	"-123.45"      ← A negative floating point value
 //
-//	 "123.45‾678"  ← A periodic value
-//	"-123.45‾678"  ← A negative periodic value
+//	 "123.‾4"      ← A periodic value, broken with an "overscore"
+//	"-123.‾4"      ← A negative periodic value, broken with an "overscore"
+//
+//	 "123.‾456"    ← A "wide" periodic value
+//	"-123.‾456"    ← A "wide" negative periodic value
+//
+//	 "123.45‾678"  ← An mixed-repeating periodic value
+//	"-123.45‾678"  ← A negative mixed-repeating periodic value
 //
 //	  "~1.7320508" ← An irrational value to atlas.PrecisionMinimum digits (default 7) [√3]
 //	 "~-1.7320508" ← A negative irrational value to atlas.PrecisionMinimum digits (default 7) [-√3]
-//	   "ℯ"         ← Euler's number
-//	   "π"         ← Pi
 //
-// NOTE: A transcendental.Transcendental will appear automatically when the real number matches its value
+//	   "π"         ← Pi
+//	   "ℯ"         ← Euler's number
+//
+// NOTE: A transcendental.Transcendental will appear automatically when the real number matches its value - and can be prefixed with a negative sign.
 //
 // Irrational values are always prefixed with a `~` character to indicate they are visibly truncated during String operations
 // while retaining their atlas.Precision placeholder-width for calculation.  The minimum number of fractional placeholder positions
 // 𝑡𝑖𝑛𝑦 will print out (to keep the output "reasonable" to read) is defined by atlas.PrecisionMinimum.
 //
-// For base₁₇ and above, all positions are printed with a space character between and the digits are represented
+// For base₁₇ and above, all positions are printed with a space character between, and the digits are represented
 // as two-digit hexadecimal values up to base₂₅₆ - which is 𝑡𝑖𝑛𝑦's limit.
 //
-//	"~ - 02 0A . 09 06 0F 06 02 0E 0F 0D 01 0D 07 05 0C 10 00 04 09 02 04 0D" ← "~-44.5533" in base₁₇
+//	"- 02 08 . 0B 00 10 06" ← "-42.54321" in base₁₇
+//
+// See Natural.String and Realized.String
 func (r Realized) String() string {
 	// 0 - Check if it's negative
 	sign := ""
@@ -166,4 +246,12 @@ func (r Realized) String() string {
 		return join(irrational, sign, r.Whole.String(), ".", r.Fractional.String())
 	}
 	return join(irrational, sign, r.Whole.String())
+}
+
+// Print pads the result of string to a "row" format for use in a calculation matrix.  This simply pads the left
+// side of the whole part and the right side of the fractional part with '0's to width and puts a '0' or '1' in
+// the first column to indicate if the value is signed (1).  The periodic "overscore" character is not printed.
+// Instead, the number is synthesized to the desired placeholder precision and then rounded.
+func (r Realized) Print(whole, fractional uint, precision ...uint) string {
+
 }

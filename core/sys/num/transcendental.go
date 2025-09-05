@@ -1,18 +1,35 @@
 package num
 
-import "core/enum/transcendental"
+import (
+	"core/enum/transcendental"
+	"core/sys/atlas"
+)
 
 func init() {
-
+	// Kick off a standard 'cached' value for each transcendental from bases 2-16 on initialization.
+	for i := uint16(2); i < 17; i++ {
+		Transcendental.Pi(i, atlas.Precision)
+		Transcendental.E(i, atlas.Precision)
+	}
 }
 
-var _piMap map[uint]Realized
-var _eMap map[uint]Realized
+type _transcendental struct {
+	piMap map[uint]Realized
+	eMap  map[uint]Realized
+}
 
-// IsTranscendental returns which transcendental constant the input Realized is.
+var Transcendental = _transcendental{
+	piMap: make(map[uint]Realized),
+	eMap:  make(map[uint]Realized),
+}
+
+// Is returns which transcendental constant the input Realized is.
 //
 // See transcendental.Transcendental, Pi, E, and Sqrt2
-func IsTranscendental(r Realized) transcendental.Transcendental {
+func (t _transcendental) Is(r Realized) transcendental.Transcendental {
+	// NOTE: This will need to handle this as such:
+	// If the realized is smaller than atlas.Precision, it's not transcendental
+	// Otherwise, check to the realized's precision.
 	// TODO: implement this
 	return transcendental.Non
 }
@@ -20,15 +37,17 @@ func IsTranscendental(r Realized) transcendental.Transcendental {
 // Pi represents the transcendental constant 'π' in your requested base.
 //
 // NOTE: If no placeholder value is provided, this will use atlas.Precision.
-func Pi(base uint16, placeholders ...uint) Realized {
+func (t _transcendental) Pi(base uint16, placeholders ...uint) Realized {
 	// TODO: implement this
-	panic("transcendental calculation is not yet implemented")
+	// panic("transcendental calculation is not yet implemented")
+	return Realized{}
 }
 
 // E represents the transcendental constant of Euler's number in your requested base.
 //
 // NOTE: If no placeholder value is provided, this will use atlas.Precision.
-func E(base uint16, placeholders ...uint) Realized {
+func (t _transcendental) E(base uint16, placeholders ...uint) Realized {
 	// TODO: implement this
-	panic("transcendental calculation is not yet implemented")
+	// panic("transcendental calculation is not yet implemented")
+	return Realized{}
 }

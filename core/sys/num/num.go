@@ -28,33 +28,6 @@ type Primitive interface {
 		float32 | float64
 }
 
-// Signed represents any Numeric-compatible type that's signed.
-type Signed interface {
-	Realized |
-		int | int8 | int16 | int32 | int64 |
-		float32 | float64 | complex64 | complex128
-}
-
-// Integer represents any Numeric-compatible type that's an integer.
-type Integer interface {
-	Natural |
-		int | int8 | int16 | int32 | int64 |
-		uint | uint8 | uint16 | uint32 | uint64 |
-		uintptr
-}
-
-// Float represents any Numeric-compatible type that supports floating-point preceision.
-type Float interface {
-	Realized |
-		float32 | float64 | complex64 | complex128
-}
-
-// Complex represents any complex number.
-type Complex interface {
-	complex64 | complex128
-	// TODO: Add the tiny complex types when they are ready
-}
-
 // TypeAssert will type assert an 'any' type to its underlying provided Primitive.
 //
 // NOTE: This will panic if given a non-primitive value

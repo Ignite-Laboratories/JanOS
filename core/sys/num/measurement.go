@@ -3,7 +3,7 @@ package num
 import (
 	"core/enum/direction/ordinal"
 	"core/enum/endian"
-	"core/sys/num/helpers"
+	"core/sys/num/bases"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -36,18 +36,7 @@ func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 		b = base[0]
 	}
 
-	str, _ := helpers.BinaryToDecimalString(a.String())
-	out, _, _ := helpers.DecimalToBaseDigits(str, b)
-
-	digits := make([]string, len(out))
-	for i, d := range out {
-		digits[i] = fmt.Sprintf("%02x", d)
-	}
-
-	if b > 16 {
-		return strings.Join(digits, " "), uint(len(out))
-	}
-	return strings.Join(digits, ""), uint(len(out))
+	return bases.StringToString(a.String(), 2, b)
 }
 
 // ToNaturalDigits takes the current value of the measurement and outputs it as baseₙ bytes.  If no base is
@@ -58,23 +47,22 @@ func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
 		b = base[0]
 	}
 
-	str, _ := helpers.BinaryToDecimalString(a.String())
-	out, _, _ := helpers.DecimalToBaseDigits(str, b)
-	return out
+	digits, _ := bases.StringToDigits(a.String(), 2, b)
+	return digits
 }
 
-// NewMeasurementFromNaturalString creates a new measurement from a natural string of the provided base.  If no
-// base is provided, base₁₀ is implied.
+// NewMeasurementFromBaseString creates a new measurement from a natural string of the provided base.  If no
+// base is provided, base₁₀ is implied.  See Natural.String to understand what a "natural string" is.
 //
-// NOTE: A Measurement can only hold unsigned values, thus this will drop the sign entirely.
-func (a Measurement) NewMeasurementFromNaturalString(s string, base ...uint16) Measurement {
+// NOTE: If given a signed value, the sign is ignored.
+func (a Measurement) NewMeasurementFromBaseString(s string, base ...uint16) Measurement {
 	b := uint16(10)
 	if len(base) > 0 {
 		b = base[0]
 	}
 
-	str, _, _ := helpers.BaseToDecimalString(s, b)
-	return NewMeasurementOfBinaryString(str)
+	binary, _ := bases.StringToString(s, b, 2)
+	return NewMeasurementOfBinaryString(binary)
 }
 
 // NewMeasurementOfBit creates a new Measurement of the provided bit-width consisting entirely of the provided Bit.
@@ -152,8 +140,16 @@ func NewMeasurementOfBytes(bytes ...byte) Measurement {
 
 // NewMeasurementOfBinaryString creates a new Measurement from the provided binary input string.
 //
-// NOTE: This will panic if anything but a 1 or 0 is found in the input string.
+// NOTE: This will panic if anything but a 1 or 0 is found in the input string.  If provided a
+// negative value, the leading '-' character is dropped entirely.
 func NewMeasurementOfBinaryString(s string) Measurement {
+	if len(s) == 0 {
+		return NewMeasurement()
+	}
+	if s[0] == '-' {
+		s = s[1:]
+	}
+
 	bits := make([]Bit, len(s))
 	for i := 0; i < len(s); i++ {
 		if s[i] != '0' && s[i] != '1' {

@@ -26,3 +26,14 @@ const (
 	// See Non, E, and Pi
 	Pi Transcendental = "π"
 )
+
+func IsIdentifier(char string) Transcendental {
+	switch char {
+	case "ℯ":
+		return E
+	case "π":
+		return Pi
+	default:
+		return Non
+	}
+}

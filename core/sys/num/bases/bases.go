@@ -1,4 +1,4 @@
-package helpers
+package bases
 
 import (
 	"core/sys/atlas"
@@ -9,14 +9,85 @@ import (
 	"unicode"
 )
 
-// BinaryToDecimalString converts a binary input string to a base 10 string using the double-dabble method.
-func BinaryToDecimalString(s string) (string, error) {
+/**
+Public
+*/
+
+func StringToString(source string, sourceBase uint16, targetBase uint16) (string, uint) {
+	digits, negative := StringToDigits(source, sourceBase, targetBase)
+
+	out := make([]string, len(digits))
+	for i, d := range digits {
+		out[i] = fmt.Sprintf("%x", d)
+	}
+
+	if negative {
+		out = append([]string{"-"}, out...)
+	}
+
+	if targetBase > 16 {
+		return strings.Join(out, " "), uint(len(digits))
+	}
+	return strings.Join(out, ""), uint(len(digits))
+}
+
+func StringToDigits(source string, sourceBase uint16, targetBase uint16) ([]byte, bool) {
+	if sourceBase < 2 {
+		panic(fmt.Sprintf("invalid base: %d", sourceBase))
+	}
+	if sourceBase == 2 {
+		return decimalStringToBaseDigits(binaryStringToDecimalString(source), targetBase)
+	} else if sourceBase == 10 {
+		return decimalStringToBaseDigits(source, targetBase)
+	}
+	return decimalStringToBaseDigits(baseStringToDecimalString(source, sourceBase), targetBase)
+}
+
+func DigitsToString(source []byte, sourceBase uint16, targetBase uint16) (string, uint) {
+	digits := make([]string, len(source))
+
+	for i, d := range source {
+		digits[i] = fmt.Sprintf("%x", d)
+	}
+
+	var sourceStr string
+	if targetBase > 16 {
+		sourceStr = strings.Join(digits, " ")
+	} else {
+		sourceStr = strings.Join(digits, "")
+	}
+
+	return StringToString(sourceStr, sourceBase, targetBase)
+}
+
+func DigitsToDigits(source []byte, sourceBase uint16, targetBase uint16) ([]byte, bool) {
+	digits := make([]string, len(source))
+
+	for i, d := range source {
+		digits[i] = fmt.Sprintf("%x", d)
+	}
+
+	var sourceStr string
+	if targetBase > 16 {
+		sourceStr = strings.Join(digits, " ")
+	} else {
+		sourceStr = strings.Join(digits, "")
+	}
+	return StringToDigits(sourceStr, sourceBase, targetBase)
+}
+
+/**
+Private
+*/
+
+// binaryStringToDecimalString converts a binary input string to a base 10 string using the double-dabble method.
+func binaryStringToDecimalString(s string) string {
 	const base = 1_000_000_000 // 10^9, fits in uint32 with headroom for carries
 
 	// Preprocess: trim spaces, handle optional sign and 0b/0B prefix, ignore underscores.
 	s = strings.TrimSpace(s)
 	if s == "" {
-		return "", errors.New("empty input")
+		panic("empty input")
 	}
 
 	neg := false
@@ -31,7 +102,7 @@ func BinaryToDecimalString(s string) (string, error) {
 		s = s[2:]
 	}
 	if s == "" {
-		return "", errors.New("missing digits")
+		panic("missing digits")
 	}
 
 	// Decimal big-int digits in little-endian base 1e9.
@@ -47,7 +118,7 @@ func BinaryToDecimalString(s string) (string, error) {
 			continue
 		}
 		if r != '0' && r != '1' {
-			return "", fmt.Errorf("invalid binary digit: %q", r)
+			panic(fmt.Errorf("invalid binary digit: %q", r))
 		}
 		seenDigit = true
 		bit := uint64(r - '0')
@@ -65,7 +136,7 @@ func BinaryToDecimalString(s string) (string, error) {
 		}
 	}
 	if !seenDigit {
-		return "", errors.New("no binary digits found")
+		panic(errors.New("no binary digits found"))
 	}
 
 	// Convert decimal chunks to string.
@@ -84,7 +155,7 @@ func BinaryToDecimalString(s string) (string, error) {
 	if neg && out != "0" {
 		out = "-" + out
 	}
-	return out, nil
+	return out
 }
 
 // findPeriodic finds the periodic component of a num.Realized.  It deems a real is 'periodic' by
@@ -153,18 +224,18 @@ func findPeriodic(digits []byte) (pre, period []byte, repeats int) {
 	return pre, period, repeats
 }
 
-// DecimalToBaseDigits converts the input string to a byte slice of bases [2, 256].
+// decimalStringToBaseDigits converts the input string to a byte slice of bases [2, 256].
 //
 // NOTE: This expects a positive or negative integer value but allows whitespace and underscores.
-func DecimalToBaseDigits(s string, base uint16) (digits []byte, negative bool, err error) {
+func decimalStringToBaseDigits(s string, base uint16) (digits []byte, negative bool) {
 	if base < 2 || base > 256 {
-		return nil, false, errors.New("base must be in [2, 256]")
+		panic("base must be in [2, 256]")
 	}
 
 	// Trim and handle sign.
 	s = strings.TrimSpace(s)
 	if s == "" {
-		return nil, false, errors.New("empty input")
+		panic("empty input")
 	}
 	neg := false
 	switch s[0] {
@@ -186,11 +257,11 @@ func DecimalToBaseDigits(s string, base uint16) (digits []byte, negative bool, e
 		case c >= '0' && c <= '9':
 			buf = append(buf, c)
 		default:
-			return nil, false, errors.New("invalid character in decimal input")
+			panic("invalid character in decimal input")
 		}
 	}
 	if len(buf) == 0 {
-		return nil, false, errors.New("missing digits")
+		panic("missing digits")
 	}
 
 	// Strip leading zeros.
@@ -200,7 +271,7 @@ func DecimalToBaseDigits(s string, base uint16) (digits []byte, negative bool, e
 	}
 	if i == len(buf) {
 		// It's zero.
-		return []byte{0}, false, nil
+		return []byte{0}, false
 	}
 	dec := buf[i:]
 
@@ -234,10 +305,10 @@ func DecimalToBaseDigits(s string, base uint16) (digits []byte, negative bool, e
 		digitsLE = []byte{0}
 	}
 	isNeg := neg && !(len(digitsLE) == 1 && digitsLE[0] == 0)
-	return digitsLE, isNeg, nil
+	return digitsLE, isNeg
 }
 
-// BaseToDecimalString converts an input string in base [2,256] to a base-10 string.
+// baseStringToDecimalString converts an input string in base [2,256] to a base-10 string.
 //
 // Expectations:
 //   - Optional leading '+' or '-'.
@@ -245,17 +316,17 @@ func DecimalToBaseDigits(s string, base uint16) (digits []byte, negative bool, e
 //   - Base 17..256: whitespace-separated tokens; each token is exactly two hex characters (00..FF),
 //     and its value must be < base.
 //
-// NOTE: For base₂ conversion, BinaryToDecimalString is far more efficient =)
+// NOTE: For base₂ conversion, BinaryStringToDecimalString is far more efficient =)
 //
 // Returns: (decimalString, isNegative, error).
-func BaseToDecimalString(input string, base uint16) (string, bool, error) {
+func baseStringToDecimalString(input string, base uint16) string {
 	if base < 2 || base > 256 {
-		return "", false, errors.New("base must be in [2, 256]")
+		panic("base must be in [2, 256]")
 	}
 
 	s := strings.TrimSpace(input)
 	if s == "" {
-		return "", false, errors.New("empty input")
+		panic("empty input")
 	}
 
 	neg := false
@@ -267,13 +338,10 @@ func BaseToDecimalString(input string, base uint16) (string, bool, error) {
 		s = strings.TrimSpace(s[1:])
 	}
 	if s == "" {
-		return "", false, errors.New("missing digits")
+		panic("missing digits")
 	}
 
-	digits, err := parseDigitsWithHexBytes(s, base)
-	if err != nil {
-		return "", false, err
-	}
+	digits := parseDigitsWithHexBytes(s, base)
 
 	// Remove leading zeros in the digit sequence
 	i := 0
@@ -281,7 +349,7 @@ func BaseToDecimalString(input string, base uint16) (string, bool, error) {
 		i++
 	}
 	if i == len(digits) {
-		return "0", false, nil
+		return "0"
 	}
 	digits = digits[i:]
 
@@ -293,20 +361,23 @@ func BaseToDecimalString(input string, base uint16) (string, bool, error) {
 	}
 
 	if dec == "0" {
-		neg = false
+		return "0"
 	}
-	return dec, neg, nil
+	if neg {
+		return "-" + dec
+	}
+	return dec
 }
 
 // parseDigitsWithHexBytes parses digits according to the stated rules.
 // - Base <= 16: compact mode (0-9, A-F/a-F), underscores ignored, no internal whitespace.
 // - Base >= 17: tokenized mode; each token must be exactly two hex chars (00..FF), value < base.
-func parseDigitsWithHexBytes(s string, base uint16) ([]uint16, error) {
+func parseDigitsWithHexBytes(s string, base uint16) []uint16 {
 	if base <= 16 {
 		// Compact mode. Reject internal whitespace (outside of leading/trailing).
 		for _, r := range s {
 			if unicode.IsSpace(r) {
-				return nil, errors.New("whitespace-separated hex-byte tokens are only for bases > 16")
+				panic("whitespace-separated hex-byte tokens are only for bases > 16")
 			}
 		}
 		var out []uint16
@@ -316,23 +387,23 @@ func parseDigitsWithHexBytes(s string, base uint16) ([]uint16, error) {
 			}
 			v := hexCharToVal(r)
 			if v < 0 {
-				return nil, fmt.Errorf("invalid digit '%c' for base %d", r, base)
+				panic(fmt.Errorf("invalid digit '%c' for base %d", r, base))
 			}
 			if uint16(v) >= base {
-				return nil, fmt.Errorf("digit '%c' out of range for base %d", r, base)
+				panic(fmt.Errorf("digit '%c' out of range for base %d", r, base))
 			}
 			out = append(out, uint16(v))
 		}
 		if len(out) == 0 {
-			return nil, errors.New("missing digits")
+			panic("missing digits")
 		}
-		return out, nil
+		return out
 	}
 
 	// Tokenized hex-byte mode for bases 17..256.
 	fields := strings.Fields(s)
 	if len(fields) == 0 {
-		return nil, errors.New("missing digits")
+		panic("missing digits")
 	}
 	out := make([]uint16, len(fields))
 	for i, tok := range fields {
@@ -340,18 +411,18 @@ func parseDigitsWithHexBytes(s string, base uint16) ([]uint16, error) {
 			tok = "0" + tok
 		}
 		if len(tok) != 2 {
-			return nil, fmt.Errorf("token %q must be two hex characters", tok)
+			panic(fmt.Errorf("token %q must be two hex characters", tok))
 		}
 		val, err := parseHexByte(tok)
 		if err != nil {
-			return nil, fmt.Errorf("invalid hex-byte token %q: %w", tok, err)
+			panic(fmt.Errorf("invalid hex-byte token %q: %w", tok, err))
 		}
 		if uint16(val) >= base {
-			return nil, fmt.Errorf("digit %02x out of range for base %d", val, base)
+			panic(fmt.Errorf("digit %02x out of range for base %d", val, base))
 		}
 		out[i] = uint16(val)
 	}
-	return out, nil
+	return out
 }
 
 // hexCharToVal returns 0..15 for hex chars, else -1.
