@@ -6,9 +6,9 @@ package see
 
 A neuron is any impulsable type that can reveal a number - abstractly speaking!  A neuron must provide two methods:
 
-	type Neuron[T any] interface {
+	type Neuron interface {
 	  Impulse()
-	  Reveal() T
+	  Reveal() any
 	}
 
 𝐼𝑚𝑝𝑢𝑙𝑠𝑒() and 𝑅𝑒𝑣𝑒𝑎𝑙() both spark the underlying neurological action, but 𝑅𝑒𝑣𝑒𝑎𝑙() typically invokes a sequential step beyond
