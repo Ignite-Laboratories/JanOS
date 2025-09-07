@@ -31,23 +31,17 @@ type Measurement struct {
 // ToNaturalString takes the current value of the measurement and outputs it as a baseₙ string.  If no base is
 // provided, base₁₀ is implied.  This also returns the number of digits embedded within the output string.
 func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
-	b := uint16(10)
-	if len(base) > 0 {
-		b = base[0]
-	}
+	b := PanicIfInvalidBase(base...)
 
 	return bases.StringToString(a.String(), 2, b)
 }
 
 // ToNaturalDigits takes the current value of the measurement and outputs it as baseₙ bytes.  If no base is
 // provided, base₁₀ is implied.
-func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
-	b := uint16(10)
-	if len(base) > 0 {
-		b = base[0]
-	}
+func (a Measurement) ToNaturalDigits(base ...uint16) []bases.Digit {
+	b := PanicIfInvalidBase(base...)
 
-	digits, _ := bases.StringToDigits(a.String(), 2, b)
+	digits, _ := bases.StringToDigits[bases.Digit](a.String(), 2, b)
 	return digits
 }
 
@@ -56,10 +50,7 @@ func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
 //
 // NOTE: If given a signed value, the sign is ignored.
 func (a Measurement) NewMeasurementFromBaseString(s string, base ...uint16) Measurement {
-	b := uint16(10)
-	if len(base) > 0 {
-		b = base[0]
-	}
+	b := PanicIfInvalidBase(base...)
 
 	binary, _ := bases.StringToString(s, b, 2)
 	return NewMeasurementOfBinaryString(binary)

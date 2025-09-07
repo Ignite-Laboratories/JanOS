@@ -18,7 +18,7 @@ func StringToString(source string, sourceBase uint16, targetBase uint16) (string
 
 	out := make([]string, len(digits))
 	for i, d := range digits {
-		out[i] = fmt.Sprintf("%x", d)
+		out[i] = d.String()
 	}
 
 	if negative {
@@ -31,7 +31,7 @@ func StringToString(source string, sourceBase uint16, targetBase uint16) (string
 	return strings.Join(out, ""), uint(len(digits))
 }
 
-func StringToDigits(source string, sourceBase uint16, targetBase uint16) ([]byte, bool) {
+func StringToDigits(source string, sourceBase uint16, targetBase uint16) ([]Digit, bool) {
 	if sourceBase < 2 {
 		panic(fmt.Sprintf("invalid base: %d", sourceBase))
 	}
@@ -43,11 +43,11 @@ func StringToDigits(source string, sourceBase uint16, targetBase uint16) ([]byte
 	return decimalStringToBaseDigits(baseStringToDecimalString(source, sourceBase), targetBase)
 }
 
-func DigitsToString(source []byte, sourceBase uint16, targetBase uint16) (string, uint) {
+func DigitsToString(source []Digit, sourceBase uint16, targetBase uint16) (string, uint) {
 	digits := make([]string, len(source))
 
 	for i, d := range source {
-		digits[i] = fmt.Sprintf("%x", d)
+		digits[i] = d.String()
 	}
 
 	var sourceStr string
@@ -60,11 +60,11 @@ func DigitsToString(source []byte, sourceBase uint16, targetBase uint16) (string
 	return StringToString(sourceStr, sourceBase, targetBase)
 }
 
-func DigitsToDigits(source []byte, sourceBase uint16, targetBase uint16) ([]byte, bool) {
+func DigitsToDigits(source []Digit, sourceBase uint16, targetBase uint16) ([]Digit, bool) {
 	digits := make([]string, len(source))
 
 	for i, d := range source {
-		digits[i] = fmt.Sprintf("%x", d)
+		digits[i] = d.String()
 	}
 
 	var sourceStr string
@@ -227,7 +227,7 @@ func findPeriodic(digits []byte) (pre, period []byte, repeats int) {
 // decimalStringToBaseDigits converts the input string to a byte slice of bases [2, 256].
 //
 // NOTE: This expects a positive or negative integer value but allows whitespace and underscores.
-func decimalStringToBaseDigits(s string, base uint16) (digits []byte, negative bool) {
+func decimalStringToBaseDigits(s string, base uint16) (digits []Digit, negative bool) {
 	if base < 2 || base > 256 {
 		panic("base must be in [2, 256]")
 	}
@@ -248,14 +248,14 @@ func decimalStringToBaseDigits(s string, base uint16) (digits []byte, negative b
 	s = strings.TrimSpace(s)
 
 	// Clean input: keep only '0'..'9', ignore underscores/spaces.
-	buf := make([]byte, 0, len(s))
+	buf := make([]Digit, 0, len(s))
 	for i := 0; i < len(s); i++ {
 		c := s[i]
 		switch {
 		case c == '_' || c == ' ' || c == '\t' || c == '\n' || c == '\r':
 			continue
 		case c >= '0' && c <= '9':
-			buf = append(buf, c)
+			buf = append(buf, Digit(c))
 		default:
 			panic("invalid character in decimal input")
 		}
@@ -271,28 +271,28 @@ func decimalStringToBaseDigits(s string, base uint16) (digits []byte, negative b
 	}
 	if i == len(buf) {
 		// It's zero.
-		return []byte{0}, false
+		return []Digit{0}, false
 	}
 	dec := buf[i:]
 
 	// Repeated long-division by 'base', collecting remainders.
 	// Each pass: dec (base-10) -> quotient (base-10), remainder in [0, base-1].
-	var digitsLE []byte
+	var digitsLE []Digit
 	for !(len(dec) == 1 && dec[0] == '0') {
 		var carry uint32 = 0
-		quot := make([]byte, 0, len(dec))
+		quot := make([]Digit, 0, len(dec))
 		for k := 0; k < len(dec); k++ {
 			val := carry*10 + uint32(dec[k]-'0') // remainder*10 + next digit
 			qd := val / uint32(base)
 			carry = val % uint32(base)
 			if len(quot) > 0 || qd > 0 {
-				quot = append(quot, byte('0'+qd))
+				quot = append(quot, Digit('0'+qd))
 			}
 		}
 		if len(quot) == 0 {
-			quot = []byte{'0'}
+			quot = []Digit{'0'}
 		}
-		digitsLE = append(digitsLE, byte(carry)) // remainder is a digit in target base
+		digitsLE = append(digitsLE, Digit(carry)) // remainder is a digit in target base
 		dec = quot
 	}
 
@@ -302,7 +302,7 @@ func decimalStringToBaseDigits(s string, base uint16) (digits []byte, negative b
 	}
 	// If the number is zero, strip any leading zeros to canonical [0].
 	if len(digitsLE) == 0 {
-		digitsLE = []byte{0}
+		digitsLE = []Digit{0}
 	}
 	isNeg := neg && !(len(digitsLE) == 1 && digitsLE[0] == 0)
 	return digitsLE, isNeg

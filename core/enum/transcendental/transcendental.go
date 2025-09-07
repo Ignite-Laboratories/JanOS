@@ -1,33 +1,33 @@
 package transcendental
 
-// Transcendental represents a transcendental number, which is a value precalculated to atlas.Precision placeholder
+// Number represents a transcendental number, which is a value precalculated to atlas.Precision placeholder
 // width - allowing 𝑡𝑖𝑛𝑦 to efficiently store very large commonly used numbers without each Real holding a copy of
 // all digits.
 //
 // See Non, E, and Pi
-type Transcendental string
+type Number string
 
 const (
-	// Transcendental represents a transcendental number, which is a value identified as known to atlas.Precision
+	// Number represents a transcendental number, which is a value identified as known to atlas.Precision
 	// width - allowing 𝑡𝑖𝑛𝑦 to efficiently store very large commonly used numbers.
 	//
 	// See Non, E, and Pi
-	Non Transcendental = ""
+	Non Number = ""
 
-	// Transcendental represents a transcendental number, which is a value identified as known to atlas.Precision
+	// Number represents a transcendental number, which is a value identified as known to atlas.Precision
 	// width - allowing 𝑡𝑖𝑛𝑦 to efficiently store very large commonly used numbers.
 	//
 	// See Non, E, and Pi
-	E Transcendental = "ℯ"
+	E Number = "ℯ"
 
-	// Transcendental represents a transcendental number, which is a value identified as known to atlas.Precision
+	// Number represents a transcendental number, which is a value identified as known to atlas.Precision
 	// width - allowing 𝑡𝑖𝑛𝑦 to efficiently store very large commonly used numbers.
 	//
 	// See Non, E, and Pi
-	Pi Transcendental = "π"
+	Pi Number = "π"
 )
 
-func IsIdentifier(char string) Transcendental {
+func IsIdentifier(char string) Number {
 	switch char {
 	case "ℯ":
 		return E

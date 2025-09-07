@@ -15,7 +15,7 @@ const strInf = "Inf"
 // between traditional and raster-based computational arithmetic.  If you accept this interface level, you
 // must be able to parse 'any' input into a logical number.
 type Advanced interface {
-	Primitive | complex64 | complex128 | Natural | Realized
+	Primitive | complex64 | complex128 | Natural | Realized | string
 }
 
 // Primitive represents any general primitive Numeric-compatible type.  These retain the standard mathematical operators,
@@ -109,6 +109,8 @@ func ToStringAligned(operands ...any) []string {
 func ToString(value any) string {
 	var out string
 	switch typed := value.(type) {
+	case string:
+		return typed
 	case Natural:
 		return typed.String()
 	case Realized:
@@ -155,4 +157,20 @@ func ToString(value any) string {
 		}
 	}
 	return out
+}
+
+/*
+Error messages
+*/
+
+// PanicIfInvalidBase will return base₁₀ if no input is provided, or panic if it's not in the closed set [base₂, base₂₅₆]
+func PanicIfInvalidBase(base ...uint16) uint16 {
+	b := uint16(10)
+	if len(base) == 0 {
+		if base[0] < 2 || base[0] > 256 {
+			panic(fmt.Errorf("invalid base '%d' - must be between 2 and 256", base[0]))
+		}
+		b = base[0]
+	}
+	return b
 }
