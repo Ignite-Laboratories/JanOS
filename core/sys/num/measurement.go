@@ -3,7 +3,6 @@ package num
 import (
 	"core/enum/direction/ordinal"
 	"core/enum/endian"
-	"core/sys/num/bases"
 	"core/sys/support"
 	"fmt"
 	"strings"
@@ -33,15 +32,15 @@ type Measurement struct {
 func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 	b := PanicIfInvalidBase(base...)
 
-	return bases.StringToString(a.String(), 2, b)
+	return Base.StringToString(a.String(), 2, b)
 }
 
 // ToNaturalDigits takes the current value of the measurement and outputs it as baseₙ bytes.  If no base is
 // provided, base₁₀ is implied.
-func (a Measurement) ToNaturalDigits(base ...uint16) []bases.Digit {
+func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
 	b := PanicIfInvalidBase(base...)
 
-	digits, _ := bases.StringToDigits[bases.Digit](a.String(), 2, b)
+	digits, _ := Base.StringToDigits(a.String(), 2, b)
 	return digits
 }
 
@@ -52,7 +51,7 @@ func (a Measurement) ToNaturalDigits(base ...uint16) []bases.Digit {
 func (a Measurement) NewMeasurementFromBaseString(s string, base ...uint16) Measurement {
 	b := PanicIfInvalidBase(base...)
 
-	binary, _ := bases.StringToString(s, b, 2)
+	binary, _ := Base.StringToString(s, b, 2)
 	return NewMeasurementOfBinaryString(binary)
 }
 

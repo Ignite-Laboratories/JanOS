@@ -93,6 +93,12 @@ Several key points should be identified:
 
 3. The constant transcendentals, such as Pi and Euler's number, will appear automatically when your value happens to match a cached constant value of each.
 
+4. Irrationals and periodics are always printed to AT LEAST atlas.PrecisionMinimum.
+
+That last point is extremely crucial!  If calculating "π + 1.25", you probably don't need (or intend) to go to the full atlas.Precision!  Thus, unless you
+specifically pass precision into your calculation, 𝑡𝑖𝑛𝑦 will automatically round-off these computed values to atlas.PrecisionMinimum if the other operands
+are less wide.  Don't worry, it's as easy as passing `&atlas.Precision` into your calculation if you explicitly require full width calculation at all times =)
+
 # Print Operations
 
 The next operation 𝑡𝑖𝑛𝑦 affords are 𝑃𝑟𝑖𝑛𝑡() operations.  These act just as the 𝑆𝑡𝑟𝑖𝑛𝑔() operations, except they allow you

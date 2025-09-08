@@ -2,21 +2,18 @@ package num
 
 import (
 	"core/enum/direction/ordinal"
+	"core/sys/atlas"
 	"core/sys/pad"
 	"core/sys/pad/scheme"
 	"fmt"
+	"math/big"
 	"strconv"
 )
 
 const strNaN = "NaN"
 const strInf = "Inf"
 
-// Advanced represents any Numeric-compatible type, including Primitive types.  This interface acts as a bridge
-// between traditional and raster-based computational arithmetic.  If you accept this interface level, you
-// must be able to parse 'any' input into a logical number.
-type Advanced interface {
-	Primitive | complex64 | complex128 | Natural | Realized | string
-}
+var NaturalZero = ParseNatural("0")
 
 // Primitive represents any general primitive Numeric-compatible type.  These retain the standard mathematical operators,
 // whereas Advanced numerics describe their own methods for standard arithmetic operations.
@@ -35,8 +32,7 @@ func TypeAssert[TOut Primitive](value any) TOut {
 	switch typed := value.(type) {
 	case uint, uint8, uint16, uint32, uint64, uintptr,
 		int, int8, int16, int32, int64,
-		float32, float64,
-		complex64, complex128:
+		float32, float64:
 		return typed.(TOut)
 	}
 	panic("cannot cast non-primitive types")
@@ -111,10 +107,18 @@ func ToString(value any) string {
 	switch typed := value.(type) {
 	case string:
 		return typed
+	case Measurement:
+		return typed.String()
 	case Natural:
+		return typed.String()
+	case Realization:
 		return typed.String()
 	case Realized:
 		return typed.String()
+	case *big.Int:
+		return typed.Text(10)
+	case *big.Float:
+		return typed.Text('f', int(atlas.Precision))
 	case float32:
 		out = strconv.FormatFloat(float64(typed), 'f', -1, 32)
 	case float64:

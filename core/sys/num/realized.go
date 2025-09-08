@@ -1,16 +1,15 @@
 package num
 
 import (
-	"core/enum/transcendental"
 	"core/sys/atlas"
-	"core/sys/num/bases"
-	"fmt"
-	"math"
+	"core/sys/num/internal"
 	"strings"
 	"sync"
 )
 
 // A Realized number is one generated through the execution of a neural pathway.  see.RealizedNumbers
+//
+// To create a Realized number, please use one of the following methods:
 //
 // ParseRealized - Creates a static realized number.
 //
@@ -18,24 +17,29 @@ import (
 type Realized struct {
 	gate sync.Mutex
 
-	transcendental transcendental.Number
+	Identity string
 
-	irrational    bool
-	Negative      bool
-	whole         Natural
-	fractional    Natural
-	periodicWidth uint
+	irrational bool
+	Negative   bool
+	whole      Natural
+	fractional Natural
+	periodic   Natural
 
-	revelation func(Realization) Realization
+	revelation func(Realization, uint16, uint) Realization
 	potential  func() bool
 
-	precision *uint
-	base      uint16
+	precision       *uint
+	_precisionStale bool
+	_precisionNew   *uint
+
+	base       uint16
+	_baseStale bool
+	_baseNew   uint16
 
 	created bool
 }
 
-// ParseRealized - Creates a static realized number from an advanced operand, which includes 'string'.
+// ParseRealized - Creates a static realized number from an advanced operand - including 'string'.
 //
 // Primitive operands:
 //
@@ -45,48 +49,23 @@ type Realized struct {
 //
 //	string - the operand must be encoded in the provided base value (or base₁₀ if omitted)
 //	Natural - sets the whole part and base of the realized number (or base₁₀ if omitted)
-//	Realized - sets the whole and fractional part and changes it to the provided base (or base₁₀ if omitted)
-//	complex64 or complex128 - this will panic, as a realized number cannot describe a complex number
+//	Realized - sets all the parts and assigns the number to the provided base (or base₁₀ if omitted)
 //
 // NOTE: Parse operations do not incorporate the underlying action potential of the provided operand.
 //
 // For dynamic number generation, see NewRealized
-func ParseRealized[T Advanced](operand T, base ...uint16) Realized {
+func ParseRealized(operand any, base ...uint16) Realized {
 	b := PanicIfInvalidBase(base[0])
+	op := ToString(filterOperands(b, operand)[0])
 
-	switch raw := any(operand).(type) {
-	case uint, uint8, uint16, uint32, uint64, uintptr,
-		int, int8, int16, int32, int64,
-		Natural, Realized, string:
-	case float32:
-		if math.IsInf(float64(raw), 0) {
-			panic(fmt.Sprintf("cannot create a Realized from an Inf valued %T", raw))
-		}
-		if math.IsNaN(float64(raw)) {
-			panic(fmt.Sprintf("cannot create a Realized from an NaN valued %T", raw))
-		}
-	case float64:
-		if math.IsInf(raw, 0) {
-			panic(fmt.Sprintf("cannot create a Realized from an Inf valued %T", raw))
-		}
-		if math.IsNaN(raw) {
-			panic(fmt.Sprintf("cannot create a Realized from an NaN valued %T", raw))
-		}
-	default:
-		panic(fmt.Sprintf("cannot create a Realized from type %T", raw))
-	}
-
-	return parseRealized(ToString(operand), b)
-}
-
-func parseRealized(source string, base uint16) Realized {
-	if len(source) == 0 {
+	if len(op) == 0 {
 		return Realized{
 			irrational: false,
 			Negative:   false,
-			whole:      ParseNatural("0"),
-			fractional: ParseNatural("0"),
-			base:       base,
+			whole:      NaturalZero,
+			fractional: NaturalZero,
+			periodic:   NaturalZero,
+			base:       b,
 			precision:  &atlas.Precision,
 			created:    true,
 		}
@@ -94,57 +73,48 @@ func parseRealized(source string, base uint16) Realized {
 
 	negative := false
 	irrational := false
-	if source[0] == '~' {
+	if op[0] == '~' {
 		irrational = true
-		source = source[1:]
+		op = op[1:]
 	}
-	if source[0] == ' ' {
-		source = source[1:]
+	if op[0] == ' ' {
+		op = op[1:]
 	}
-	if source[0] == '-' {
+	if op[0] == '-' {
 		negative = true
-		source = source[1:]
+		op = op[1:]
 	}
-	if source[0] == ' ' {
-		source = source[1:]
-	}
-
-	t := transcendental.IsIdentifier(string(source[0]))
-	if t != transcendental.Non {
-		r := Transcendental.From(base, t)
-		r.Negative = negative
-		r.created = true
-		return r
+	if op[0] == ' ' {
+		op = op[1:]
 	}
 
 	var digits []string
-	if base > 16 {
-		digits = strings.Split(source, " ")
+	if b > 16 {
+		digits = strings.Split(op, " ")
 	} else {
-		digits = strings.Split(source, "")
+		digits = strings.Split(op, "")
 	}
 
 	var wholeDigits []string
 	var fractionalDigits []string
+	var periodicDigits []string
 
 	isWholePart := true
-	startCount := false
-	periodicWidth := uint(0)
+	isPeriodicPart := false
 	for i := 0; i < len(digits); i++ {
 		if digits[i] == "." {
 			isWholePart = false
 			continue
 		}
 		if digits[i] == "‾" {
-			startCount = true
+			isPeriodicPart = true
 			continue
 		}
 
-		if startCount {
-			periodicWidth++
-		}
 		if isWholePart {
 			wholeDigits = append(wholeDigits, digits[i])
+		} else if isPeriodicPart {
+			periodicDigits = append(periodicDigits, digits[i])
 		} else {
 			fractionalDigits = append(fractionalDigits, digits[i])
 		}
@@ -152,22 +122,25 @@ func parseRealized(source string, base uint16) Realized {
 
 	var wholePart string
 	var fractionalPart string
-	if base > 16 {
+	var periodicPart string
+	if b > 16 {
 		wholePart = strings.Join(wholeDigits, " ")
 		fractionalPart = strings.Join(fractionalDigits, " ")
+		periodicPart = strings.Join(periodicDigits, " ")
 	} else {
 		wholePart = strings.Join(wholeDigits, "")
 		fractionalPart = strings.Join(fractionalDigits, "")
+		periodicPart = strings.Join(periodicDigits, "")
 	}
 
 	return Realized{
-		irrational:    irrational,
-		Negative:      negative,
-		whole:         ParseNatural(wholePart, base),
-		fractional:    ParseNatural(fractionalPart, base),
-		periodicWidth: periodicWidth,
-		precision:     &atlas.Precision,
-		created:       true,
+		irrational: irrational,
+		Negative:   negative,
+		whole:      ParseNatural(wholePart, b),
+		fractional: ParseNatural(fractionalPart, b),
+		periodic:   ParseNatural(periodicPart, b),
+		precision:  &atlas.Precision,
+		created:    true,
 	}
 }
 
@@ -179,104 +152,109 @@ func parseRealized(source string, base uint16) Realized {
 // NOTE: If no base is provided, base₁₀ is implied.
 //
 // For static number generation, see ParseRealized.
-func NewRealized(action func(Realization) Realization, potential func() bool, base ...uint16) Realized {
+func NewRealized(action func(Realization, uint16, uint) Realization, potential func() bool, base ...uint16) Realized {
 	b := PanicIfInvalidBase(base[0])
+
 	return Realized{
-		whole:         ParseNatural("0", b),
-		fractional:    ParseNatural("0", b),
-		periodicWidth: 0,
-		precision:     &atlas.Precision,
-		revelation:    action,
-		potential:     potential,
-		base:          b,
-		created:       true,
+		whole:      NaturalZero,
+		fractional: NaturalZero,
+		periodic:   NaturalZero,
+		precision:  &atlas.Precision,
+		revelation: action,
+		potential:  potential,
+		base:       b,
+		created:    true,
 	}
 }
 
-func (r *Realized) sanityCheck() {
+func (r *Realized) SetAction(action func(Realization, uint16, uint) Realization) {
+	r.revelation = action
+}
+
+func (r *Realized) SetPotential(potential func() bool) {
+	r.potential = potential
+}
+
+func (r *Realized) sanityCheck(base ...uint16) uint16 {
 	if !r.created {
 		panic("this realized was not created through a constructor")
 	}
+	return PanicIfInvalidBase(base...)
 }
 
 func (r *Realized) realize() {
 	r.sanityCheck()
 
+	// Check for any changes to precision or base - last one in wins
+
+	if r._baseStale {
+		r.base = r._baseNew
+		r._baseStale = false
+	}
+	if r._precisionStale {
+		r.precision = r._precisionNew
+		r._precisionStale = false
+	}
+
 	// Self-realization! =)
 
+	whole, fractional, periodic := r.Digits()
 	self := r.revelation(Realization{
-		Irrational:    r.irrational,
-		Negative:      r.Negative,
-		Whole:         r.whole,
-		Fractional:    r.fractional,
-		periodicWidth: r.periodicWidth,
-	})
+		Irrational: r.irrational,
+		Negative:   r.Negative,
+		Whole:      whole,
+		Fractional: fractional,
+		Periodic:   periodic,
+	}, r.base, *r.precision)
 
-	r.irrational = self.Irrational
-	r.Negative = self.Negative
-	r.whole = self.Whole
-	r.fractional = self.Fractional
-	r.periodicWidth = self.periodicWidth
-}
+	// If the user indicates a periodic width but DIDN'T trim their fractional component, that's OKAY!
+	// We should allow that, as they are NOT expected to understand the inner workings of 𝑡𝑖𝑛𝑦 =)
 
-func (r *Realized) Digits() (whole []bases.Digit, fractional []bases.Digit) {
-	r.sanityCheck()
+	for func() bool {
+		if len(self.Fractional) > len(self.Periodic) {
+			last := self.Fractional[len(self.Fractional)-len(self.Periodic):]
 
-	// 0 - Get the digits
-	whole = r.whole.Digits()
-	fractional = r.fractional.Digits()
-
-	// 1 - Check if it's periodic
-	if r.periodicWidth > 0 {
-
-		// 2 - Run the digits out to precision width
-
-		periodic := fractional[len(fractional)-int(r.periodicWidth):]
-		delta := int(*r.precision) - len(fractional)
-		toAppend := make([]bases.Digit, delta)
-
-		ii := 0
-		for i := 0; i < delta; i++ {
-			toAppend[i] = periodic[ii]
-
-			ii++
-			if ii >= len(periodic) {
-				ii = 0
-			}
-		}
-
-		fractional = append(fractional, toAppend...)
-
-		// 3 - Backtrack to perform a round operation
-
-		keepRounding := false
-		for i := len(fractional) - 1; i >= 0; i-- {
-			fractional[i] = fractional[i].Increment(r.base)
-			if fractional[i] > 0 {
-				break
-			}
-			if i == 0 {
-				keepRounding = true
-			}
-		}
-
-		if keepRounding {
-			for i := len(whole) - 1; i >= 0; i-- {
-				whole[i] = whole[i].Increment(r.base)
-				if whole[i] > 0 {
+			match := true
+			for i, d := range last {
+				if self.Periodic[i] != d {
+					match = false
 					break
 				}
 			}
+			if match {
+				self.Fractional = self.Fractional[:len(self.Fractional)-len(self.Periodic)]
+				return true
+			}
 		}
+		return false
+	}() {
+		// ...
 	}
-	return whole, fractional
+
+	r.irrational = self.Irrational
+	r.Negative = self.Negative
+	r.whole = ParseNatural(self.Whole, r.base)
+	r.fractional = ParseNatural(self.Fractional, r.base)
+	r.periodic = ParseNatural(self.Periodic, r.base)
 }
 
-// Width returns the number of placeholders the whole and fractional parts require.
+func (r *Realized) Digits() (whole []byte, fractional []byte, periodic []byte) {
+	r.sanityCheck()
+
+	whole = r.whole.Digits(r.base)
+	fractional = r.fractional.Digits(r.base)
+	periodic = r.periodic.Digits(r.base)
+
+	return whole, fractional, periodic
+}
+
+// Width returns the number of calculated placeholders in the whole and fractional components.
+//
+// NOTE: For irrational or periodic values, this will return the stored precision for the fractional component.
 func (r *Realized) Width() (whole uint, fractional uint) {
 	r.sanityCheck()
 
-	if r.irrational || r.periodicWidth > 0 {
+	if r.irrational || len(r.periodic.String()) > 0 {
 		return uint(len(r.whole.Digits())), *r.precision
 	}
 	return uint(len(r.whole.Digits())), uint(len(r.fractional.Digits()))
@@ -306,7 +284,7 @@ func (r *Realized) Reveal() string {
 
 		r.realize()
 	}
-	return r.print()
+	return r.print(r.base)
 }
 
 // Precision "sets and/or gets" the precision of the Realized number.  If no precision is provided, this simply returns
@@ -314,17 +292,15 @@ func (r *Realized) Reveal() string {
 //
 // NOTE: precision is a reference value!
 //
-// In a neural architecture, calls like this do NOT guarantee you will see a change in the output =)
-//
-// For most operations, the pathways aren't gated beyond a call to when.Always - but, in a live system, the value
-// may not have another "revelation" until time has passed, or a condition has been met (for instance).
+// NOTE: This is a neural architecture - so setting the value does NOT guarantee it has actually picked up the change, yet.
 //
 // see.ActionPotentials, see.Neuron, and see.RealizedNumbers.
 func (r *Realized) Precision(precision ...*uint) uint {
 	r.sanityCheck()
 
 	if len(precision) > 0 {
-		r.precision = precision[0]
+		r._precisionNew = precision[0]
+		r._precisionStale = true
 		r.Impulse()
 	}
 	return *r.precision
@@ -333,19 +309,17 @@ func (r *Realized) Precision(precision ...*uint) uint {
 // Base "sets and/or gets" the base of the Realized number.  If no base is provided, this simply returns
 // the stored value - otherwise, this will set the base AND call Impulse (as the realized number must be re-realized).
 //
-// NOTE:
+// NOTE: The periodic nature of the number
 //
-// In a neural architecture, calls like this do NOT guarantee you will see a change in the output =)
-//
-// For most operations, the pathways aren't gated beyond a call to when.Always - but, in a live system, the value
-// may not have another "revelation" until time has passed, or a condition has been met (for instance).
+// NOTE: This is a neural architecture - so setting the value does NOT guarantee it has actually picked up the change, yet.
 //
 // see.ActionPotentials, see.Neuron, and see.RealizedNumbers.
 func (r *Realized) Base(base ...uint16) uint16 {
 	r.sanityCheck()
 
 	if len(base) > 0 {
-		r.base = PanicIfInvalidBase(base[0])
+		r._baseNew = PanicIfInvalidBase(base[0])
+		r._baseStale = true
 		r.Impulse()
 	}
 	return r.base
@@ -358,31 +332,107 @@ func (r *Realized) String() string {
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
 	defer r.gate.Unlock()
-	return r.print()
+	return r.print(r.base)
 }
 
 // Print - see.PrintingNumbers
 func (r *Realized) Print(base ...uint16) string {
-	r.sanityCheck()
+	b := r.sanityCheck(base...)
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
 	defer r.gate.Unlock()
-	return r.print(base...)
+	return r.print(b)
 }
 
 // Matrix - see.PrintingNumbers
-func (r *Realized) Matrix(whole, fractional uint) string {
+func (r *Realized) Matrix(whole, fractional uint, base ...uint16) string {
 	r.sanityCheck()
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
 	defer r.gate.Unlock()
+
+	w, f, p := r.Digits()
+
+	if whole < uint(len(w)) {
+		// Trim the whole part down, as they want a smaller matrix
+		delta := uint(len(w)) - whole
+		w = w[delta:]
+	} else {
+		// Pad the left of the whole part with 0s
+		delta := uint(len(w)) - whole
+		prepend := make([]byte, delta)
+		for i := uint(0); i < delta; i++ {
+			prepend[i] = byte(0)
+		}
+		w = append(prepend, w...)
+	}
+
+	if fractional < uint(len(f)) {
+		// Trim the fractional part down and return
+
+		return
+	}
+	// Otherwise, pad with zeros or periodic
+
+	wStr := make([]string, len(w))
+	for i, d := range w {
+		wStr[i] = internal.PrintDigit(d)
+	}
+
+	fStr := make([]string, len(f))
+	for i, d := range f {
+		fStr[i] = internal.PrintDigit(d)
+	}
+
+	pStr := make([]string, len(p))
+	for i, d := range p {
+		pStr[i] = internal.PrintDigit(d)
+	}
 	return ""
 }
 
 // print is a non-locked printing function.
-func (r *Realized) print(base ...uint16) string {
-	r.sanityCheck()
+func (r *Realized) print(base uint16) string {
+	var prefix []string
+	if r.irrational {
+		prefix = append(prefix, "~")
+	}
+	if r.Negative {
+		prefix = append(prefix, "-")
+	}
 
+	whole, fractional, periodic := r.Digits()
+
+	wholeStr := make([]string, len(whole))
+	for i, d := range whole {
+		wholeStr[i] = internal.PrintDigit(d)
+	}
+
+	fractionalStr := make([]string, len(fractional))
+	for i, d := range fractional {
+		fractionalStr[i] = internal.PrintDigit(d)
+	}
+
+	periodicStr := make([]string, len(periodic))
+	for i, d := range periodic {
+		periodicStr[i] = internal.PrintDigit(d)
+	}
+
+	components := append(prefix, wholeStr...)
+	if len(fractionalStr) > 0 || len(periodicStr) > 0 {
+		components = append(components, ".")
+		components = append(components, fractionalStr...)
+
+		if len(periodicStr) > 0 {
+			components = append(components, "‾")
+			components = append(components, periodicStr...)
+		}
+	}
+
+	if base > 16 {
+		return strings.Join(components, " ")
+	}
+	return strings.Join(components, "")
 }
