@@ -1,6 +1,7 @@
 package num
 
 import (
+	"core/std"
 	"core/sys/atlas"
 	"fmt"
 	"math"
@@ -82,6 +83,10 @@ func filterOperands(base uint16, operands ...any) []any {
 			return ToString(raw)
 		case *big.Float:
 			return ToString(raw)
+		case std.Neuron:
+			return raw.Reveal()
+		case *std.Neuron:
+			return (*raw).Reveal()
 		default:
 			rv := reflect.ValueOf(raw)
 			if !rv.IsValid() {
