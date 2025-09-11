@@ -56,7 +56,7 @@ type Realized struct {
 // For dynamic number generation, see NewRealized
 func ParseRealized(operand any, base ...uint16) Realized {
 	b := PanicIfInvalidBase(base[0])
-	op := ToString(filterOperands(b, operand)[0])
+	op := ToString(FilterOperands(b, operand)[0])
 
 	if len(op) == 0 {
 		return Realized{
@@ -147,12 +147,16 @@ func ParseRealized(operand any, base ...uint16) Realized {
 // NewRealized - Creates a dynamic realized number, which realizes it's value from the provided action potential functions.
 // see.ActionPotentials and see.RealizedNumbers
 //
+// For more details on the action, see Realized.SetAction()
+//
+// For more details on the potential, see Realized.SetPotential()
+//
 // NOTE: This does NOT impulse the action!
 //
 // NOTE: If no base is provided, base₁₀ is implied.
 //
 // For static number generation, see ParseRealized.
-func NewRealized(action func(Realization, uint16, uint) Realization, potential func() bool, base ...uint16) Realized {
+func NewRealized(action func(current Realization, base uint16, precision uint) Realization, potential func() bool, base ...uint16) Realized {
 	b := PanicIfInvalidBase(base[0])
 
 	return Realized{
@@ -167,10 +171,20 @@ func NewRealized(action func(Realization, uint16, uint) Realization, potential f
 	}
 }
 
-func (r *Realized) SetAction(action func(Realization, uint16, uint) Realization) {
+// SetAction sets the current revelation action, while SetPotential sets its potential function - see.ActionPotentials
+//
+// A realized number's action should take in the current realization, the base to produce a result in, and the placeholder
+// precision with which to calculate the result to.  It should output a result realization and an optional identity value.
+//
+// For example, if building a realization of π, you might choose to reveal the identity "π" during activation.
+func (r *Realized) SetAction(action func(current Realization, base uint16, precision uint) Realization) {
 	r.revelation = action
 }
 
+// SetPotential sets the current revelation potential, while SetAction sets its activation action.
+//
+// A potential is tested before a revelation can be fired to determine if the revelation should even
+// take place yet.  This should yield 'true' when a revelation should occur - see.ActionPotentials
 func (r *Realized) SetPotential(potential func() bool) {
 	r.potential = potential
 }
@@ -194,6 +208,10 @@ func (r *Realized) realize() {
 	if r._precisionStale {
 		r.precision = r._precisionNew
 		r._precisionStale = false
+	}
+
+	if r.revelation == nil {
+		return
 	}
 
 	// Self-realization! =)
@@ -264,7 +282,7 @@ func (r *Realized) Width() (whole uint, fractional uint) {
 func (r *Realized) Impulse() {
 	r.sanityCheck()
 
-	if r.potential() {
+	if r.potential != nil && r.potential() {
 		r.gate.Lock()
 		defer r.gate.Unlock()
 
@@ -278,7 +296,7 @@ func (r *Realized) Reveal() string {
 	r.sanityCheck()
 
 	// NOTE: This intentionally locks for the entire operation and cannot be replaced with a call to Impulse()
-	if r.potential() {
+	if r.potential != nil && r.potential() {
 		r.gate.Lock()
 		defer r.gate.Unlock()
 

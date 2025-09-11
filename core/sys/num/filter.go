@@ -1,7 +1,6 @@
 package num
 
 import (
-	"core/std"
 	"core/sys/atlas"
 	"fmt"
 	"math"
@@ -10,7 +9,7 @@ import (
 	"strings"
 )
 
-// filterOperands filters the provided operands into processable types.  If provided a type that does not
+// FilterOperands filters the provided operands into processable types.  If provided a type that does not
 // satisfy the following requirements, this will panic -
 //
 //	0 - int, int8, int16, int32, int64 - Calls ToString
@@ -32,9 +31,9 @@ import (
 //	12 - Functions which return functions that satisfy the above functional requirements
 //
 // For function calls and pointer types, this will RESOLVE the underlying value they 'point' to by dereferencing
-// or invoking the operand until reaching the underlying value.  If you close over this function call, you dynamically
+// or invoking the operand until reaching its result.  If you close over this function call, you dynamically
 // encode in that functionality 'on the fly' to your code =)
-func filterOperands(base uint16, operands ...any) []any {
+func FilterOperands(base uint16, operands ...any) []any {
 	var filter func(any) any
 	filter = func(op any) any {
 		switch raw := op.(type) {
@@ -83,10 +82,6 @@ func filterOperands(base uint16, operands ...any) []any {
 			return ToString(raw)
 		case *big.Float:
 			return ToString(raw)
-		case std.Neuron:
-			return raw.Reveal()
-		case *std.Neuron:
-			return (*raw).Reveal()
 		default:
 			rv := reflect.ValueOf(raw)
 			if !rv.IsValid() {

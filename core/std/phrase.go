@@ -250,7 +250,7 @@ func (a Phrase) StringPretty() string {
 
 	totalSize := 4 + (len(a.Data)-1)*3
 	for _, m := range a.Data {
-		totalSize += int(m.BitWidth()) * 2 // ← Approximately account for Measurement's StringPretty() spacing
+		totalSize += int(m.BitWidth()) * 2 // ← Approximately account for Measurement's Print() spacing
 	}
 
 	builder := strings.Builder{}
@@ -258,11 +258,11 @@ func (a Phrase) StringPretty() string {
 
 	builder.WriteString("| ")
 
-	builder.WriteString(a.Data[0].StringPretty())
+	builder.WriteString(a.Data[0].Print())
 
 	for _, m := range a.Data[1:] {
 		builder.WriteString(" - ")
-		builder.WriteString(m.StringPretty())
+		builder.WriteString(m.Print())
 	}
 
 	builder.WriteString(" | ")

@@ -101,7 +101,7 @@ func ToStringAligned(operands ...any) []string {
 //
 // NOTE: If provided a num.Realized, this will print the output using Realized.StringRaw, rather than Real.String
 //
-// NOTE: This will panic if provided a non Numeric-compatible type.
+// NOTE: This will panic if provided a non Numeric type.
 func ToString(value any) string {
 	var out string
 	switch typed := value.(type) {
@@ -110,15 +110,17 @@ func ToString(value any) string {
 	case Measurement:
 		return typed.String()
 	case Natural:
-		return typed.String()
+		return typed.Print()
 	case Realization:
 		return typed.String()
 	case Realized:
-		return typed.String()
+		return typed.Print(typed.base)
 	case *big.Int:
 		return typed.Text(10)
 	case *big.Float:
 		return typed.Text('f', int(atlas.Precision))
+	case complex64, complex128:
+		return fmt.Sprintf("%v", typed)
 	case float32:
 		out = strconv.FormatFloat(float64(typed), 'f', -1, 32)
 	case float64:
@@ -145,10 +147,8 @@ func ToString(value any) string {
 		out = strconv.FormatInt(int64(typed), 10)
 	case int64:
 		out = strconv.FormatInt(typed, 10)
-	case complex64, complex128:
-		return fmt.Sprintf("%v", typed)
 	default:
-		panic("cannot compare non-numeric types")
+		panic("cannot string non-numeric types")
 	}
 
 	// Ensure the data is never '.5' or '5.'

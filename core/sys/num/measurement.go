@@ -387,9 +387,9 @@ func (a Measurement) String() string {
 	return builder.String()
 }
 
-// StringPretty returns a measurement-formatted string of the current binary information. Measurements
+// Print returns a measurement-formatted string of the current binary information. Measurements
 // are simply formatted with a single space between digits.
-func (a Measurement) StringPretty() string {
+func (a Measurement) Print() string {
 	bits := a.GetAllBits()
 
 	if len(bits) == 0 {

@@ -25,7 +25,7 @@ type Natural struct {
 //	complex64 or complex128 - this will panic, as a natural number cannot describe a complex number
 func ParseNatural(operand any, base ...uint16) Natural {
 	b := PanicIfInvalidBase(base[0])
-	op := ToString(filterOperands(b, operand)[0])
+	op := ToString(FilterOperands(b, operand)[0])
 
 	if len(op) == 0 {
 		return Natural{NewMeasurement()}
