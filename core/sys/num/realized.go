@@ -350,21 +350,29 @@ func (r *Realized) String() string {
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
 	defer r.gate.Unlock()
-	return r.print(r.base)
+	return r.print(-1, true, r.base)
 }
 
 // Print - see.PrintingNumbers
-func (r *Realized) Print(base uint16, precision ...uint) string {
-	b := r.sanityCheck(base)
+//
+// To print your value to whatever precision it's currently calculated out to, please use a fractionalWidth of '-1'.
+// Otherwise, fractionalWidth will round the fractional part of your number early, or right pad it with zeros to width.
+func (r *Realized) Print(fractionalWidth int, base ...uint16) string {
+	b := r.sanityCheck(base...)
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
 	defer r.gate.Unlock()
-	return r.print(b)
+	return r.print(fractionalWidth, false, b)
 }
 
 // Matrix - see.PrintingNumbers
-func (r *Realized) Matrix(base uint16, precision uint, operands ...any) string {
+//
+// When "matrixing" operands together, their whole parts are each left-padded with zeros to the widest operand's
+// whole-part width.  The fractional part can either follow the same logic (using a fractionalWidth of '-1') or
+// be explicitly defined.  As with Print operations, if setting a fractionalWidth other than -1, the fractional
+// component will either be rounded early or right-padded with zeros to the desired width.
+func (r *Realized) Matrix(fractionalWidth int, operands ...any) string {
 	r.sanityCheck()
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
@@ -412,7 +420,7 @@ func (r *Realized) Matrix(base uint16, precision uint, operands ...any) string {
 }
 
 // print is a non-locked printing function.
-func (r *Realized) print(base uint16) string {
+func (r *Realized) print(fractionalWidth int, truncateIrrationals bool, base uint16) string {
 	var prefix []string
 	if r.irrational {
 		prefix = append(prefix, "~")

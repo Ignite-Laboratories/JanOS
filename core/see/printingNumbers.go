@@ -7,7 +7,7 @@ package see
 In the context of 𝑡𝑖𝑛𝑦, printing refers to either the output of a number OR the output of a binary measurement
 and/or phrase.  This document covers printing numbers.  For binary, see.PrintingBinary
 
-# Numbers
+# Printing Operations
 
 In short, there are two kinds of numbers in 𝑡𝑖𝑛𝑦 - the Natural and the Realized.  Both of these offer three operations:
 
@@ -15,21 +15,50 @@ In short, there are two kinds of numbers in 𝑡𝑖𝑛𝑦 - the Natural and t
 	𝑃𝑟𝑖𝑛𝑡()  - Outputs the data in human-legible form as any base
 	𝑀𝑎𝑡𝑟𝑖𝑥() - Outputs the data in well-aligned and machine-legible form for matrix operations
 
-For example, let's look at the three variants of outputting an irrational (π), periodic (𝑥), and static (𝑦) number:
+For example, let's look at the three variants of outputting four unique types:
 
-	 "π"             ← π.String()
-	"22.‾2"          ← 𝑥.String()
-	 "1"             ← 𝑦.String()
+	 π - An identified irrational
+	√3 - An unidentified irrational calculation
+	 𝑥 - A periodic [77.7777...]
+	 𝑦 - A static number [1]
 
-	"~3.1415927"     ← π.Print(10) (base₁₀ to atlas.PrecisionMinimum, default 7)
-	"22.‾2"          ← 𝑥.Print(10)
-	 "1"             ← 𝑦.Print(10)
+First, we have the general 𝑆𝑡𝑟𝑖𝑛𝑔() operation:
 
-	"03.14159265359"
+	  ⬐ "Print the operand in the most concise form, please"
+	 "π"             ←  π.String()
+	"~1.7320508"     ← √3.String() NOTE: Irrationals string to atlas.PrecisionMinimum - default 7
+	"77.‾7"          ←  𝑥.String()
+	 "1"             ←  𝑦.String()
+
+Second, we have the 𝑃𝑟𝑖𝑛𝑡() operation:
+
+	  ⬐ "Print the operand to 11 fractional places (and optionally in base₁₀), please"
+	"~3.14159265359" ← π.Print(11, [10])
+	"~1.73205080757" ← √3.Print(11, [10])
+	"77.77777777778" ← 𝑥.Print(11, [10])
+	 "1.00000000000" ← 𝑦.Print(11, [10])
+
+	NOTE: If you'd like to print whatever width has already been calculated, use a width of '-1'
+
+Lastly, we have the 𝑀𝑎𝑡𝑟𝑖𝑥() operation:
+
+	  ⬐ "Print the operands √3, 𝑥, and 𝑦 as a matrix aligned against π to 11 places in base₁₀, please"
+	"01.73205080757"
 	"22.22222222222"
-	"01.00000000000" ← π.Matrix(10, 11, 𝑥, 𝑦) (base₁₀ to 11 fractional placeholders against 𝑥 and 𝑦)
+	"01.00000000000"
+	"03.14159265359" ← π.Matrix(11, 10, √3, 𝑥, 𝑦)
 
-The output of each will treat every placeholder as a hexadecimal number.  This is because 𝑡𝑖𝑛𝑦 stores all numbers in
+	NOTE: Using a width of -1 aligns to the width of the widest fractional operand's current calculation
+
+Print operations explicitly allow you to render a number to a specified precision and/or base.  Matrix operations
+do so while aligning the operands relatively to one another.  There is an important, but subtle, feature of matrix
+operations: they are aligned -against- a specific operand!  When doing so, the anchoring operand is referred to as
+the matrix's 'solution' - as its output in the final row.  When performing arithmetic, 𝑡𝑖𝑛𝑦 uses this feature heavily
+to "pre-allocate" a solution row against the provided operands.
+
+# Bases
+
+The output text treats every placeholder as a hexadecimal number.  This is because 𝑡𝑖𝑛𝑦 stores all numbers in
 base₂ (for multiple reasons - but, mostly, to make the binary synthesis infinitely easier).  In doing so, the very
 act of naïve calculation against a matrix forces each bit to occupy a full byte of memory in Go (at least, during
 calculation.) Rather than fight this, we use it to our advantage!  A byte affords us a 'placeholder' from base₂
@@ -38,9 +67,9 @@ in hexadecimal form for -all- digit values, through a standardized convention:
 
   0. For base₁₆ and below, every digit is a single-character hexadecimal value.
   1. For base₁₇ and above, every digit is a two-character hexadecimal value.
-  2. For base₁₇ and above, every single component (including [~-.‾] characters) is spaced with whitespace.
+  2. For base₁₇ and above, every single position, including [~-.‾], is spaced with whitespace.
 
-# String Operations
+# String Operations In Depth
 
 Let's take a look at the simplest 𝑡𝑖𝑛𝑦 type - the Natural.  As its name implies, the natural describes a 'natural
 number' - or any positive whole countable number, INCLUDING zero. [ Briefly - I'd like to note that the higher order bases
@@ -58,7 +87,7 @@ back to printing numbers!
 	 "02 08" ← base₁₇
 	 "01 14" ← base₂₂
 
-[ I should note, 42 coincidentally has a beautiful "candy-striped" binary pattern ]
+[ I should note, 42 coincidentally has a beautiful "candy-striped" binary pattern =) ]
 
 Next, from the natural, we have the "realized number."  A realized number, in essence, is a "Real Number" consisting
 of four parts:
@@ -115,6 +144,8 @@ The next operation 𝑡𝑖𝑛𝑦 affords are 𝑃𝑟𝑖𝑛𝑡() operation
 
 1. Identities are not output
 
+2. Precision width can be set (NOTE: only realized numbers have precision)
+
 When printing in a different base, periodic values are repeated out to maximum precision before conversion. Here's what
 "-42.‾54321" [base₁₀] would look like in several different bases:
 
@@ -130,6 +161,11 @@ Note that only the base where periodicity is known will output the overscore cha
 as π, are printed without their identity:
 
 	"~3.1415927" ← π [base₁₀] to atlas.PrecisionMinimum digits (default 7)
+
+Realized numbers store their currently calculated fractional precision, but during a print operation you may override
+that and request a different precision width.  Printing will not cause the number to recalculate to that precision, but
+instead will either round the number early or pad it with zeros to your desired width.  If you provide a width of '-1',
+the resulting number will be printed to whatever precision is currently calculated.
 
 # Matrix Operations
 
