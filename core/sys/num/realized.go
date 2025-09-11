@@ -354,8 +354,8 @@ func (r *Realized) String() string {
 }
 
 // Print - see.PrintingNumbers
-func (r *Realized) Print(base ...uint16) string {
-	b := r.sanityCheck(base...)
+func (r *Realized) Print(base uint16, precision ...uint) string {
+	b := r.sanityCheck(base)
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
 	r.gate.Lock()
@@ -364,7 +364,7 @@ func (r *Realized) Print(base ...uint16) string {
 }
 
 // Matrix - see.PrintingNumbers
-func (r *Realized) Matrix(whole, fractional uint, base ...uint16) string {
+func (r *Realized) Matrix(base uint16, precision uint, operands ...any) string {
 	r.sanityCheck()
 
 	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
