@@ -13,16 +13,6 @@ var ObservanceWindow = 2 * time.Second
 // TrimFrequency sets the default global frequency for dimensional trimmers.
 var TrimFrequency = 1024.0 //hz
 
-// EnableRealCoercion indicates if the engine is allowed to use num.Realizedto perform intelligent num.Primitive type coercion.
-//
-// If false, attempts to perform 𝑡𝑖𝑛𝑦 arithmetic operations with mismatched num.Primitive types will panic.
-//
-// If true, 𝑡𝑖𝑛𝑦 will convert all operands to the num.Realizedtype to perform arithmetic.
-//
-// NOTE: num.Realizedis REALLY inefficient compared to num.Primitive calculation!  This is by design, as 𝑡𝑖𝑛𝑦 was built to
-// "show its work" - most simulations can be built entirely within the confines of a float32 or float64.
-var EnableRealCoercion = true
-
 // Precision is the global maximum number of placeholders to consider in the fractional part of a num.Realized.
 var Precision uint = 256
 
@@ -31,6 +21,11 @@ var Precision uint = 256
 //
 // NOTE: This defaults to a 7 placeholder minimum.
 var PrecisionMinimum uint = 7
+
+// Base defines the global default base for all calculation.
+//
+// NOTE: This defaults to base₁₀.
+var Base uint16 = 10
 
 // SeedRefractoryPeriod is the default amount of time a seed pool will retain its current random value set for.
 // This allows a small batch of fixed random numbers to be referenced ad-hoc without neurons having to track their own concept of temporality.

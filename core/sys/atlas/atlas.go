@@ -18,7 +18,7 @@ func init() {
 	}
 
 	var cfg config
-	if err := json.Unmarshal(data, &cfg); err != nil {
+	if err = json.Unmarshal(data, &cfg); err != nil {
 		return
 	}
 	cfg.apply()

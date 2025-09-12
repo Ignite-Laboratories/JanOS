@@ -8,9 +8,9 @@ type config struct {
 	PrintPreamble        *bool   `json:"printPreamble"`
 	ObservanceWindow     string  `json:"observanceWindow"`
 	TrimFrequency        float64 `json:"trimFrequency"`
-	EnableRealCoercion   *bool   `json:"enableRealCoercion"`
 	Precision            uint    `json:"precision"`
 	PrecisionMinimum     uint    `json:"precisionMinimum"`
+	Base                 uint16  `json:"base"`
 	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
 	IncludeNilBits       *bool   `json:"includeNilBits"`
 	CompactVectors       *bool   `json:"compactVectors"`
@@ -25,9 +25,6 @@ func (c config) apply() {
 	}
 	if c.TrimFrequency > 0 {
 		TrimFrequency = c.TrimFrequency
-	}
-	if c.EnableRealCoercion != nil {
-		EnableRealCoercion = *c.EnableRealCoercion
 	}
 	if c.Precision > 0 {
 		Precision = c.Precision

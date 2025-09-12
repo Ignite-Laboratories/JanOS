@@ -34,6 +34,9 @@ func sanityCheck(operands ...any) bool {
 //	c := Add[Realized](a, 5)
 //}
 
+// NOTE NOTE NOTE NOTE!!!!!!
+// ALEX!  Use num.Advanced for your output type!  This allows you to output a Realized, Realization, Measurement, or Primitive =)
+
 // Add takes in any number of Advanced objects and performs logical arithmetic upon them.  If either is not an Advanced type,
 // this will panic - otherwise, the result will be provided in the requested Advanced type C.
 func Add[TOut num.Advanced](a any, b any, precision ...uint) TOut {

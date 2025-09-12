@@ -1,7 +1,8 @@
-package num
+package tiny
 
 import (
 	"core/sys/atlas"
+	"core/sys/num"
 	"fmt"
 	"math"
 	"math/big"
@@ -33,14 +34,18 @@ import (
 // For function calls and pointer types, this will RESOLVE the underlying value they 'point' to by dereferencing
 // or invoking the operand until reaching its result.  If you close over this function call, you dynamically
 // encode in that functionality 'on the fly' to your code =)
-func FilterOperands(base uint16, operands ...any) []any {
-	var filter func(any) any
-	filter = func(op any) any {
+//
+// EXPECTED OUTPUT:
+//
+// This should either yield a parseable numeric string - see.PrintingNumbers - or, a
+func FilterOperands(base uint16, operands ...any) []Realized {
+	var filter func(any) Realized
+	filter = func(op any) Realized {
 		switch raw := op.(type) {
 
 		// 0 - "Pass" branch
 		case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr:
-			return ToString(op)
+			return ParseRealized(num.ToString(op))
 		case float32:
 			if math.IsInf(float64(raw), 0) {
 				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
@@ -48,7 +53,7 @@ func FilterOperands(base uint16, operands ...any) []any {
 			if math.IsNaN(float64(raw)) {
 				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
 			}
-			return ToString(raw)
+			return ParseRealized(num.ToString(raw))
 		case float64:
 			if math.IsInf(raw, 0) {
 				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
@@ -56,9 +61,11 @@ func FilterOperands(base uint16, operands ...any) []any {
 			if math.IsNaN(raw) {
 				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
 			}
-			return ToString(raw)
-		case Realized, Natural, Measurement, Realization:
+			return ParseRealized(num.ToString(raw))
+		case Realized:
 			return raw
+		case Realization:
+			wqefrqr32q134r5
 		case []byte:
 			digits := make([]string, len(raw))
 			for i, d := range raw {
@@ -79,9 +86,9 @@ func FilterOperands(base uint16, operands ...any) []any {
 		case *string:
 			return filter(raw)
 		case *big.Int:
-			return ToString(raw)
+			return ParseRealized(num.ToString(raw))
 		case *big.Float:
-			return ToString(raw)
+			return ParseRealized(num.ToString(raw))
 		default:
 			rv := reflect.ValueOf(raw)
 			if !rv.IsValid() {
