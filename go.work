@@ -1,10 +1,11 @@
 go 1.24.0
 
 use (
-	./core
+	core
 	scratch/tiny5.0
 	scratch/scratch0
 	scratch/scratch1
 	scratch/digitEmitter
+	scratch/navigator
 	scratch/wordnet
 )
