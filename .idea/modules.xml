@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/JanOS4.iml" filepath="$PROJECT_DIR$/.idea/JanOS4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/.idea/core.iml" filepath="$PROJECT_DIR$/core/.idea/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/navigatorOLD/.idea/navigator.iml" filepath="$PROJECT_DIR$/navigatorOLD/.idea/navigator.iml" />
     </modules>
   </component>
 </project>
