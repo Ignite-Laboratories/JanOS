@@ -1,0 +1,21 @@
+app = '{{.FlyApp}}'
+primary_region = 'sea'
+
+[build]
+dockerfile = "Dockerfile"
+
+[env]
+PORT = '{{.Port}}'
+
+[http_service]
+internal_port = {{.Port}}
+force_https = true
+auto_stop_machines = 'stop'
+auto_start_machines = true
+min_machines_running = 0
+processes = ['app']
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1

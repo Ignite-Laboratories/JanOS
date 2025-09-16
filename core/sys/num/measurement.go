@@ -1,11 +1,12 @@
 package num
 
 import (
-	"core/enum/direction/ordinal"
-	"core/enum/endian"
-	"core/sys/support"
 	"fmt"
 	"strings"
+
+	"git.ignitelabs.net/core/enum/direction/ordinal"
+	"git.ignitelabs.net/core/enum/endian"
+	"git.ignitelabs.net/core/sys/support"
 )
 
 // Measurement is a variable-width slice of bits and is used to efficiently store them in operating memory.

@@ -1,15 +1,18 @@
 package core
 
 import (
-	"core/sys/atlas"
-	"core/sys/blue"
-	"core/sys/given"
-	"core/sys/given/format"
 	"debug/buildinfo"
 	"fmt"
 	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
+
+	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/core/sys/blue"
+	"git.ignitelabs.net/core/sys/given"
+	"git.ignitelabs.net/core/sys/given/format"
 )
 
 func init() {
@@ -89,4 +92,17 @@ func WhileAlive() {
 		// Give the host some breathing room.
 		time.Sleep(time.Millisecond)
 	}
+}
+
+// RelativePath returns a relative path from the root of the encapsulating JanOS directory.  You may optionally
+// provide components to append to the path.  For example:
+//
+//	RelativePath("navigator", "git")
+//
+// Would return a path to the vanity Git neuron like this:
+//
+//	/users/ignite/source/janOS/navigator/git
+func RelativePath(components ...string) string {
+	_, file, _, _ := runtime.Caller(0)
+	return filepath.Dir(filepath.Dir(file)) + "/" + strings.Join(components, "/")
 }

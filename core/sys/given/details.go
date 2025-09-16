@@ -1,8 +1,9 @@
 package given
 
 import (
-	"core/enum/gender"
 	"fmt"
+
+	"git.ignitelabs.net/core/enum/gender"
 )
 
 // Details represents the cultural origin and the culture's implied gender - this is purely for informational purposes.

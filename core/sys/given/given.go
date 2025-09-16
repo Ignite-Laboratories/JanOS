@@ -1,10 +1,6 @@
 package given
 
 import (
-	"core/enum/gender"
-	"core/sys/given/format"
-	"core/sys/id"
-	log "core/sys/log"
 	_ "embed"
 	"encoding/csv"
 	"fmt"
@@ -12,6 +8,11 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+
+	"git.ignitelabs.net/core/enum/gender"
+	"git.ignitelabs.net/core/sys/given/format"
+	"git.ignitelabs.net/core/sys/id"
+	"git.ignitelabs.net/core/sys/log"
 )
 
 // TODO: Allow replacing nameDB and surnameDB with a file from atlas configuration

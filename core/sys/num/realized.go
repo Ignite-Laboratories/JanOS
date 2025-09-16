@@ -1,10 +1,11 @@
 package num
 
 import (
-	"core/sys/atlas"
-	"core/sys/num/internal"
 	"strings"
 	"sync"
+
+	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/core/sys/num/internal"
 )
 
 // A Realized number is one generated through the execution of a neural pathway.  see.RealizedNumbers
@@ -302,7 +303,7 @@ func (r *Realized) Reveal() string {
 
 		r.realize()
 	}
-	return r.print(r.base)
+	return "" //r.print(r.base)
 }
 
 // Precision "sets and/or gets" the precision of the Realized number.  If no precision is provided, this simply returns
@@ -373,49 +374,50 @@ func (r *Realized) Print(fractionalWidth int, base ...uint16) string {
 // be explicitly defined.  As with Print operations, if setting a fractionalWidth other than -1, the fractional
 // component will either be rounded early or right-padded with zeros to the desired width.
 func (r *Realized) Matrix(fractionalWidth int, operands ...any) string {
-	r.sanityCheck()
-
-	// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
-	r.gate.Lock()
-	defer r.gate.Unlock()
-
-	w, f, p := r.Digits()
-
-	if whole < uint(len(w)) {
-		// Trim the whole part down, as they want a smaller matrix
-		delta := uint(len(w)) - whole
-		w = w[delta:]
-	} else {
-		// Pad the left of the whole part with 0s
-		delta := uint(len(w)) - whole
-		prepend := make([]byte, delta)
-		for i := uint(0); i < delta; i++ {
-			prepend[i] = byte(0)
-		}
-		w = append(prepend, w...)
-	}
-
-	if fractional < uint(len(f)) {
-		// Trim the fractional part down and return
-
-		return
-	}
-	// Otherwise, pad with zeros or periodic
-
-	wStr := make([]string, len(w))
-	for i, d := range w {
-		wStr[i] = internal.PrintDigit(d)
-	}
-
-	fStr := make([]string, len(f))
-	for i, d := range f {
-		fStr[i] = internal.PrintDigit(d)
-	}
-
-	pStr := make([]string, len(p))
-	for i, d := range p {
-		pStr[i] = internal.PrintDigit(d)
-	}
+	//r.sanityCheck()
+	//
+	//// NOTE: These lock to ensure another thread doesn't mutate the whole and fractional parts mid-print.
+	//r.gate.Lock()
+	//defer r.gate.Unlock()
+	//
+	//w, f, p := r.Digits()
+	//
+	//if whole < uint(len(w)) {
+	//	// Trim the whole part down, as they want a smaller matrix
+	//	delta := uint(len(w)) - whole
+	//	w = w[delta:]
+	//} else {
+	//	// Pad the left of the whole part with 0s
+	//	delta := uint(len(w)) - whole
+	//	prepend := make([]byte, delta)
+	//	for i := uint(0); i < delta; i++ {
+	//		prepend[i] = byte(0)
+	//	}
+	//	w = append(prepend, w...)
+	//}
+	//
+	//if fractional < uint(len(f)) {
+	//	// Trim the fractional part down and return
+	//
+	//	return
+	//}
+	//// Otherwise, pad with zeros or periodic
+	//
+	//wStr := make([]string, len(w))
+	//for i, d := range w {
+	//	wStr[i] = internal.PrintDigit(d)
+	//}
+	//
+	//fStr := make([]string, len(f))
+	//for i, d := range f {
+	//	fStr[i] = internal.PrintDigit(d)
+	//}
+	//
+	//pStr := make([]string, len(p))
+	//for i, d := range p {
+	//	pStr[i] = internal.PrintDigit(d)
+	//}
+	//return ""
 	return ""
 }
 

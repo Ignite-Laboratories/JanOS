@@ -1,8 +1,9 @@
 package given
 
 import (
-	"core/enum/italic"
 	"fmt"
+
+	"git.ignitelabs.net/core/enum/italic"
 )
 
 // Name represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names

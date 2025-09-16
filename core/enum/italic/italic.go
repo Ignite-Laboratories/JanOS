@@ -4,10 +4,11 @@
 package italic
 
 import (
-	"core/enum/italic/lower"
-	"core/enum/italic/upper"
-	"core/sys/support"
 	"strings"
+
+	"git.ignitelabs.net/core/enum/italic/lower"
+	"git.ignitelabs.net/core/enum/italic/upper"
+	"git.ignitelabs.net/core/sys/support"
 )
 
 var Characters = append(lower.Characters, upper.Characters...)

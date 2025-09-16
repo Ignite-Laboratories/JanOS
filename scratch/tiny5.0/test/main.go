@@ -1,74 +1,32 @@
-package num
+package main
 
 import (
 	"fmt"
-	"math"
 	"math/big"
 	"reflect"
-	"strings"
 
-	"git.ignitelabs.net/core/sys/atlas"
+	"tiny5.0/atlas"
 )
 
-// FilterOperands filters the provided operands into processable types.  If provided a type that does not
-// satisfy the following requirements, this will panic -
-//
-//	0 - int, int8, int16, int32, int64 - Calls num.ToString
-//	1 - uint, uint8, uint16, uint32, uint64, uintptr - Calls num.ToString
-//	2 - float32, float64 - Panics on Inf or NaN, then calls num.ToString
-//	3 - big.Int, big.Float - Calls big.Text
-//	4 - num.Realized, num.Realization, num.Measurement - Passes through
-//	5 - string - Passes through
-//	6 - []byte - Converts to a Natural as 'digits'
-//
-//	6 - pointers to any of the above types
-//
-//	7 - func() any or func[T any]() T
-//	8 - func(uint) any or func[T any](uint) T
-//	9 - func(*uint) any or func[T any](*uint) T
-//	10 - func(...uint) any or func[T any](...uint) T
-//	11 - func(...*uint) any or func[T any](...*uint) T
-//
-//	12 - Functions which return functions that satisfy the above functional requirements
-//
-// For function calls and pointer types, this will RESOLVE the underlying value they 'point' to by dereferencing
-// or invoking the operand until reaching its result.  If you close over this function call, you dynamically
-// encode in that functionality 'on the fly' to your code =)
-func FilterOperands(base uint16, operands ...any) []any {
+func main() {
+	pass, _, providers := test.BuildTestCases()
+
+	ops := filterOperands(pass...)
+	ops = append(ops, filterOperands(providers...)...)
+
+	fmt.Println("Hello, world!")
+}
+
+func filterOperands(operands ...any) []any {
 	var filter func(any) any
 	filter = func(op any) any {
 		switch raw := op.(type) {
 
 		// 0 - "Pass" branch
-		case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr:
-			return ToString(op)
-		case float32:
-			if math.IsInf(float64(raw), 0) {
-				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
-			}
-			if math.IsNaN(float64(raw)) {
-				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
-			}
-			return ToString(raw)
-		case float64:
-			if math.IsInf(raw, 0) {
-				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
-			}
-			if math.IsNaN(raw) {
-				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
-			}
-			return ToString(raw)
-		case Realized, Natural, Measurement, Realization:
-			return raw
-		case []byte:
-			digits := make([]string, len(raw))
-			for i, d := range raw {
-				digits[i] = fmt.Sprintf("%02x", d)
-			}
-			if base > 16 {
-				return ParseNatural(strings.Join(digits, " "), base)
-			}
-			return ParseNatural(strings.Join(digits, ""), base)
+		case string,
+			int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr, float32, float64,
+			test.Realized, test.Natural, test.Measurement:
+			return op
 
 		// 1 - "Fail" branches
 		case big.Int, big.Float:
@@ -77,12 +35,10 @@ func FilterOperands(base uint16, operands ...any) []any {
 			panic("big.Rat should use vector types")
 
 		// 2 - "Recurse" branches
-		case *string:
-			return filter(raw)
 		case *big.Int:
-			return ToString(raw)
+			return filter(raw.Text(10))
 		case *big.Float:
-			return ToString(raw)
+			return filter(raw.Text('f', int(atlas.Precision)))
 		default:
 			rv := reflect.ValueOf(raw)
 			if !rv.IsValid() {

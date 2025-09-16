@@ -1,6 +1,6 @@
 package sub
 
-import "core/sys/num"
+import "git.ignitelabs.net/core/sys/num"
 
 // A SubByte is an implied integer of a non-standard bit width.
 //

@@ -1,13 +1,14 @@
 package num
 
 import (
-	"core/enum/direction/ordinal"
-	"core/sys/atlas"
-	"core/sys/pad"
-	"core/sys/pad/scheme"
 	"fmt"
 	"math/big"
 	"strconv"
+
+	"git.ignitelabs.net/core/enum/direction/ordinal"
+	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/core/sys/pad"
+	"git.ignitelabs.net/core/sys/pad/scheme"
 )
 
 const strNaN = "NaN"
@@ -113,8 +114,8 @@ func ToString(value any) string {
 		return typed.Print()
 	case Realization:
 		return typed.String()
-	case Realized:
-		return typed.Print(typed.base)
+	//case Realized:
+	//	return typed.Print(typed.base)
 	case *big.Int:
 		return typed.Text(10)
 	case *big.Float:

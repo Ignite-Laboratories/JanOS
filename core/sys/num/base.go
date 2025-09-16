@@ -1,13 +1,14 @@
 package num
 
 import (
-	"core/sys/atlas"
-	"core/sys/num/internal"
 	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 	"unicode"
+
+	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/core/sys/num/internal"
 )
 
 type _base byte

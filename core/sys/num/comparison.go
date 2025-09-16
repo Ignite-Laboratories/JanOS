@@ -1,10 +1,11 @@
 package num
 
 import (
-	"core/enum/direction/ordinal"
-	"core/sys/pad"
-	"core/sys/pad/scheme"
 	"regexp"
+
+	"git.ignitelabs.net/core/enum/direction/ordinal"
+	"git.ignitelabs.net/core/sys/pad"
+	"git.ignitelabs.net/core/sys/pad/scheme"
 )
 
 var decimalPattern = regexp.MustCompile(`^([+-]?)(\d+)(\.(\d+))?$`)

@@ -1,10 +1,11 @@
 package support
 
 import (
-	"core/enum/endian"
 	"encoding/binary"
 	"reflect"
 	"unsafe"
+
+	"git.ignitelabs.net/core/enum/endian"
 )
 
 // GetArchitectureEndianness returns the Endianness of the currently executing hardware.
