@@ -3,9 +3,9 @@ FROM golang:${GO_VERSION}-bookworm as builder
 
 WORKDIR /usr/src/app
 
-COPY ../../../../.. ./
+COPY ../ ./
 RUN go mod download && go mod verify
-RUN go build -v -o /run-app ./{{.Neuron}}
+RUN go build -v -o /run-app ./{{.Target}}
 
 
 FROM debian:bookworm

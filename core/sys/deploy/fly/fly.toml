@@ -5,10 +5,10 @@ primary_region = 'sea'
 dockerfile = "Dockerfile"
 
 [env]
-PORT = '{{.Port}}'
+PORT = '4242'
 
 [http_service]
-internal_port = {{.Port}}
+internal_port = 4242
 force_https = true
 auto_stop_machines = 'stop'
 auto_start_machines = true

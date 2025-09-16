@@ -2,10 +2,13 @@ package atlas
 
 import (
 	"time"
+
+	"git.ignitelabs.net/core/sys/log"
 )
 
 type config struct {
 	PrintPreamble        *bool   `json:"printPreamble"`
+	Verbose              *bool   `json:"verbose"`
 	ObservanceWindow     string  `json:"observanceWindow"`
 	TrimFrequency        float64 `json:"trimFrequency"`
 	Precision            uint    `json:"precision"`
@@ -19,6 +22,9 @@ type config struct {
 func (c config) apply() {
 	if c.PrintPreamble != nil {
 		PrintPreamble = *c.PrintPreamble
+	}
+	if c.Verbose != nil {
+		log.Verbose = *c.Verbose
 	}
 	if len(c.ObservanceWindow) > 0 {
 		ObservanceWindow, _ = time.ParseDuration(c.ObservanceWindow)

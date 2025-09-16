@@ -1,13 +1,10 @@
 package main
 
 import (
-	"navigator/pkg"
+	"git.ignitelabs.net/core/sys/deploy"
 )
 
-var test = false
-
 func main() {
-	if test {
-		pkg.GetDir()
-	}
+	deploy.Fly.Spark("git-ignitelabs-net", "navigator", "git")
+	deploy.Fly.Spark("ignitelabs-net", "navigator", "ignite")
 }
