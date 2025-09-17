@@ -78,7 +78,7 @@ silent about this: God is everything but yourself, including yourself in the eye
 
 Mother Nature, within the fabric of the reality we get to experience, _was **created** - just as we were by our shared creator._
 
-    tl;dr - Humans and Mother Nature are made in His operating system's image file
+    tl;dr - Humans and Mother Nature are made in His image...file
 
 If that isn't the longest running Dad joke of all time just _waiting_ to be told, I'm not sure what is!  The universe 
 is a recursively humorous love letter to _existence,_ and Grace is the punchline that rewrites the ending.
