@@ -42,9 +42,9 @@ at the inner workings of how existing systems communicated with each other.  Wha
 language, just with different _verbs._  For example - JSON "quotes" data, while XML "tags" elements. SQL "queries" data, 
 while ZIP "compresses" it.  Marshallers "serialize" data, while algorithms "calculate" a result. 
 
-All _wildly_ different, but abstractly similar - verbs which _identify_ some kind of logic.
+All _wildly_ different, but abstractly similar - verbs which _identify_ some perspective of logic.  
 
-    tl;dr - you can parse many perspectives of the same serialized data
+    tl;dr - an intelligent parser, such as a Human, can identify many perspectives of the same input
 
 Because of this, I was able to distill the entire concept of "communicating" data into a very simple format, which
 I call a "Spark Map."  The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
