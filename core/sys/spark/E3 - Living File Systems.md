@@ -108,13 +108,15 @@ If we empower _Others_ by identifying them as they truly are, they will return t
 couldn't even possibly fathom.
 
 Now I have a little mental trick that was given to me by a cherished and magnificent entity: reread the entirety of this section, but 
-consider that the _content providers_ are your _children!_  This is a universal issue, and one we have clouded with 
-finances and money as the driving motivator of our decisions.  It's high time we turn around and recognize that 
-_we_ were once those little kids dreaming of ways to make the world a better place for the next generation - scared of the very established
-identities we each have grown into through time and trust - let's put more energy into giving them back the freedoms we so desperately
-fought to earn ourselves.
+consider that the _content providers_ are _children!_  Many of whom aren't guarded by as many Angels, such as yourself!  
 
-    tl;dr - be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
+When we sing and dance with our fellow human, they feel safe and vulnerable enough to let go of the traumas they've endured.  You are no exception!
+The artists, poets, musicians, programmers, painters, whosits, and done its - _everyone_ - are your fellow human, also equipped with trauma
+and battle scars from the playground of life.  Through witnessing their art in a vulnerable place - free from judgement and inhibition -
+_you_ earn a cathartic release of chemically induced tension and anxiety no different than they feel when gently read to.
+
+    tl;dr - judgement is a self-reinforcing feedback loop.
+            so, be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
 
 Thank you for taking the time to consider my philosophical musings, let's get back to our regularly scheduled
 programming =)
