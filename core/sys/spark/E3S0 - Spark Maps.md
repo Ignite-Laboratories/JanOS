@@ -55,7 +55,7 @@ boundaries, and the delimiter for each key can change to accomodate the data int
 
 The idea (as with many modern formats) is that everything should be _Human-legible_, while retaining _Machine-readability_.
 It should be parsable by literally any intelligent entity reading the damn data!  `READ: A Human OR a Machine.`  That led 
-me to the following core tenants of the "spark map" format:
+me to the following core tenants of the "any map" format:
 
 - 0 It should always be in Human-readable form
 - 1 A "compact" form should only shrink out Human-friendly whitespace without affecting the stored data
