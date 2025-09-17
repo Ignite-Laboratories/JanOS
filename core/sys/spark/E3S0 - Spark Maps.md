@@ -74,7 +74,7 @@ An "any map" is a Unicode schema which contains only one logical element: an "en
     :keyC:valueC:
     :keyD:valueD:
 
-An entry consists of three *components* - the *key*, "*value*, and a *delimiter* character.  The *data* of the entry pertains
+An entry consists of three **components** - the **key**, **value**, and a **delimiter** character.  The **data** of the entry pertains
 to either the key or the value independently of the delimiter. The delimiter character is the first non-whitespace character 
 outside a comment and can be any single Unicode character. This means the below entries are all valid:
 
