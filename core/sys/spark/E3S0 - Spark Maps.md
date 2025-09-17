@@ -59,7 +59,7 @@ me to the following core tenants of the "any map" format:
 
 - 0 It should always be in Human-readable form
 - 1 A "compact" form should only shrink out Human-friendly whitespace without affecting the stored data
-- 2 It should retain the Human-friendly formatting written by the author and NEVER auto-format to anyone else's standards unless compacted (I still prefer tabs)
+- 2 It should retain the EXACT Human-friendly formatting written by the author and NEVER auto-format to anyone else's standards unless compacted
 - 3 There should be no restrictions over what control characters are used, aside from newlines and comments 
 
 In that, I immediately drafted the below specification:
