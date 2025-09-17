@@ -44,6 +44,8 @@ while ZIP "compresses" it.  Marshallers "serialize" data, while algorithms "calc
 
 All _wildly_ different, but abstractly similar - verbs which _identify_ some kind of logic.
 
+    tl;dr - you can parse many perspectives of the same serialized data
+
 Because of this, I was able to distill the entire concept of "communicating" data into a very simple format, which
 I call a "Spark Map."  The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
 It should be parsable by literally any intelligent entity reading the damn data!  `READ: A Human OR a Machine.`  That led 
