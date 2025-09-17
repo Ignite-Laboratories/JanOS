@@ -3,6 +3,7 @@ package deploy
 import (
 	"context"
 	_ "embed"
+	"errors"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -40,12 +41,10 @@ func (_fly) Spark(flyApp string, target ...string) {
 	root := strings.Join(_root, "/")
 	log.Printf(ModuleName, "Sparking a deployment of '%s' to '%s'\n", relative, flyApp)
 
-	log.Printf(ModuleName, "----------------")
-
 	// 0 - Create a temp folder
 
-	_ = os.Mkdir(root+"/tmp", 0750)
-	temp, err := os.MkdirTemp(root+"/tmp", "fly-deploy-*")
+	_ = os.Mkdir(root+"/.tmp", 0750)
+	temp, err := os.MkdirTemp(root+"/.tmp", "fly-deploy-*")
 	if err != nil {
 		panic(err)
 	}
@@ -60,8 +59,6 @@ func (_fly) Spark(flyApp string, target ...string) {
 	log.Verbosef(ModuleName, "Made temp folder '%s'\n", temp)
 
 	// 1 - Write out the fly.toml file
-	log.Printf(ModuleName, "----------------")
-
 	w := new(strings.Builder)
 
 	t := template.Must(template.New("fly.toml").Parse(flyConfig))
@@ -77,12 +74,16 @@ func (_fly) Spark(flyApp string, target ...string) {
 	log.Printf(ModuleName, "Wrote %v\n", flyPath)
 
 	// 2 - Write out the Dockerfile
-	log.Printf(ModuleName, "----------------")
-
 	w.Reset()
 
 	t = template.Must(template.New("Dockerfile").Parse(dockerfile))
-	if err = t.Execute(w, struct{ Target string }{Target: relative}); err != nil {
+	if err = t.Execute(w, struct {
+		Target string
+		JanOS  string
+	}{
+		Target: relative,
+		JanOS:  root,
+	}); err != nil {
 		panic(err)
 	}
 	log.Verbosef(ModuleName, "Generated dockerfile:\n%v\n", w.String())
@@ -91,10 +92,9 @@ func (_fly) Spark(flyApp string, target ...string) {
 	if err = os.WriteFile(dockerPath, []byte(w.String()), 0644); err != nil {
 		panic(err)
 	}
-	log.Printf(ModuleName, "Wrote %v\n", flyPath)
+	log.Printf(ModuleName, "Wrote %v\n", dockerPath)
 
 	// 3 - Pass control to fly
-	log.Printf(ModuleName, "----------------")
 	log.Printf(ModuleName, "Passing control to 'fly deploy'\n")
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -108,6 +108,7 @@ func (_fly) Spark(flyApp string, target ...string) {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Dir = workingDir
 
 	if runtime.GOOS != "windows" {
 		cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: false}
@@ -128,9 +129,10 @@ func (_fly) Spark(flyApp string, target ...string) {
 		}
 	}()
 
-	if err := cmd.Wait(); err != nil {
+	if err = cmd.Wait(); err != nil {
 		// Preserve child’s exit code if available
-		if exitErr, ok := err.(*exec.ExitError); ok {
+		var exitErr *exec.ExitError
+		if errors.As(err, &exitErr) {
 			os.Exit(exitErr.ExitCode())
 		}
 		log.FatalfCode(1, ModuleName, "deploy failed: %v\n", err)

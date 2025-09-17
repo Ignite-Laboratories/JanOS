@@ -4,13 +4,13 @@ import (
 	"embed"
 	_ "embed"
 	"io/fs"
-	"log"
 	"net/http"
 	"path"
 	"strconv"
 	"strings"
 
 	"git.ignitelabs.net/core/sys/deploy"
+	"git.ignitelabs.net/core/sys/log"
 )
 
 //go:embed ignite-src/*
@@ -33,7 +33,7 @@ func (_igniteLabs) Navigate(port ...uint) {
 	// Serve the embedded directory under /
 	sub, err := fs.Sub(static, "ignite-src")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf(ModuleName, err.Error())
 	}
 	fileServer := http.FileServer(http.FS(sub))
 
@@ -63,6 +63,9 @@ func (_igniteLabs) Navigate(port ...uint) {
 	http.Handle("/", handler)
 
 	addr := ":" + p
-	log.Printf("'ignitelabs.net' listening on %s", addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+	log.Printf(ModuleName, "sparked ignitelabs.net%s\n", addr)
+	err = http.ListenAndServe(addr, handler)
+	if err != nil {
+		log.Fatalf(ModuleName, err.Error())
+	}
 }

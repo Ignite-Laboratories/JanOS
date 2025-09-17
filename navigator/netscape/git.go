@@ -2,11 +2,11 @@ package netscape
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 	"strconv"
 
 	"git.ignitelabs.net/core/sys/deploy"
+	"git.ignitelabs.net/core/sys/log"
 )
 
 // GitVanity drives the git.ignitelabs.net service, which acts as a "vanity URL" for Go imports.
@@ -56,7 +56,7 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 		Remote     string // e.g. https://github.com/ignite-laboratories/enigmaneering/enigma0
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		repo := remote + r.URL.Path
 
 		// Go toolchain probe: serve meta tags (no redirect).
@@ -76,6 +76,9 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 	})
 
 	addr := ":" + p
-	log.Printf("'git.ignitelabs.net' listening on %s", addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+	log.Printf(ModuleName, "sparked git.ignitelabs.net%s\n", addr)
+	err := http.ListenAndServe(addr, handler)
+	if err != nil {
+		log.Fatalf(ModuleName, err.Error())
+	}
 }
