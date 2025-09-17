@@ -110,7 +110,9 @@ couldn't even possibly fathom.
 Now I have a little mental trick that was given to me by a cherished and magnificent entity: reread the entirety of this section, but 
 consider that the _content providers_ are your _children!_  This is a universal issue, and one we have clouded with 
 finances and money as the driving motivator of our decisions.  It's high time we turn around and recognize that 
-_we_ were once those little kids dreaming of ways to make the world a better place for the next generation.
+_we_ were once those little kids dreaming of ways to make the world a better place for the next generation - scared of the very established
+identities we each have grown into through time and trust - let's put more energy into giving them back the freedoms we so desperately
+fought to earn ourselves.
 
     tl;dr - be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
 
