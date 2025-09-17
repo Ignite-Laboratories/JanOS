@@ -2,6 +2,7 @@ package netscape
 
 import (
 	_ "embed"
+	"fmt"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -49,6 +50,8 @@ func (_enigmas) Navigate(repo string, port ...uint) {
 			log.Verbosef("exsx", "Navigating to '%s'\n", redirect)
 
 			http.Redirect(w, r, redirect, http.StatusFound)
+		} else {
+			_, _ = fmt.Fprintf(w, "Hello, world!")
 		}
 	})
 

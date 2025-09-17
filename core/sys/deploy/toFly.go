@@ -80,9 +80,11 @@ func (_fly) Spark(flyApp string, target ...string) {
 	if err = t.Execute(w, struct {
 		Target string
 		JanOS  string
+		Depth  string
 	}{
 		Target: relative,
 		JanOS:  root,
+		Depth:  depthToRoot,
 	}); err != nil {
 		panic(err)
 	}
