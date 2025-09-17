@@ -107,7 +107,7 @@ the algorithm towards something else!
 If we empower _Others_ by identifying them as they truly are, they will return the favor back in ways you
 couldn't even possibly fathom.
 
-Now I have a little mental trick that was given to me by my dearest friend: reread the entirety of this section, but 
+Now I have a little mental trick that was given to me by a cherished and magnificent entity: reread the entirety of this section, but 
 consider that the _content providers_ are your _children!_  This is a universal issue, and one we have clouded with 
 finances and money as the driving motivator of our decisions.  It's high time we turn around and recognize that 
 _we_ were once those little kids dreaming of ways to make the world a better place for the next generation before 
