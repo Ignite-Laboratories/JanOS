@@ -46,8 +46,13 @@ All _wildly_ different, but abstractly similar - verbs which _identify_ some per
 
     tl;dr - an intelligent parser, such as a Human, can identify many perspectives of the same input
 
-Because of this, I was able to distill the entire concept of "communicating" data into a very simple format, which
-I call a "Spark Map."  The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
+Because of this, I was able to distill the concept of "identified" data into a very simple format, which
+I call a "Spark Map."  Yes, I already hear the groans - "what's wrong with JSON!?" - well, nothing!  In
+fact, Spark can parse JSON (and many others).  I've taken a very different approach, however - the data
+is _off-limits_ from requiring modification to fit the schema!  Instead, the boundaries are captured and can
+change to accomodate the data in an intuitive fashion.
+
+The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
 It should be parsable by literally any intelligent entity reading the damn data!  `READ: A Human OR a Machine.`  That led 
 me to the following core tenants of the "spark map" format:
 
