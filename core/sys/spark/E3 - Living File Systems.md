@@ -111,7 +111,7 @@ Now I have a little mental trick that was given to me by a cherished and magnifi
 consider that the _content providers_ are your _children!_  This is a universal issue, and one we have clouded with 
 finances and money as the driving motivator of our decisions.  It's high time we turn around and recognize that 
 _we_ were once those little kids dreaming of ways to make the world a better place for the next generation before 
-deciding to "stick it to the man" while becoming _ourselves._
+deciding to "stick it to the man" on each of our paths to _becoming._
 
     tl;dr - be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
 
