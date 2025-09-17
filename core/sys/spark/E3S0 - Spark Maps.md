@@ -67,7 +67,7 @@ In that, I immediately drafted the below specification:
 The Any Map Schema
 ---
 
-An "any map" contains only one logical element: an "entry"
+An "any map" is a unicode schema which contains only one logical element: an "entry"
 
     :keyA:valueA:
     :keyB:valueB:
