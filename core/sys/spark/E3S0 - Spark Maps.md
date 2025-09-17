@@ -53,7 +53,7 @@ is _off-limits_ from requiring modification to fit the schema!  For instance, JS
 quote characters - complicating the interpreter and serializer.  Instead, any maps capture the data's 
 boundaries, and the delimiter for each key can change to accomodate the data intuitively.
 
-The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
+The idea (as with many modern formats) is that everything should always be _Human-legible_, while still being _Machine-readable_.
 It should be parsable by literally any intelligent entity reading the damn data!  `READ: A Human OR a Machine.`  That led 
 me to the following core tenants of the "spark map" format:
 
