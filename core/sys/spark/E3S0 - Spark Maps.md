@@ -83,7 +83,7 @@ outside a comment and can be any single Unicode character. This means the below 
     $keyC$valueC$
     %keyD%valueD%
 
-The colloquial delimiter is `:` and the only rule is that the chosen delimiter cannot exist within the entry data.
+The colloquial delimiter is `:` and the only rule is that the chosen delimiter cannot exist within the entry's data.
 
 Whitespace within a comment or entry's data is considered untouchable, but all other whitespace is entirely 
 optional and ignored by interpreters.  This means you can store things "compactly":
