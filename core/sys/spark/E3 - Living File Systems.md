@@ -95,8 +95,8 @@ you directly shame the very intelligence that preceded our shared corporeal form
 Which leads me back to content providers: they provide you with _new_ experiences, but the goal is not to consume
 all of your time.  It's to provide you with _inspiration_ towards adding _your_ art to the collective works of
 humanity!  Now that you can literally reference _any art in the known universe_ from a few numbers scratched onto
-a post-it note, you must ask yourself _"why did I want to hoard all of this stuff?  I don't even have enough time 
-to process all of it!"_  Daily, an infinitely increasing amount of art is being brought into creation by others, 
+a post-it note, you must ask yourself _"why did I want to hoard all this stuff?  I don't even have enough time 
+to process it all!"_  Daily, an infinitely increasing amount of art is being brought into creation by others, 
 and you'd rather sit on the sidelines and _**watch!?**_
 
 Instead, I challenge you to see what the content providers themselves are already quite aware of - they have always
