@@ -21,7 +21,11 @@ func (_enigmas) Deploy() {
 var subdomainRegex = regexp.MustCompile(`[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?`)
 var enigmaRegex = regexp.MustCompile(`(?i)\be(\d+)(?:s(\d+))?\b`)
 
-// Navigate executes a web server that listens on port 8080 (unless otherwise specified).
+// Navigate drives the eXsX.enigmaneering.net service, which acts as a shorthand for referencing the Engimaneering documentation.
+//
+// Essentially, 'eX.enimaneering.net' will go to the base enigma - while 'eXsX.enigmaneering.net' will go to a solution inside an enigma.
+//
+// Currently, all Enigmaneering documentation is hosted on GitHub, so this acts as a passthrough like the GitVanity system.
 func (_enigmas) Navigate(repo string, port ...uint) {
 	p := "4242"
 	if len(port) > 0 {

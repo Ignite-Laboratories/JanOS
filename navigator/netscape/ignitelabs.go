@@ -24,7 +24,7 @@ func (_igniteLabs) Deploy() {
 	deploy.Fly.Spark("ignitelabs-net", "navigator", "ignite")
 }
 
-// Navigate executes a web server that listens on port 4242 (unless otherwise specified).
+// Navigate drives the ignitelabs.net website and listens on port 4242 (unless otherwise specified).
 func (_igniteLabs) Navigate(port ...uint) {
 	p := "4242"
 	if len(port) > 0 {
