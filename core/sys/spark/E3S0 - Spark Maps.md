@@ -1,4 +1,4 @@
-# `E3 - Spark Maps`
+# `E3 - Any Maps`
 ### `Alex Petz, Ignite Laboratories, September 2025`
 
 ---
@@ -47,7 +47,7 @@ All _wildly_ different, but abstractly similar - verbs which _identify_ some per
     tl;dr - an intelligent parser, such as a Human, can identify many perspectives of the same input
 
 Because of this, I was able to distill the concept of "identified" data into a very simple format, which
-I call a "Spark Map."  Yes, I already hear the groans - "what's wrong with JSON!?" - well, nothing!  In
+I call an "Any Map."  Yes, I already hear the groans - "what's wrong with JSON!?" - well, nothing!  In
 fact, Spark can parse JSON (and many others).  I've taken a very different approach, however - the data
 is _off-limits_ from requiring modification to fit the schema!  Instead, the boundaries are captured and can
 change to accomodate the data in an intuitive fashion.
@@ -63,10 +63,10 @@ me to the following core tenants of the "spark map" format:
 
 In that, I immediately drafted the below specification:
 
-The Spark Map Schema
+The Any Map Schema
 ---
 
-A spark map contains only one logical element: an "entry"
+An "any map" contains only one logical element: an "entry"
 
     :keyA:valueA:
     :keyB:valueB:
