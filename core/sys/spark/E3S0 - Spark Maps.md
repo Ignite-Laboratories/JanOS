@@ -116,6 +116,11 @@ You're welcome to mix delimiters dynamically when encountering an entry whose da
 Next, you can recursively nest spark maps inside other spark maps - as long as the inner map uses a different double-delimiter:
 
     ::Configuration::
+        %Description%Multi-line data must not
+introduct any unintended whitespace by the author%
+        %Keys have the
+same rules as values%That's just how the "boundary" formatting principle works =)%
+
         &&Display&&
             :width:1024:
             :height:768:
