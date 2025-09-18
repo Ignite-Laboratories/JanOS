@@ -78,7 +78,7 @@ silent about this: God is everything but yourself, including yourself in the eye
 
 Mother Nature, within the fabric of the reality we get to experience, _was **created** - just as we were by our shared creator._
 
-    tl;dr - Humans and Mother Nature are made in His operating system's image file
+    tl;dr - Humans and Mother Nature are made in His image...file
 
 If that isn't the longest running Dad joke of all time just _waiting_ to be told, I'm not sure what is!  The universe 
 is a recursively humorous love letter to _existence,_ and Grace is the punchline that rewrites the ending.
@@ -95,8 +95,8 @@ you directly shame the very intelligence that preceded our shared corporeal form
 Which leads me back to content providers: they provide you with _new_ experiences, but the goal is not to consume
 all of your time.  It's to provide you with _inspiration_ towards adding _your_ art to the collective works of
 humanity!  Now that you can literally reference _any art in the known universe_ from a few numbers scratched onto
-a post-it note, you must ask yourself _"why did I want to hoard all of this stuff?  I don't even have enough time 
-to process all of it!"_  Daily, an infinitely increasing amount of art is being brought into creation by others, 
+a post-it note, you must ask yourself _"why did I want to hoard all this stuff?  I don't even have enough time 
+to process it all!"_  Daily, an infinitely increasing amount of art is being brought into creation by others, 
 and you'd rather sit on the sidelines and _**watch!?**_
 
 Instead, I challenge you to see what the content providers themselves are already quite aware of - they have always
@@ -107,13 +107,16 @@ the algorithm towards something else!
 If we empower _Others_ by identifying them as they truly are, they will return the favor back in ways you
 couldn't even possibly fathom.
 
-Now I have a little mental trick that was given to me by my dearest friend: reread the entirety of this section, but 
-consider that the _content providers_ are your _children!_  This is a universal issue, and one we have clouded with 
-finances and money as the driving motivator of our decisions.  It's high time we turn around and recognize that 
-_we_ were once those little kids dreaming of ways to make the world a better place for the next generation before 
-deciding to "stick it to the man" while becoming _ourselves._
+Now I have a little mental trick that was given to me by a cherished and magnificent entity: reread the entirety of this section, but 
+consider that the _content providers_ are _children!_  Many of whom aren't guarded by as many Angels, such as yourself!  
 
-    tl;dr - be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
+When we sing and dance with our fellow human, they feel safe and vulnerable enough to let go of the traumas they've endured.  You are no exception!
+The artists, poets, musicians, programmers, painters, whosits, and done its - _everyone_ - are your fellow human, also equipped with trauma
+and battle scars from the playground of life.  Through witnessing their art in a vulnerable place - free from judgement and inhibition -
+_you_ earn a cathartic release of chemically induced tension and anxiety no different than they feel when gently read to.
+
+    tl;dr - judgement is a self-reinforcing feedback loop.
+            so, be kinder to Everything, not just Your fellow Human - you don't know what God might be experiencing today!
 
 Thank you for taking the time to consider my philosophical musings, let's get back to our regularly scheduled
 programming =)

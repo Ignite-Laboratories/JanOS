@@ -1,4 +1,4 @@
-# `E3 - Spark Maps`
+# `E3 - Any Maps`
 ### `Alex Petz, Ignite Laboratories, September 2025`
 
 ---
@@ -42,31 +42,39 @@ at the inner workings of how existing systems communicated with each other.  Wha
 language, just with different _verbs._  For example - JSON "quotes" data, while XML "tags" elements. SQL "queries" data, 
 while ZIP "compresses" it.  Marshallers "serialize" data, while algorithms "calculate" a result. 
 
-All _wildly_ different, but abstractly similar - verbs which _identify_ some kind of logic.
+All _wildly_ different, but abstractly similar - verbs which _identify_ some perspective of logic.  
 
-Because of this, I was able to distill the entire concept of "communicating" data into a very simple format, which
-I call a "Spark Map."  The idea is that key data should always be Human-_identifiable_, even if the stored value is _Machine_-readable.
+    tl;dr - an intelligent parser, such as a Human, can identify many perspectives of the same input
+
+Because of this, I was able to distill the concept of "identified" data into a very simple format, which
+I call an "Any Map."  Yes, I already hear the groans - "what's wrong with JSON!?" - well, nothing!  In
+fact, Spark can parse JSON (and many others).  I've taken a very different approach, however - the data
+is _off-limits_ from requiring modification to fit the schema!  For instance, JSON requires you escape 
+quote characters - complicating the interpreter and serializer.  Instead, any maps capture the data's 
+boundaries, and the delimiter for each key can change to accomodate the data intuitively.
+
+The idea (as with many modern formats) is that everything should be _Human-legible_, while retaining _Machine-readability_.
 It should be parsable by literally any intelligent entity reading the damn data!  `READ: A Human OR a Machine.`  That led 
-me to the following core tenants of the "spark map" format:
+me to the following core tenants of the "any map" format:
 
 - 0 It should always be in Human-readable form
 - 1 A "compact" form should only shrink out Human-friendly whitespace without affecting the stored data
-- 2 It should retain the Human-friendly formatting written by the author and NEVER auto-format to anyone else's standards unless compacted
-- 3 There should be no restrictions over what control characters are used, aside from newlines and comments 
+- 2 It should retain the EXACT Human-friendly formatting written by the author and NEVER auto-format to anyone else's standards unless compacted
+- 3 There should be no restrictions over what delimiters are used, aside from newlines and comments 
 
 In that, I immediately drafted the below specification:
 
-The Spark Map Schema
+The Any Map Schema
 ---
 
-A spark map contains only one logical element: an "entry"
+An "any map" is a Unicode schema which contains only one logical element: an **entry**.  Here's a few examples:
 
     :keyA:valueA:
     :keyB:valueB:
     :keyC:valueC:
     :keyD:valueD:
 
-An entry consists of three "components" - the key, value, and a "delimiter" character.  The 'data' of the entry pertains
+An entry consists of three **components** - the **key**, **value**, and a **delimiter** character.  The **data** of the entry pertains
 to either the key or the value independently of the delimiter. The delimiter character is the first non-whitespace character 
 outside a comment and can be any single Unicode character. This means the below entries are all valid:
 
@@ -75,7 +83,7 @@ outside a comment and can be any single Unicode character. This means the below 
     $keyC$valueC$
     %keyD%valueD%
 
-The colloquial delimiter is `:` and the only rule is that the chosen delimiter cannot exist within the entry data.
+The colloquial delimiter is `:` and the only rule is that the chosen delimiter cannot exist within the entry's data.
 
 Whitespace within a comment or entry's data is considered untouchable, but all other whitespace is entirely 
 optional and ignored by interpreters.  This means you can store things "compactly":
@@ -108,6 +116,11 @@ You're welcome to mix delimiters dynamically when encountering an entry whose da
 Next, you can recursively nest spark maps inside other spark maps - as long as the inner map uses a different double-delimiter:
 
     ::Configuration::
+        %Description%Multi-line data must not
+    introduce any unintended whitespace by the author%
+        %Keys have the
+    same rules as values%That's just how the "boundary" formatting principle works =)%
+
         &&Display&&
             :width:1024:
             :height:768:
