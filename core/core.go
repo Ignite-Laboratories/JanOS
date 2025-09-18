@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
 	"time"
 
 	"git.ignitelabs.net/core/sys/atlas"
@@ -69,6 +70,9 @@ var Synapses = make(chan synapse, 1)
 // for performing 'cleanup' operations when another neuron has requested a shutdown event.
 var Defer = make(chan func(), 1)
 
+var master sync.Mutex
+var clock = sync.NewCond(&master)
+
 // Ignite begins execution of Synapses.  This is a blocking call, meaning your initial neural sparks should
 // be provided to the channel before invoking this - but further neural activity can be sparked from any thread.
 func Ignite() {
@@ -79,7 +83,7 @@ func Ignite() {
 	}()
 
 	for Alive() {
-
+		clock.Broadcast()
 	}
 }
 

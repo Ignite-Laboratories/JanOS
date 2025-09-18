@@ -4,9 +4,6 @@ import "sync"
 
 type synapse func(Context)
 
-var master sync.Mutex
-var clock = sync.NewCond(&master)
-
 // NewSynapse creates a neural synapse which fires the provided action potential according to the provided Lifecycle.  You may optionally
 // provide a cleanup function which is called after this synapse finishes all neural activation (or the cortex shuts down).  For triggered
 // or impulsed lifecycles, this happens immediately - for looping or stimulative, this happens after the cortex shuts down or when the
