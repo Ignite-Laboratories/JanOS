@@ -3,6 +3,6 @@ package main
 import "git.ignitelabs.net/core"
 
 func main() {
-	core.NeuralActivity <- core.Spark{}
+	core.Synapses <- core.Spark{}
 	core.Ignite()
 }
