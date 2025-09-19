@@ -24,6 +24,7 @@ type Cortex struct {
 
 	deferrals chan func()
 
+	locked  bool
 	alive   bool
 	created bool
 	running bool
@@ -33,10 +34,12 @@ type Cortex struct {
 	master  sync.Mutex
 }
 
-// NewCortex creates a new Cortex limited to the provided number of neural activations.
+// NewCortex creates a new named Cortex limited to the provided number of neural activations.
+//
+// The named parameter takes in either a string or a name format - if you'd like a random name, please use format.Default
 //
 // NOTE: If no limit is provided, the default is 2¹⁶ - this can generally be ignored for most systems.
-func NewCortex(synapticLimit ...int) *Cortex {
+func NewCortex(named string, synapticLimit ...int) *Cortex {
 	limit := 2 ^ 16
 	if len(synapticLimit) > 0 {
 		limit = synapticLimit[0]
@@ -49,9 +52,10 @@ func NewCortex(synapticLimit ...int) *Cortex {
 		deferrals: make(chan func(), limit),
 		alive:     true,
 		created:   true,
-		Frequency: 1.0,
 		limit:     limit,
+		Frequency: 44444,
 	}
+	c.Entity.Name.Name = named
 	core.Deferrals() <- func() {
 		c.Shutdown()
 	}

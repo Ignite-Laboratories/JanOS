@@ -58,7 +58,7 @@ var alive = true
 var Inception = time.Now()
 
 // Name provides the randomly selected name of this instance.
-var Name, _ = given.Random[format.Default]()
+var Name = given.Random[format.Default]()
 
 // Deferrals are where you can send actions you wish to be fired just before the JanOS instance shuts down.  This is useful
 // for performing global 'cleanup' operations.

@@ -11,7 +11,7 @@ must be written alongside the code it describes!  I made some bold claims at the
 started with _how_ an algorithm could even begin to make _ethically sound decisions:_  it first gets to learn how to
 _describe_ the concept of "ethical soundness."  This entire enigma is devoted towards the concept of abstractly qualifying
 _anything_ in a queryable fashion for intelligent decision making - again, _ethics_ and _morals._  One cannot navigate
-ethically and morally unless it's psyche is foundationally built upon the concept of _defining_ whether one's actions 
+ethically and morally unless their psyche is foundationally built upon the concept of _defining_ whether one's actions 
 are "ethical" or "moral" in nature.  This is what separates chaos from order, and what facilitated _**creation**_ through 
 the natural process of _**evolution**_ =)
 
@@ -50,9 +50,9 @@ How do you correlate _mellifluousness_ against a _**data set?**_
 
 The answer is an astoundingly resolute _yes!_  Not because it couldn't before, but because we've already given it the
 ability to _temporally_ identify context - in other words, JanOS has conscious awareness of however much of its surroundings
-we _give_ it access to.  This comes in the form of the vector system's temporal frame buffer, which can be considered a form 
-of short-to-long term memory tuned as dense or lightweight as necessary.  This creates a kind of recursive
-"Markov Chain" once you consider a vector cursor can be fed its output as an input - so long as your structures are well-formed.
+we _give_ it access to.  This comes in the form of the temporal frame buffer, which can be considered a form 
+of short-to-long term memory tuned as dense or lightweight as necessary.  If the buffer is intelligently created, it can
+create a kind of recursive "Markov Chain," once you consider a buffer can be fed its output as an input.
 
 So what do we _put_ on the Markov Chain?
 

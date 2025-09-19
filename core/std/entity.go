@@ -20,14 +20,8 @@ func (e Entity) GetID() uint64 {
 	return e.id
 }
 
-// Named either gets or sets the Entity.Name.
-//
-// NOTE: If setting a name, this overrides the description.  To manipulate the description, drop to the Name field =)
+// Named either gets the Entity.Name.
 func (e Entity) Named(name ...string) string {
-	if len(name) > 0 {
-		e.Name.Name = name[0]
-		e.Name.Description = ""
-	}
 	return e.Name.Name
 }
 
@@ -52,7 +46,7 @@ func NewEntity[T format.Format](name ...given.Name) Entity {
 	if len(name) > 0 {
 		g = name[0]
 	} else {
-		g, _ = given.Random[T](i)
+		g = given.Random[T]()
 	}
 
 	ne := Entity{

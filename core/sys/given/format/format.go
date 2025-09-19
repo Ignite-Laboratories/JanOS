@@ -11,7 +11,7 @@ type Format interface {
 // qualified name that can be easily searched through the logs.  Short identifiers like 'Jim' or
 // 'Bob' are far more challenging to trace than 'Jim Finch' or 'Bob Sturgeon' ;)
 //
-// NOTE: This will NOT change in the future - Alex
+// NOTE: This quality of accepting whitespace in names will NOT change in the future - Alex
 //
 // See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Default string

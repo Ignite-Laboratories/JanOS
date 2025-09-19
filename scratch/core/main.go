@@ -4,6 +4,7 @@ import (
 	"git.ignitelabs.net/core"
 	"git.ignitelabs.net/core/enum/lifecycle"
 	"git.ignitelabs.net/core/std"
+	"git.ignitelabs.net/core/sys/given"
 	"git.ignitelabs.net/core/sys/given/format"
 	"git.ignitelabs.net/core/sys/log"
 )
@@ -13,11 +14,13 @@ func main() {
 		core.ShutdownNow()
 	}()
 
-	c := std.NewCortex()
-	c.Named("Bob")
-	c.Spark(std.NewSynapse(lifecycle.Looping, neuron{
+	c := std.NewCortex(given.Random[format.Default]().Name)
+
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, neuron{
 		Entity: std.NewEntity[format.Default](),
-	}))
+	})
+
+	c.Spark()
 }
 
 type neuron struct {

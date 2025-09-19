@@ -21,7 +21,7 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 	beat := 0
 	return func(ctx Context) {
 		ctx.Beat = beat
-		ctx.ModuleName = (*ctx.Cortex).Named() + "." + neuron.Named()
+		ctx.ModuleName = (*ctx.Cortex).Named() + " ↦ " + neuron.Named()
 		beat++
 
 		log.Printf((*ctx.Cortex).Named(), "created synapse to '%s'\n", neuron.Named())
