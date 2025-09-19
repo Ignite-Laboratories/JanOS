@@ -123,7 +123,7 @@ package pad7d
 //	}, rolling...)
 //}
 //
-//// Seed creates a new 7D[T] structure by calling the provided pattern function with coordinate
-//func Seed[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, pattern func(x, y, z, w, a, b, c uint) T, rolling ...bool) [][][][][][][]T {
+//// Synapses creates a new 7D[T] structure by calling the provided pattern function with coordinate
+//func Synapses[T any](patternScheme scheme.Scheme, side ordinal.Direction, totalWidth uint, pattern func(x, y, z, w, a, b, c uint) T, rolling ...bool) [][][][][][][]T {
 //	return SeedAsymmetric(patternScheme, side, totalWidth, totalWidth, totalWidth, totalWidth, totalWidth, totalWidth, totalWidth, pattern, rolling...)
 //}

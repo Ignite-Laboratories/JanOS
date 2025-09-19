@@ -1,4 +1,4 @@
-package core
+package lifecycle
 
 // A Lifecycle defines how the neuron should be re-activated.  When a neuron is 'activated' it's provided a
 // -new- goroutine.  Looping neurons recycle the same goroutine, while all others launch a new goroutine on

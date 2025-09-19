@@ -1,9 +1,10 @@
 package when
 
 import (
-	"core/sys/num"
 	"fmt"
 	"time"
+
+	"git.ignitelabs.net/core/sys/num"
 )
 
 // DurationToHertz converts a time.Duration into Hertz (f = 1 / t)
@@ -53,7 +54,7 @@ func durationToHertzPrimitive[T num.Primitive](d time.Duration) T {
 	if d < 0 {
 		d = 0
 	}
-	s := T(d) / 1e9
+	s := T(d) / any(1e9).(T)
 	hz := 1 / s
 	return hz
 }
@@ -109,13 +110,13 @@ func hertzToDurationPrimitive[T num.Primitive](hz T) time.Duration {
 			hz = 1
 		case float32, float64:
 			typed = 1e-100 // math.SmallestNonzeroFloat64 🡨 NOTE: Raspberry Pi doesn't handle this constant well
-			hz = typed
+			hz = any(typed).(T)
 		default:
 			panic("invalid type")
 		}
 	}
 	s := 1 / hz
-	ns := s * 1e9
+	ns := s * any(1e9).(T)
 	return time.Duration(ns)
 }
 

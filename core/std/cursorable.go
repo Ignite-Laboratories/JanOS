@@ -1,8 +1,8 @@
 package std
 
 import (
-	"core/enum/direction/ordinal"
-	"core/sys/num"
+	"git.ignitelabs.net/core/enum/direction/ordinal"
+	"git.ignitelabs.net/core/sys/num"
 )
 
 // A PathFn should plot a course for a Cursorable to Step along.

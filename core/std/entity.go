@@ -1,10 +1,11 @@
 package std
 
 import (
-	"core/sys/given"
-	"core/sys/given/format"
-	"core/sys/id"
 	"fmt"
+
+	"git.ignitelabs.net/core/sys/given"
+	"git.ignitelabs.net/core/sys/given/format"
+	"git.ignitelabs.net/core/sys/id"
 )
 
 // Entity provides an 'ID' field to any composite types.
@@ -17,6 +18,17 @@ type Entity struct {
 
 func (e Entity) GetID() uint64 {
 	return e.id
+}
+
+// Named either gets or sets the Entity.Name.
+//
+// NOTE: If setting a name, this overrides the description.  To manipulate the description, drop to the Name field =)
+func (e Entity) Named(name ...string) string {
+	if len(name) > 0 {
+		e.Name.Name = name[0]
+		e.Name.Description = ""
+	}
+	return e.Name.Name
 }
 
 // String returns the Entity's identifier and Name as "[ID](Name)"

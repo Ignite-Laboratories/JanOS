@@ -1,8 +1,9 @@
 package when
 
 import (
-	"core/sys/num"
 	"time"
+
+	"git.ignitelabs.net/core/sys/num"
 )
 
 func Always() bool {

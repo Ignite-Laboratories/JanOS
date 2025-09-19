@@ -1,6 +1,8 @@
 package std
 
-import "core"
+import (
+	"git.ignitelabs.net/core"
+)
 
 func init() {
 	if core.Alive() {

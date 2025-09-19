@@ -1,10 +1,11 @@
 package std
 
 import (
-	"core/sys/given"
-	"core/sys/given/format"
-	"core/sys/num"
 	"strings"
+
+	"git.ignitelabs.net/core/sys/given"
+	"git.ignitelabs.net/core/sys/given/format"
+	"git.ignitelabs.net/core/sys/num"
 )
 
 // Phrase represents a collection of raw binary measurements and their observed endianness at the time of recording.

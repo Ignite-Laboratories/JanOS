@@ -7,9 +7,11 @@ type Format interface {
 	NameDB | SurnameDB | Tiny | Multi | Default
 }
 
-// Default currently generates a Multi name.
+// Default currently generates a Multi name.  This is intentional, as the default should be a fully
+// qualified name that can be easily searched through the logs.  Short identifiers like 'Jim' or
+// 'Bob' are far more challenging to trace than 'Jim Finch' or 'Bob Sturgeon' ;)
 //
-// NOTE: This may change in the future!  If you need a strict format, please use that instead.
+// NOTE: This will NOT change in the future - Alex
 //
 // See Format, NameDB, SurnameDB, Tiny, Multi, and Default.
 type Default string

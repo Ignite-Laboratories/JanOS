@@ -28,7 +28,7 @@ func init() {
 			}
 		}
 
-		randDash := func() string {
+		randomDash := func() string {
 			var builder strings.Builder
 			for i := byte(0); i < blue.Note(); i++ {
 				builder.WriteString("-")
@@ -36,11 +36,11 @@ func init() {
 			return builder.String()
 		}
 
-		fmt.Printf("⎧"+randDash()+"-⇥ JanOS %v\n", version)
-		fmt.Println("|" + randDash() + "-⇥ © 2025, Ignite Laboratories")
-		fmt.Println("⎨" + randDash() + "-⇥ Alex Petz")
-		fmt.Println("|" + randDash() + "⇥")
-		fmt.Println("⎩" + randDash() + "⇥ ↯ " + Name.StringQuoted(false))
+		fmt.Printf("⎧"+randomDash()+"-⇥ JanOS %v\n", version)
+		fmt.Println("|" + randomDash() + "-⇥ © 2025, Ignite Laboratories")
+		fmt.Println("⎨" + randomDash() + "-⇥ Alex Petz")
+		fmt.Println("|" + randomDash() + "⇥")
+		fmt.Println("⎩" + randomDash() + "⇥ ↯ " + Name.StringQuoted(false))
 		fmt.Println()
 	}
 }
@@ -60,32 +60,13 @@ var Inception = time.Now()
 // Name provides the randomly selected name of this instance.
 var Name, _ = given.Random[format.Default]()
 
-// Synapses sparks neural execution within a stable isolated container. This will wrap and invoke each provided
-// neural Spark as a goroutine within a panic-safe environment, printing any neural panics that bubble up.
-//
-// NOTE: neural activity does not begin until a call to Ignite.
-var Synapses = make(chan synapse, 1)
-
-// Defer is where you can send actions you wish to be fired just before the cortex shuts down.  This is useful
-// for performing 'cleanup' operations when another neuron has requested a shutdown event.
-var Defer = make(chan func(), 1)
-
-var master sync.Mutex
-var clock = sync.NewCond(&master)
-
-// Ignite begins execution of Synapses.  This is a blocking call, meaning your initial neural sparks should
-// be provided to the channel before invoking this - but further neural activity can be sparked from any thread.
-func Ignite() {
-	defer func() {
-		for fn := range Defer {
-			fn()
-		}
-	}()
-
-	for Alive() {
-		clock.Broadcast()
-	}
+// Deferrals are where you can send actions you wish to be fired just before the JanOS instance shuts down.  This is useful
+// for performing global 'cleanup' operations.
+func Deferrals() chan<- func() {
+	return deferrals
 }
+
+var deferrals = make(chan func(), 2^16)
 
 // Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
 // '0' is implied.
@@ -100,10 +81,27 @@ func Shutdown(period time.Duration, exitCode ...int) {
 // ShutdownNow immediately sets Alive to false, then pauses for a second before calling os.Exit. You may optionally
 // provide an OS exit code, otherwise '0' is implied.
 //
-// NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
+// NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
 	fmt.Sprintf("[core] shutting down\n")
 	alive = false
+
+	wg := sync.WaitGroup{}
+	for deferFn := range deferrals {
+		wg.Add(1)
+		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Printf("[%s] deferral error: %v\n", ModuleName, r)
+					wg.Done()
+				}
+			}()
+
+			deferFn()
+			wg.Done()
+		}()
+	}
+	wg.Wait()
 
 	// Give the threads a brief moment to clean themselves up.
 	time.Sleep(time.Second)
