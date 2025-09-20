@@ -44,9 +44,12 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 				log.Verbosef(imp.Bridge, "sparked looping activation\n")
 				last := &imp.Timeline
 				for (*imp.Cortex).Alive() {
-					last.Last = nil
-					imp.Timeline.Last = last
-					imp.Timeline.Inception = time.Now()
+					inception := time.Now()
+					copied := &Timeline{} // Create a new memory location for the copy
+					*copied = *last
+					copied.Last = nil
+					imp.Timeline.Last = copied
+					imp.Timeline.Inception = inception
 					imp.Beat = beat
 					if neuron.Potential(imp) {
 						imp.Timeline.Activation = time.Now()

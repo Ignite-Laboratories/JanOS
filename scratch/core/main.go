@@ -1,11 +1,31 @@
 package main
 
 import (
+	"fmt"
+	"time"
+
 	"git.ignitelabs.net/core"
 	"git.ignitelabs.net/core/enum/lifecycle"
 	"git.ignitelabs.net/core/std"
 	"git.ignitelabs.net/core/sys/log"
 )
+
+func main2() {
+	printer := make(chan time.Duration, 1<<16)
+
+	go func() {
+		for p := range printer {
+			fmt.Println(p)
+		}
+	}()
+
+	last := time.Now()
+	for core.Alive() {
+		now := time.Now()
+		printer <- now.Sub(last)
+		last = now
+	}
+}
 
 func main() {
 	n := neuron{
@@ -17,34 +37,12 @@ func main() {
 	createCortex("C", n)
 	createCortex("D", n)
 	createCortex("E", n)
-	createCortex("F", n)
-	createCortex("G", n)
-	createCortex("H", n)
-	createCortex("I", n)
-	createCortex("J", n)
-	createCortex("K", n)
-	createCortex("L", n)
-	createCortex("M", n)
-	createCortex("N", n)
-	createCortex("O", n)
-	createCortex("P", n)
-	createCortex("Q", n)
-	createCortex("R", n)
-	createCortex("S", n)
-	createCortex("T", n)
-	createCortex("U", n)
-	createCortex("V", n)
-	createCortex("W", n)
-	createCortex("X", n)
-	createCortex("Y", n)
-	createCortex("Z", n)
 
 	core.KeepAlive()
 }
 
 func createCortex(cortexName string, n neuron) {
 	c := std.NewCortex(cortexName)
-	c.Frequency = 1
 
 	c.Synapses() <- std.NewSynapse(lifecycle.Looping, n)
 
