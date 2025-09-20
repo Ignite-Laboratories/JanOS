@@ -46,7 +46,9 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 						ctx.ResponseTime = time.Now().Sub(ctx.Moment)
 						panicSafeAction(ctx)
 					}
+
 					(*ctx.Cortex).master.Lock()
+					(*ctx.Cortex).clock.Wait()
 					(*ctx.Cortex).master.Unlock()
 				}
 
@@ -62,6 +64,7 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 						go panicSafeAction(ctx)
 					}
 					(*ctx.Cortex).master.Lock()
+					(*ctx.Cortex).clock.Wait()
 					(*ctx.Cortex).master.Unlock()
 				}
 
@@ -73,6 +76,7 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 				log.Verbosef(ctx.ModuleName, "sparked triggered activation\n")
 				for (*ctx.Cortex).Alive() && !neuron.Potential(ctx) {
 					(*ctx.Cortex).master.Lock()
+					(*ctx.Cortex).clock.Wait()
 					(*ctx.Cortex).master.Unlock()
 				}
 				if (*ctx.Cortex).Alive() {

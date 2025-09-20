@@ -31,7 +31,9 @@ type Cortex struct {
 	relay   chan any
 	reset   chan any
 	limit   int
-	master  sync.Mutex
+
+	master sync.Mutex
+	clock  sync.Cond
 }
 
 // NewCortex creates a new named Cortex limited to the provided number of neural activations.
@@ -53,8 +55,8 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		alive:     true,
 		created:   true,
 		limit:     limit,
-		Frequency: 44444,
 	}
+	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
 	core.Deferrals() <- func() {
 		c.Shutdown()
@@ -87,23 +89,26 @@ func (c *Cortex) Spark(synapses ...synapse) {
 
 	last := time.Now()
 
+	started := false
+
 	for c.Alive() {
-		c.master.TryLock()
+		c.master.Lock()
+		c.master.Unlock()
 		moment := time.Now()
 		ctx := Context{
 			Moment: moment,
 			Cortex: c,
 		}
 
-		if c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency) {
+		if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
+			started = true
 			last = moment
-			select {
-			case syn := <-c.synapses:
-				// Wire up new synapses
+			for len(c.synapses) > 0 {
+				syn := <-c.synapses
 				syn(ctx)
-			default:
 			}
-			c.master.Unlock()
+
+			c.clock.Broadcast()
 		}
 	}
 }
