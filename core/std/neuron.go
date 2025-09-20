@@ -5,8 +5,8 @@ package std
 type Neuron interface {
 	Named(...string) string
 
-	Action(Context)
-	Potential(Context) bool
+	Action(Impulse)
+	Potential(Impulse) bool
 
 	Mute()
 	Unmute()

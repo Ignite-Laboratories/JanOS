@@ -69,7 +69,7 @@ func Deferrals() chan<- func() {
 	return deferrals
 }
 
-var deferrals = make(chan func(), 2^16)
+var deferrals = make(chan func(), 1<<16)
 
 // Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
 // '0' is implied.

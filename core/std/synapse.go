@@ -7,7 +7,7 @@ import (
 	"git.ignitelabs.net/core/sys/log"
 )
 
-type synapse func(Context)
+type synapse func(Impulse)
 
 // NewSynapse creates a neural synapse which fires the provided action potential according to the provided Lifecycle.  You may optionally
 // provide a cleanup function which is called after this synapse finishes all neural activation (or the cortex shuts down).  For triggered
@@ -19,37 +19,46 @@ type synapse func(Context)
 //	activations are complete.
 func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 	beat := 0
-	return func(ctx Context) {
-		ctx.Beat = beat
-		ctx.ModuleName = (*ctx.Cortex).Named() + " ↦ " + neuron.Named()
-		beat++
+	return func(imp Impulse) {
+		imp.Timeline = Timeline{
+			Creation: time.Now(),
+		}
+		imp.Bridge = (*imp.Cortex).Named() + " ↦ " + neuron.Named()
 
-		log.Printf((*ctx.Cortex).Named(), "created synapse to '%s'\n", neuron.Named())
+		log.Printf((*imp.Cortex).Named(), "created synapse to '%s'\n", neuron.Named())
 
-		panicSafeAction := func(ctx Context) {
+		panicSafeAction := func(i Impulse) {
 			defer func() {
 				if r := recover(); r != nil {
-					log.Printf(ctx.ModuleName, "neural panic: %s\n", r)
+					log.Printf(i.Bridge, "neural panic: %s\n", r)
 				}
 			}()
 
-			neuron.Action(ctx)
+			neuron.Action(i)
 		}
 
 		switch life {
 		case lifecycle.Looping:
 			// 0 - Looping activations cyclically reactivate the same goroutine when the last finishes and the potential is high
 			go func() {
-				log.Verbosef(ctx.ModuleName, "sparked looping activation\n")
-				for (*ctx.Cortex).Alive() {
-					if neuron.Potential(ctx) {
-						ctx.ResponseTime = time.Now().Sub(ctx.Moment)
-						panicSafeAction(ctx)
+				log.Verbosef(imp.Bridge, "sparked looping activation\n")
+				last := &imp.Timeline
+				for (*imp.Cortex).Alive() {
+					last.Last = nil
+					imp.Timeline.Last = last
+					imp.Timeline.Inception = time.Now()
+					imp.Beat = beat
+					if neuron.Potential(imp) {
+						imp.Timeline.Activation = time.Now()
+						panicSafeAction(imp)
+						imp.Timeline.Completion = time.Now()
+						last = &imp.Timeline
+						beat++
 					}
 
-					(*ctx.Cortex).master.Lock()
-					(*ctx.Cortex).clock.Wait()
-					(*ctx.Cortex).master.Unlock()
+					(*imp.Cortex).master.Lock()
+					(*imp.Cortex).clock.Wait()
+					(*imp.Cortex).master.Unlock()
 				}
 
 				neuron.Cleanup()
@@ -57,15 +66,23 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 		case lifecycle.Stimulative:
 			// 1 - Stimulative activations launch new goroutines on every impulse the potential is high
 			go func() {
-				log.Verbosef(ctx.ModuleName, "sparked stimulative activation\n")
-				for (*ctx.Cortex).Alive() {
-					if neuron.Potential(ctx) {
-						ctx.ResponseTime = time.Now().Sub(ctx.Moment)
-						go panicSafeAction(ctx)
+				log.Verbosef(imp.Bridge, "sparked stimulative activation\n")
+				last := imp.Timeline
+				for (*imp.Cortex).Alive() {
+					last.Last = nil
+					imp.Timeline.Last = &last
+					imp.Timeline.Inception = time.Now()
+					imp.Beat = beat
+					if neuron.Potential(imp) {
+						imp.Timeline.Activation = time.Now()
+						go panicSafeAction(imp)
+						imp.Timeline.Completion = time.Now()
+						last = imp.Timeline
+						beat++
 					}
-					(*ctx.Cortex).master.Lock()
-					(*ctx.Cortex).clock.Wait()
-					(*ctx.Cortex).master.Unlock()
+					(*imp.Cortex).master.Lock()
+					(*imp.Cortex).clock.Wait()
+					(*imp.Cortex).master.Unlock()
 				}
 
 				neuron.Cleanup()
@@ -73,15 +90,19 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 		case lifecycle.Triggered:
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
-				log.Verbosef(ctx.ModuleName, "sparked triggered activation\n")
-				for (*ctx.Cortex).Alive() && !neuron.Potential(ctx) {
-					(*ctx.Cortex).master.Lock()
-					(*ctx.Cortex).clock.Wait()
-					(*ctx.Cortex).master.Unlock()
+				log.Verbosef(imp.Bridge, "sparked triggered activation\n")
+				imp.Timeline.Inception = time.Now()
+				for (*imp.Cortex).Alive() && !neuron.Potential(imp) {
+					(*imp.Cortex).master.Lock()
+					(*imp.Cortex).clock.Wait()
+					(*imp.Cortex).master.Unlock()
 				}
-				if (*ctx.Cortex).Alive() {
-					ctx.ResponseTime = time.Now().Sub(ctx.Moment)
-					panicSafeAction(ctx)
+				if (*imp.Cortex).Alive() {
+					imp.Beat = beat
+					imp.Timeline.Activation = time.Now()
+					panicSafeAction(imp)
+					imp.Timeline.Completion = time.Now()
+					beat++
 				}
 
 				neuron.Cleanup()
@@ -89,10 +110,14 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 		case lifecycle.Impulse:
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
 			go func() {
-				log.Verbosef(ctx.ModuleName, "sparked impulse activation\n")
-				if (*ctx.Cortex).Alive() && neuron.Potential(ctx) {
-					ctx.ResponseTime = time.Now().Sub(ctx.Moment)
-					panicSafeAction(ctx)
+				log.Verbosef(imp.Bridge, "sparked impulse activation\n")
+				imp.Timeline.Inception = time.Now()
+				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
+					imp.Beat = beat
+					imp.Timeline.Activation = time.Now()
+					panicSafeAction(imp)
+					imp.Timeline.Completion = time.Now()
+					beat++
 				}
 
 				neuron.Cleanup()

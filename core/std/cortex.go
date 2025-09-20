@@ -42,7 +42,7 @@ type Cortex struct {
 //
 // NOTE: If no limit is provided, the default is 2¹⁶ - this can generally be ignored for most systems.
 func NewCortex(named string, synapticLimit ...int) *Cortex {
-	limit := 2 ^ 16
+	limit := 1 << 16
 	if len(synapticLimit) > 0 {
 		limit = synapticLimit[0]
 	}
@@ -97,21 +97,19 @@ func (c *Cortex) Spark(synapses ...synapse) {
 	for c.Alive() {
 		c.master.Lock()
 		c.master.Unlock()
-		moment := time.Now()
-		ctx := Context{
-			Moment: moment,
+		imp := Impulse{
 			Cortex: c,
 		}
 
 		if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
 			started = true
-			last = moment
 			for len(c.synapses) > 0 {
 				syn := <-c.synapses
-				syn(ctx)
+				syn(imp)
 			}
 
 			c.clock.Broadcast()
+			last = time.Now()
 		}
 	}
 }

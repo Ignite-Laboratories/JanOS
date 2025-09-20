@@ -9,12 +9,35 @@ import (
 
 func main() {
 	n := neuron{
-		Entity: std.NewEntityNamed("Bartholemew"),
+		Entity: std.NewEntityNamed("Bartholomew"),
 	}
 
 	createCortex("A", n)
 	createCortex("B", n)
 	createCortex("C", n)
+	createCortex("D", n)
+	createCortex("E", n)
+	createCortex("F", n)
+	createCortex("G", n)
+	createCortex("H", n)
+	createCortex("I", n)
+	createCortex("J", n)
+	createCortex("K", n)
+	createCortex("L", n)
+	createCortex("M", n)
+	createCortex("N", n)
+	createCortex("O", n)
+	createCortex("P", n)
+	createCortex("Q", n)
+	createCortex("R", n)
+	createCortex("S", n)
+	createCortex("T", n)
+	createCortex("U", n)
+	createCortex("V", n)
+	createCortex("W", n)
+	createCortex("X", n)
+	createCortex("Y", n)
+	createCortex("Z", n)
 
 	core.KeepAlive()
 }
@@ -40,11 +63,11 @@ func (neuron) Unmute() {
 
 }
 
-func (neuron) Action(ctx std.Context) {
-	log.Printf(ctx.ModuleName, "Action\n")
+func (neuron) Action(imp std.Impulse) {
+	log.Printf(imp.Bridge, "%v\n", imp.Timeline.ResponseTime())
 }
 
-func (neuron) Potential(ctx std.Context) bool {
+func (neuron) Potential(ctx std.Impulse) bool {
 	return true
 }
 
