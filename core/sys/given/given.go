@@ -39,8 +39,6 @@ func init() {
 			tinyNameCount++
 		}
 	}
-
-	log.Verbosef(moduleName, "name database loaded\n")
 }
 
 func initSurnameDB() {

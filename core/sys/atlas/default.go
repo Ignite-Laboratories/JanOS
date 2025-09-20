@@ -4,8 +4,11 @@ import (
 	"time"
 )
 
-// PrintPreamble indicates if JanOS should print it's preamble.
+// PrintPreamble indicates if JanOS should print its preamble.
 var PrintPreamble = true
+
+// ShutdownTimeout is the default amount of time that JanOS will allow cleanup operations within during shutdown.
+var ShutdownTimeout = 5 * time.Second
 
 // ObservanceWindow is the default dimensional window of observance - 2 seconds.
 var ObservanceWindow = 2 * time.Second

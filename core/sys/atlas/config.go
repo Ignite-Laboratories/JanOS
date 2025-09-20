@@ -7,16 +7,17 @@ import (
 )
 
 type config struct {
-	PrintPreamble        *bool   `json:"printPreamble"`
-	Verbose              *bool   `json:"verbose"`
-	ObservanceWindow     string  `json:"observanceWindow"`
-	TrimFrequency        float64 `json:"trimFrequency"`
-	Precision            uint    `json:"precision"`
-	PrecisionMinimum     uint    `json:"precisionMinimum"`
-	Base                 uint16  `json:"base"`
-	SeedRefractoryPeriod string  `json:"seedRefractoryPeriod"`
-	IncludeNilBits       *bool   `json:"includeNilBits"`
-	CompactVectors       *bool   `json:"compactVectors"`
+	PrintPreamble        *bool         `json:"printPreamble"`
+	Verbose              *bool         `json:"verbose"`
+	ShutdownTimeout      time.Duration `json:"shutdownTimeout"`
+	ObservanceWindow     string        `json:"observanceWindow"`
+	TrimFrequency        float64       `json:"trimFrequency"`
+	Precision            uint          `json:"precision"`
+	PrecisionMinimum     uint          `json:"precisionMinimum"`
+	Base                 uint16        `json:"base"`
+	SeedRefractoryPeriod string        `json:"seedRefractoryPeriod"`
+	IncludeNilBits       *bool         `json:"includeNilBits"`
+	CompactVectors       *bool         `json:"compactVectors"`
 }
 
 func (c config) apply() {
@@ -25,6 +26,9 @@ func (c config) apply() {
 	}
 	if c.Verbose != nil {
 		log.Verbose = *c.Verbose
+	}
+	if c.ShutdownTimeout != 0 {
+		ShutdownTimeout = c.ShutdownTimeout
 	}
 	if len(c.ObservanceWindow) > 0 {
 		ObservanceWindow, _ = time.ParseDuration(c.ObservanceWindow)

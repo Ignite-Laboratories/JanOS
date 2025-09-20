@@ -82,8 +82,11 @@ func (c *Cortex) Spark(synapses ...synapse) {
 	log.Printf(c.Named(), "sparking\n")
 
 	defer func() {
-		for deferral := range c.deferrals {
-			deferral()
+		for len(c.deferrals) > 0 {
+			deferral := <-c.deferrals
+			if deferral != nil {
+				deferral()
+			}
 		}
 	}()
 
@@ -116,6 +119,10 @@ func (c *Cortex) Spark(synapses ...synapse) {
 func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.sanityCheck()
 
+	if !c.alive {
+		return
+	}
+
 	if len(delay) > 0 {
 		log.Verbosef(c.Named(), "shutting down in %v\n", delay[0])
 		time.Sleep(delay[0])
@@ -126,24 +133,27 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.running = false
 	c.alive = false
 
-	log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
+	if len(c.deferrals) > 0 {
+		log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
 
-	wg := sync.WaitGroup{}
-	for deferFn := range c.deferrals {
-		wg.Add(1)
-		go func() {
-			defer func() {
-				if r := recover(); r != nil {
-					log.Printf(c.Named(), "deferral error: %v\n", r)
-					wg.Done()
-				}
+		wg := sync.WaitGroup{}
+		for len(c.deferrals) > 0 {
+			deferFn := <-c.deferrals
+			wg.Add(1)
+			go func() {
+				defer func() {
+					if r := recover(); r != nil {
+						log.Printf(c.Named(), "deferral error: %v\n", r)
+						wg.Done()
+					}
+				}()
+
+				deferFn()
+				wg.Done()
 			}()
-
-			deferFn()
-			wg.Done()
-		}()
+		}
+		wg.Wait()
 	}
-	wg.Wait()
 
 	log.Verbosef(c.Named(), "shut down\n")
 

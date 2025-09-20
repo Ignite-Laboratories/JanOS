@@ -1,13 +1,16 @@
 package core
 
 import (
+	"context"
 	"debug/buildinfo"
 	"fmt"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 
 	"git.ignitelabs.net/core/sys/atlas"
@@ -40,7 +43,7 @@ func init() {
 		fmt.Println("|" + randomDash() + "-⇥ © 2025, Ignite Laboratories")
 		fmt.Println("⎨" + randomDash() + "-⇥ Alex Petz")
 		fmt.Println("|" + randomDash() + "⇥")
-		fmt.Println("⎩" + randomDash() + "⇥ ↯ " + Name.StringQuoted(false))
+		fmt.Println("⎩" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
 		fmt.Println()
 	}
 }
@@ -73,7 +76,7 @@ var deferrals = make(chan func(), 2^16)
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func Shutdown(period time.Duration, exitCode ...int) {
-	fmt.Sprintf("[core] shutting down in %v\n", period)
+	fmt.Printf("[core] shutting down in %v\n", period)
 	time.Sleep(period)
 	ShutdownNow(exitCode...)
 }
@@ -83,25 +86,30 @@ func Shutdown(period time.Duration, exitCode ...int) {
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
-	fmt.Sprintf("[core] shutting down\n")
+	fmt.Printf("[core] shutting down\n")
 	alive = false
 
 	wg := sync.WaitGroup{}
-	for deferFn := range deferrals {
-		wg.Add(1)
-		go func() {
-			defer func() {
-				if r := recover(); r != nil {
-					fmt.Printf("[%s] deferral error: %v\n", ModuleName, r)
-					wg.Done()
-				}
-			}()
 
-			deferFn()
-			wg.Done()
-		}()
+	if len(deferrals) > 0 {
+		fmt.Printf("[core] running %d deferrals\n", len(deferrals))
+		for len(deferrals) > 0 {
+			deferFn := <-deferrals
+			wg.Add(1)
+			go func() {
+				defer func() {
+					if r := recover(); r != nil {
+						fmt.Printf("[%s] deferral error: %v\n", ModuleName, r)
+						wg.Done()
+					}
+				}()
+
+				deferFn()
+				wg.Done()
+			}()
+		}
+		wg.Wait()
 	}
-	wg.Wait()
 
 	// Give the threads a brief moment to clean themselves up.
 	time.Sleep(time.Second)
@@ -123,4 +131,11 @@ func ShutdownNow(exitCode ...int) {
 func RelativePath(components ...string) string {
 	_, file, _, _ := runtime.Caller(0)
 	return filepath.Dir(filepath.Dir(file)) + "/" + strings.Join(components, "/")
+}
+
+func KeepAlive() {
+	notify, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM)
+	defer stop()
+	<-notify.Done()
+	ShutdownNow()
 }
