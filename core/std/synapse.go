@@ -45,7 +45,7 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 				last := &imp.Timeline
 				for (*imp.Cortex).Alive() {
 					inception := time.Now()
-					copied := &Timeline{} // Create a new memory location for the copy
+					copied := &Timeline{}
 					*copied = *last
 					copied.Last = nil
 					imp.Timeline.Last = copied
