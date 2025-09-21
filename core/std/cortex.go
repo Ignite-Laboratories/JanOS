@@ -25,13 +25,12 @@ type Cortex struct {
 	deferrals    chan func(*sync.WaitGroup)
 	deferralWait *sync.WaitGroup
 
-	locked  bool
+	muted   bool
 	alive   bool
 	created bool
 	running bool
 	relay   chan any
 	reset   chan any
-	limit   int
 
 	master sync.Mutex
 	clock  sync.Cond
@@ -56,7 +55,6 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		deferralWait: &sync.WaitGroup{},
 		alive:        true,
 		created:      true,
-		limit:        limit,
 	}
 	c.deferralWait.Add(1)
 	c.clock = sync.Cond{L: &c.master}
@@ -89,21 +87,25 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		log.Printf(c.Named(), "sparking\n")
 
 		defer func() {
-			log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
-			for len(c.deferrals) > 0 {
-				deferral := <-c.deferrals
-				if deferral != nil {
-					go func() {
-						defer func() {
-							if r := recover(); r != nil {
-								log.Printf(c.Named(), "deferral error: %v\n", r)
-								c.deferralWait.Done()
-							}
-						}()
+			if len(c.deferrals) > 0 {
+				log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
+				for len(c.deferrals) > 0 {
+					deferral := <-c.deferrals
+					if deferral != nil {
+						go func() {
+							defer func() {
+								if r := recover(); r != nil {
+									log.Printf(c.Named(), "deferral error: %v\n", r)
+									c.deferralWait.Done()
+								}
+							}()
 
-						deferral(c.deferralWait)
-					}()
+							deferral(c.deferralWait)
+						}()
+					}
 				}
+			} else {
+				c.deferralWait.Done()
 			}
 		}()
 
@@ -112,6 +114,9 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		started := false
 
 		for c.Alive() {
+			c.master.Lock()
+			c.master.Unlock()
+
 			if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
 				started = true
 				for len(c.synapses) > 0 {
@@ -142,6 +147,10 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 		time.Sleep(delay[0])
 	}
 
+	if c.muted {
+		c.master.Unlock()
+	}
+
 	c.master.Lock()
 	c.running = false
 	c.alive = false
@@ -160,12 +169,14 @@ func (c *Cortex) Alive() bool {
 func (c *Cortex) Mute() {
 	c.sanityCheck()
 
+	c.muted = true
 	c.master.Lock()
 }
 
 func (c *Cortex) Unmute() {
 	c.sanityCheck()
 
+	c.muted = false
 	c.master.Unlock()
 }
 

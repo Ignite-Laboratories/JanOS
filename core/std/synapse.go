@@ -4,21 +4,24 @@ import (
 	"sync"
 	"time"
 
+	"git.ignitelabs.net/core"
 	"git.ignitelabs.net/core/enum/lifecycle"
 	"git.ignitelabs.net/core/sys/log"
 )
 
 type Synapse func(*Impulse)
 
-// NewSynapse creates a neural Synapse which fires the provided action potential according to the provided Lifecycle.  You may optionally
+// NewSynapse creates a synaptic bridge to a neuron.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
+func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Synapse {
+	n := NewLongRunning(neuronName, action, potential, cleanup...)
+	log.Printf(core.ModuleName, "created neural synapse '%s'\n", n.Named())
+	return NewSynapseFromNeuron(lifecycle, n)
+}
+
+// NewSynapseFromNeuron creates a neural Synapse which fires the provided action potential according to the provided lifecycle.Lifecycle.  You may optionally
 // provide a cleanup function which is called after this Synapse finishes all neural activation (or the cortex shuts down).  For triggered
-// or impulsed lifecycles, this happens immediately - for looping or stimulative, this happens after the cortex shuts down or when the
-// provided action returns false.
-//
-// NOTE: For stimulative activations, the action may still fire a few times after returning false - but cleanup will happen after all
-//
-//	activations are complete.
-func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) Synapse {
+// or impulsed lifecycles, this gets called immediately - for looping or stimulative, this gets called after the cortex shuts down.
+func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 	beat := 0
 	return func(imp *Impulse) {
 		imp.Timeline.Creation = time.Now()

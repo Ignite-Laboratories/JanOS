@@ -10,7 +10,7 @@ package std
 //
 // Cortex - This provides a reference to the cortex that generated this impulse (the neuron can be impulsed by many cortices)
 //
-// Neuron - This provides a reference to the neuron that this impulse terminates into.
+// Neural - This provides a reference to the neuron that this impulse terminates into.
 //
 // Thought - This holds the actual impulse data that -this- synaptic bridge has been accumulating across time.  Only the neuron
 // understands how to interpret the information contained in the impulsive thought.
@@ -19,7 +19,7 @@ type Impulse struct {
 	Timeline Timeline
 	Beat     int
 	Cortex   *Cortex
-	Neuron   Neuron
+	Neuron   Neural
 
 	Thought any
 }

@@ -1,19 +1,61 @@
 package std
 
-import "sync"
+import (
+	"sync"
+)
 
-// A Neuron is any type that can fire an action-potential (see.ActionPotentials).  The Cleanup function
-// will be called whenever the neuron's Lifecycle has reached completion or the cortex shuts down.
-type Neuron interface {
-	Named(...string) string
+type Neuron struct {
+	Entity
 
-	Action(*Impulse)
-	Potential(*Impulse) bool
+	muted     bool
+	action    func(*Impulse)
+	potential func(*Impulse) bool
+	cleanup   func(*Impulse, *sync.WaitGroup)
+}
 
-	Mute()
-	Unmute()
+func NewLongRunning(named string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
+	if action == nil {
+		panic("the action of a neuron can never be nil")
+	}
+	if potential == nil {
+		potential = func(*Impulse) bool {
+			return true
+		}
+	}
 
-	// Cleanup will be called once the synaptic lifecycle completes.  This will -always- fire, regardless if
-	// the underlying action fires.
-	Cleanup(*Impulse, *sync.WaitGroup)
+	var clean func(*Impulse, *sync.WaitGroup)
+	if len(cleanup) > 0 {
+		clean = cleanup[0]
+	}
+	return &Neuron{
+		Entity:    NewEntityNamed(named),
+		action:    action,
+		potential: potential,
+		cleanup:   clean,
+	}
+}
+
+func (lr Neuron) Mute() {
+	lr.muted = true
+}
+
+func (lr Neuron) Unmute() {
+	lr.muted = false
+}
+
+func (lr Neuron) Action(imp *Impulse) {
+	lr.action(imp)
+}
+
+func (lr Neuron) Potential(imp *Impulse) bool {
+	if lr.muted {
+		return false
+	}
+	return lr.potential(imp)
+}
+
+func (lr Neuron) Cleanup(imp *Impulse, wg *sync.WaitGroup) {
+	if lr.cleanup != nil {
+		lr.cleanup(imp, wg)
+	}
 }
