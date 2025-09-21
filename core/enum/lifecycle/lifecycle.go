@@ -1,7 +1,7 @@
 package lifecycle
 
 // A Lifecycle defines how the neuron should be re-activated.  When a neuron is 'activated' it's provided a
-// -new- goroutine.  Looping neurons recycle the same goroutine, while all others launch a new goroutine on
+// -new- goroutine.  Looping neuron recycle the same goroutine, while all others launch a new goroutine on
 // every activation - so please be wary of that.  There are four ways a neuron can be activated:
 //
 // 0 - Looping - this will cyclically re-activate the neuron only after it finishes its current execution

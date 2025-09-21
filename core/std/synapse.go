@@ -1,33 +1,33 @@
 package std
 
 import (
+	"sync"
 	"time"
 
 	"git.ignitelabs.net/core/enum/lifecycle"
 	"git.ignitelabs.net/core/sys/log"
 )
 
-type synapse func(Impulse)
+type Synapse func(*Impulse)
 
-// NewSynapse creates a neural synapse which fires the provided action potential according to the provided Lifecycle.  You may optionally
-// provide a cleanup function which is called after this synapse finishes all neural activation (or the cortex shuts down).  For triggered
+// NewSynapse creates a neural Synapse which fires the provided action potential according to the provided Lifecycle.  You may optionally
+// provide a cleanup function which is called after this Synapse finishes all neural activation (or the cortex shuts down).  For triggered
 // or impulsed lifecycles, this happens immediately - for looping or stimulative, this happens after the cortex shuts down or when the
 // provided action returns false.
 //
 // NOTE: For stimulative activations, the action may still fire a few times after returning false - but cleanup will happen after all
 //
 //	activations are complete.
-func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
+func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) Synapse {
 	beat := 0
-	return func(imp Impulse) {
-		imp.Timeline = Timeline{
-			Creation: time.Now(),
-		}
+	return func(imp *Impulse) {
+		imp.Timeline.Creation = time.Now()
 		imp.Bridge = (*imp.Cortex).Named() + " ↦ " + neuron.Named()
+		imp.Neuron = neuron
 
 		log.Printf((*imp.Cortex).Named(), "created synapse to '%s'\n", neuron.Named())
 
-		panicSafeAction := func(i Impulse) {
+		panicSafeAction := func(i *Impulse) {
 			defer func() {
 				if r := recover(); r != nil {
 					log.Printf(i.Bridge, "neural panic: %s\n", r)
@@ -41,21 +41,16 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 		case lifecycle.Looping:
 			// 0 - Looping activations cyclically reactivate the same goroutine when the last finishes and the potential is high
 			go func() {
-				log.Verbosef(imp.Bridge, "sparked looping activation\n")
-				last := &imp.Timeline
+				log.Verbosef(imp.Bridge, "initializing as a 'looping' synapse\n")
 				for (*imp.Cortex).Alive() {
 					inception := time.Now()
-					copied := &Timeline{}
-					*copied = *last
-					copied.Last = nil
-					imp.Timeline.Last = copied
+					timelineRollover(&imp.Timeline)
 					imp.Timeline.Inception = inception
 					imp.Beat = beat
 					if neuron.Potential(imp) {
 						imp.Timeline.Activation = time.Now()
 						panicSafeAction(imp)
 						imp.Timeline.Completion = time.Now()
-						last = &imp.Timeline
 						beat++
 					}
 
@@ -64,23 +59,24 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 					(*imp.Cortex).master.Unlock()
 				}
 
-				neuron.Cleanup()
+				wg := &sync.WaitGroup{}
+				wg.Add(1)
+				neuron.Cleanup(imp, wg)
+				log.Verbosef(imp.Bridge, "ended\n")
 			}()
 		case lifecycle.Stimulative:
 			// 1 - Stimulative activations launch new goroutines on every impulse the potential is high
 			go func() {
-				log.Verbosef(imp.Bridge, "sparked stimulative activation\n")
-				last := imp.Timeline
+				log.Verbosef(imp.Bridge, "initializing as a 'stimulative' synapse\n")
 				for (*imp.Cortex).Alive() {
-					last.Last = nil
-					imp.Timeline.Last = &last
-					imp.Timeline.Inception = time.Now()
+					inception := time.Now()
+					timelineRollover(&imp.Timeline)
+					imp.Timeline.Inception = inception
 					imp.Beat = beat
 					if neuron.Potential(imp) {
 						imp.Timeline.Activation = time.Now()
-						go panicSafeAction(imp)
+						panicSafeAction(imp)
 						imp.Timeline.Completion = time.Now()
-						last = imp.Timeline
 						beat++
 					}
 					(*imp.Cortex).master.Lock()
@@ -88,12 +84,15 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 					(*imp.Cortex).master.Unlock()
 				}
 
-				neuron.Cleanup()
+				wg := &sync.WaitGroup{}
+				wg.Add(1)
+				neuron.Cleanup(imp, wg)
+				log.Verbosef(imp.Bridge, "ended\n")
 			}()
 		case lifecycle.Triggered:
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
-				log.Verbosef(imp.Bridge, "sparked triggered activation\n")
+				log.Verbosef(imp.Bridge, "initializing as a 'triggered' synapse\n")
 				imp.Timeline.Inception = time.Now()
 				for (*imp.Cortex).Alive() && !neuron.Potential(imp) {
 					(*imp.Cortex).master.Lock()
@@ -108,12 +107,15 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 					beat++
 				}
 
-				neuron.Cleanup()
+				wg := &sync.WaitGroup{}
+				wg.Add(1)
+				neuron.Cleanup(imp, wg)
+				log.Verbosef(imp.Bridge, "ended\n")
 			}()
 		case lifecycle.Impulse:
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
 			go func() {
-				log.Verbosef(imp.Bridge, "sparked impulse activation\n")
+				log.Verbosef(imp.Bridge, "initializing as an 'impulsed' synapse\n")
 				imp.Timeline.Inception = time.Now()
 				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
 					imp.Beat = beat
@@ -123,7 +125,10 @@ func NewSynapse(life lifecycle.Lifecycle, neuron Neuron) synapse {
 					beat++
 				}
 
-				neuron.Cleanup()
+				wg := &sync.WaitGroup{}
+				wg.Add(1)
+				neuron.Cleanup(imp, wg)
+				log.Verbosef(imp.Bridge, "ended\n")
 			}()
 		}
 	}

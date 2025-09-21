@@ -1,44 +1,49 @@
 package netscape
 
 import (
-	"embed"
+	"context"
 	_ "embed"
 	"io/fs"
+	"net"
 	"net/http"
 	"path"
-	"strconv"
 	"strings"
 	"sync"
 
+	"git.ignitelabs.net/core/std"
 	"git.ignitelabs.net/core/sys/deploy"
 	"git.ignitelabs.net/core/sys/log"
 )
 
-//go:embed ignite-src/*
-var static embed.FS
+var Neural _neural
 
-var IgniteLabs _igniteLabs
-
-type _igniteLabs struct {
+type _neural struct {
 	moduleName string
 	running    bool
 	lock       sync.Mutex
 }
 
-func (_igniteLabs) Deploy() {
+func (*_neural) Deploy() {
 	deploy.Fly.Spark("ignitelabs-net", "navigator", "ignite")
 }
 
-// Navigate drives the ignitelabs.net website and listens on port 4242 (unless otherwise specified).
-func (i _igniteLabs) Navigate(port ...uint) {
-	if len(i.moduleName) == 0 {
-		i.moduleName = ModuleName
+func (i *_neural) NavigateImpulse(imp *std.Impulse) {
+	if i.running {
+		return
 	}
 
-	p := "4242"
-	if len(port) > 0 {
-		p = strconv.Itoa(int(port[0]))
+	i.lock.Lock()
+	defer i.lock.Unlock()
+	i.running = true
+	i.moduleName = imp.Bridge
+
+	port := "4242"
+	addr := ":" + port
+	ln, err := net.Listen("tcp", addr)
+	if err != nil {
+		return
 	}
+
 	// Serve the embedded directory under /
 	sub, err := fs.Sub(static, "ignite-src")
 	if err != nil {
@@ -69,12 +74,26 @@ func (i _igniteLabs) Navigate(port ...uint) {
 		fileServer.ServeHTTP(w, r2)
 	})
 
-	http.Handle("/", handler)
-
-	addr := ":" + p
-	log.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
-	err = http.ListenAndServe(addr, handler)
-	if err != nil {
-		log.Fatalf(i.moduleName, err.Error())
+	srv := &http.Server{
+		Handler: handler,
 	}
+
+	imp.Cortex.Deferrals() <- func(wg *sync.WaitGroup) {
+		_ = srv.Shutdown(context.Background())
+		wg.Done()
+	}
+
+	go func() {
+		if len(i.moduleName) == 0 {
+			i.moduleName = ModuleName
+		}
+
+		http.Handle("/", handler)
+
+		log.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
+		err = srv.Serve(ln)
+		if err != nil {
+			log.Printf(i.moduleName, err.Error()+"\n")
+		}
+	}()
 }

@@ -10,6 +10,7 @@ type config struct {
 	PrintPreamble        *bool         `json:"printPreamble"`
 	Verbose              *bool         `json:"verbose"`
 	ShutdownTimeout      time.Duration `json:"shutdownTimeout"`
+	TimelineDepth        uint          `json:"timelineDepth"`
 	ObservanceWindow     string        `json:"observanceWindow"`
 	TrimFrequency        float64       `json:"trimFrequency"`
 	Precision            uint          `json:"precision"`
@@ -29,6 +30,9 @@ func (c config) apply() {
 	}
 	if c.ShutdownTimeout != 0 {
 		ShutdownTimeout = c.ShutdownTimeout
+	}
+	if c.TimelineDepth != 0 {
+		TimelineDepth = c.TimelineDepth
 	}
 	if len(c.ObservanceWindow) > 0 {
 		ObservanceWindow, _ = time.ParseDuration(c.ObservanceWindow)

@@ -6,14 +6,6 @@ import (
 	"git.ignitelabs.net/core/sys/num"
 )
 
-func Always() bool {
-	return true
-}
-
-func Never() bool {
-	return false
-}
-
 func Periodically(duration *time.Duration) func() bool {
 	last := time.Now()
 	return func() bool {

@@ -65,11 +65,27 @@ var Name = given.Random[format.Default]()
 
 // Deferrals are where you can send actions you wish to be fired just before the JanOS instance shuts down.  This is useful
 // for performing global 'cleanup' operations.
-func Deferrals() chan<- func() {
+func Deferrals() chan<- func(group *sync.WaitGroup) {
 	return deferrals
 }
 
-var deferrals = make(chan func(), 1<<16)
+var deferrals = make(chan func(*sync.WaitGroup), 1<<16)
+
+// ShutdownLock is a part of the ShutdownCondition system.  If you would like to wait for a broadcast 'shutdown' message,
+// please use ShutdownCondition.  For example:
+//
+//	core.ShutdownLock.Lock()
+//	core.ShutdownCondition.Wait()
+//	core.ShutdownLock.Unlock()
+var ShutdownLock = sync.Mutex{}
+
+// ShutdownCondition provides a way to block until the JanOS isntance broadcasts a shutdown message globally.  To do so,
+// you must use the following pattern (as sync.Cond requires a sync.Mutex):
+//
+//	core.ShutdownLock.Lock()
+//	core.ShutdownCondition.Wait()
+//	core.ShutdownLock.Unlock()
+var ShutdownCondition = &sync.Cond{L: &ShutdownLock}
 
 // Shutdown waits a period of time before calling ShutdownNow.  You may optionally provide an OS exit code, otherwise
 // '0' is implied.
@@ -89,7 +105,7 @@ func ShutdownNow(exitCode ...int) {
 	fmt.Printf("[core] shutting down\n")
 	alive = false
 
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 
 	if len(deferrals) > 0 {
 		fmt.Printf("[core] running %d deferrals\n", len(deferrals))
@@ -104,11 +120,11 @@ func ShutdownNow(exitCode ...int) {
 					}
 				}()
 
-				deferFn()
-				wg.Done()
+				deferFn(wg)
 			}()
 		}
 		wg.Wait()
+		fmt.Printf("[core] shut down complete\n")
 	}
 
 	// Give the threads a brief moment to clean themselves up.
@@ -137,5 +153,6 @@ func KeepAlive() {
 	notify, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM)
 	defer stop()
 	<-notify.Done()
+	ShutdownCondition.Broadcast()
 	ShutdownNow()
 }

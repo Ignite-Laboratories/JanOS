@@ -4,49 +4,61 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
-	"os/signal"
-	"syscall"
+	"net"
+	"net/http"
 	"time"
-
-	"git.ignitelabs.net/core/sys/atlas"
 )
 
-func main() {
-	// Create a context that is canceled on SIGINT (Ctrl-C) or SIGTERM.
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
+func StartHTTP(addr string, h http.Handler) (actualAddr string, stop func(context.Context) error, err error) {
+	ln, err := net.Listen("tcp", addr) // bind first so startup errors are handled synchronously
+	if err != nil {
+		return "", nil, err
+	}
 
-	// Run your app (could be a server, workers, etc.) concurrently.
-	done := make(chan struct{})
+	srv := &http.Server{
+		Handler:      h,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
+		// Optional: BaseContext to attach app context to connections
+		// BaseContext: func(net.Listener) context.Context { return ctx },
+	}
+
+	errCh := make(chan error, 1)
 	go func() {
-		// ... your work here ...
-		<-ctx.Done() // wait until cancel requested
-		// cleanup triggered by context cancellation can also happen here
-		close(done)
+		// Serve blocks until listener closed or server shut down
+		if err := srv.Serve(ln); err != nil && err != http.ErrServerClosed {
+			errCh <- err
+		}
+		close(errCh)
 	}()
 
-	// Block until a signal arrives
-	<-ctx.Done()
-	fmt.Println("signal received, starting cleanup...")
-
-	// Perform cleanup with a timeout so we don’t hang forever
-	cleanupCtx, cancel := context.WithTimeout(context.Background(), atlas.ShutdownTimeout)
-	defer cancel()
-	if err := cleanup(cleanupCtx); err != nil {
-		fmt.Println("cleanup error:", err)
+	// stop gracefully
+	stop = func(ctx context.Context) error {
+		// Shutdown stops accepting new conns and gracefully closes existing ones.
+		// If you want to hard-stop, use srv.Close().
+		return srv.Shutdown(ctx)
 	}
 
-	fmt.Println("bye")
+	return ln.Addr().String(), stop, nil
 }
 
-func cleanup(ctx context.Context) error {
-	// Close DB, stop servers, flush logs, etc.
-	select {
-	case <-time.After(2 * time.Second):
-		// pretend cleanup finished
-		return nil
-	case <-ctx.Done():
-		return ctx.Err()
+func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "hi")
+	})
+
+	addr, stop, err := StartHTTP(":0", mux) // :0 picks a free port
+	if err != nil {
+		panic(err)
 	}
+	fmt.Println("listening on", addr)
+
+	// ... your app runs without being blocked ...
+
+	// When shutting down:
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	_ = stop(ctx)
 }

@@ -10,6 +10,9 @@ var PrintPreamble = true
 // ShutdownTimeout is the default amount of time that JanOS will allow cleanup operations within during shutdown.
 var ShutdownTimeout = 5 * time.Second
 
+// TimelineDepth indicates the number of recursive neural timelines to hold in memory - this defaults to '16'.
+var TimelineDepth = uint(16)
+
 // ObservanceWindow is the default dimensional window of observance - 2 seconds.
 var ObservanceWindow = 2 * time.Second
 
@@ -31,7 +34,7 @@ var PrecisionMinimum uint = 7
 var Base uint16 = 10
 
 // SeedRefractoryPeriod is the default amount of time a seed pool will retain its current random value set for.
-// This allows a small batch of fixed random numbers to be referenced ad-hoc without neurons having to track their own concept of temporality.
+// This allows a small batch of fixed random numbers to be referenced ad-hoc without neuron having to track their own concept of temporality.
 var SeedRefractoryPeriod = 180 * time.Second
 
 // IncludeNilBits indicates if a num.Bit value of '219' is considered to be acceptable as a 'nil' value.

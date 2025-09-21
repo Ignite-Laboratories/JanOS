@@ -20,9 +20,10 @@ type Cortex struct {
 
 	inception time.Time
 
-	synapses chan synapse
+	synapses chan Synapse
 
-	deferrals chan func()
+	deferrals    chan func(*sync.WaitGroup)
+	deferralWait *sync.WaitGroup
 
 	locked  bool
 	alive   bool
@@ -48,25 +49,30 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	}
 
 	c := &Cortex{
-		Entity:    NewEntity[format.Default](),
-		inception: time.Now(),
-		synapses:  make(chan synapse, limit),
-		deferrals: make(chan func(), limit),
-		alive:     true,
-		created:   true,
-		limit:     limit,
+		Entity:       NewEntity[format.Default](),
+		inception:    time.Now(),
+		synapses:     make(chan Synapse, limit),
+		deferrals:    make(chan func(*sync.WaitGroup), limit),
+		deferralWait: &sync.WaitGroup{},
+		alive:        true,
+		created:      true,
+		limit:        limit,
 	}
+	c.deferralWait.Add(1)
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
-	core.Deferrals() <- func() {
+	core.Deferrals() <- func(wg *sync.WaitGroup) {
 		c.Shutdown()
+		c.deferralWait.Wait()
+		log.Verbosef(c.Named(), "shut down complete\n")
+		wg.Done()
 	}
 
 	log.Printf(core.ModuleName, "created cortex '%s'\n", c.Named())
 	return c
 }
 
-func (c *Cortex) Spark(synapses ...synapse) {
+func (c *Cortex) Spark(synapses ...Synapse) {
 	c.sanityCheck()
 
 	for _, syn := range synapses {
@@ -76,42 +82,52 @@ func (c *Cortex) Spark(synapses ...synapse) {
 	if c.running {
 		return
 	}
-	c.alive = true
-	c.running = true
+	go func() {
+		c.alive = true
+		c.running = true
 
-	log.Printf(c.Named(), "sparking\n")
+		log.Printf(c.Named(), "sparking\n")
 
-	defer func() {
-		for len(c.deferrals) > 0 {
-			deferral := <-c.deferrals
-			if deferral != nil {
-				deferral()
+		defer func() {
+			log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
+			for len(c.deferrals) > 0 {
+				deferral := <-c.deferrals
+				if deferral != nil {
+					go func() {
+						defer func() {
+							if r := recover(); r != nil {
+								log.Printf(c.Named(), "deferral error: %v\n", r)
+								c.deferralWait.Done()
+							}
+						}()
+
+						deferral(c.deferralWait)
+					}()
+				}
+			}
+		}()
+
+		last := time.Now()
+
+		started := false
+
+		for c.Alive() {
+			if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
+				started = true
+				for len(c.synapses) > 0 {
+					imp := &Impulse{
+						Cortex:   c,
+						Timeline: newTimeline(),
+					}
+					syn := <-c.synapses
+					syn(imp)
+				}
+
+				c.clock.Broadcast()
+				last = time.Now()
 			}
 		}
 	}()
-
-	last := time.Now()
-
-	started := false
-
-	for c.Alive() {
-		c.master.Lock()
-		c.master.Unlock()
-		imp := Impulse{
-			Cortex: c,
-		}
-
-		if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
-			started = true
-			for len(c.synapses) > 0 {
-				syn := <-c.synapses
-				syn(imp)
-			}
-
-			c.clock.Broadcast()
-			last = time.Now()
-		}
-	}
 }
 
 func (c *Cortex) Shutdown(delay ...time.Duration) {
@@ -127,33 +143,10 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	}
 
 	c.master.Lock()
-	log.Printf(c.Named(), "shutting down\n")
 	c.running = false
 	c.alive = false
 
-	if len(c.deferrals) > 0 {
-		log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
-
-		wg := sync.WaitGroup{}
-		for len(c.deferrals) > 0 {
-			deferFn := <-c.deferrals
-			wg.Add(1)
-			go func() {
-				defer func() {
-					if r := recover(); r != nil {
-						log.Printf(c.Named(), "deferral error: %v\n", r)
-						wg.Done()
-					}
-				}()
-
-				deferFn()
-				wg.Done()
-			}()
-		}
-		wg.Wait()
-	}
-
-	log.Verbosef(c.Named(), "shut down\n")
+	log.Verbosef(c.Named(), "shutting down\n")
 
 	c.master.Unlock()
 }
@@ -182,13 +175,13 @@ func (c *Cortex) Inception() time.Time {
 	return c.inception
 }
 
-func (c *Cortex) Synapses() chan<- synapse {
+func (c *Cortex) Synapses() chan<- Synapse {
 	c.sanityCheck()
 
 	return c.synapses
 }
 
-func (c *Cortex) Deferrals() chan<- func() {
+func (c *Cortex) Deferrals() chan<- func(*sync.WaitGroup) {
 	c.sanityCheck()
 
 	return c.deferrals
