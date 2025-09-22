@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"git.ignitelabs.net/core"
+	"git.ignitelabs.net/core/sys/atlas"
 	"git.ignitelabs.net/core/sys/given/format"
 	"git.ignitelabs.net/core/sys/log"
 	"git.ignitelabs.net/core/sys/when"
@@ -21,19 +22,21 @@ type Cortex struct {
 	inception time.Time
 
 	synapses chan Synapse
+	timeline []time.Time
 
 	deferrals    chan func(*sync.WaitGroup)
 	deferralWait *sync.WaitGroup
 
-	muted   bool
+	mute   chan any
+	unmute chan any
+
 	alive   bool
 	created bool
 	running bool
-	relay   chan any
-	reset   chan any
 
-	master sync.Mutex
-	clock  sync.Cond
+	timeLock sync.Mutex
+	master   sync.Mutex
+	clock    sync.Cond
 }
 
 // NewCortex creates a new named Cortex limited to the provided number of neural activations.
@@ -53,6 +56,8 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		synapses:     make(chan Synapse, limit),
 		deferrals:    make(chan func(*sync.WaitGroup), limit),
 		deferralWait: &sync.WaitGroup{},
+		mute:         make(chan any, 1<<16),
+		unmute:       make(chan any, 1<<16),
 		alive:        true,
 		created:      true,
 	}
@@ -110,27 +115,45 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		}()
 
 		last := time.Now()
-
 		started := false
 
 		for c.Alive() {
-			c.master.Lock()
-			c.master.Unlock()
+			if started || len(c.mute) <= 0 {
+				if c.Frequency <= 0 {
+					// This is a 'free-spin' condition
+					select {
+					case <-c.mute:
+						_ = <-c.unmute
 
-			if !started || (c.Frequency <= 0 || time.Since(last) > when.HertzToDuration(c.Frequency)) {
-				started = true
-				for len(c.synapses) > 0 {
-					imp := &Impulse{
-						Cortex:   c,
-						Timeline: newTimeline(),
+						for _ = range c.mute {
+						}
+						for _ = range c.unmute {
+						}
+					default:
 					}
-					syn := <-c.synapses
-					syn(imp)
+				} else {
+					// This is a 'timer-step' condition
+					select {
+					case <-time.After(last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now())):
+					case <-c.mute:
+						_ = <-c.unmute
+					}
 				}
-
-				c.clock.Broadcast()
-				last = time.Now()
 			}
+			started = true
+
+			for len(c.synapses) > 0 {
+				imp := &Impulse{
+					Cortex:   c,
+					Timeline: newTimeline(),
+				}
+				syn := <-c.synapses
+				syn(imp)
+			}
+
+			c.clock.Broadcast()
+			c.addToTimeline(time.Now())
+			last = time.Now()
 		}
 	}()
 }
@@ -147,10 +170,6 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 		time.Sleep(delay[0])
 	}
 
-	if c.muted {
-		c.master.Unlock()
-	}
-
 	c.master.Lock()
 	c.running = false
 	c.alive = false
@@ -158,6 +177,30 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	log.Verbosef(c.Named(), "shutting down\n")
 
 	c.master.Unlock()
+}
+
+func (c *Cortex) addToTimeline(moment time.Time) {
+	c.timeLock.Lock()
+	defer c.timeLock.Unlock()
+
+	c.timeline = append(c.timeline, moment)
+
+	var trim int
+	for i := range c.timeline {
+		if c.timeline[i].Before(moment.Add(-atlas.ObservanceWindow)) {
+			trim++
+		} else {
+			break
+		}
+	}
+	c.timeline = c.timeline[trim:]
+}
+
+// Timeline returns the activation moments available to the cortex - limited to atlas.ObservanceWindow.
+func (c *Cortex) Timeline() []time.Time {
+	c.timeLock.Lock()
+	defer c.timeLock.Unlock()
+	return c.timeline
 }
 
 func (c *Cortex) Alive() bool {
@@ -169,15 +212,13 @@ func (c *Cortex) Alive() bool {
 func (c *Cortex) Mute() {
 	c.sanityCheck()
 
-	c.muted = true
-	c.master.Lock()
+	c.mute <- c.Entity
 }
 
 func (c *Cortex) Unmute() {
 	c.sanityCheck()
 
-	c.muted = false
-	c.master.Unlock()
+	c.unmute <- c.Entity
 }
 
 func (c *Cortex) Inception() time.Time {

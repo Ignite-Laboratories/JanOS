@@ -14,8 +14,8 @@ type Timeline struct {
 	// NOTE: This does not recurse beyond the last activation's timeline.
 	Last *Timeline
 
-	// Creation represents the moment the synaptic connection was created.
-	Creation time.Time
+	// SynapticCreation represents the moment the synaptic connection was created.
+	SynapticCreation time.Time
 
 	// Inception represents the moment a neuron received a synaptic event.
 	Inception time.Time
@@ -29,11 +29,11 @@ type Timeline struct {
 
 func newTimeline() Timeline {
 	inception := Timeline{
-		Last:       nil,
-		Creation:   core.Inception,
-		Inception:  core.Inception,
-		Activation: core.Inception,
-		Completion: core.Inception,
+		Last:             nil,
+		SynapticCreation: core.Inception,
+		Inception:        core.Inception,
+		Activation:       core.Inception,
+		Completion:       core.Inception,
 	}
 	inception.Last = &inception
 	return inception

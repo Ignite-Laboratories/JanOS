@@ -24,7 +24,7 @@ func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*I
 func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 	beat := 0
 	return func(imp *Impulse) {
-		imp.Timeline.Creation = time.Now()
+		imp.Timeline.SynapticCreation = time.Now()
 		imp.Bridge = (*imp.Cortex).Named() + " ↦ " + neuron.Named()
 		imp.Neuron = neuron
 
