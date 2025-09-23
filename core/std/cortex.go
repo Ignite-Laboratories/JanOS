@@ -175,7 +175,6 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 	}()
 }
 
-// Keola Frenzel;
 func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.sanityCheck()
 
