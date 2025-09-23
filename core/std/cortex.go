@@ -119,6 +119,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		last := time.Now()
 		var expected time.Duration
 		var adjustment time.Duration
+		var frequency float64
 		started := false
 
 	main:
@@ -139,12 +140,18 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				} else {
 					// This is a 'timer-step' condition
 					expected = last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
+					frequency = c.Frequency
 					select {
 					case <-c.shutdown:
 						break main
 					case <-time.After(expected):
 						observed := time.Since(last)
 						adjustment = observed - expected
+
+						// If the frequency changed between cycles, don't try to 'adjust' it =)
+						if c.Frequency != frequency {
+							adjustment = 0
+						}
 					case <-c.mute:
 						_ = <-c.unmute
 					}

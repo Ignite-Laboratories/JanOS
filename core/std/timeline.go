@@ -74,7 +74,7 @@ func (t Timeline) RefractoryPeriod() time.Duration {
 	return t.Activation.Sub((*t.Last).Completion)
 }
 
-// CyclePeriod represents the duration between the last activation's start and this impulse's activation.
+// CyclePeriod represents the duration between the last activation's start and this impulse's activation start.
 func (t Timeline) CyclePeriod() time.Duration {
 	if t.Last == nil {
 		return 0
