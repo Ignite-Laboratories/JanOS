@@ -92,7 +92,7 @@ var ShutdownCondition = &sync.Cond{L: &ShutdownLock}
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func Shutdown(period time.Duration, exitCode ...int) {
-	fmt.Printf("[core] shutting down in %v\n", period)
+	fmt.Printf("[core] instance shutting down in %v\n", period)
 	time.Sleep(period)
 	ShutdownNow(exitCode...)
 }
@@ -102,7 +102,7 @@ func Shutdown(period time.Duration, exitCode ...int) {
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
-	fmt.Printf("[core] shutting down\n")
+	fmt.Printf("[core] instance shutting down\n")
 	alive = false
 
 	wg := &sync.WaitGroup{}
@@ -124,11 +124,11 @@ func ShutdownNow(exitCode ...int) {
 			}()
 		}
 		wg.Wait()
-		fmt.Printf("[core] shut down complete\n")
+		fmt.Printf("[core] instance shut down complete\n")
 	}
 
 	// Give the threads a brief moment to clean themselves up.
-	time.Sleep(time.Second)
+	//time.Sleep(time.Second)
 	if len(exitCode) > 0 {
 		os.Exit(exitCode[0])
 	} else {

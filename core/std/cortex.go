@@ -27,8 +27,9 @@ type Cortex struct {
 	deferrals    chan func(*sync.WaitGroup)
 	deferralWait *sync.WaitGroup
 
-	mute   chan any
-	unmute chan any
+	mute     chan any
+	unmute   chan any
+	shutdown chan any
 
 	alive   bool
 	created bool
@@ -58,6 +59,7 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		deferralWait: &sync.WaitGroup{},
 		mute:         make(chan any, 1<<16),
 		unmute:       make(chan any, 1<<16),
+		shutdown:     make(chan any, 1<<16),
 		alive:        true,
 		created:      true,
 	}
@@ -67,7 +69,7 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	core.Deferrals() <- func(wg *sync.WaitGroup) {
 		c.Shutdown()
 		c.deferralWait.Wait()
-		log.Verbosef(c.Named(), "shut down complete\n")
+		log.Verbosef(c.Named(), "cortex shut down complete\n")
 		wg.Done()
 	}
 
@@ -115,8 +117,11 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		}()
 
 		last := time.Now()
+		var expected time.Duration
+		var adjustment time.Duration
 		started := false
 
+	main:
 		for c.Alive() {
 			if started || len(c.mute) <= 0 {
 				if c.Frequency <= 0 {
@@ -133,8 +138,13 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 					}
 				} else {
 					// This is a 'timer-step' condition
+					expected = last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
 					select {
-					case <-time.After(last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now())):
+					case <-c.shutdown:
+						break main
+					case <-time.After(expected):
+						observed := time.Since(last)
+						adjustment = observed - expected
 					case <-c.mute:
 						_ = <-c.unmute
 					}
@@ -158,6 +168,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 	}()
 }
 
+// Keola Frenzel;
 func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.sanityCheck()
 
@@ -166,15 +177,16 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	}
 
 	if len(delay) > 0 {
-		log.Verbosef(c.Named(), "shutting down in %v\n", delay[0])
+		log.Verbosef(c.Named(), "cortex shutting down in %v\n", delay[0])
 		time.Sleep(delay[0])
 	}
 
 	c.master.Lock()
 	c.running = false
 	c.alive = false
+	c.shutdown <- nil
 
-	log.Verbosef(c.Named(), "shutting down\n")
+	log.Verbosef(c.Named(), "cortex shutting down\n")
 
 	c.master.Unlock()
 }
