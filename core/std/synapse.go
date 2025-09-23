@@ -25,7 +25,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 	beat := 0
 	return func(imp *Impulse) {
 		imp.Timeline.SynapticCreation = time.Now()
-		imp.Bridge = (*imp.Cortex).Named() + " ↦ " + neuron.Named()
+		imp.Bridge = (*imp.Cortex).Named() + " ⇝ " + neuron.Named()
 		imp.Neuron = neuron
 
 		log.Printf((*imp.Cortex).Named(), "wired axon to neural synapse '%s'\n", neuron.Named())
@@ -44,7 +44,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 		case lifecycle.Looping:
 			// 0 - Looping activations cyclically reactivate the same goroutine when the last finishes and the potential is high
 			go func() {
-				log.Verbosef(imp.Bridge, "initializing as a looping synapse\n")
+				log.Verbosef(imp.Bridge, "looping\n")
 				for (*imp.Cortex).Alive() {
 					inception := time.Now()
 					timelineRollover(&imp.Timeline)
@@ -70,7 +70,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 		case lifecycle.Stimulative:
 			// 1 - Stimulative activations launch new goroutines on every impulse the potential is high
 			go func() {
-				log.Verbosef(imp.Bridge, "initializing as a stimulative synapse\n")
+				log.Verbosef(imp.Bridge, "stimulating\n")
 				for (*imp.Cortex).Alive() {
 					inception := time.Now()
 					timelineRollover(&imp.Timeline)
@@ -95,7 +95,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 		case lifecycle.Triggered:
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
-				log.Verbosef(imp.Bridge, "initializing as a triggered synapse\n")
+				log.Verbosef(imp.Bridge, "triggering\n")
 				imp.Timeline.Inception = time.Now()
 				for (*imp.Cortex).Alive() && !neuron.Potential(imp) {
 					(*imp.Cortex).master.Lock()
@@ -118,7 +118,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 		case lifecycle.Impulse:
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
 			go func() {
-				log.Verbosef(imp.Bridge, "initializing as an impulsed synapse\n")
+				log.Verbosef(imp.Bridge, "impulsing\n")
 				imp.Timeline.Inception = time.Now()
 				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
 					imp.Beat = beat

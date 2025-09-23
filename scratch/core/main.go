@@ -12,7 +12,12 @@ import (
 func main() {
 	c := std.NewCortex(std.RandomName())
 	c.Frequency = 60
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager A", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager B", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager C", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager D", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager E", Averager, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager F", Averager, nil)
 	//c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Printer", Printer, nil)
 	c.Spark()
 

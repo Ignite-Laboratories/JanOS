@@ -39,9 +39,9 @@ func init() {
 			return builder.String()
 		}
 
-		fmt.Printf("⎧"+randomDash()+"-⇥ JanOS %v\n", version)
-		fmt.Println("|" + randomDash() + "-⇥ © 2025, Ignite Laboratories")
-		fmt.Println("⎨" + randomDash() + "-⇥ Alex Petz")
+		fmt.Printf("⎧"+randomDash()+"⇥ JanOS %v\n", version)
+		fmt.Println("|" + randomDash() + "⇥ © 2025, Ignite Laboratories")
+		fmt.Println("⎨" + randomDash() + "⇥ Alex Petz")
 		fmt.Println("|" + randomDash() + "⇥")
 		fmt.Println("⎩" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
 		fmt.Println()

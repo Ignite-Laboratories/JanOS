@@ -192,7 +192,7 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.alive = false
 	c.shutdown <- nil
 
-	log.Verbosef(c.Named(), "cortex shutting down\n")
+	log.Printf(c.Named(), "cortex shutting down\n")
 
 	c.master.Unlock()
 }
