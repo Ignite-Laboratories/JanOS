@@ -31,20 +31,16 @@ func init() {
 			}
 		}
 
+		dash := "─"
 		randomDash := func() string {
-			var builder strings.Builder
-			for i := byte(0); i < blue.Note(); i++ {
-				builder.WriteString("-")
-			}
-			return builder.String()
+			return strings.Repeat(dash, int(blue.Note()))
 		}
 
-		fmt.Printf("⎧"+randomDash()+"⇥ JanOS %v\n", version)
-		fmt.Println("|" + randomDash() + "⇥ © 2025, Ignite Laboratories")
-		fmt.Println("⎨" + randomDash() + "⇥ Alex Petz")
-		fmt.Println("|" + randomDash() + "⇥")
-		fmt.Println("⎩" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
-		fmt.Println()
+		fmt.Printf("   ╭"+randomDash()+"⇥ JanOS %v\n", version)
+		fmt.Println("╭──┼" + randomDash() + "⇥ © 2025, Ignite Laboratories")
+		fmt.Println("⎨  ⎬" + randomDash() + "⇥ Alex Petz")
+		fmt.Println("╰─┬┴" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
+		fmt.Println("  ╰" + randomDash() + "⬎")
 	}
 }
 
@@ -102,7 +98,7 @@ func Shutdown(period time.Duration, exitCode ...int) {
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
-	fmt.Printf("[core] instance shutting down\n")
+	fmt.Printf("\n[core] instance shutting down\n")
 	alive = false
 
 	wg := &sync.WaitGroup{}

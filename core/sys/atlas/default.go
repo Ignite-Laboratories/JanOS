@@ -10,9 +10,6 @@ var PrintPreamble = true
 // ShutdownTimeout is the default amount of time that JanOS will allow cleanup operations within during shutdown.
 var ShutdownTimeout = 5 * time.Second
 
-// TimelineDepth indicates the number of recursive neural timelines to hold in memory - this defaults to '16'.
-var TimelineDepth = uint(16)
-
 // ObservanceWindow is the default dimensional window of observance - 2 seconds.
 var ObservanceWindow = 2 * time.Second
 

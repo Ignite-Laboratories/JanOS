@@ -4,7 +4,7 @@ package std
 //
 // Bridge - This is the named synaptic bridge between the cortex and neuron (for tracing purposes)
 //
-// # Timeline - This holds the temporal activation information for this neuron
+// # TimelineOld - This holds the temporal activation information for this neuron
 //
 // # Beat - This indicates the number of activations that this Synapse has processed
 //
@@ -16,7 +16,8 @@ package std
 // understands how to interpret the information contained in the impulsive thought.
 type Impulse struct {
 	Bridge   string
-	Timeline Timeline
+	Event    SynapticEvent
+	Timeline *Timeline
 	Beat     int
 	Cortex   *Cortex
 	Neuron   Neural

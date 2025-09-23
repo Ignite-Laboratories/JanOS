@@ -69,12 +69,8 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	}
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
-	core.Deferrals() <- func(wg *sync.WaitGroup) {
-		c.shutdownWait = wg
-		c.Shutdown()
-	}
 
-	log.Printf(core.ModuleName, "created cortex '%s'\n", c.Named())
+	log.Verbosef(core.ModuleName, "created cortex '%s'\n", c.Named())
 	return c
 }
 
@@ -91,6 +87,8 @@ func (c *Cortex) Impulse() {
 func (c *Cortex) Spark(synapses ...Synapse) {
 	c.sanityCheck()
 
+	log.Verbosef(c.Named(), "sparking neural activity\n")
+
 	for _, syn := range synapses {
 		c.synapses <- syn
 	}
@@ -98,13 +96,18 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 	if c.running {
 		return
 	}
+
+	core.Deferrals() <- func(wg *sync.WaitGroup) {
+		c.shutdownWait = wg
+		c.Shutdown()
+	}
+
 	go func() {
 		c.alive = true
 		c.running = true
 
-		log.Printf(c.Named(), "sparking neural activity\n")
-
 		defer func() {
+			log.Verbosef(c.Named(), "cortex shutting down\n")
 			count := len(c.deferrals)
 			if count > 0 {
 				if count > 1 {
@@ -193,7 +196,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 			for len(c.synapses) > 0 {
 				imp := &Impulse{
 					Cortex:   c,
-					Timeline: newTimeline(),
+					Timeline: NewTimeline(),
 				}
 				syn := <-c.synapses
 				syn(imp)
@@ -225,9 +228,6 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.running = false
 	c.alive = false
 	c.shutdown <- nil
-
-	log.Printf(c.Named(), "cortex shutting down\n")
-
 	c.master.Unlock()
 }
 
@@ -248,7 +248,7 @@ func (c *Cortex) addToTimeline(moment time.Time) {
 	c.timeline = c.timeline[trim:]
 }
 
-// Timeline returns the activation moments available to the cortex - limited to atlas.ObservanceWindow.
+// TimelineOld returns the activation moments available to the cortex - limited to atlas.ObservanceWindow.
 func (c *Cortex) Timeline() []time.Time {
 	c.timeLock.Lock()
 	defer c.timeLock.Unlock()

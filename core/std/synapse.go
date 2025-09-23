@@ -16,7 +16,6 @@ type Synapse func(*Impulse)
 // NewSynapse creates a Neural connection between a Neuron and a Cortex.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
 func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse) bool, potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Synapse {
 	n := NewNeuron(neuronName, action, potential, cleanup...)
-	log.Printf(core.ModuleName, "created neural synapse '%s'\n", n.Named())
 	return NewSynapseFromNeuron(lifecycle, n)
 }
 
@@ -24,13 +23,14 @@ func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*I
 // provide a cleanup function which is called after this Synapse finishes all neural activation (or the cortex shuts down).  For triggered
 // or impulsed lifecycles, this gets called immediately - for looping or stimulative, this gets called after the cortex shuts down.
 func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
+	log.Verbosef(core.ModuleName, "creating synapse '%s'\n", neuron.Named())
 	beat := 0
 	return func(imp *Impulse) {
-		imp.Timeline.SynapticCreation = time.Now()
+		creation := time.Now()
 		imp.Bridge = (*imp.Cortex).Named() + " ⇝ " + neuron.Named()
 		imp.Neuron = neuron
 
-		log.Printf((*imp.Cortex).Named(), "wired axon to neural synapse '%s'\n", neuron.Named())
+		log.Verbosef((*imp.Cortex).Named(), "wired axon to synapse '%s'\n", neuron.Named())
 
 		panicSafeAction := func(i *Impulse) bool {
 			defer func() {
@@ -48,17 +48,20 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			go func() {
 				log.Verbosef(imp.Bridge, "looping\n")
 				for (*imp.Cortex).Alive() {
-					inception := time.Now()
-					timelineRollover(&imp.Timeline)
-					imp.Timeline.Inception = inception
+					event := SynapticEvent{
+						SynapseCreation: creation,
+						Inception:       time.Now(),
+					}
 					imp.Beat = beat
 					var keepAlive bool
 					if neuron.Potential(imp) {
-						imp.Timeline.Activation = time.Now()
+						event.Activation = time.Now()
+						imp.Event = event
 						keepAlive = panicSafeAction(imp)
-						imp.Timeline.Completion = time.Now()
+						event.Completion = time.Now()
 						beat++
 					}
+					imp.Timeline.Add(event)
 
 					if keepAlive {
 						(*imp.Cortex).master.Lock()
@@ -79,17 +82,20 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			go func() {
 				log.Verbosef(imp.Bridge, "stimulating\n")
 				for (*imp.Cortex).Alive() {
-					inception := time.Now()
-					timelineRollover(&imp.Timeline)
-					imp.Timeline.Inception = inception
+					event := SynapticEvent{
+						SynapseCreation: creation,
+						Inception:       time.Now(),
+					}
 					imp.Beat = beat
 					var keepAlive bool
 					if neuron.Potential(imp) {
-						imp.Timeline.Activation = time.Now()
+						event.Activation = time.Now()
+						imp.Event = event
 						panicSafeAction(imp)
-						imp.Timeline.Completion = time.Now()
+						event.Completion = time.Now()
 						beat++
 					}
+					imp.Timeline.Add(event)
 
 					if keepAlive {
 						(*imp.Cortex).master.Lock()
@@ -109,7 +115,10 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
 				log.Verbosef(imp.Bridge, "triggering\n")
-				imp.Timeline.Inception = time.Now()
+				event := SynapticEvent{
+					SynapseCreation: creation,
+					Inception:       time.Now(),
+				}
 				for (*imp.Cortex).Alive() && !neuron.Potential(imp) {
 					(*imp.Cortex).master.Lock()
 					(*imp.Cortex).clock.Wait()
@@ -117,10 +126,12 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				}
 				if (*imp.Cortex).Alive() {
 					imp.Beat = beat
-					imp.Timeline.Activation = time.Now()
+					event.Activation = time.Now()
+					imp.Event = event
 					panicSafeAction(imp)
-					imp.Timeline.Completion = time.Now()
+					event.Completion = time.Now()
 					beat++
+					imp.Timeline.Add(event)
 				}
 
 				wg := &sync.WaitGroup{}
@@ -132,13 +143,18 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
 			go func() {
 				log.Verbosef(imp.Bridge, "impulsing\n")
-				imp.Timeline.Inception = time.Now()
+				event := SynapticEvent{
+					SynapseCreation: creation,
+					Inception:       time.Now(),
+				}
 				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
 					imp.Beat = beat
-					imp.Timeline.Activation = time.Now()
+					event.Activation = time.Now()
+					imp.Event = event
 					panicSafeAction(imp)
-					imp.Timeline.Completion = time.Now()
+					event.Completion = time.Now()
 					beat++
+					imp.Timeline.Add(event)
 				}
 
 				wg := &sync.WaitGroup{}
