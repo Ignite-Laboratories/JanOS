@@ -11,6 +11,9 @@ import (
 )
 
 func main() {
+	// First graphical app: walk a lone dot across all pixels in a loop on every impulse of the engine
+	// This should fire one frame per impulse, correlating to stepping one pixel
+
 	c := std.NewCortex(std.RandomName())
 	c.Frequency = 60
 	c.Mute()
