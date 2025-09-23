@@ -4,16 +4,16 @@ import (
 	"sync"
 )
 
+// Neuron represents a primitive implementation of the Neural interface.  This can be used for creating anonymous neural activity.
 type Neuron struct {
 	Entity
 
-	muted     bool
-	action    func(*Impulse)
+	action    func(*Impulse) bool
 	potential func(*Impulse) bool
 	cleanup   func(*Impulse, *sync.WaitGroup)
 }
 
-func NewLongRunning(named string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
+func NewNeuron(named string, action func(*Impulse) bool, potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
 	if action == nil {
 		panic("the action of a neuron can never be nil")
 	}
@@ -35,27 +35,16 @@ func NewLongRunning(named string, action func(*Impulse), potential func(*Impulse
 	}
 }
 
-func (lr Neuron) Mute() {
-	lr.muted = true
+func (n Neuron) Action(imp *Impulse) bool {
+	return n.action(imp)
 }
 
-func (lr Neuron) Unmute() {
-	lr.muted = false
+func (n Neuron) Potential(imp *Impulse) bool {
+	return n.potential(imp)
 }
 
-func (lr Neuron) Action(imp *Impulse) {
-	lr.action(imp)
-}
-
-func (lr Neuron) Potential(imp *Impulse) bool {
-	if lr.muted {
-		return false
-	}
-	return lr.potential(imp)
-}
-
-func (lr Neuron) Cleanup(imp *Impulse, wg *sync.WaitGroup) {
-	if lr.cleanup != nil {
-		lr.cleanup(imp, wg)
+func (n Neuron) Cleanup(imp *Impulse, wg *sync.WaitGroup) {
+	if n.cleanup != nil {
+		n.cleanup(imp, wg)
 	}
 }

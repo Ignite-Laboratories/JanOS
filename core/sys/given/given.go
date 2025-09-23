@@ -139,18 +139,19 @@ func getTokenSet(t uint64) *tokenSet {
 	return ts
 }
 
-// Random generates a random formatted name guaranteed to be unique.
+// Random generates a random format.Format name guaranteed to be globally unique.  If you'd like a uniquely random name to a limited
+// scope, please use RandomTokenized to scope your random requests.
 //
-// NOTE: Uniqueness is only guaranteed up to the available set of names before "rolling over" the unique entry table to a fresh one.
+// NOTE: Uniqueness is only guaranteed up to the format's available set of names before "rolling over" the unique entry table to a fresh one.
 func Random[T format.Format]() Name {
 	n, _ := RandomTokenized[T](0)
 	return n
 }
 
-// RandomTokenized generates a random formatted name guaranteed to be unique to the token number.  If no token is provided,
-// a random token is generated along with the name.
+// RandomTokenized generates a random format.Format name guaranteed to be unique to the token number.  If no token is provided,
+// a random token is generated along with the name.  If you'd like a globally unique name, please use token '0' (or call Random instead)
 //
-// NOTE: Uniqueness is only guaranteed up to the available data set per token before "rolling over" the unique entry table to a fresh one.
+// NOTE: Uniqueness is only guaranteed up to the format's available set of names before "rolling over" the unique entry table to a fresh one.
 func RandomTokenized[T format.Format](token ...uint64) (Name, uint64) {
 	var t uint64
 	if len(token) > 0 {

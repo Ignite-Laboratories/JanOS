@@ -20,8 +20,8 @@ func (e Entity) GetID() uint64 {
 	return e.id
 }
 
-// Named either gets the Entity.Name.
-func (e Entity) Named(name ...string) string {
+// Named gets the Entity.Name.
+func (e Entity) Named() string {
 	return e.Name.Name
 }
 

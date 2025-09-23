@@ -2,16 +2,18 @@ package std
 
 import "sync"
 
-// A Neural is any type that can fire an action-potential (see.ActionPotentials).  The Cleanup function
-// will be called whenever the neuron's Lifecycle has reached completion or the cortex shuts down.
+// Neural represents any type that can fire an action-potential (see.ActionPotentials).
 type Neural interface {
-	Named(...string) string
+	// Named returns the underlying Entity.Name.
+	Named() string
 
-	Action(*Impulse)
+	// Action takes in an Impulse and should return whether to keep the neural activity running (true).
+	//
+	// NOTE: The returned value is ignored in lifecycle.Impulse and lifecycle.Triggered activations.
+	Action(*Impulse) bool
+
+	// Potential takes in an Impulse and should return whether to fire the Action or not.
 	Potential(*Impulse) bool
-
-	Mute()
-	Unmute()
 
 	// Cleanup will be called once the synaptic lifecycle completes.  This will fire regardless of if
 	// the underlying action fires.

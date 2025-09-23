@@ -11,6 +11,7 @@ import (
 	"git.ignitelabs.net/core/sys/when"
 )
 
+// A Cortex represents a source of neural impulses.  It defines the frequency which synaptic activity can fire at.
 type Cortex struct {
 	Entity
 
@@ -27,9 +28,11 @@ type Cortex struct {
 	deferrals    chan func(*sync.WaitGroup)
 	deferralWait *sync.WaitGroup
 
-	mute     chan any
-	unmute   chan any
-	shutdown chan any
+	mute         chan any
+	unmute       chan any
+	impulse      chan any
+	shutdown     chan any
+	shutdownWait *sync.WaitGroup
 
 	alive   bool
 	created bool
@@ -42,7 +45,7 @@ type Cortex struct {
 
 // NewCortex creates a new named Cortex limited to the provided number of neural activations.
 //
-// The named parameter takes in either a string or a name format - if you'd like a random name, please use format.Default
+// If you'd like a randomly generated name, see given.Random[ format.Format ]
 //
 // NOTE: If no limit is provided, the default is 2¹⁶ - this can generally be ignored for most systems.
 func NewCortex(named string, synapticLimit ...int) *Cortex {
@@ -59,22 +62,30 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		deferralWait: &sync.WaitGroup{},
 		mute:         make(chan any, 1<<16),
 		unmute:       make(chan any, 1<<16),
+		impulse:      make(chan any, 1<<16),
 		shutdown:     make(chan any, 1<<16),
 		alive:        true,
 		created:      true,
 	}
-	c.deferralWait.Add(1)
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
 	core.Deferrals() <- func(wg *sync.WaitGroup) {
+		c.shutdownWait = wg
 		c.Shutdown()
-		c.deferralWait.Wait()
-		log.Verbosef(c.Named(), "cortex shut down complete\n")
-		wg.Done()
 	}
 
 	log.Printf(core.ModuleName, "created cortex '%s'\n", c.Named())
 	return c
+}
+
+// Impulse causes the cortex to fire a single impulse cycle.  Please note this is an asynchronous invocation.
+//
+// NOTE: If your cortex is phase-locked, this will inherently break its ability to track the phase momentarily.
+// This is because phase-locking (at the cortex level) relies on tracking phase relative to the last impulse moment,
+// which shifts when an impulse is fired.
+// TODO: Find a solution for this!
+func (c *Cortex) Impulse() {
+	c.impulse <- nil
 }
 
 func (c *Cortex) Spark(synapses ...Synapse) {
@@ -91,19 +102,24 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		c.alive = true
 		c.running = true
 
-		log.Printf(c.Named(), "sparking\n")
+		log.Printf(c.Named(), "sparking neural activity\n")
 
 		defer func() {
-			if len(c.deferrals) > 0 {
-				log.Verbosef(c.Named(), "running %d deferrals\n", len(c.deferrals))
+			count := len(c.deferrals)
+			if count > 0 {
+				if count > 1 {
+					log.Verbosef(c.Named(), "running %d deferrals\n", count)
+				} else {
+					log.Verbosef(c.Named(), "running %d deferral\n", count)
+				}
 				for len(c.deferrals) > 0 {
 					deferral := <-c.deferrals
 					if deferral != nil {
+						c.deferralWait.Add(1)
 						go func() {
 							defer func() {
 								if r := recover(); r != nil {
 									log.Printf(c.Named(), "deferral error: %v\n", r)
-									c.deferralWait.Done()
 								}
 							}()
 
@@ -111,53 +127,68 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						}()
 					}
 				}
-			} else {
-				c.deferralWait.Done()
+				c.deferralWait.Wait()
 			}
+			log.Verbosef(c.Named(), "cortex shut down complete\n")
+			c.shutdownWait.Done()
 		}()
 
 		last := time.Now()
 		var expected time.Duration
 		var adjustment time.Duration
 		var frequency float64
-		started := false
 
 	main:
 		for c.Alive() {
-			if started || len(c.mute) <= 0 {
-				if c.Frequency <= 0 {
-					// This is a 'free-spin' condition
+			if c.Frequency <= 0 {
+				// This is a 'free-spin' condition
+				select {
+				case <-c.mute:
 					select {
-					case <-c.mute:
-						_ = <-c.unmute
-
+					case <-c.shutdown:
+						break main
+					case <-c.impulse:
+						// NOTE: Impulse requests should not break the muted condition
+						c.mute <- nil
+					case <-c.unmute:
 						for _ = range c.mute {
 						}
 						for _ = range c.unmute {
 						}
-					default:
 					}
-				} else {
-					// This is a 'timer-step' condition
-					expected = last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
-					frequency = c.Frequency
+				default:
+				}
+			} else {
+				// This is a 'timer-step' condition
+				expected = last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
+				frequency = c.Frequency
+				select {
+				case <-c.shutdown:
+					break main
+				case <-c.impulse:
+				case <-time.After(expected):
+					observed := time.Since(last)
+					adjustment = observed - expected
+
+					// If the frequency changed between cycles, don't try to 'adjust' it =)
+					if c.Frequency != frequency {
+						adjustment = 0
+					}
+				case <-c.mute:
 					select {
 					case <-c.shutdown:
 						break main
-					case <-time.After(expected):
-						observed := time.Since(last)
-						adjustment = observed - expected
-
-						// If the frequency changed between cycles, don't try to 'adjust' it =)
-						if c.Frequency != frequency {
-							adjustment = 0
+					case <-c.impulse:
+						// NOTE: Impulse requests should not break the muted condition
+						c.mute <- nil
+					case <-c.unmute:
+						for _ = range c.mute {
 						}
-					case <-c.mute:
-						_ = <-c.unmute
+						for _ = range c.unmute {
+						}
 					}
 				}
 			}
-			started = true
 
 			for len(c.synapses) > 0 {
 				imp := &Impulse{
@@ -172,6 +203,9 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 			c.addToTimeline(time.Now())
 			last = time.Now()
 		}
+
+		// This beat frees the synapses to complete their activation and exit
+		c.clock.Broadcast()
 	}()
 }
 

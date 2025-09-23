@@ -107,8 +107,13 @@ func ShutdownNow(exitCode ...int) {
 
 	wg := &sync.WaitGroup{}
 
-	if len(deferrals) > 0 {
-		fmt.Printf("[core] running %d deferrals\n", len(deferrals))
+	count := len(deferrals)
+	if count > 0 {
+		if count > 1 {
+			fmt.Printf("[core] running %d deferrals\n", count)
+		} else {
+			fmt.Printf("[core] running %d deferral\n", count)
+		}
 		for len(deferrals) > 0 {
 			deferFn := <-deferrals
 			wg.Add(1)
@@ -127,8 +132,6 @@ func ShutdownNow(exitCode ...int) {
 		fmt.Printf("[core] instance shut down complete\n")
 	}
 
-	// Give the threads a brief moment to clean themselves up.
-	//time.Sleep(time.Second)
 	if len(exitCode) > 0 {
 		os.Exit(exitCode[0])
 	} else {

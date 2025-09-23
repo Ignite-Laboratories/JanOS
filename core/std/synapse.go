@@ -9,11 +9,13 @@ import (
 	"git.ignitelabs.net/core/sys/log"
 )
 
+// A Synapse represents a fixed impulsive activation between a Neuron and Cortex.  A synapse can be used to recycle
+// the same action across many cortices, as it can be sparked as many times as you would like.
 type Synapse func(*Impulse)
 
-// NewSynapse creates a synaptic bridge to a neuron.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
-func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Synapse {
-	n := NewLongRunning(neuronName, action, potential, cleanup...)
+// NewSynapse creates a Neural connection between a Neuron and a Cortex.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
+func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse) bool, potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Synapse {
+	n := NewNeuron(neuronName, action, potential, cleanup...)
 	log.Printf(core.ModuleName, "created neural synapse '%s'\n", n.Named())
 	return NewSynapseFromNeuron(lifecycle, n)
 }
@@ -30,14 +32,14 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 
 		log.Printf((*imp.Cortex).Named(), "wired axon to neural synapse '%s'\n", neuron.Named())
 
-		panicSafeAction := func(i *Impulse) {
+		panicSafeAction := func(i *Impulse) bool {
 			defer func() {
 				if r := recover(); r != nil {
 					log.Printf(i.Bridge, "neural panic: %s\n", r)
 				}
 			}()
 
-			neuron.Action(i)
+			return neuron.Action(i)
 		}
 
 		switch life {
@@ -50,16 +52,21 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					timelineRollover(&imp.Timeline)
 					imp.Timeline.Inception = inception
 					imp.Beat = beat
+					var keepAlive bool
 					if neuron.Potential(imp) {
 						imp.Timeline.Activation = time.Now()
-						panicSafeAction(imp)
+						keepAlive = panicSafeAction(imp)
 						imp.Timeline.Completion = time.Now()
 						beat++
 					}
 
-					(*imp.Cortex).master.Lock()
-					(*imp.Cortex).clock.Wait()
-					(*imp.Cortex).master.Unlock()
+					if keepAlive {
+						(*imp.Cortex).master.Lock()
+						(*imp.Cortex).clock.Wait()
+						(*imp.Cortex).master.Unlock()
+					} else {
+						break
+					}
 				}
 
 				wg := &sync.WaitGroup{}
@@ -76,15 +83,21 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					timelineRollover(&imp.Timeline)
 					imp.Timeline.Inception = inception
 					imp.Beat = beat
+					var keepAlive bool
 					if neuron.Potential(imp) {
 						imp.Timeline.Activation = time.Now()
 						panicSafeAction(imp)
 						imp.Timeline.Completion = time.Now()
 						beat++
 					}
-					(*imp.Cortex).master.Lock()
-					(*imp.Cortex).clock.Wait()
-					(*imp.Cortex).master.Unlock()
+
+					if keepAlive {
+						(*imp.Cortex).master.Lock()
+						(*imp.Cortex).clock.Wait()
+						(*imp.Cortex).master.Unlock()
+					} else {
+						break
+					}
 				}
 
 				wg := &sync.WaitGroup{}

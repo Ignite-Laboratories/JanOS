@@ -7,7 +7,8 @@ import (
 	"git.ignitelabs.net/core/sys/atlas"
 )
 
-// Timeline represents key moments in the lifecycle of a neuron.
+// Timeline represents key moments in the lifecycle of a neural impulse.  A neural impulse is the contextual
+// activation of a Neuron from a Cortex - typically traversed along an axon in biological structure.
 type Timeline struct {
 	// Last represents the last activation's timeline.
 	//
