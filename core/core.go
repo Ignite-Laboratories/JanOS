@@ -37,8 +37,8 @@ func init() {
 		}
 
 		fmt.Printf("   ╭"+randomDash()+"⇥ JanOS %v\n", version)
-		fmt.Println("╭──┼" + randomDash() + "⇥ © 2025, Ignite Laboratories")
-		fmt.Println("⎨  ⎬" + randomDash() + "⇥ Alex Petz")
+		fmt.Println("╭──┼" + randomDash() + "⇥ © 2025 - Humanity")
+		fmt.Println("⎨  ⎬" + randomDash() + "⇥ Created By: Alex Petz, Ignite Laboratories")
 		fmt.Println("╰─┬┴" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
 		fmt.Println("  ╰" + randomDash() + "⬎")
 	}
