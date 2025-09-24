@@ -15,7 +15,7 @@ func main() {
 
 	c := std.NewCortex(std.RandomName())
 	c.Frequency = 60
-	c.Mute()
+	//c.Mute()
 
 	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager A", Averager, nil)
 	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager B", Averager, nil)
@@ -41,6 +41,10 @@ func Averager(imp *std.Impulse) bool {
 	if imp.Timeline.Len() == 0 {
 		return true
 	}
+
+	latest := imp.Timeline.LatestSince(time.Now().Add(-time.Second))
+	fmt.Println(latest)
+
 	averager += imp.Timeline.CyclePeriod()
 	i++
 	if i >= averageCap {

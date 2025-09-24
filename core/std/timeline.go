@@ -6,20 +6,6 @@ import (
 	"git.ignitelabs.net/core"
 )
 
-type SynapticEvent struct {
-	// SynapseCreation represents the moment the synaptic connection was created.
-	SynapseCreation time.Time
-
-	// Inception represents the moment a neuron received a synaptic event.
-	Inception time.Time
-
-	// Activation represents the moment a neuron passed it's potential.
-	Activation time.Time
-
-	// Completion represents the moment a neuron finished execution.
-	Completion time.Time
-}
-
 // Timeline represents key moments in the lifecycle of a SynapticEvent.  A synaptic event is the contextual
 // activation of a Neuron from a Cortex - typically traversed along an axon in biological structure.
 type Timeline struct {
@@ -46,6 +32,30 @@ func (t *Timeline) Len() uint {
 
 func (t *Timeline) Add(element SynapticEvent) {
 	t.temporal.Add(element.Inception, element)
+}
+
+// Latest returns the latest elements from the timeline in temporal order up to the provided depth.
+//
+// NOTE: If no depth is provided, a depth of '1' is implied. If a negative depth is provided, all elements are returned.
+func (t *Timeline) Latest(depth ...int) []SynapticEvent {
+	latest := t.temporal.Latest(depth...)
+	out := make([]SynapticEvent, len(latest))
+	for i, l := range latest {
+		out[i] = l.Element
+	}
+	return out
+}
+
+// LatestSince returns the latest elements from the timeline in temporal order up to the provided moment in the past.
+//
+// NOTE: If you provide a moment in the future, nothing will match and an empty set will be returned.
+func (t *Timeline) LatestSince(moment time.Time) []SynapticEvent {
+	latest := t.temporal.LatestSince(moment)
+	out := make([]SynapticEvent, len(latest))
+	for i, l := range latest {
+		out[i] = l.Element
+	}
+	return out
 }
 
 func (t *Timeline) Yield() []SynapticEvent {
