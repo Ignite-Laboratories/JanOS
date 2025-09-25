@@ -6,9 +6,9 @@ package italic
 import (
 	"strings"
 
-	"git.ignitelabs.net/core/enum/italic/lower"
-	"git.ignitelabs.net/core/enum/italic/upper"
-	"git.ignitelabs.net/core/sys/support"
+	"git.ignitelabs.net/janos/core/enum/italic/lower"
+	"git.ignitelabs.net/janos/core/enum/italic/upper"
+	"git.ignitelabs.net/janos/core/sys/support"
 )
 
 var Characters = append(lower.Characters, upper.Characters...)

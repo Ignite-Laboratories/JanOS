@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"git.ignitelabs.net/core"
+	"git.ignitelabs.net/janos/core"
 	"git.ignitelabs.net/navigator/netscape"
 )
 

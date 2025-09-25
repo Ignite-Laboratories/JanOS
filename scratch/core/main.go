@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"git.ignitelabs.net/core"
-	"git.ignitelabs.net/core/enum/lifecycle"
-	"git.ignitelabs.net/core/std"
+	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/std"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 	// This should fire one frame per impulse, correlating to stepping one pixel
 
 	c := std.NewCortex(std.RandomName())
-	c.Frequency = 60
+	c.Frequency = 1
 	//c.Mute()
 
 	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager A", Averager, nil)

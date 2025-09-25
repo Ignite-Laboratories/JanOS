@@ -4,8 +4,8 @@ import (
 	"strings"
 	"sync"
 
-	"git.ignitelabs.net/core/sys/atlas"
-	"git.ignitelabs.net/core/sys/num/internal"
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/num/internal"
 )
 
 // A Realized number is one generated through the execution of a neural pathway.  see.RealizedNumbers

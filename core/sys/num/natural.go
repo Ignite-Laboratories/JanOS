@@ -3,9 +3,9 @@ package num
 import (
 	"strings"
 
-	"git.ignitelabs.net/core/enum/direction/ordinal"
-	"git.ignitelabs.net/core/sys/pad"
-	"git.ignitelabs.net/core/sys/pad/scheme"
+	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
+	"git.ignitelabs.net/janos/core/sys/pad"
+	"git.ignitelabs.net/janos/core/sys/pad/scheme"
 )
 
 type Natural struct {
@@ -26,7 +26,7 @@ type Natural struct {
 //	complex64 or complex128 - this will panic, as a natural number cannot describe a complex number
 func ParseNatural(operand any, base ...uint16) Natural {
 	return Natural{}
-	
+
 	b := PanicIfInvalidBase(base[0])
 	op := ToString(FilterOperands(b, operand)[0])
 

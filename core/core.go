@@ -13,10 +13,10 @@ import (
 	"syscall"
 	"time"
 
-	"git.ignitelabs.net/core/sys/atlas"
-	"git.ignitelabs.net/core/sys/blue"
-	"git.ignitelabs.net/core/sys/given"
-	"git.ignitelabs.net/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/blue"
+	"git.ignitelabs.net/janos/core/sys/given"
+	"git.ignitelabs.net/janos/core/sys/given/format"
 )
 
 func init() {

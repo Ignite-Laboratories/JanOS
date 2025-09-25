@@ -3,9 +3,9 @@ package std
 import (
 	"fmt"
 
-	"git.ignitelabs.net/core/sys/given"
-	"git.ignitelabs.net/core/sys/given/format"
-	"git.ignitelabs.net/core/sys/id"
+	"git.ignitelabs.net/janos/core/sys/given"
+	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/id"
 )
 
 // Entity provides an 'ID' field to any composite types.

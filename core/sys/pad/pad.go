@@ -3,10 +3,10 @@ package pad
 import (
 	"slices"
 
-	"git.ignitelabs.net/core/enum/direction/ordinal"
-	"git.ignitelabs.net/core/sys/pad/pattern"
-	"git.ignitelabs.net/core/sys/pad/scheme"
-	"git.ignitelabs.net/core/sys/support"
+	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
+	"git.ignitelabs.net/janos/core/sys/pad/pattern"
+	"git.ignitelabs.net/janos/core/sys/pad/scheme"
+	"git.ignitelabs.net/janos/core/sys/support"
 )
 
 // ByteOrRune represents either a byte or a rune.

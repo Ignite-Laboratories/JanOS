@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	"git.ignitelabs.net/core/enum/endian"
+	"git.ignitelabs.net/janos/core/enum/endian"
 )
 
 // GetArchitectureEndianness returns the Endianness of the currently executing hardware.

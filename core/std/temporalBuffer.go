@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/atlas"
 )
 
 // A TemporalBuffer is a type of buffer that holds data for a period of time, rather than up to a fixed size.
@@ -63,6 +63,14 @@ func (b *TemporalBuffer[T]) trim() {
 		}
 		i++
 	}
+	maximum := len(b.buffer) - int(atlas.ObservedMinimum)
+	if maximum < 0 {
+		maximum = 0
+	}
+	if i > maximum {
+		i = maximum
+	}
+
 	b.buffer = b.buffer[i:]
 }
 
@@ -74,8 +82,8 @@ func (b *TemporalBuffer[T]) LatestSince(moment time.Time) []instant[T] {
 	b.sanityCheck()
 	out := b.Yield()
 	point := -1
-	for i := len(b.buffer) - 1; i >= 0; i-- {
-		if b.buffer[i].Moment.After(moment) {
+	for i := len(out) - 1; i >= 0; i-- {
+		if out[i].Moment.After(moment) {
 			point = i
 		} else {
 			break
@@ -97,14 +105,18 @@ func (b *TemporalBuffer[T]) Latest(depth ...int) []instant[T] {
 
 	b.sanityCheck()
 	out := b.Yield()
-	if d < 0 {
+	if d <= 0 {
 		return out
 	}
-	end := len(out) - 1 - d
+	end := len(out) - d
 	if end < 0 {
 		end = 0
 	}
-	return out[end:]
+	out = out[end:]
+	if len(out) > d {
+		panic("too many elements")
+	}
+	return out
 }
 
 func (b *TemporalBuffer[T]) Yield() []instant[T] {
@@ -130,6 +142,7 @@ func (b *TemporalBuffer[T]) Add(moment time.Time, element T) {
 		}
 		t--
 	}
+	t++
 	if t < 0 {
 		t = 0
 	}

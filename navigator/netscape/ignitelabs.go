@@ -10,8 +10,8 @@ import (
 	"strings"
 	"sync"
 
-	"git.ignitelabs.net/core/sys/deploy"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/deploy"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 //go:embed ignite-src/*

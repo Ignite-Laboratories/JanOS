@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"git.ignitelabs.net/core/sys/num"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
 // DurationToHertz converts a time.Duration into Hertz (f = 1 / t)

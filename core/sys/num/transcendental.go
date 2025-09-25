@@ -1,8 +1,8 @@
 package num
 
 import (
-	"git.ignitelabs.net/core/enum/transcendental"
-	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/enum/transcendental"
+	"git.ignitelabs.net/janos/core/sys/atlas"
 )
 
 func init() {

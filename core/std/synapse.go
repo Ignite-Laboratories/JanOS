@@ -4,9 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"git.ignitelabs.net/core"
-	"git.ignitelabs.net/core/enum/lifecycle"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/sys/id"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 // A Synapse represents a fixed impulsive activation between a Neuron and Cortex.  A synapse can be used to recycle
@@ -49,6 +50,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				log.Verbosef(imp.Bridge, "looping\n")
 				for (*imp.Cortex).Alive() {
 					event := SynapticEvent{
+						id:              id.Next(),
 						SynapseCreation: creation,
 						Inception:       time.Now(),
 					}
@@ -56,12 +58,11 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					var keepAlive bool
 					if neuron.Potential(imp) {
 						event.Activation = time.Now()
-						imp.Event = event
+						imp.Timeline.Add(event)
 						keepAlive = panicSafeAction(imp)
-						event.Completion = time.Now()
+						imp.Timeline.setCompleted(event.id, time.Now())
 						beat++
 					}
-					imp.Timeline.Add(event)
 
 					if keepAlive {
 						(*imp.Cortex).master.Lock()
@@ -83,6 +84,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				log.Verbosef(imp.Bridge, "stimulating\n")
 				for (*imp.Cortex).Alive() {
 					event := SynapticEvent{
+						id:              id.Next(),
 						SynapseCreation: creation,
 						Inception:       time.Now(),
 					}
@@ -90,12 +92,11 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					var keepAlive bool
 					if neuron.Potential(imp) {
 						event.Activation = time.Now()
-						imp.Event = event
+						imp.Timeline.Add(event)
 						panicSafeAction(imp)
-						event.Completion = time.Now()
+						imp.Timeline.setCompleted(event.id, time.Now())
 						beat++
 					}
-					imp.Timeline.Add(event)
 
 					if keepAlive {
 						(*imp.Cortex).master.Lock()
@@ -116,6 +117,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			go func() {
 				log.Verbosef(imp.Bridge, "triggering\n")
 				event := SynapticEvent{
+					id:              id.Next(),
 					SynapseCreation: creation,
 					Inception:       time.Now(),
 				}
@@ -127,11 +129,10 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				if (*imp.Cortex).Alive() {
 					imp.Beat = beat
 					event.Activation = time.Now()
-					imp.Event = event
-					panicSafeAction(imp)
-					event.Completion = time.Now()
-					beat++
 					imp.Timeline.Add(event)
+					panicSafeAction(imp)
+					imp.Timeline.setCompleted(event.id, time.Now())
+					beat++
 				}
 
 				wg := &sync.WaitGroup{}
@@ -144,15 +145,16 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			go func() {
 				log.Verbosef(imp.Bridge, "impulsing\n")
 				event := SynapticEvent{
+					id:              id.Next(),
 					SynapseCreation: creation,
 					Inception:       time.Now(),
 				}
 				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
 					imp.Beat = beat
 					event.Activation = time.Now()
-					imp.Event = event
+					imp.Timeline.Add(event)
 					panicSafeAction(imp)
-					event.Completion = time.Now()
+					imp.Timeline.setCompleted(event.id, time.Now())
 					beat++
 					imp.Timeline.Add(event)
 				}

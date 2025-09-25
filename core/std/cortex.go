@@ -4,11 +4,11 @@ import (
 	"sync"
 	"time"
 
-	"git.ignitelabs.net/core"
-	"git.ignitelabs.net/core/sys/atlas"
-	"git.ignitelabs.net/core/sys/given/format"
-	"git.ignitelabs.net/core/sys/log"
-	"git.ignitelabs.net/core/sys/when"
+	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/when"
 )
 
 // A Cortex represents a source of neural impulses.  It defines the frequency which synaptic activity can fire at.
@@ -17,7 +17,8 @@ type Cortex struct {
 
 	// Frequency defines the minimum frequency impulses will fire.
 	//
-	// NOTE: If you set this negative, they will fire as fast as possible.
+	// NOTE: If you set this to zero or negative, they will fire as fast as possible.  For a zero frequency, please mute the cortex.
+	// Otherwise, we'd have to divide by zero =)
 	Frequency float64
 
 	inception time.Time
@@ -79,7 +80,6 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 // NOTE: If your cortex is phase-locked, this will inherently break its ability to track the phase momentarily.
 // This is because phase-locking (at the cortex level) relies on tracking phase relative to the last impulse moment,
 // which shifts when an impulse is fired.
-// TODO: Find a solution for this!
 func (c *Cortex) Impulse() {
 	c.impulse <- nil
 }
@@ -154,9 +154,11 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						// NOTE: Impulse requests should not break the muted condition
 						c.mute <- nil
 					case <-c.unmute:
-						for _ = range c.mute {
+						for len(c.mute) > 0 {
+							<-c.mute
 						}
-						for _ = range c.unmute {
+						for len(c.unmute) > 0 {
+							<-c.unmute
 						}
 					}
 				default:
@@ -185,9 +187,11 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						// NOTE: Impulse requests should not break the muted condition
 						c.mute <- nil
 					case <-c.unmute:
-						for _ = range c.mute {
+						for len(c.mute) > 0 {
+							<-c.mute
 						}
-						for _ = range c.unmute {
+						for len(c.unmute) > 0 {
+							<-c.unmute
 						}
 					}
 				}

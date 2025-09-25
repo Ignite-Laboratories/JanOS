@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strings"
 
-	"git.ignitelabs.net/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/atlas"
 )
 
 // FilterOperands filters the provided operands into processable types.  If provided a type that does not

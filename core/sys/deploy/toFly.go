@@ -14,8 +14,8 @@ import (
 	"text/template"
 	"time"
 
-	"git.ignitelabs.net/core"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 //go:embed fly/fly.toml

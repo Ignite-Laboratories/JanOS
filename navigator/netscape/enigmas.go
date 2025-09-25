@@ -7,8 +7,8 @@ import (
 	"regexp"
 	"strconv"
 
-	"git.ignitelabs.net/core/sys/deploy"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/deploy"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 var Enigmas _enigmas

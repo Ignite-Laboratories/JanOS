@@ -11,7 +11,12 @@ var PrintPreamble = true
 var ShutdownTimeout = 5 * time.Second
 
 // ObservanceWindow is the default dimensional window of observance - 2 seconds.
-var ObservanceWindow = 2 * time.Second
+var ObservanceWindow = 5 * time.Second
+
+// ObservedMinimum is the minimum number of elements a temporal buffer should hold, regardless of the observance window.
+//
+// NOTE: This can never be set to 0 - it will default back to 7.
+var ObservedMinimum = uint(7)
 
 // TrimFrequency sets the default global frequency for dimensional trimmers.
 var TrimFrequency = 1024.0 //hz

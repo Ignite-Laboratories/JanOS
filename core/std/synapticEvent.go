@@ -3,6 +3,8 @@ package std
 import "time"
 
 type SynapticEvent struct {
+	id uint64
+
 	// SynapseCreation represents the moment the synaptic connection was created.
 	SynapseCreation time.Time
 

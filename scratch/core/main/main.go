@@ -1,64 +1,36 @@
-// Go
 package main
 
 import (
-	"context"
 	"fmt"
-	"net"
-	"net/http"
-	"time"
+
+	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/std"
 )
 
-func StartHTTP(addr string, h http.Handler) (actualAddr string, stop func(context.Context) error, err error) {
-	ln, err := net.Listen("tcp", addr) // bind first so startup errors are handled synchronously
-	if err != nil {
-		return "", nil, err
-	}
+func main() {
+	c := std.NewCortex(std.RandomName())
+	c.Frequency = 60 //hz
 
-	srv := &http.Server{
-		Handler:      h,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  120 * time.Second,
-		// Optional: BaseContext to attach app context to connections
-		// BaseContext: func(net.Listener) context.Context { return ctx },
-	}
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Cycle Printer", PrintCycle, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Refractory Printer", PrintRefractory, nil)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Response Time Printer", PrintResponse, nil)
 
-	errCh := make(chan error, 1)
-	go func() {
-		// Serve blocks until listener closed or server shut down
-		if err := srv.Serve(ln); err != nil && err != http.ErrServerClosed {
-			errCh <- err
-		}
-		close(errCh)
-	}()
-
-	// stop gracefully
-	stop = func(ctx context.Context) error {
-		// Shutdown stops accepting new conns and gracefully closes existing ones.
-		// If you want to hard-stop, use srv.Close().
-		return srv.Shutdown(ctx)
-	}
-
-	return ln.Addr().String(), stop, nil
+	c.Spark()
+	core.KeepAlive()
 }
 
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "hi")
-	})
+func PrintCycle(imp *std.Impulse) bool {
+	//fmt.Println(imp.Timeline.CyclePeriod())
+	return true
+}
 
-	addr, stop, err := StartHTTP(":0", mux) // :0 picks a free port
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("listening on", addr)
+func PrintRefractory(imp *std.Impulse) bool {
+	fmt.Println(imp.Timeline.RefractoryPeriod())
+	return true
+}
 
-	// ... your app runs without being blocked ...
-
-	// When shutting down:
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	_ = stop(ctx)
+func PrintResponse(imp *std.Impulse) bool {
+	//fmt.Println(imp.Timeline.ResponseTime())
+	return true
 }

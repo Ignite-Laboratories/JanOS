@@ -7,8 +7,8 @@ import (
 	"strings"
 	"unicode"
 
-	"git.ignitelabs.net/core/sys/atlas"
-	"git.ignitelabs.net/core/sys/num/internal"
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/num/internal"
 )
 
 type _base byte

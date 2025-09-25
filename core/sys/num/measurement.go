@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"git.ignitelabs.net/core/enum/direction/ordinal"
-	"git.ignitelabs.net/core/enum/endian"
-	"git.ignitelabs.net/core/sys/support"
+	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
+	"git.ignitelabs.net/janos/core/enum/endian"
+	"git.ignitelabs.net/janos/core/sys/support"
 )
 
 // Measurement is a variable-width slice of bits and is used to efficiently store them in operating memory.

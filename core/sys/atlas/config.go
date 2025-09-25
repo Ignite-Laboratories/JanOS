@@ -3,7 +3,7 @@ package atlas
 import (
 	"time"
 
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 type config struct {
@@ -11,6 +11,7 @@ type config struct {
 	Verbose              *bool         `json:"verbose"`
 	ShutdownTimeout      time.Duration `json:"shutdownTimeout"`
 	ObservanceWindow     string        `json:"observanceWindow"`
+	ObservedMinimum      uint          `json:"observedMinimum"`
 	TrimFrequency        float64       `json:"trimFrequency"`
 	Precision            uint          `json:"precision"`
 	PrecisionMinimum     uint          `json:"precisionMinimum"`
@@ -32,6 +33,9 @@ func (c config) apply() {
 	}
 	if len(c.ObservanceWindow) > 0 {
 		ObservanceWindow, _ = time.ParseDuration(c.ObservanceWindow)
+	}
+	if c.ObservedMinimum != 0 {
+		ObservedMinimum = c.ObservedMinimum
 	}
 	if c.TrimFrequency > 0 {
 		TrimFrequency = c.TrimFrequency

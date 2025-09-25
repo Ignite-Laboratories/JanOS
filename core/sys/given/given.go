@@ -9,10 +9,10 @@ import (
 	"strings"
 	"sync"
 
-	"git.ignitelabs.net/core/enum/gender"
-	"git.ignitelabs.net/core/sys/given/format"
-	"git.ignitelabs.net/core/sys/id"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/enum/gender"
+	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/id"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 // TODO: Allow replacing nameDB and surnameDB with a file from atlas configuration

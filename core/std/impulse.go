@@ -16,7 +16,6 @@ package std
 // understands how to interpret the information contained in the impulsive thought.
 type Impulse struct {
 	Bridge   string
-	Event    SynapticEvent
 	Timeline *Timeline
 	Beat     int
 	Cortex   *Cortex

@@ -1,8 +1,8 @@
 package std
 
 import (
-	"git.ignitelabs.net/core/sys/given"
-	"git.ignitelabs.net/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/given"
+	"git.ignitelabs.net/janos/core/sys/given/format"
 )
 
 // RandomName returns a random given.Name's name string formatted to format.Default.

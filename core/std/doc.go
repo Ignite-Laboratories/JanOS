@@ -1,7 +1,7 @@
 package std
 
 import (
-	"git.ignitelabs.net/core"
+	"git.ignitelabs.net/janos/core"
 )
 
 func init() {

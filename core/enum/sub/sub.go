@@ -1,7 +1,7 @@
 package sub
 
 import (
-	"git.ignitelabs.net/core/sys/num"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
 // A SubByte is an implied integer of a non-standard bit width.

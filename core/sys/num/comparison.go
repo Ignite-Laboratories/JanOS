@@ -3,9 +3,9 @@ package num
 import (
 	"regexp"
 
-	"git.ignitelabs.net/core/enum/direction/ordinal"
-	"git.ignitelabs.net/core/sys/pad"
-	"git.ignitelabs.net/core/sys/pad/scheme"
+	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
+	"git.ignitelabs.net/janos/core/sys/pad"
+	"git.ignitelabs.net/janos/core/sys/pad/scheme"
 )
 
 var decimalPattern = regexp.MustCompile(`^([+-]?)(\d+)(\.(\d+))?$`)

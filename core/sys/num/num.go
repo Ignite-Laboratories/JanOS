@@ -5,10 +5,10 @@ import (
 	"math/big"
 	"strconv"
 
-	"git.ignitelabs.net/core/enum/direction/ordinal"
-	"git.ignitelabs.net/core/sys/atlas"
-	"git.ignitelabs.net/core/sys/pad"
-	"git.ignitelabs.net/core/sys/pad/scheme"
+	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/pad"
+	"git.ignitelabs.net/janos/core/sys/pad/scheme"
 )
 
 const strNaN = "NaN"

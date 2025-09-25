@@ -3,7 +3,7 @@ package when
 import (
 	"time"
 
-	"git.ignitelabs.net/core/sys/num"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
 func Periodically(duration *time.Duration) func() bool {

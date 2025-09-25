@@ -10,9 +10,9 @@ import (
 	"strings"
 	"sync"
 
-	"git.ignitelabs.net/core/std"
-	"git.ignitelabs.net/core/sys/deploy"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/std"
+	"git.ignitelabs.net/janos/core/sys/deploy"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 var Neural _neural

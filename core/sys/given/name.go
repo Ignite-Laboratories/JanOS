@@ -3,7 +3,7 @@ package given
 import (
 	"fmt"
 
-	"git.ignitelabs.net/core/enum/italic"
+	"git.ignitelabs.net/janos/core/enum/italic"
 )
 
 // Name represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names
@@ -23,19 +23,11 @@ type Name struct {
 	Details     Details
 }
 
-// String returns the Name and, if present, Description.
-//
-// For Example:
-//
-//	With:    Jane Doe - Tenacious Mystery
-//	Without: Kurt Weller
+// String returns the Name as a string.
 //
 // See Name, String, StringQuoted, and Italicize
 func (n Name) String() string {
-	if n.Description == "" {
-		return fmt.Sprintf("%v", n.Name)
-	}
-	return fmt.Sprintf("%v - %v", n.Name, n.Description)
+	return fmt.Sprintf("%v", n.Name)
 }
 
 // StringQuoted returns the Name and, if present, Description with both parts wrapped in double-quotes.

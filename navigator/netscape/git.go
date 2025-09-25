@@ -4,9 +4,10 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 
-	"git.ignitelabs.net/core/sys/deploy"
-	"git.ignitelabs.net/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/deploy"
+	"git.ignitelabs.net/janos/core/sys/log"
 )
 
 // GitVanity drives the git.ignitelabs.net service, which acts as a "vanity URL" for Go imports.
@@ -47,24 +48,39 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 
 	metaTmpl := template.Must(template.New("meta").Parse(`<!doctype html>
 <html><head>
-<meta name="go-import" content="{{.ImportPath}} git {{.Remote}}">
-<meta name="go-source" content="{{.ImportPath}} {{.Remote}} {{.Remote}}/tree/HEAD{/dir} {{.Remote}}/blob/HEAD{/dir}/{file}#L{line}">
+<meta name="go-import" content="{{.ImportPath}} git {{.Remote}}.git">
+<meta name="go-source" content="{{.ImportPath}} {{.Remote}} {{.Remote}}/tree/HEAD{{.Repo}}{/dir} {{.Remote}}/blob/HEAD{{.Repo}}{/dir}/{file}#L{line}">
 </head><body>OK</body></html>`))
 
 	type metaData struct {
-		ImportPath string // e.g. git.ignitelabs.net/enigmaneering/enigma0
-		Remote     string // e.g. https://github.com/ignite-laboratories/enigmaneering/enigma0
+		ImportPath string
+		Remote     string
+		Repo       string
 	}
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		repo := remote + r.URL.Path
+		first := r.URL.Path
+		after := ""
+		if len(first) > 0 {
+			if first[0] == '/' {
+				first = first[1:]
+			}
+		}
+		if i := strings.IndexByte(first, '/'); i >= 0 {
+			f := first[:i]
+			after = first[i:]
+			first = f
+		}
+		repo := r.Host + r.URL.Path
+		rem := remote + "/" + first
 
 		// Go toolchain probe: serve meta tags (no redirect).
 		if r.URL.Query().Get("go-get") == "1" {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			if err := metaTmpl.Execute(w, metaData{
-				ImportPath: r.Host + r.URL.Path,
-				Remote:     repo,
+				ImportPath: repo,
+				Remote:     rem,
+				Repo:       after,
 			}); err != nil {
 				http.Error(w, "template error", http.StatusInternalServerError)
 			}
@@ -72,7 +88,7 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 		}
 
 		// Browser: redirect to GitHub. Use tree/HEAD for directories; it’s fine for blobs too.
-		http.Redirect(w, r, repo, http.StatusFound)
+		http.Redirect(w, r, remote+r.URL.Path, http.StatusFound)
 	})
 
 	addr := ":" + p

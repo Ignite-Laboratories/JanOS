@@ -3,7 +3,7 @@ package std
 import (
 	"time"
 
-	"git.ignitelabs.net/core"
+	"git.ignitelabs.net/janos/core"
 )
 
 // Timeline represents key moments in the lifecycle of a SynapticEvent.  A synaptic event is the contextual
@@ -24,6 +24,18 @@ func NewTimeline() *Timeline {
 	}
 	timeline.Add(inception)
 	return timeline
+}
+
+func (t *Timeline) setCompleted(id uint64, moment time.Time) {
+	t.temporal.master.Lock()
+	defer t.temporal.master.Unlock()
+
+	for i := len(t.temporal.buffer) - 1; i >= 0; i-- {
+		if t.temporal.buffer[i].Element.id == id {
+			t.temporal.buffer[i].Element.Completion = moment
+			break
+		}
+	}
 }
 
 func (t *Timeline) Len() uint {
@@ -79,8 +91,11 @@ func (t *Timeline) RefractoryPeriod() time.Duration {
 // CyclePeriod represents the duration between the last activation's start and this impulse's activation start.
 func (t *Timeline) CyclePeriod() time.Duration {
 	latest := t.temporal.Latest(2)
-	if len(latest) <= 1 {
+	if len(latest) == 0 {
 		return 0
+	}
+	if len(latest) == 1 {
+		return latest[0].Element.Activation.Sub(latest[0].Element.SynapseCreation)
 	}
 	return latest[1].Element.Activation.Sub(latest[0].Element.Activation)
 }
@@ -88,10 +103,10 @@ func (t *Timeline) CyclePeriod() time.Duration {
 // ResponseTime represents the duration between inception and activation.
 func (t *Timeline) ResponseTime() time.Duration {
 	latest := t.temporal.Latest()
-	if len(latest) <= 1 {
+	if len(latest) == 0 {
 		return 0
 	}
-	return latest[1].Element.Activation.Sub(latest[1].Element.Inception)
+	return latest[0].Element.Activation.Sub(latest[0].Element.Inception)
 }
 
 // RunTime represents the duration between activation and completion.
@@ -100,7 +115,7 @@ func (t *Timeline) RunTime() time.Duration {
 	if len(latest) <= 1 {
 		return 0
 	}
-	return latest[1].Element.Completion.Sub(latest[0].Element.Activation)
+	return latest[0].Element.Completion.Sub(latest[0].Element.Activation)
 }
 
 // TotalTime represents the duration between inception and completion.
@@ -109,5 +124,5 @@ func (t *Timeline) TotalTime() time.Duration {
 	if len(latest) <= 1 {
 		return 0
 	}
-	return latest[1].Element.Completion.Sub(latest[0].Element.Inception)
+	return latest[0].Element.Completion.Sub(latest[0].Element.Inception)
 }
