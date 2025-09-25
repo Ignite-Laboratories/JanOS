@@ -26,7 +26,7 @@ func init() {
 	if atlas.PrintPreamble {
 		var version string
 		for _, dep := range exeInfo.Deps {
-			if strings.Contains(dep.Path, "github.com/ignite-laboratories/core") {
+			if strings.Contains(dep.Path, "git.ignitelabs.net/janos") {
 				version = dep.Version
 			}
 		}
