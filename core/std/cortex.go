@@ -8,7 +8,6 @@ import (
 	"git.ignitelabs.net/janos/core/sys/atlas"
 	"git.ignitelabs.net/janos/core/sys/given/format"
 	"git.ignitelabs.net/janos/core/sys/log"
-	"git.ignitelabs.net/janos/core/sys/when"
 )
 
 // A Cortex represents a source of neural impulses.  It defines the frequency which synaptic activity can fire at.
@@ -82,6 +81,16 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 // which shifts when an impulse is fired.
 func (c *Cortex) Impulse() {
 	c.impulse <- nil
+}
+
+func _hertzToDuration(hz float64) time.Duration {
+	if hz <= 0 {
+		// No division by zero
+		hz = 1e-100 // math.SmallestNonzeroFloat64 🡨 NOTE: Raspberry Pi doesn't handle this constant well
+	}
+	s := 1 / hz
+	ns := s * 1e9
+	return time.Duration(ns)
 }
 
 func (c *Cortex) Spark(synapses ...Synapse) {
@@ -165,7 +174,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				}
 			} else {
 				// This is a 'timer-step' condition
-				expected = last.Add(when.HertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
+				expected = last.Add(_hertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
 				frequency = c.Frequency
 				select {
 				case <-c.shutdown:
