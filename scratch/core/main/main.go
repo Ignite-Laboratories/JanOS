@@ -21,7 +21,7 @@ func main() {
 }
 
 func PrintCycle(imp *std.Impulse) bool {
-	//fmt.Println(imp.Timeline.CyclePeriod())
+	fmt.Println(imp.Timeline.CyclePeriod())
 	return true
 }
 
@@ -31,6 +31,6 @@ func PrintRefractory(imp *std.Impulse) bool {
 }
 
 func PrintResponse(imp *std.Impulse) bool {
-	//fmt.Println(imp.Timeline.ResponseTime())
+	fmt.Println(imp.Timeline.ResponseTime())
 	return true
 }

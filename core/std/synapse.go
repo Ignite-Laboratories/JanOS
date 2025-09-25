@@ -55,7 +55,7 @@ func NewSynapseFromNeuron(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						Inception:       time.Now(),
 					}
 					imp.Beat = beat
-					var keepAlive bool
+					keepAlive := true
 					if neuron.Potential(imp) {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)

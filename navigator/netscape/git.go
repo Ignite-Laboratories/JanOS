@@ -59,6 +59,7 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		first := r.URL.Path
+		after := ""
 		if len(first) > 0 {
 			if first[0] == '/' {
 				first = first[1:]
@@ -66,6 +67,7 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 		}
 		if i := strings.IndexByte(first, '/'); i >= 0 {
 			f := first[:i]
+			after = first[i:]
 			first = f
 		}
 		repo := r.Host + "/" + first
@@ -84,7 +86,11 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 		}
 
 		// Browser: redirect to GitHub. Use tree/HEAD for directories; it’s fine for blobs too.
-		http.Redirect(w, r, remote+r.URL.Path, http.StatusFound)
+		if len(after) > 0 {
+			http.Redirect(w, r, rem+"/tree/HEAD"+after, http.StatusFound)
+		} else {
+			http.Redirect(w, r, rem, http.StatusFound)
+		}
 	})
 
 	addr := ":" + p
