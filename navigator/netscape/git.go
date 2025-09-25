@@ -49,18 +49,16 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 	metaTmpl := template.Must(template.New("meta").Parse(`<!doctype html>
 <html><head>
 <meta name="go-import" content="{{.ImportPath}} git {{.Remote}}.git">
-<meta name="go-source" content="{{.ImportPath}} {{.Remote}} {{.Remote}}/tree/HEAD{{.Repo}}{/dir} {{.Remote}}/blob/HEAD{{.Repo}}{/dir}/{file}#L{line}">
+<meta name="go-source" content="{{.ImportPath}} {{.Remote}} {{.Remote}}/tree/HEAD{/dir} {{.Remote}}/blob/HEAD{/dir}/{file}#L{line}">
 </head><body>OK</body></html>`))
 
 	type metaData struct {
 		ImportPath string
 		Remote     string
-		Repo       string
 	}
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		first := r.URL.Path
-		after := ""
 		if len(first) > 0 {
 			if first[0] == '/' {
 				first = first[1:]
@@ -68,10 +66,9 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 		}
 		if i := strings.IndexByte(first, '/'); i >= 0 {
 			f := first[:i]
-			after = first[i:]
 			first = f
 		}
-		repo := r.Host + r.URL.Path
+		repo := r.Host + "/" + first
 		rem := remote + "/" + first
 
 		// Go toolchain probe: serve meta tags (no redirect).
@@ -80,7 +77,6 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 			if err := metaTmpl.Execute(w, metaData{
 				ImportPath: repo,
 				Remote:     rem,
-				Repo:       after,
 			}); err != nil {
 				http.Error(w, "template error", http.StatusInternalServerError)
 			}

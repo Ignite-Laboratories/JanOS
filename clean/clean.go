@@ -1,5 +1,5 @@
 package clean
 
 func Hello() string {
-	return "World"
+	return "World - RAWR"
 }
