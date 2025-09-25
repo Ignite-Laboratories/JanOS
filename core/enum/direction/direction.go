@@ -2,14 +2,14 @@
 package direction
 
 import (
-	"github.com/ignite-laboratories/core/enum/direction/awareness"
-	"github.com/ignite-laboratories/core/enum/direction/cardinal"
-	"github.com/ignite-laboratories/core/enum/direction/consciousness"
-	"github.com/ignite-laboratories/core/enum/direction/ordinal"
-	"github.com/ignite-laboratories/core/enum/direction/orthogonal"
-	"github.com/ignite-laboratories/core/enum/direction/temporal"
-	"github.com/ignite-laboratories/core/enum/direction/transmittal"
-	"github.com/ignite-laboratories/core/enum/direction/universal"
+	"core/enum/direction/awareness"
+	"core/enum/direction/cardinal"
+	"core/enum/direction/consciousness"
+	"core/enum/direction/ordinal"
+	"core/enum/direction/orthogonal"
+	"core/enum/direction/temporal"
+	"core/enum/direction/transmittal"
+	"core/enum/direction/universal"
 )
 
 // Any represents general directionality and includes both cardinal and abstract reference points in space and time.
@@ -56,7 +56,8 @@ import (
 //	transmittal.Outbound: Transmitting
 //	transmittal.Bidirectional: Discourse
 //
-// In addition, several "higher-order" dimensional descriptions are defined as well.
+// In addition, several "higher-order" dimensional descriptions are defined as well.  These are entirely abstract and imply
+// no logical order of their sub-dimensions, only ordinal terminology for traversing them.
 //
 //	awareness.Nascent: Obliviousness
 //	awareness.Naive: Willingness

@@ -26,3 +26,7 @@ var Phi = "φ"
 var Chi = "χ"
 var Psi = "ψ"
 var Omega = "ω"
+
+var Characters = []string{
+	Alpha, Beta, Gamma, Delta, Epsilon, Zeta, Eta, Theta, Iota, Kappa, Lambda, Mu, Nu, Xi, Omicron, Pi, Rho, Sigma, SigmaFinal, Tau, Upsilon, Phi, Chi, Psi, Omega,
+}

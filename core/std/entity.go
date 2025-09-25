@@ -2,44 +2,56 @@ package std
 
 import (
 	"fmt"
-	"github.com/ignite-laboratories/core/std/name"
-	"github.com/ignite-laboratories/core/std/name/format"
-	"github.com/ignite-laboratories/core/sys/id"
+
+	"git.ignitelabs.net/janos/core/sys/given"
+	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/id"
 )
 
 // Entity provides an 'ID' field to any composite types.
 //
 // NOTE: Entity's String function.
 type Entity struct {
-	id        uint64
-	GivenName name.Given
+	id   uint64
+	Name given.Name
 }
 
 func (e Entity) GetID() uint64 {
 	return e.id
 }
 
-// String returns the Entity's identifier and GivenName as "[ID](Name)"
+// Named gets the Entity.Name.
+func (e Entity) Named() string {
+	return e.Name.Name
+}
+
+// String returns the Entity's identifier and Name as "[ID](Name)"
 func (e Entity) String() string {
-	return fmt.Sprintf("[%d](%v)", e.id, e.GivenName.String())
+	return fmt.Sprintf("[%d](%v)", e.id, e.Name.String())
+}
+
+// NewEntityNamed creates a new entity, assigns it a unique identifier, and gives it the provided name.
+//
+// See NewEntity and NewEntityNamed
+func NewEntityNamed(name string) Entity {
+	return NewEntity[format.Default](given.New(name))
 }
 
 // NewEntity creates a new entity, assigns it a unique identifier, and gives it a random name.
 //
-// If you'd prefer to directly name your entity, provide it as a parameter here.  Otherwise,
-// a random entry from the provided name.Format database type is chosen.
-func NewEntity[T format.Format](str ...name.Given) Entity {
+// See NewEntity and NewEntityNamed
+func NewEntity[T format.Format](name ...given.Name) Entity {
 	i := id.Next()
-	var given name.Given
-	if len(str) > 0 {
-		given = str[0]
+	var g given.Name
+	if len(name) > 0 {
+		g = name[0]
 	} else {
-		given, _ = name.Random[T](i)
+		g = given.Random[T]()
 	}
 
 	ne := Entity{
-		id:        i,
-		GivenName: given,
+		id:   i,
+		Name: g,
 	}
 
 	return ne

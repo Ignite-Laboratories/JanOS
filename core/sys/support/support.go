@@ -4,7 +4,30 @@ import (
 	"math/rand/v2"
 	"reflect"
 	"slices"
+	"strings"
+	"unicode"
 )
+
+// SetCase changes the case of the input string.  If no indices are provided, the entire string is affected.
+// Otherwise, only the provided indices are manipulated.
+func SetCase(input string, upper bool, indices ...int) string {
+	if len(indices) == 0 {
+		if upper {
+			return strings.ToUpper(input)
+		}
+		return strings.ToLower(input)
+	}
+
+	runes := []rune(input)
+	for _, ii := range indices {
+		if upper {
+			runes[ii] = unicode.ToUpper(runes[ii])
+		} else {
+			runes[ii] = unicode.ToLower(runes[ii])
+		}
+	}
+	return string(runes)
+}
 
 // ShuffleSet clones and then shuffles the provided set using 'slices' and 'math/rand/v2', respectively.
 func ShuffleSet[T any](set []T) []T {
@@ -13,8 +36,18 @@ func ShuffleSet[T any](set []T) []T {
 	return s
 }
 
+// IsAlphaNumeric returns whether the provided string contains only the alphanumeric characters [0-9, a-z, A-Z]
+func IsAlphaNumeric(s string) bool {
+	for _, r := range s {
+		if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9')) {
+			return false
+		}
+	}
+	return true
+}
+
 // Deduplicate removes duplicate entries from the provided data.
-func Deduplicate[T any](data []T) []T {
+func Deduplicate[T comparable](data []T) []T {
 	seen := make(map[any]struct{}, len(data))
 	unique := make([]T, 0, len(data))
 	for _, v := range data {

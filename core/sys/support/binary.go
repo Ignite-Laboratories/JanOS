@@ -2,9 +2,10 @@ package support
 
 import (
 	"encoding/binary"
-	"github.com/ignite-laboratories/core/enum/endian"
 	"reflect"
 	"unsafe"
+
+	"git.ignitelabs.net/janos/core/enum/endian"
 )
 
 // GetArchitectureEndianness returns the Endianness of the currently executing hardware.
@@ -15,6 +16,17 @@ func GetArchitectureEndianness() endian.Endianness {
 		return endian.Big
 	}
 	return endian.Little
+}
+
+// GetBits returns a slice of 0 or 1 bytes representing the input byte.
+func GetBits(b byte) [8]byte {
+	bits := [8]byte{}
+	ii := 0
+	for i := byte(7); i < 8; i-- {
+		bits[ii] = (b >> i) & 1
+		ii++
+	}
+	return bits
 }
 
 // ReverseByte reverses all the bits of a byte.

@@ -38,7 +38,7 @@ const (
 	// Reverse indicates that the pattern elements should be reversed before application to the source data.
 	//
 	// See Reverse, Tile, Shuffle, ReflectInward, and ReflectOutward
-	Reverse = iota
+	Reverse Scheme = iota
 
 	// Tile indicates that the pattern elements should be cyclically repeated as-is while applying it to the source data.
 	//

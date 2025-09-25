@@ -1,80 +1,65 @@
 package when
 
 import (
-	"github.com/ignite-laboratories/core"
 	"time"
+
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
-// Frequency provides a potential that activates at the specified frequency (in Hertz).
-func Frequency(hertz *float64) core.Potential {
-	return func(ctx core.Context) bool {
-		d := core.HertzToDuration(*hertz)
-		return ctx.Moment.Sub(ctx.LastActivation.Inception) > d
+func Periodically(duration *time.Duration) func() bool {
+	last := time.Now()
+	return func() bool {
+		now := time.Now()
+		if now.Sub(last) > *duration {
+			last = now
+			return true
+		}
+		return false
+	}
+}
+
+func Frequency[T num.Primitive](hertz *T) func() bool {
+	last := time.Now()
+	return func() bool {
+		now := time.Now()
+		if now.Sub(last) > HertzToDuration(*hertz) {
+			last = now
+			return true
+		}
+		return false
 	}
 }
 
 // Resonant provides a potential that activates at a sympathetic frequency (in Hertz) to the source frequency.
 //
 //	Resonance = Source / Subdivision
-func Resonant(source *float64, subdivision *float64) core.Potential {
-	return func(ctx core.Context) bool {
+func Resonant[T num.Primitive](source *T, subdivision *T) func() bool {
+	last := time.Now()
+	return func() bool {
+		now := time.Now()
 		resonance := *source / *subdivision
-		d := core.HertzToDuration(resonance)
-		return ctx.Moment.Sub(ctx.LastActivation.Inception) > d
+		if now.Sub(last) > HertzToDuration(resonance) {
+			last = now
+			return true
+		}
+		return false
 	}
 }
 
 // HalfSpeed provides a potential that activates at half the rate of the source frequency (Hertz).
-func HalfSpeed(hertz *float64) core.Potential {
-	subdivision := 2.0
+func HalfSpeed[T num.Primitive](hertz *T) func() bool {
+	subdivision := T(2.0)
 	return Resonant(hertz, &subdivision)
 }
 
 // QuarterSpeed provides a potential that activates at a quarter the rate of the source frequency (Hertz).
-func QuarterSpeed(hertz *float64) core.Potential {
-	subdivision := 4.0
+func QuarterSpeed[T num.Primitive](hertz *T) func() bool {
+	subdivision := T(4.0)
 	return Resonant(hertz, &subdivision)
 }
 
 // EighthSpeed provides a potential that activates at an eighth the rate of the source frequency (Hertz).
-func EighthSpeed(hertz *float64) core.Potential {
-	subdivision := 8.0
+func EighthSpeed[T num.Primitive](hertz *T) func() bool {
+	subdivision := T(8.0)
 	return Resonant(hertz, &subdivision)
-}
-
-// Duration provides the following potential:
-//
-//	time.Now().Sub(ctx.LastActivation.Inception) > duration
-func Duration(duration *time.Duration) core.Potential {
-	return func(ctx core.Context) bool {
-		return time.Now().Sub(ctx.LastActivation.Inception) > *duration
-	}
-}
-
-// Pace provides a potential that counts to the provided value before returning true.
-//
-// NOTE: This kind of potential is an impulse slowing operation, regardless of neural synchronicity!
-func Pace(value *uint64) core.Potential {
-	return func(ctx core.Context) bool {
-		for i := uint64(0); i < *value; i++ {
-		}
-		return true
-	}
-}
-
-// Always provides a potential that always returns true.
-func Always(ctx core.Context) bool {
-	return true
-}
-
-// Never provides a potential that never returns true.
-func Never() bool {
-	return false
-}
-
-// High provides a potential that dereferences the provided boolean on demand.
-func High(value *bool) core.Potential {
-	return func(ctx core.Context) bool {
-		return *value
-	}
 }

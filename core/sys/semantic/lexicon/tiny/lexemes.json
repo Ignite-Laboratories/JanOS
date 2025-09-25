@@ -1,0 +1,17 @@
+{
+  "lexeme": "Placeholder",
+  "type": "uint8",
+  "additionalFields": ["Base Base"],
+  "docs":[
+    "Lexeme is the most basic unit of the \uD835\uDC61\uD835\uDC56\uD835\uDC5B\uD835\uDC66 lexicon and represents a single placeholder value in an arithmetic matrix.",
+    "",
+    "NOTE: All bases from Base2 to Base256 are well-defined in the lexicon, but the most common are aliased for convenience."
+  ],
+  "related": ["See Lexeme, Digit, Binary, Ternary, Octal, Decimal, Hexadecimal, and Sexagesimal"],
+  "types": [
+    {
+      "name": "Digit",
+      "docs":["Digits are a single placeholder - if you wish to describe any abstract digit, use this interface."]
+    }
+  ]
+}

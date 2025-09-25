@@ -1,0 +1,351 @@
+{
+  "lexeme": "Lemma",
+  "type": "string",
+  "docs": [
+    "Lexeme is the most basic unit of the English lexicon.  The English lexicon begins with a \"Lemma\" string - named so from the English WordNet database which drives it."
+  ],
+  "related": ["See Lexeme, Prototype, PunctuationMark, Quote, Dash, Function, ControlCharacter, PartOfSpeech, and Synset"],
+  "types": [
+    {
+      "name": "Prototype",
+      "docs": [
+        "Prototype is a Lexeme of unknown classification.  This collection should be used as a source from which to evolve a Lexicon over time."
+      ]
+    },
+    {
+      "name": "PunctuationMark",
+      "docs": [
+        "PunctuationMark represents an English punctuation mark, such as '!' or '?'"
+      ],
+      "nameSet": "PunctuationMarks",
+      "set": {
+        ".": "ASCII Full Stop (Period) (U+002E)",
+        ",": "ASCII Comma (U+002C)",
+        "?": "ASCII Question Mark (U+003F)",
+        "!": "ASCII Exclamation Mark (U+0021)",
+        ":": "ASCII Colon (U+003A)",
+        ";": "ASCII Semicolon (U+003B)",
+        "(": "ASCII Left Parenthesis (U+0028)",
+        ")": "ASCII Right Parenthesis (U+0029)",
+        "[": "ASCII Left Square Bracket (U+005B)",
+        "]": "ASCII Right Square Bracket (U+005D)",
+        "{": "ASCII Left Curly Bracket (Brace) (U+007B)",
+        "}": "ASCII Right Curly Bracket (Brace) (U+007D)"
+      }
+    },
+    {
+      "name": "Operator",
+      "docs": [
+        "Operator represents an arithmetic operator, such as '+' or '-'"
+      ],
+      "nameSet": "Operators",
+      "set": {
+        "+": "ASCII Plus Sign (U+002B)",
+        "-": "ASCII Hyphen-Minus (U+002D)",
+        "/": "ASCII Solidus (Slash) (U+002F)",
+        "*": "ASCII Asterisk (U+002A)",
+        "%": "ASCII Percent Sign (U+0025)",
+        "^": "ASCII Circumflex Accent (Caret) (U+005E)"
+      }
+    },
+    {
+      "name": "Quote",
+      "docs": [
+        "Quote represents a quote character"
+      ],
+      "nameSet": "Quotes",
+      "set": {
+        "`": "ASCII Grave Accent (Backtick) (U+0060)",
+        "'": "ASCII Apostrophe (Single Quote) (U+0027)",
+        "\"": "ASCII Quotation Mark (Double Quote) (U+0022)"
+      }
+    },
+    {
+      "name": "Dash",
+      "docs": [
+        "Dash represents a dash character"
+      ],
+      "nameSet": "Dashes",
+      "set": {
+        "-": "ASCII Hyphen-Minus (U+002D)",
+        "﹣": "Small Hyphen-Minus — CJK Small Form (U+FE63)",
+        "－": "Fullwidth Hyphen-Minus — CJK Fullwidth (U+FF0D)",
+        "–": "EN Dash — General Punctuation (U+2013)",
+        "﹘": "Small EM Dash — CJK Small Form (U+FE58)",
+        "—": "EM Dash — General Punctuation (U+2014)",
+        "―": "Horizontal Bar (Quotation Dash) — General Punctuation (U+2015)"
+      }
+    },
+    {
+      "name": "ControlCharacter",
+      "docs": [
+        "ControlCharacter represents a special controlling character such as 'newline' or 'tab'."
+      ],
+      "nameSet": "ControlCharacters",
+      "set": {
+        "\\n": "ASCII Line Feed (LF) — C0 Control (U+000A)",
+        "\\t": "ASCII Horizontal Tab (HT) — C0 Control (U+0009)",
+        "\\r": "ASCII Carriage Return (CR) — C0 Control (U+000D)",
+        "\\b": "ASCII Backspace (BS) — C0 Control (U+0008)",
+        "\\f": "ASCII Form Feed (FF) — C0 Control (U+000C)",
+        "\\v": "ASCII Vertical Tab (VT) — C0 Control (U+000B)",
+        "\\a": "ASCII Bell (Alert, BEL) — C0 Control (U+0007)"
+      }
+    },
+    {
+      "name": "Function",
+      "docs": [
+        "Function words are the semantic glue that holds language together.  They compose of many different categories,",
+        "each of which is a type of function word.  If you wish to describe 'any function word' use this interface - otherwise",
+        "you may describe it using the below references:",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle.",
+        "",
+        "NOTE: Function words are always stored in lowercase form for disambiguation.",
+        ""
+      ]
+    },
+    {
+      "name": "AuxiliaryVerb",
+      "docs": [
+        "An AuxiliaryVerb helps a main verb to express tense, mood, or voice",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "AuxiliaryVerbs",
+      "set": {
+        "be":  "An auxiliary verb",
+        "am":  "An auxiliary verb",
+        "is":  "An auxiliary verb",
+        "are":  "An auxiliary verb",
+        "was":  "An auxiliary verb",
+        "were":  "An auxiliary verb",
+        "being":  "An auxiliary verb",
+        "been":  "An auxiliary verb",
+        "have":  "An auxiliary verb",
+        "has":  "An auxiliary verb",
+        "had":  "An auxiliary verb",
+        "having":  "An auxiliary verb",
+        "do":  "An auxiliary verb",
+        "does":  "An auxiliary verb",
+        "did":  "An auxiliary verb",
+        "will":  "An auxiliary verb",
+        "can":  "An auxiliary verb",
+        "could":  "An auxiliary verb",
+        "may":  "An auxiliary verb",
+        "might":  "An auxiliary verb",
+        "must":  "An auxiliary verb",
+        "would":  "An auxiliary verb",
+        "shall":  "An auxiliary verb",
+        "should":  "An auxiliary verb"
+      }
+    },
+    {
+      "name": "Conjunction",
+      "docs": [
+        "A Conjunction links together words, phrases, or clauses of equal or unequal grammatical rank",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Conjunctions",
+      "set": {
+        "and":  "A conjunction",
+        "but":  "A conjunction",
+        "or":  "A conjunction",
+        "not":  "A conjunction",
+        "so":  "A conjunction",
+        "yet":  "A conjunction",
+        "for":  "A conjunction",
+        "although":  "A conjunction",
+        "because":  "A conjunction",
+        "since":  "A conjunction",
+        "unless":  "A conjunction",
+        "while":  "A conjunction",
+        "whereas":  "A conjunction",
+        "if":  "A conjunction",
+        "though":  "A conjunction"
+      }
+    },
+    {
+      "name": "Preposition",
+      "docs": [
+        "A Preposition establishes a relationship, typically spatial or temporal, between a noun or pronoun and another word",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Prepositions",
+      "set": {
+        "of": "A preposition",
+        "to": "A preposition",
+        "in": "A preposition",
+        "on": "A preposition",
+        "at": "A preposition",
+        "by": "A preposition",
+        "for": "A preposition",
+        "with": "A preposition",
+        "about": "A preposition",
+        "over": "A preposition",
+        "under": "A preposition",
+        "between": "A preposition",
+        "through": "A preposition",
+        "during": "A preposition",
+        "against": "A preposition",
+        "among": "A preposition",
+        "across": "A preposition",
+        "behind": "A preposition",
+        "beyond": "A preposition",
+        "inside": "A preposition",
+        "outside": "A preposition",
+        "without": "A preposition",
+        "within": "A preposition",
+        "upon": "A preposition"
+      }
+    },
+    {
+      "name": "Determiner",
+      "docs": [
+        "A Determiner specifies the reference of a noun, providing context about its quantity, definiteness, or ownership",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Determiners",
+      "set": {
+        "a": "A determiner",
+        "an": "A determiner",
+        "the": "A determiner",
+        "this": "A determiner",
+        "that": "A determiner",
+        "these": "A determiner",
+        "those": "A determiner",
+        "my": "A determiner",
+        "your": "A determiner",
+        "his": "A determiner",
+        "her": "A determiner",
+        "its": "A determiner",
+        "our": "A determiner",
+        "their": "A determiner",
+        "some": "A determiner",
+        "any": "A determiner",
+        "no": "A determiner",
+        "each": "A determiner",
+        "every": "A determiner",
+        "either": "A determiner",
+        "neither": "A determiner",
+        "much": "A determiner",
+        "many": "A determiner",
+        "few": "A determiner",
+        "several": "A determiner",
+        "all": "A determiner",
+        "both": "A determiner"
+      }
+    },
+    {
+      "name": "Pronoun",
+      "docs": [
+        "A Pronoun substitutes for a noun or noun phrase, often to prevent repetition",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Pronouns",
+      "set": {
+        "I": "A pronoun",
+        "you": "A pronoun",
+        "he": "A pronoun",
+        "she": "A pronoun",
+        "it": "A pronoun",
+        "we": "A pronoun",
+        "they": "A pronoun",
+        "me": "A pronoun",
+        "him": "A pronoun",
+        "her": "A pronoun",
+        "us": "A pronoun",
+        "them": "A pronoun",
+        "myself": "A pronoun",
+        "yourself": "A pronoun",
+        "himself": "A pronoun",
+        "herself": "A pronoun",
+        "itself": "A pronoun",
+        "ourselves": "A pronoun",
+        "yourselves": "A pronoun",
+        "themselves": "A pronoun",
+        "who": "A pronoun",
+        "whom": "A pronoun",
+        "whose": "A pronoun",
+        "which": "A pronoun",
+        "what": "A pronoun",
+        "anyone": "A pronoun",
+        "someone": "A pronoun",
+        "everyone": "A pronoun",
+        "nobody": "A pronoun",
+        "nothing": "A pronoun",
+        "anything": "A pronoun",
+        "everything": "A pronoun"
+      }
+    },
+    {
+      "name": "Quantifier",
+      "docs": [
+        "A Quantifier indicates the quantity or amount of a noun without being a specific number",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Quantifiers",
+      "set": {
+        "few": "A quantifier",
+        "little": "A quantifier",
+        "much": "A quantifier",
+        "many": "A quantifier",
+        "several": "A quantifier",
+        "all": "A quantifier",
+        "some": "A quantifier",
+        "any": "A quantifier",
+        "enough": "A quantifier",
+        "more": "A quantifier",
+        "most": "A quantifier",
+        "less": "A quantifier",
+        "least": "A quantifier"
+      }
+    },
+    {
+      "name": "Particle",
+      "docs": [
+        "A Particle modifies or connects other parts of a phrase",
+        "",
+        "- AuxiliaryVerb, Conjunction, Preposition, Determiner, Pronoun, Quantifier, and Particle"
+      ],
+      "base": "Function",
+      "nameSet": "Particles",
+      "set": {
+        "not": "A particle",
+        "no": "A particle",
+        "nor": "A particle",
+        "only": "A particle",
+        "just": "A particle",
+        "even": "A particle",
+        "still": "A particle",
+        "yet": "A particle",
+        "already": "A particle",
+        "also": "A particle",
+        "too": "A particle",
+        "there": "A particle",
+        "here": "A particle",
+        "then": "A particle",
+        "now": "A particle",
+        "how": "A particle",
+        "when": "A particle",
+        "where": "A particle",
+        "why": "A particle",
+        "yes": "A particle",
+        "no": "A particle",
+        "okay": "A particle",
+        "well": "A particle"
+      }
+    }
+  ]
+}

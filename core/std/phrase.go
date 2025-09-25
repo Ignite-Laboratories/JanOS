@@ -1,44 +1,54 @@
 package std
 
 import (
-	"github.com/ignite-laboratories/core/std/name"
-	"github.com/ignite-laboratories/core/std/num"
 	"strings"
+
+	"git.ignitelabs.net/janos/core/sys/given"
+	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
-// Phrase represents a collection of raw binary measurements at the time of recording.
-type Phrase[T any] struct {
+// Phrase represents a collection of raw binary measurements and their observed endianness at the time of recording.
+type Phrase struct {
 	Entity
-	Data []Measurement[T]
+	Data []num.Measurement
 }
 
 /**
-Methods
+New Functions
 */
 
-// Named sets the 'Name' value to the provided string.  If no description is provided, an empty description is used.
-//
-// NOTE: This removes the original name's implicit cultural information.
-func (a Phrase[T]) Named(n string, description ...string) Phrase[T] {
-	var d string
-	if len(description) > 0 {
-		d = description[0]
+func NewPhrase(m ...num.Measurement) Phrase {
+	return Phrase{
+		Entity: NewEntity[format.Default](),
+		Data:   m,
 	}
+}
 
-	a.GivenName.Name = n
-	a.GivenName.Description = d
-	a.GivenName.Details = name.Details{}
-	return a
+// NewPhraseNamed creates a named Phrase of the provided measurements and name.
+func NewPhraseNamed(n string, m ...num.Measurement) Phrase {
+	return Phrase{
+		Entity: NewEntity[format.Default](given.New(n)),
+		Data:   m,
+	}
+}
+
+// NewPhraseNamedFromBits creates a named Phrase of the provided bits and name.
+func NewPhraseNamedFromBits(n string, bits ...num.Bit) Phrase {
+	return Phrase{
+		Entity: NewEntity[format.Default](given.New(n)),
+		Data:   []num.Measurement{num.NewMeasurement(bits...)},
+	}
 }
 
 // GetData returns the phrase's measurement data.  This is exposed as a method to guarantee
 // the encoded accessors for any derived types are grouped together in your IDE's type-ahead.
-func (a Phrase[T]) GetData() []Measurement[T] {
+func (a Phrase) GetData() []num.Measurement {
 	return a.Data
 }
 
 // GetAllBits returns a slice of the Phrase's individual bits.
-func (a Phrase[T]) GetAllBits() []num.Bit {
+func (a Phrase) GetAllBits() []num.Bit {
 	out := make([]num.Bit, 0, a.BitWidth())
 	for _, m := range a.Data {
 		out = append(out, m.GetAllBits()...)
@@ -47,7 +57,7 @@ func (a Phrase[T]) GetAllBits() []num.Bit {
 }
 
 // BitWidth gets the total bit width of this Phrase's recorded data.
-func (a Phrase[T]) BitWidth() uint {
+func (a Phrase) BitWidth() uint {
 	total := uint(0)
 	for _, m := range a.Data {
 		total += m.BitWidth()
@@ -56,9 +66,9 @@ func (a Phrase[T]) BitWidth() uint {
 }
 
 // Append places the provided bits at the end of the Phrase.
-func (a Phrase[T]) Append(bits ...num.Bit) Phrase[T] {
+func (a Phrase) Append(bits ...num.Bit) Phrase {
 	if len(a.Data) == 0 {
-		a.Data = append(a.Data, newMeasurementOfBits[T](bits...))
+		a.Data = append(a.Data, num.NewMeasurement(bits...))
 		return a
 	}
 
@@ -68,9 +78,9 @@ func (a Phrase[T]) Append(bits ...num.Bit) Phrase[T] {
 }
 
 // AppendBytes places the provided bits at the end of the Phrase.
-func (a Phrase[T]) AppendBytes(bytes ...byte) Phrase[T] {
+func (a Phrase) AppendBytes(bytes ...byte) Phrase {
 	if len(a.Data) == 0 {
-		a.Data = append(a.Data, newMeasurementFromBytes[T](bytes...))
+		a.Data = append(a.Data, num.NewMeasurementOfBytes(bytes...))
 		return a
 	}
 
@@ -80,15 +90,15 @@ func (a Phrase[T]) AppendBytes(bytes ...byte) Phrase[T] {
 }
 
 // AppendMeasurement places the provided measurement at the end of the Phrase.
-func (a Phrase[T]) AppendMeasurement(m ...Measurement[T]) Phrase[T] {
+func (a Phrase) AppendMeasurement(m ...num.Measurement) Phrase {
 	a.Data = append(a.Data, m...)
 	return a
 }
 
 // Prepend places the provided bits at the start of the Phrase.
-func (a Phrase[T]) Prepend(bits ...num.Bit) Phrase[T] {
+func (a Phrase) Prepend(bits ...num.Bit) Phrase {
 	if len(a.Data) == 0 {
-		a.Data = append(a.Data, newMeasurementOfBits[T](bits...))
+		a.Data = append(a.Data, num.NewMeasurement(bits...))
 		return a
 	}
 
@@ -97,9 +107,9 @@ func (a Phrase[T]) Prepend(bits ...num.Bit) Phrase[T] {
 }
 
 // PrependBytes places the provided bytes at the start of the Phrase.
-func (a Phrase[T]) PrependBytes(bytes ...byte) Phrase[T] {
+func (a Phrase) PrependBytes(bytes ...byte) Phrase {
 	if len(a.Data) == 0 {
-		a.Data = append(a.Data, newMeasurementFromBytes[T](bytes...))
+		a.Data = append(a.Data, num.NewMeasurementOfBytes(bytes...))
 		return a
 	}
 
@@ -108,7 +118,7 @@ func (a Phrase[T]) PrependBytes(bytes ...byte) Phrase[T] {
 }
 
 // PrependMeasurement places the provided measurement at the start of the Phrase.
-func (a Phrase[T]) PrependMeasurement(m ...Measurement[T]) Phrase[T] {
+func (a Phrase) PrependMeasurement(m ...num.Measurement) Phrase {
 	a.Data = append(m, a.Data...)
 	return a
 }
@@ -117,7 +127,7 @@ func (a Phrase[T]) PrependMeasurement(m ...Measurement[T]) Phrase[T] {
 //
 // NOTE: If no width is provided, a standard alignment of 8-bits-per-byte will be used.
 //
-// NOTE: If you provide a negative width, the phrase will be aligned as a single measurement
+// NOTE: If you provide a negative width, the phrase will be aligned as a single measurement.
 //
 // For example -
 //
@@ -135,7 +145,7 @@ func (a Phrase[T]) PrependMeasurement(m ...Measurement[T]) Phrase[T] {
 //
 //	| 0 1 0 1 0 0 1 1 0 1 0 0 0 1 0 1 - 1 0 0 0 1 0 0 0 0 1 |  ← Raw Bits
 //	|          Measurement 0          -    Measurement 1    |  ← Aligned Measurements
-func (a Phrase[T]) Align(width ...int) Phrase[T] {
+func (a Phrase) Align(width ...int) Phrase {
 	w := 8
 	if len(width) > 0 {
 		w = int(width[0])
@@ -144,7 +154,7 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 		w = int(a.BitWidth())
 	}
 
-	out := make([]Measurement[T], 0, a.BitWidth())
+	out := make([]num.Measurement, 0, int(a.BitWidth())/w)
 	current := make([]num.Bit, 0, w)
 	i := 0
 
@@ -154,14 +164,14 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 			i++
 			if i == w {
 				i = 0
-				out = append(out, newMeasurementOfBits[T](current...))
+				out = append(out, num.NewMeasurement(current...))
 				current = make([]num.Bit, 0, w)
 			}
 		}
 	}
 
 	if len(current) > 0 {
-		out = append(out, newMeasurementOfBits[T](current...))
+		out = append(out, num.NewMeasurement(current...))
 	}
 
 	a.Data = out
@@ -171,7 +181,7 @@ func (a Phrase[T]) Align(width ...int) Phrase[T] {
 // BleedLastBit returns the last bit of the phrase and a phrase missing that bit.
 //
 // NOTE: This is a destructive operation to the phrase's encoding scheme and returns a Raw Phrase.
-func (a Phrase[T]) BleedLastBit() (num.Bit, Phrase[T]) {
+func (a Phrase) BleedLastBit() (num.Bit, Phrase) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the last bit of an empty phrase")
 	}
@@ -184,7 +194,7 @@ func (a Phrase[T]) BleedLastBit() (num.Bit, Phrase[T]) {
 // BleedFirstBit returns the first bit of the phrase and a phrase missing that bit.
 //
 // NOTE: This is a destructive operation to the phrase's encoding scheme and returns a Raw Phrase.
-func (a Phrase[T]) BleedFirstBit() (num.Bit, Phrase[T]) {
+func (a Phrase) BleedFirstBit() (num.Bit, Phrase) {
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the first bit of an empty phrase")
 	}
@@ -195,7 +205,7 @@ func (a Phrase[T]) BleedFirstBit() (num.Bit, Phrase[T]) {
 }
 
 // RollUp calls Measurement.RollUp for every measurement in the phrase.
-func (a Phrase[T]) RollUp() Phrase[T] {
+func (a Phrase) RollUp() Phrase {
 	for i, m := range a.Data {
 		a.Data[i] = m.RollUp()
 	}
@@ -203,8 +213,8 @@ func (a Phrase[T]) RollUp() Phrase[T] {
 }
 
 // Reverse reverses the order of all bits in the phrase.
-func (a Phrase[T]) Reverse() Phrase[T] {
-	reversed := make([]Measurement[T], len(a.Data))
+func (a Phrase) Reverse() Phrase {
+	reversed := make([]num.Measurement, len(a.Data))
 	ii := 0
 	for i := len(a.Data) - 1; i >= 0; i-- {
 		reversed[ii] = a.Data[i].Reverse()
@@ -215,7 +225,7 @@ func (a Phrase[T]) Reverse() Phrase[T] {
 }
 
 // String returns a string consisting entirely of 1s and 0s.
-func (a Phrase[T]) String() string {
+func (a Phrase) String() string {
 	builder := strings.Builder{}
 	builder.Grow(int(a.BitWidth()))
 
@@ -234,14 +244,14 @@ func (a Phrase[T]) String() string {
 //  3. An empty phrase returns two spaces between pipes.
 //
 // NOTE: The reason for a two-space empty string is to allow the printing of both outward arrows when displaying index sizes.
-func (a Phrase[T]) StringPretty() string {
+func (a Phrase) StringPretty() string {
 	if len(a.Data) == 0 {
 		return "|  |"
 	}
 
 	totalSize := 4 + (len(a.Data)-1)*3
 	for _, m := range a.Data {
-		totalSize += int(m.BitWidth()) * 2 // ← Approximately account for Measurement's StringPretty() spacing
+		totalSize += int(m.BitWidth()) * 2 // ← Approximately account for Measurement's Print() spacing
 	}
 
 	builder := strings.Builder{}
@@ -249,14 +259,55 @@ func (a Phrase[T]) StringPretty() string {
 
 	builder.WriteString("| ")
 
-	builder.WriteString(a.Data[0].StringPretty())
+	builder.WriteString(a.Data[0].Print())
 
 	for _, m := range a.Data[1:] {
 		builder.WriteString(" - ")
-		builder.WriteString(m.StringPretty())
+		builder.WriteString(m.Print())
 	}
 
 	builder.WriteString(" | ")
 
 	return builder.String()
+}
+
+/**
+Logic Functions
+*/
+
+func (a Phrase) NOT() Phrase {
+	for i, m := range a.Data {
+		a.Data[i] = m.NOT()
+	}
+	return a
+}
+
+func (a Phrase) XNOR(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
+}
+
+func (a Phrase) OR(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
+}
+
+func (a Phrase) NOR(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
+}
+
+func (a Phrase) XOR(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
+}
+
+func (a Phrase) AND(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
+}
+
+func (a Phrase) NAND(b ...Phrase) Phrase {
+	// TODO: logic gates
+	return Phrase{}
 }

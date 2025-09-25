@@ -1,2 +1,10 @@
-// Package std provides access to the commonly used types across the entirety of JanOS.
 package std
+
+import (
+	"git.ignitelabs.net/janos/core"
+)
+
+func init() {
+	if core.Alive() {
+	} // Kick core.init off if using a std type
+}
