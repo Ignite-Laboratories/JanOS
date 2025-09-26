@@ -154,6 +154,7 @@ func RelativePath(components ...string) string {
 func KeepAlive(postDelay ...time.Duration) {
 	if len(postDelay) > 0 {
 		deferrals <- func(wg *sync.WaitGroup) {
+			fmt.Printf("[core] holding open for %v\n", postDelay[0])
 			time.Sleep(postDelay[0])
 			wg.Done()
 		}
