@@ -31,7 +31,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 		imp.Bridge = (*imp.Cortex).Named() + " ⇝ " + neuron.Named()
 		imp.Neuron = neuron
 
-		rec.Verbosef((*imp.Cortex).Named(), "wired axon to synapse '%s'\n", neuron.Named())
+		rec.Verbosef((*imp.Cortex).Named(), "wired axon to neural endpoint '%s'\n", neuron.Named())
 
 		panicSafeAction := func(i *Impulse) {
 			defer func() {
