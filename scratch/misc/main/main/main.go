@@ -1,34 +1,26 @@
 package main
 
 import (
+	"time"
+
 	"git.ignitelabs.net/janos/core"
 	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/sys/rec"
-	"git.ignitelabs.net/janos/core/sys/when"
 )
 
 func main() {
 	c := std.NewCortex(std.RandomName())
 	c.Frequency = 1 //hz
 
-	rec.Printf(c.Named(), "Hello, World!\n")
-
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Print", Printer, when.FrequencyRef(&frequency))
+	c.Synapses() <- std.NewSynapse(lifecycle.Stimulative, "Print", Printer, nil)
 
 	c.Spark()
-	core.KeepAlive()
+	core.KeepAlive(time.Second * 5)
 }
 
-var frequency = 1.0
-var toggle = true
-
 func Printer(imp *std.Impulse) {
-	if toggle {
-		frequency = 0.5
-	} else {
-		frequency = 1.0
-	}
-	toggle = !toggle
-	rec.Printf(imp.Bridge, "%v\n", imp.Timeline.CyclePeriod())
+	rec.Printf(imp.Bridge, "START: %v\n", time.Now())
+	time.Sleep(time.Second * 3)
+	rec.Printf(imp.Bridge, " STOP: %v\n", time.Now())
 }

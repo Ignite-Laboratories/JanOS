@@ -93,8 +93,10 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					if neuron.Potential(imp) {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)
-						panicSafeAction(imp)
-						imp.Timeline.setCompleted(event.id, time.Now())
+						go func() {
+							panicSafeAction(imp)
+							imp.Timeline.setCompleted(event.id, time.Now())
+						}()
 						beat++
 					}
 
