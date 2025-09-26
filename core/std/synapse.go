@@ -114,12 +114,12 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
-				rec.Verbosef(imp.Bridge, "ended\n")
+				rec.Verbosef(imp.Bridge, "decayed\n")
 			}()
 		case lifecycle.Triggered:
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
-				rec.Verbosef(imp.Bridge, "triggering\n")
+				rec.Verbosef(imp.Bridge, "setting a trigger\n")
 				event := SynapticEvent{
 					id:              id.Next(),
 					SynapseCreation: creation,
@@ -144,7 +144,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
-				rec.Verbosef(imp.Bridge, "ended\n")
+				rec.Verbosef(imp.Bridge, "decayed\n")
 			}()
 		case lifecycle.Impulse:
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
@@ -170,7 +170,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
-				rec.Verbosef(imp.Bridge, "ended\n")
+				rec.Verbosef(imp.Bridge, "decayed\n")
 			}()
 		}
 	}
