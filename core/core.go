@@ -152,9 +152,11 @@ func RelativePath(components ...string) string {
 //
 // NOTE: If no duration is provided, time.Duration(0) is implied.
 func KeepAlive(postDelay ...time.Duration) {
-	var d time.Duration
 	if len(postDelay) > 0 {
-		d = postDelay[0]
+		deferrals <- func(wg *sync.WaitGroup) {
+			time.Sleep(postDelay[0])
+			wg.Done()
+		}
 	}
 
 	notify, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM)
@@ -162,5 +164,4 @@ func KeepAlive(postDelay ...time.Duration) {
 	<-notify.Done()
 	ShutdownCondition.Broadcast()
 	ShutdownNow()
-	time.Sleep(d)
 }
