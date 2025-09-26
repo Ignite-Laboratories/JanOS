@@ -15,7 +15,7 @@ import (
 type Synapse func(*Impulse)
 
 // NewSynapse creates a Neural connection between a Neuron and a Cortex.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
-func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Synapse {
+func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse)) Synapse {
 	n := NewNeuron(neuronName, action, potential, cleanup...)
 	return NewSynapseFromNeural(lifecycle, n)
 }
@@ -75,7 +75,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				wg := &sync.WaitGroup{}
 				wg.Add(1)
 				if neuron.Cleanup != nil {
-					neuron.Cleanup(imp, wg)
+					neuron.Cleanup(imp)
 				}
 				rec.Verbosef(imp.Bridge, "decayed\n")
 			}()
@@ -110,7 +110,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				wg := &sync.WaitGroup{}
 				wg.Add(1)
 				if neuron.Cleanup != nil {
-					neuron.Cleanup(imp, wg)
+					neuron.Cleanup(imp)
 				}
 				rec.Verbosef(imp.Bridge, "ended\n")
 			}()
@@ -140,7 +140,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				wg := &sync.WaitGroup{}
 				wg.Add(1)
 				if neuron.Cleanup != nil {
-					neuron.Cleanup(imp, wg)
+					neuron.Cleanup(imp)
 				}
 				rec.Verbosef(imp.Bridge, "ended\n")
 			}()
@@ -166,7 +166,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				wg := &sync.WaitGroup{}
 				wg.Add(1)
 				if neuron.Cleanup != nil {
-					neuron.Cleanup(imp, wg)
+					neuron.Cleanup(imp)
 				}
 				rec.Verbosef(imp.Bridge, "ended\n")
 			}()

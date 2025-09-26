@@ -8,6 +8,7 @@ import (
 	"git.ignitelabs.net/janos/core"
 	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
+	"git.ignitelabs.net/janos/core/sys/rec"
 	"git.ignitelabs.net/janos/core/sys/when"
 )
 
@@ -17,9 +18,9 @@ func main() {
 
 	freq := 2.0
 
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Cycle Printer", PrintCycle, when.Frequency(&freq), Cleanup)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Refractory Printer", PrintRefractory, when.Frequency(&freq), Cleanup)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Response Time Printer", PrintResponse, when.Frequency(&freq), Cleanup)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Cycle Printer", PrintCycle, when.FrequencyRef(&freq), Cleanup)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Refractory Printer", PrintRefractory, when.FrequencyRef(&freq), Cleanup)
+	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Response Time Printer", PrintResponse, when.FrequencyRef(&freq), Cleanup)
 
 	c.Deferrals() <- func(wg *sync.WaitGroup) {
 		time.Sleep(time.Second * 5)
@@ -30,9 +31,8 @@ func main() {
 	core.KeepAlive()
 }
 
-func Cleanup(imp *std.Impulse, wg *sync.WaitGroup) {
-	time.Sleep(time.Second)
-	wg.Done()
+func Cleanup(imp *std.Impulse) {
+	rec.Printf(imp.Bridge, "cleaning up\n")
 }
 
 var i = 0

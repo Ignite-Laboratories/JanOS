@@ -1,7 +1,5 @@
 package std
 
-import "sync"
-
 // Neural represents any type that can fire an action-potential (see.ActionPotentials).
 type Neural interface {
 	// Named returns the underlying Entity.Name.
@@ -17,5 +15,5 @@ type Neural interface {
 
 	// Cleanup will be called once the synaptic lifecycle completes.  This will fire regardless of if
 	// the underlying action fires.
-	Cleanup(*Impulse, *sync.WaitGroup)
+	Cleanup(*Impulse)
 }

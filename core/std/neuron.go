@@ -1,19 +1,15 @@
 package std
 
-import (
-	"sync"
-)
-
 // Neuron represents a primitive implementation of the Neural interface.  This can be used for creating anonymous neural activity.
 type Neuron struct {
 	Entity
 
 	action    func(*Impulse)
 	potential func(*Impulse) bool
-	cleanup   func(*Impulse, *sync.WaitGroup)
+	cleanup   func(*Impulse)
 }
 
-func NewNeuron(named string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
+func NewNeuron(named string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse)) Neural {
 	if action == nil {
 		panic("the action of a neuron can never be nil")
 	}
@@ -23,7 +19,7 @@ func NewNeuron(named string, action func(*Impulse), potential func(*Impulse) boo
 		}
 	}
 
-	var clean func(*Impulse, *sync.WaitGroup)
+	var clean func(*Impulse)
 	if len(cleanup) > 0 {
 		clean = cleanup[0]
 	}
@@ -43,8 +39,8 @@ func (n Neuron) Potential(imp *Impulse) bool {
 	return n.potential(imp)
 }
 
-func (n Neuron) Cleanup(imp *Impulse, wg *sync.WaitGroup) {
+func (n Neuron) Cleanup(imp *Impulse) {
 	if n.cleanup != nil {
-		n.cleanup(imp, wg)
+		n.cleanup(imp)
 	}
 }
