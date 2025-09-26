@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	configPath := "atlas.json"
+	configPath := "atlas"
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		// There's no Atlas available
 		return
