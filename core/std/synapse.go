@@ -1,7 +1,6 @@
 package std
 
 import (
-	"sync"
 	"time"
 
 	"git.ignitelabs.net/janos/core"
@@ -63,7 +62,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						beat++
 					}
 
-					if !imp.Decay {
+					if !imp.Decay && (*imp.Cortex).Alive() {
 						(*imp.Cortex).master.Lock()
 						(*imp.Cortex).clock.Wait()
 						(*imp.Cortex).master.Unlock()
@@ -72,8 +71,6 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					}
 				}
 
-				wg := &sync.WaitGroup{}
-				wg.Add(1)
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
@@ -100,7 +97,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						beat++
 					}
 
-					if !imp.Decay {
+					if !imp.Decay && (*imp.Cortex).Alive() {
 						(*imp.Cortex).master.Lock()
 						(*imp.Cortex).clock.Wait()
 						(*imp.Cortex).master.Unlock()
@@ -109,8 +106,6 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					}
 				}
 
-				wg := &sync.WaitGroup{}
-				wg.Add(1)
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
@@ -139,8 +134,6 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					beat++
 				}
 
-				wg := &sync.WaitGroup{}
-				wg.Add(1)
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
@@ -165,8 +158,6 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					imp.Timeline.Add(event)
 				}
 
-				wg := &sync.WaitGroup{}
-				wg.Add(1)
 				if neuron.Cleanup != nil {
 					neuron.Cleanup(imp)
 				}
