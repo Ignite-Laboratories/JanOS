@@ -148,10 +148,19 @@ func RelativePath(components ...string) string {
 	return filepath.Dir(filepath.Dir(file)) + "/" + strings.Join(components, "/")
 }
 
-func KeepAlive() {
+// KeepAlive will block the current thread until a call to Shutdown - then, this will sleep for the provided duration.
+//
+// NOTE: If no duration is provided, time.Duration(0) is implied.
+func KeepAlive(postDelay ...time.Duration) {
+	var d time.Duration
+	if len(postDelay) > 0 {
+		d = postDelay[0]
+	}
+
 	notify, stop := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill, syscall.SIGTERM)
 	defer stop()
 	<-notify.Done()
 	ShutdownCondition.Broadcast()
 	ShutdownNow()
+	time.Sleep(d)
 }
