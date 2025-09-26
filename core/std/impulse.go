@@ -20,6 +20,7 @@ type Impulse struct {
 	Beat     int
 	Cortex   *Cortex
 	Neuron   Neural
+	Decay    bool
 
 	Thought any
 }

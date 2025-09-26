@@ -12,7 +12,7 @@ import (
 
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/sys/deploy"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 var Neural _neural
@@ -47,7 +47,7 @@ func (i *_neural) NavigateImpulse(imp *std.Impulse) {
 	// Serve the embedded directory under /
 	sub, err := fs.Sub(static, "ignite-src")
 	if err != nil {
-		log.Fatalf(i.moduleName, err.Error())
+		rec.Fatalf(i.moduleName, err.Error())
 	}
 	fileServer := http.FileServer(http.FS(sub))
 
@@ -90,10 +90,10 @@ func (i *_neural) NavigateImpulse(imp *std.Impulse) {
 
 		http.Handle("/", handler)
 
-		log.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
+		rec.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
 		err = srv.Serve(ln)
 		if err != nil {
-			log.Printf(i.moduleName, err.Error()+"\n")
+			rec.Printf(i.moduleName, err.Error()+"\n")
 		}
 	}()
 }

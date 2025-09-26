@@ -33,7 +33,10 @@ func StepMaker(limit int) (makePotential func(step int) func(*std.Impulse) bool,
 		}
 }
 
-func Periodically(duration *time.Duration) func(*std.Impulse) bool {
+func Periodically(duration time.Duration) func(*std.Impulse) bool {
+	return PeriodicallyRef(&duration)
+}
+func PeriodicallyRef(duration *time.Duration) func(*std.Impulse) bool {
 	last := time.Now()
 	return func(*std.Impulse) bool {
 		now := time.Now()
@@ -45,7 +48,7 @@ func Periodically(duration *time.Duration) func(*std.Impulse) bool {
 	}
 }
 
-func Frequency[T num.Primitive](hertz *T) func(*std.Impulse) bool {
+func FrequencyRef[T num.Primitive](hertz *T) func(*std.Impulse) bool {
 	last := time.Now()
 	return func(*std.Impulse) bool {
 		now := time.Now()
@@ -56,11 +59,21 @@ func Frequency[T num.Primitive](hertz *T) func(*std.Impulse) bool {
 		return false
 	}
 }
+func Frequency[T num.Primitive](hertz T) func(*std.Impulse) bool {
+	return FrequencyRef(&hertz)
+}
 
 // Resonant provides a potential that activates at a sympathetic frequency (in Hertz) to the source frequency.
 //
 //	Resonance = Source / Subdivision
-func Resonant[T num.Primitive](source *T, subdivision *T) func(*std.Impulse) bool {
+func Resonant[T num.Primitive](source T, subdivision T) func(*std.Impulse) bool {
+	return ResonantRef(&source, &subdivision)
+}
+
+// ResonantRef provides a potential that activates at a sympathetic frequency (in Hertz) to the source frequency.
+//
+//	Resonance = Source / Subdivision
+func ResonantRef[T num.Primitive](source *T, subdivision *T) func(*std.Impulse) bool {
 	last := time.Now()
 	return func(*std.Impulse) bool {
 		now := time.Now()
@@ -74,19 +87,34 @@ func Resonant[T num.Primitive](source *T, subdivision *T) func(*std.Impulse) boo
 }
 
 // HalfSpeed provides a potential that activates at half the rate of the source frequency (Hertz).
-func HalfSpeed[T num.Primitive](hertz *T) func(*std.Impulse) bool {
+func HalfSpeed[T num.Primitive](hertz T) func(*std.Impulse) bool {
+	return HalfSpeedRef(&hertz)
+}
+
+// HalfSpeedRef provides a potential that activates at half the rate of the source frequency (Hertz).
+func HalfSpeedRef[T num.Primitive](hertz *T) func(*std.Impulse) bool {
 	subdivision := T(2.0)
-	return Resonant(hertz, &subdivision)
+	return ResonantRef(hertz, &subdivision)
 }
 
 // QuarterSpeed provides a potential that activates at a quarter the rate of the source frequency (Hertz).
-func QuarterSpeed[T num.Primitive](hertz *T) func(*std.Impulse) bool {
+func QuarterSpeed[T num.Primitive](hertz T) func(*std.Impulse) bool {
+	return QuarterSpeedRef(&hertz)
+}
+
+// QuarterSpeedRef provides a potential that activates at a quarter the rate of the source frequency (Hertz).
+func QuarterSpeedRef[T num.Primitive](hertz *T) func(*std.Impulse) bool {
 	subdivision := T(4.0)
-	return Resonant(hertz, &subdivision)
+	return ResonantRef(hertz, &subdivision)
 }
 
 // EighthSpeed provides a potential that activates at an eighth the rate of the source frequency (Hertz).
-func EighthSpeed[T num.Primitive](hertz *T) func(*std.Impulse) bool {
+func EighthSpeed[T num.Primitive](hertz T) func(*std.Impulse) bool {
+	return EighthSpeedRef(&hertz)
+}
+
+// EighthSpeedRef provides a potential that activates at an eighth the rate of the source frequency (Hertz).
+func EighthSpeedRef[T num.Primitive](hertz *T) func(*std.Impulse) bool {
 	subdivision := T(8.0)
-	return Resonant(hertz, &subdivision)
+	return ResonantRef(hertz, &subdivision)
 }

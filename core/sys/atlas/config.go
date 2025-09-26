@@ -3,7 +3,7 @@ package atlas
 import (
 	"time"
 
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 type config struct {
@@ -26,7 +26,7 @@ func (c config) apply() {
 		PrintPreamble = *c.PrintPreamble
 	}
 	if c.Verbose != nil {
-		log.Verbose = *c.Verbose
+		rec.Verbose = *c.Verbose
 	}
 	if c.ShutdownTimeout != 0 {
 		ShutdownTimeout = c.ShutdownTimeout

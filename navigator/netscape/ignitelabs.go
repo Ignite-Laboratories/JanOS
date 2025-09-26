@@ -11,7 +11,7 @@ import (
 	"sync"
 
 	"git.ignitelabs.net/janos/core/sys/deploy"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 //go:embed ignite-src/*
@@ -42,7 +42,7 @@ func (i _igniteLabs) Navigate(port ...uint) {
 	// Serve the embedded directory under /
 	sub, err := fs.Sub(static, "ignite-src")
 	if err != nil {
-		log.Fatalf(i.moduleName, err.Error())
+		rec.Fatalf(i.moduleName, err.Error())
 	}
 	fileServer := http.FileServer(http.FS(sub))
 
@@ -72,9 +72,9 @@ func (i _igniteLabs) Navigate(port ...uint) {
 	http.Handle("/", handler)
 
 	addr := ":" + p
-	log.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
+	rec.Printf(i.moduleName, "sparked ignitelabs.net%s\n", addr)
 	err = http.ListenAndServe(addr, handler)
 	if err != nil {
-		log.Fatalf(i.moduleName, err.Error())
+		rec.Fatalf(i.moduleName, err.Error())
 	}
 }

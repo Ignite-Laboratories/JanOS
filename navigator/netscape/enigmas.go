@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"git.ignitelabs.net/janos/core/sys/deploy"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 var Enigmas _enigmas
@@ -47,7 +47,7 @@ func (_enigmas) Navigate(repo string, port ...uint) {
 			if len(parts) > 2 && len(parts[2]) > 0 {
 				redirect += "/solution" + parts[2]
 			}
-			log.Verbosef("exsx", "Navigating to '%s'\n", redirect)
+			rec.Verbosef("exsx", "Navigating to '%s'\n", redirect)
 
 			http.Redirect(w, r, redirect, http.StatusFound)
 		} else {
@@ -56,9 +56,9 @@ func (_enigmas) Navigate(repo string, port ...uint) {
 	})
 
 	addr := ":" + p
-	log.Printf(ModuleName, "sparked *.enigmaneering.net%s\n", addr)
+	rec.Printf(ModuleName, "sparked *.enigmaneering.net%s\n", addr)
 	err := http.ListenAndServe(addr, handler)
 	if err != nil {
-		log.Fatalf(ModuleName, err.Error())
+		rec.Fatalf(ModuleName, err.Error())
 	}
 }

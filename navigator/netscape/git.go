@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"git.ignitelabs.net/janos/core/sys/deploy"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 // GitVanity drives the git.ignitelabs.net service, which acts as a "vanity URL" for Go imports.
@@ -94,9 +94,9 @@ func (_gitVanity) Navigate(remote string, port ...uint) {
 	})
 
 	addr := ":" + p
-	log.Printf(ModuleName, "sparked git.ignitelabs.net%s\n", addr)
+	rec.Printf(ModuleName, "sparked git.ignitelabs.net%s\n", addr)
 	err := http.ListenAndServe(addr, handler)
 	if err != nil {
-		log.Fatalf(ModuleName, err.Error())
+		rec.Fatalf(ModuleName, err.Error())
 	}
 }

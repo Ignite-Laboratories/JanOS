@@ -8,12 +8,12 @@ import (
 type Neuron struct {
 	Entity
 
-	action    func(*Impulse) bool
+	action    func(*Impulse)
 	potential func(*Impulse) bool
 	cleanup   func(*Impulse, *sync.WaitGroup)
 }
 
-func NewNeuron(named string, action func(*Impulse) bool, potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
+func NewNeuron(named string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse, *sync.WaitGroup)) Neural {
 	if action == nil {
 		panic("the action of a neuron can never be nil")
 	}
@@ -35,8 +35,8 @@ func NewNeuron(named string, action func(*Impulse) bool, potential func(*Impulse
 	}
 }
 
-func (n Neuron) Action(imp *Impulse) bool {
-	return n.action(imp)
+func (n Neuron) Action(imp *Impulse) {
+	n.action(imp)
 }
 
 func (n Neuron) Potential(imp *Impulse) bool {

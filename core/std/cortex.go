@@ -7,7 +7,7 @@ import (
 	"git.ignitelabs.net/janos/core"
 	"git.ignitelabs.net/janos/core/sys/atlas"
 	"git.ignitelabs.net/janos/core/sys/given/format"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 // A Cortex represents a source of neural impulses.  It defines the frequency which synaptic activity can fire at.
@@ -70,7 +70,7 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
 
-	log.Verbosef(core.ModuleName, "created cortex '%s'\n", c.Named())
+	rec.Verbosef(core.ModuleName, "created cortex '%s'\n", c.Named())
 	return c
 }
 
@@ -96,7 +96,7 @@ func _hertzToDuration(hz float64) time.Duration {
 func (c *Cortex) Spark(synapses ...Synapse) {
 	c.sanityCheck()
 
-	log.Verbosef(c.Named(), "sparking neural activity\n")
+	rec.Verbosef(c.Named(), "sparking neural activity\n")
 
 	for _, syn := range synapses {
 		c.synapses <- syn
@@ -116,13 +116,12 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		c.running = true
 
 		defer func() {
-			log.Verbosef(c.Named(), "cortex shutting down\n")
 			count := len(c.deferrals)
 			if count > 0 {
 				if count > 1 {
-					log.Verbosef(c.Named(), "running %d deferrals\n", count)
+					rec.Verbosef(c.Named(), "running %d deferrals\n", count)
 				} else {
-					log.Verbosef(c.Named(), "running %d deferral\n", count)
+					rec.Verbosef(c.Named(), "running %d deferral\n", count)
 				}
 				for len(c.deferrals) > 0 {
 					deferral := <-c.deferrals
@@ -131,7 +130,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						go func() {
 							defer func() {
 								if r := recover(); r != nil {
-									log.Printf(c.Named(), "deferral error: %v\n", r)
+									rec.Printf(c.Named(), "deferral error: %v\n", r)
 								}
 							}()
 
@@ -141,7 +140,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				}
 				c.deferralWait.Wait()
 			}
-			log.Verbosef(c.Named(), "cortex shut down complete\n")
+			rec.Verbosef(c.Named(), "cortex shut down complete\n")
 			c.shutdownWait.Done()
 		}()
 
@@ -220,6 +219,8 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 			last = time.Now()
 		}
 
+		rec.Verbosef(c.Named(), "decayed\n")
+
 		// This beat frees the synapses to complete their activation and exit
 		c.clock.Broadcast()
 	}()
@@ -233,11 +234,12 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	}
 
 	if len(delay) > 0 {
-		log.Verbosef(c.Named(), "cortex shutting down in %v\n", delay[0])
+		rec.Verbosef(c.Named(), "cortex shutting down in %v\n", delay[0])
 		time.Sleep(delay[0])
 	}
 
 	c.master.Lock()
+	rec.Verbosef(c.Named(), "cortex shutting down\n")
 	c.running = false
 	c.alive = false
 	c.shutdown <- nil

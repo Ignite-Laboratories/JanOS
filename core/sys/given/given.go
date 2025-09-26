@@ -12,7 +12,7 @@ import (
 	"git.ignitelabs.net/janos/core/enum/gender"
 	"git.ignitelabs.net/janos/core/sys/given/format"
 	"git.ignitelabs.net/janos/core/sys/id"
-	"git.ignitelabs.net/janos/core/sys/log"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 // TODO: Allow replacing nameDB and surnameDB with a file from atlas configuration
@@ -53,7 +53,7 @@ func initSurnameDB() {
 				break // End of file
 			}
 
-			log.Verbosef(moduleName, "error reading surname database: %v\n", err)
+			rec.Verbosef(moduleName, "error reading surname database: %v\n", err)
 			panic(err)
 		}
 
@@ -75,7 +75,7 @@ func initNameDB() {
 				break // End of file
 			}
 
-			log.Verbosef(moduleName, "error reading name database: %v\n", err)
+			rec.Verbosef(moduleName, "error reading name database: %v\n", err)
 			panic(err)
 		}
 

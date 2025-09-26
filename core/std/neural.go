@@ -10,7 +10,7 @@ type Neural interface {
 	// Action takes in an Impulse and should return whether to keep the neural activity running (true).
 	//
 	// NOTE: The returned value is ignored in lifecycle.Impulse and lifecycle.Triggered activations.
-	Action(*Impulse) bool
+	Action(*Impulse)
 
 	// Potential takes in an Impulse and should return whether to fire the Action or not.
 	Potential(*Impulse) bool
