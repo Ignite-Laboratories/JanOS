@@ -10,7 +10,15 @@ import (
 	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
-func (_net) Server(named string, address string, handlerFn func(imp *std.Impulse) http.Handler) std.Synapse {
+func (_net) Server(named string, address string, handlerFn func(imp *std.Impulse) http.Handler, onDisconnect ...func(*std.Impulse)) std.Synapse {
+	c := func(*std.Impulse) {}
+	if len(onDisconnect) > 0 {
+		c = onDisconnect[0]
+	}
+	if handlerFn == nil {
+		panic(errors.New("handler function is nil"))
+	}
+
 	return std.NewSynapse(lifecycle.Looping, named, func(imp *std.Impulse) {
 		server := &http.Server{
 			Addr:    address,
@@ -27,6 +35,9 @@ func (_net) Server(named string, address string, handlerFn func(imp *std.Impulse
 					rec.Printf(imp.Bridge, "%s\n", err)
 				} else {
 					rec.Printf(imp.Bridge, "neural server error: %s\n", err)
+				}
+				if onDisconnect != nil {
+					c(imp)
 				}
 			}
 

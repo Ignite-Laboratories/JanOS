@@ -21,6 +21,7 @@ type Impulse struct {
 	Cortex   *Cortex
 	Neuron   Neural
 	Decay    bool
+	Mute     bool
 
 	Thought *Thought
 }

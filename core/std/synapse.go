@@ -54,7 +54,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						Inception:       time.Now(),
 					}
 					imp.Beat = beat
-					if neuron.Potential(imp) {
+					if neuron.Potential(imp) && !imp.Mute && (*imp.Cortex).Alive() {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)
 						panicSafeAction(imp)
@@ -87,7 +87,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						Inception:       time.Now(),
 					}
 					imp.Beat = beat
-					if neuron.Potential(imp) {
+					if neuron.Potential(imp) && !imp.Mute && (*imp.Cortex).Alive() {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)
 						go func() {
@@ -125,7 +125,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					(*imp.Cortex).clock.Wait()
 					(*imp.Cortex).master.Unlock()
 				}
-				if (*imp.Cortex).Alive() {
+				if (*imp.Cortex).Alive() && !imp.Mute {
 					imp.Beat = beat
 					event.Activation = time.Now()
 					imp.Timeline.Add(event)
@@ -148,7 +148,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					SynapseCreation: creation,
 					Inception:       time.Now(),
 				}
-				if (*imp.Cortex).Alive() && neuron.Potential(imp) {
+				if (*imp.Cortex).Alive() && neuron.Potential(imp) && !imp.Mute {
 					imp.Beat = beat
 					event.Activation = time.Now()
 					imp.Timeline.Add(event)

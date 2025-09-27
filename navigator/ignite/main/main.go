@@ -20,7 +20,9 @@ func main() {
 		cortex.Frequency = 1 //hz
 		cortex.Mute()
 
-		cortex.Synapses() <- neural.Net.Server("ignitelabs.net", ":4242", ignite.Handler)
+		cortex.Synapses() <- neural.Net.Server("ignitelabs.net", ":4242", ignite.Handler, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
 
 		cortex.Spark()
 		cortex.Impulse()
