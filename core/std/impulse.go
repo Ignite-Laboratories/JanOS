@@ -22,5 +22,5 @@ type Impulse struct {
 	Neuron   Neural
 	Decay    bool
 
-	Thought Thought
+	Thought *Thought
 }
