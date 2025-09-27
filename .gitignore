@@ -25,6 +25,7 @@
 go.work
 go.work.sum
 **/go.sum
+go.sum
 
 # env file
 .env
