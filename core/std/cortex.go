@@ -155,6 +155,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				// This is a 'free-spin' condition
 				select {
 				case <-c.mute:
+					rec.Verbosef(c.Named(), "muting\n")
 					select {
 					case <-c.shutdown:
 						break main
@@ -162,6 +163,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						// NOTE: Impulse requests should not break the muted condition
 						c.mute <- nil
 					case <-c.unmute:
+						rec.Verbosef(c.Named(), "unmuting\n")
 						for len(c.mute) > 0 {
 							<-c.mute
 						}
@@ -179,6 +181,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				case <-c.shutdown:
 					break main
 				case <-c.impulse:
+					rec.Verbosef(c.Named(), "impulsing\n")
 				case <-time.After(expected):
 					observed := time.Since(last)
 					adjustment = observed - expected
@@ -188,13 +191,16 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 						adjustment = 0
 					}
 				case <-c.mute:
+					rec.Verbosef(c.Named(), "muting\n")
 					select {
 					case <-c.shutdown:
 						break main
 					case <-c.impulse:
+						rec.Verbosef(c.Named(), "impulsing\n")
 						// NOTE: Impulse requests should not break the muted condition
 						c.mute <- nil
 					case <-c.unmute:
+						rec.Verbosef(c.Named(), "unmuting\n")
 						for len(c.mute) > 0 {
 							<-c.mute
 						}
