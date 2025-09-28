@@ -17,12 +17,12 @@ import (
 
 // SubProcess sparks off a separate process of the provided command as a neural child of the current instance.  This means
 // that when the instance terminates, the child process will be cleaned up.
-func (_shell) SubProcess(named string, command []string, onExit ...func(*std.Impulse)) std.Synapse {
+func (_shell) SubProcess(lifecycle lifecycle.Lifecycle, named string, command []string, onExit ...func(*std.Impulse)) std.Synapse {
 	dir, _ := os.Getwd()
-	return Shell.SubProcessAt(named, command, dir, onExit...)
+	return Shell.SubProcessAt(lifecycle, named, command, dir, onExit...)
 }
 
-func (_shell) SubProcessAt(named string, command []string, path string, onExit ...func(*std.Impulse)) std.Synapse {
+func (_shell) SubProcessAt(lifecycle lifecycle.Lifecycle, named string, command []string, path string, onExit ...func(*std.Impulse)) std.Synapse {
 	if len(command) == 0 {
 		panic("no command provided")
 	}
@@ -34,7 +34,9 @@ func (_shell) SubProcessAt(named string, command []string, path string, onExit .
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	return std.NewSynapse(lifecycle.Looping, named, func(imp *std.Impulse) {
+	return std.NewSynapse(lifecycle, named, func(imp *std.Impulse) {
+		rec.Printf(imp.Bridge, "sparking sub-process '%v'\n", command[0])
+
 		cmd := exec.CommandContext(ctx, command[0], command[1:]...)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout

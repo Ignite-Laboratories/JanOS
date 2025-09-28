@@ -2,7 +2,17 @@ package atlas
 
 import (
 	"time"
+
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
+
+// Verbose gets or sets the rec.Verbose value.  If no value is provided, it only gets - if a value is provided, it sets and gets.
+func Verbose(val ...bool) bool {
+	if len(val) > 0 {
+		rec.Verbose = val[0]
+	}
+	return rec.Verbose
+}
 
 // PrintPreamble indicates if JanOS should print its preamble.
 var PrintPreamble = true

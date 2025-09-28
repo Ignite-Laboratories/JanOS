@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
 )
 
@@ -30,7 +31,7 @@ import (
 //	</html>
 //
 // That's really it!  No fancy libraries are needed, just a simple HTTP handler =)
-func (_net) Vanity(source string, remote string, port uint, onDisconnect ...func(*std.Impulse)) std.Synapse {
+func (_net) Vanity(lifecycle lifecycle.Lifecycle, source string, remote string, port uint, onDisconnect ...func(*std.Impulse)) std.Synapse {
 	p := strconv.Itoa(int(port))
 
 	metaTmpl := template.Must(template.New("meta").Parse(`<!doctype html>
@@ -44,7 +45,7 @@ func (_net) Vanity(source string, remote string, port uint, onDisconnect ...func
 		Remote     string
 	}
 
-	return Net.Server(source+":"+p, ":"+p, func(imp *std.Impulse) http.Handler {
+	return Net.Server(lifecycle, source+":"+p, ":"+p, func(imp *std.Impulse) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			first := r.URL.Path
 			after := ""

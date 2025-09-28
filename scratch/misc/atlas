@@ -1,4 +1,4 @@
 {
-  "printPreamble": true,
+  "printPreamble": false,
   "verbose": false
 }

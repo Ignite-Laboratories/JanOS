@@ -4,13 +4,14 @@ import (
 	"os"
 
 	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/std/neural"
-	"git.ignitelabs.net/janos/core/sys/rec"
+	"git.ignitelabs.net/janos/core/sys/atlas"
 )
 
 func init() {
-	rec.Verbose = false
+	atlas.Verbose(false)
 }
 
 func main() {
@@ -20,18 +21,18 @@ func main() {
 		core.Describe("Sub-Process")
 		cortex = std.NewCortex(std.RandomName())
 
-		cortex.Synapses() <- neural.Net.HelloWorld("Hello, World!", os.Args[2])
+		cortex.Synapses() <- neural.Net.HelloWorld(lifecycle.Looping, "Server", os.Args[2])
 	} else {
 		core.Describe("Multiplexer")
 		cortex = std.NewCortex(std.RandomName())
 
-		cortex.Synapses() <- neural.Shell.SubProcess("sub process a", []string{"go", "run", "./main", "server", ":4242"}, func(imp *std.Impulse) {
+		cortex.Synapses() <- neural.Shell.SubProcess(lifecycle.Looping, "sub process a", []string{"go", "run", "./main", "server", ":4242"}, func(imp *std.Impulse) {
 			cortex.Impulse()
 		})
-		cortex.Synapses() <- neural.Shell.SubProcess("sub process b", []string{"go", "run", "./main", "server", ":4243"}, func(imp *std.Impulse) {
+		cortex.Synapses() <- neural.Shell.SubProcess(lifecycle.Looping, "sub process b", []string{"go", "run", "./main", "server", ":4243"}, func(imp *std.Impulse) {
 			cortex.Impulse()
 		})
-		cortex.Synapses() <- neural.Shell.SubProcess("sub process c", []string{"go", "run", "./main", "server", ":4244"}, func(imp *std.Impulse) {
+		cortex.Synapses() <- neural.Shell.SubProcess(lifecycle.Looping, "sub process c", []string{"go", "run", "./main", "server", ":4244"}, func(imp *std.Impulse) {
 			cortex.Impulse()
 		})
 	}
