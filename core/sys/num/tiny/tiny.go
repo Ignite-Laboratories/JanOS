@@ -1,60 +1,104 @@
 package tiny
 
 import (
-	"core/sys/atlas"
-	"core/sys/num"
-	"fmt"
 	"reflect"
+
+	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
-func sanityCheck(operands ...any) bool {
-	if len(operands) == 0 {
-		return
-	}
+func filterBounds(operands ...any) (num.Bounds, []any) {
+	// NOTE: All fields are dereferenced locally to ensure the calculation is stateful in-flight.
 
-	if !atlas.EnableRealCoercion {
-		first := reflect.TypeOf(operands[0])
-
-		for _, v := range operands[1:] {
-			if reflect.TypeOf(v) != first {
-				panic("with 'atlas.EnableReal = false', all operands must be of the same type")
+	dereference := func(v any) any {
+		rv := reflect.ValueOf(v)
+		for rv.Kind() == reflect.Ptr {
+			if rv.IsNil() {
+				return nil
 			}
+			rv = rv.Elem()
 		}
-
-		if !num.IsPrimitive(operands) {
-			panic("with 'atlas.EnableReal = false', all operands must be of num.Primitive type")
-		}
-		return false
+		return rv.Interface()
 	}
-	return true
+
+	base := atlas.Base
+	bounds := num.Bounds{
+		Base: &base,
+	}
+	out := make([]any, 0, len(operands))
+	for _, operand := range operands {
+		if op, ok := operand.(num.Bounds); ok {
+			if op.Minimum != nil {
+				bounds.Minimum = dereference(op.Minimum)
+			}
+			if op.Maximum != nil {
+				bounds.Maximum = dereference(op.Maximum)
+			}
+			if op.Clamp != nil {
+				clamp := *op.Clamp
+				bounds.Clamp = &clamp
+			}
+			if op.Base != nil {
+				b := *op.Base
+				bounds.Base = &b
+			}
+		} else {
+			out = append(out, operand)
+		}
+	}
+	return bounds, out
 }
 
-//func test[TA num.Advanced]() {
-//	a := 6
-//	c := Add[Realized](a, 5)
-//}
+func Compare(a, b any) int {
+	// TODO: Handle the ∞ character as 'infinity' specially here
+	panic("comparison operations are not yet implemented")
+}
 
-// NOTE NOTE NOTE NOTE!!!!!!
-// ALEX!  Use num.Advanced for your output type!  This allows you to output a Realized, Realization, Measurement, or Primitive =)
+func Add(operands ...any) any {
+	//bounds, out := filterBounds(operands...)
+	panic("addition operations are not yet implemented")
 
-// Add takes in any number of Advanced objects and performs logical arithmetic upon them.  If either is not an Advanced type,
-// this will panic - otherwise, the result will be provided in the requested Advanced type C.
-func Add[TOut num.Advanced](a any, b any, precision ...uint) TOut {
-	realEnabled := sanityCheck(a, b)
-	prec := atlas.Precision
-	if precision != nil && len(precision) > 0 {
-		prec = precision[0]
-	}
-	fmt.Println(prec)
+	// If the operand is a []byte, the first index should indicate it's base - and it should panic if this is missing!
+	// If the operand is a string, its base should be indicated with a # character at the beginning (or 10 if omitted)
 
-	if realEnabled {
-		// If here, bump all operands to num.Realized
+	//  ~123.‾45 <- a plain base 10 number
+	//  10#~123.‾45 <- an annotated base 10 number
+	//  2#1010.‾010 <- a base 2 number
+	//  17#(~ AA BB . ‾ 10) <- a base 17+ number
+	//  256#(AA BB F0) <- A base 256 number
+	//
+	//  { 10, 4, 2} <- The base 10 natural number '42' in []byte form
+	//  { 2, 1, 0, 1, 1 } <- A base 2 natural number in []byte form
+	//  { 256, AA, BB, F0 } <- A base 256 natural number in []byte form
+}
 
-		var zero TOut
-		return zero
-	}
+func Subtract(operands ...any) any {
+	panic("subtraction operations are not yet implemented")
+}
 
-	// If here, the types are all guaranteed to be like-typed primitives
-	var zero TOut
-	return zero
+func Multiply(operands ...any) any {
+	panic("multiplication operations are not yet implemented")
+}
+
+func Divide(operands ...any) any {
+	panic("division operations are not yet implemented")
+}
+
+func Modulo(operands ...any) any {
+	panic("modulo operations are not yet implemented")
+}
+
+func Floor(operands ...any) any {
+	panic("flooring operations are not yet implemented")
+}
+
+func Ceiling(operands ...any) any {
+	panic("ceiling operations are not yet implemented")
+}
+
+// ParseAs takes in any operand and evaluates it into the provided type.  If provided a string formula, this will
+// execute it and yield the desired output.  You may optionally provide a num.Bounds defining the boundaries
+// of the evaluated result.
+func ParseAs[TOut any](operand any, bounds ...num.Bounds) TOut {
+	panic("parsing operations are not yet implemented")
 }

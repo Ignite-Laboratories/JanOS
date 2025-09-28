@@ -14,7 +14,10 @@ import (
 const strNaN = "NaN"
 const strInf = "Inf"
 
-var NaturalZero = ParseNatural("0")
+// Advanced represents any Primitive or a numeric string.  To convert back to a primitive type, please use ParsePrimitive or Parse.
+type Advanced interface {
+	Primitive | string
+}
 
 // Primitive represents any general primitive Numeric-compatible type.  These retain the standard mathematical operators,
 // whereas Advanced numerics describe their own methods for standard arithmetic operations.
@@ -110,12 +113,8 @@ func ToString(value any) string {
 		return typed
 	case Measurement:
 		return typed.String()
-	case Natural:
-		return typed.Print()
 	case Realization:
 		return typed.String()
-	//case Realized:
-	//	return typed.Print(typed.base)
 	case *big.Int:
 		return typed.Text(10)
 	case *big.Float:

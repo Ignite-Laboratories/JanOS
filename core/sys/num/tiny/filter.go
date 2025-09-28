@@ -1,47 +1,49 @@
-package num
+package tiny
 
 import (
 	"fmt"
 	"math"
 	"math/big"
 	"reflect"
-	"strings"
 
 	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/num"
 )
 
 // FilterOperands filters the provided operands into processable types.  If provided a type that does not
 // satisfy the following requirements, this will panic -
 //
-//	0 - int, int8, int16, int32, int64 - Calls num.ToString
-//	1 - uint, uint8, uint16, uint32, uint64, uintptr - Calls num.ToString
-//	2 - float32, float64 - Panics on Inf or NaN, then calls num.ToString
-//	3 - big.Int, big.Float - Calls big.Text
-//	4 - num.Realized, num.Realization, num.Measurement - Passes through
-//	5 - string - Passes through
-//	6 - []byte - Converts to a Natural as 'digits'
+//		0 - int, int8, int16, int32, int64 - Calls num.ToString
+//		1 - uint, uint8, uint16, uint32, uint64, uintptr - Calls num.ToString
+//		2 - float32, float64 - Panics on Inf or NaN, then calls num.ToString
+//		3 - big.Int, big.Float - Calls big.Text
+//		5 - string - Passes through
+//		6 - []byte - Passes through - This is treated as a natural number with each byte a placeholder
+//	 	7 - num.Bounds - Passes through
 //
-//	6 - pointers to any of the above types
+//		8 - pointers to any of the above types are dereferenced and treated as above
 //
-//	7 - func() any or func[T any]() T
-//	8 - func(uint) any or func[T any](uint) T
-//	9 - func(*uint) any or func[T any](*uint) T
-//	10 - func(...uint) any or func[T any](...uint) T
-//	11 - func(...*uint) any or func[T any](...*uint) T
+//		Function call types:
 //
-//	12 - Functions which return functions that satisfy the above functional requirements
+//		9 - func() any or func[T any]() T
+//		10 - func(base uint) any or func[T any](base uint) T
+//		11 - func(base *uint) any or func[T any](base *uint) T
+//		12 - func(base ...uint) any or func[T any](base ...uint) T
+//		13 - func(base ...*uint) any or func[T any](base ...*uint) T
 //
 // For function calls and pointer types, this will RESOLVE the underlying value they 'point' to by dereferencing
 // or invoking the operand until reaching its result.  If you close over this function call, you dynamically
-// encode in that functionality 'on the fly' to your code =)
+// encode in that functionality 'on the fly' =)
 func FilterOperands(base uint16, operands ...any) []any {
 	var filter func(any) any
 	filter = func(op any) any {
 		switch raw := op.(type) {
 
 		// 0 - "Pass" branch
+		case num.Bounds:
+			return raw
 		case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr:
-			return ToString(op)
+			return num.ToString(raw)
 		case float32:
 			if math.IsInf(float64(raw), 0) {
 				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
@@ -49,7 +51,7 @@ func FilterOperands(base uint16, operands ...any) []any {
 			if math.IsNaN(float64(raw)) {
 				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
 			}
-			return ToString(raw)
+			return num.ToString(raw)
 		case float64:
 			if math.IsInf(raw, 0) {
 				panic(fmt.Sprintf("cannot process an Inf valued %T", raw))
@@ -57,19 +59,9 @@ func FilterOperands(base uint16, operands ...any) []any {
 			if math.IsNaN(raw) {
 				panic(fmt.Sprintf("cannot process an NaN valued %T", raw))
 			}
-			return ToString(raw)
-		case Realized, Natural, Measurement, Realization:
-			return raw
+			return num.ToString(raw)
 		case []byte:
-			digits := make([]string, len(raw))
-			for i, d := range raw {
-				digits[i] = fmt.Sprintf("%02x", d)
-			}
-			if base > 16 {
-				return ParseNatural(strings.Join(digits, " "), base)
-			}
-			return ParseNatural(strings.Join(digits, ""), base)
-
+			return raw
 		// 1 - "Fail" branches
 		case big.Int, big.Float:
 			panic("big types should be pointers for normal operation")
@@ -80,9 +72,11 @@ func FilterOperands(base uint16, operands ...any) []any {
 		case *string:
 			return filter(raw)
 		case *big.Int:
-			return ToString(raw)
+			// TODO: big doesn't cover all of tiny's bases, so we still need to do a base conversion from big's output
+			return raw.Text(10)
 		case *big.Float:
-			return ToString(raw)
+			// TODO: big doesn't cover all of tiny's bases, so we still need to do a base conversion from big's output
+			return raw.Text(10, int(atlas.Precision))
 		default:
 			rv := reflect.ValueOf(raw)
 			if !rv.IsValid() {

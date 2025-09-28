@@ -12,8 +12,7 @@ func IsNumeric(values ...any) bool {
 
 	for _, v := range values {
 		switch v.(type) {
-		case Natural, Realized,
-			uint, uint8, uint16, uint32, uint64, uintptr,
+		case uint, uint8, uint16, uint32, uint64, uintptr,
 			int, int8, int16, int32, int64,
 			float32, float64,
 			complex64, complex128:
@@ -87,8 +86,7 @@ func IsInteger(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case Natural,
-			int, int8, int16, int32, int64,
+		case int, int8, int16, int32, int64,
 			uint, uint8, uint16, uint32, uint64, uintptr:
 		default:
 			return false
@@ -121,7 +119,7 @@ func IsFloat(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case Realized, float32, float64, complex64, complex128:
+		case float32, float64, complex64, complex128:
 		default:
 			return false
 		}
@@ -138,7 +136,7 @@ func IsSigned(values ...any) bool {
 	}
 	for _, v := range values {
 		switch v.(type) {
-		case Realized, int, int8, int16, int32, int64, float32, float64, complex64, complex128:
+		case int, int8, int16, int32, int64, float32, float64, complex64, complex128:
 		default:
 			return false
 		}

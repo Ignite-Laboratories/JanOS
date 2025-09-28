@@ -19,6 +19,8 @@ type Cortex struct {
 	// NOTE: If you set this to zero or negative, they will fire as fast as possible.  For a zero frequency, please mute the cortex.
 	// Otherwise, we'd have to divide by zero =)
 	Frequency float64
+	Phase     uint
+	beat      uint
 
 	inception time.Time
 
@@ -144,6 +146,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 			c.shutdownWait.Done()
 		}()
 
+		initial := true
 		last := time.Now()
 		var expected time.Duration
 		var adjustment time.Duration
@@ -218,6 +221,15 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				}
 				syn := <-c.synapses
 				syn(imp)
+			}
+
+			if initial {
+				initial = false
+			} else {
+				c.beat++
+				if c.beat > c.Phase {
+					c.beat = 0
+				}
 			}
 
 			c.clock.Broadcast()

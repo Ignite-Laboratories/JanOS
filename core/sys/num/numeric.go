@@ -6,8 +6,6 @@ import (
 	"math/big"
 )
 
-type Advanced interface{}
-
 // Numeric represents a num.Advanced value bounded within the closed set [minimum, maximum].
 // Additionally, all bounded types can be 'clamped' into the bounded range - meaning that
 // they will not automatically overflow or underflow when they exceed the bounds.
@@ -26,7 +24,7 @@ type Numeric[T Advanced] struct {
 func (bnd *Numeric[T]) sanityCheck() {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		sanityCheckAdvanced(bnd)
@@ -139,7 +137,7 @@ func (bnd *Numeric[T]) MaximumAsAny() any {
 func (bnd *Numeric[T]) Range() uint64 {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return rangeAdvanced(bnd)
@@ -202,7 +200,7 @@ Basic Arithmetic
 func (bnd *Numeric[T]) Random() T {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return randomAdvanced[T](bnd)
@@ -258,7 +256,7 @@ func randomPrimitive[T Primitive](bnd *Numeric[T]) T {
 func (bnd *Numeric[T]) Increment(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return incrementAdvanced(bnd, amount...)
@@ -316,7 +314,7 @@ func incrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) Decrement(amount ...T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return decrementAdvanced(bnd, amount...)
@@ -372,7 +370,7 @@ func decrementPrimitive[T Primitive](bnd *Numeric[T], amount ...T) Breach {
 func (bnd *Numeric[T]) AddOrSubtract(amount T) Breach {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return addOrSubtractAdvanced(bnd, amount)
@@ -502,7 +500,7 @@ Normalize
 func (bnd *Numeric[T]) Normalize() (float64, error) {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return normalizeAdvanced(bnd)
@@ -597,7 +595,7 @@ func (bnd *Numeric[T]) SetFromNormalized32(normalized float32) (Breach, error) {
 func (bnd *Numeric[T]) SetFromNormalized(normalized float64) (Breach, error) {
 	var zero T
 	switch any(zero).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setFromNormalizedAdvanced(bnd, normalized)
@@ -654,7 +652,7 @@ func setFromNormalizedPrimitive[T Primitive](bnd *Numeric[T], normalized float64
 		distanceBig := new(big.Float).SetUint64(distance)
 		result := new(big.Float).Mul(normalizedBig, distanceBig)
 
-		// Add minimum after multiplication
+		// Record minimum after multiplication
 		minimumBig := new(big.Float).SetInt64(int64(bnd.minimum))
 		result.Add(result, minimumBig)
 
@@ -690,7 +688,7 @@ func (bnd *Numeric[T]) SetUsingAny(value any) (Breach, error) {
 // empty breach.
 func (bnd *Numeric[T]) Set(value T) Breach {
 	switch raw := any(value).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return setAdvanced(bnd, value)

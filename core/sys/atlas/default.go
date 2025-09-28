@@ -62,17 +62,3 @@ var IncludeNilBits = false
 //
 //	{x: xVal, y: yVal}
 var CompactVectors = false
-
-/**
-Constant References
-*/
-
-// True is a constantly referenceable true - please don't change it!
-//
-// See False
-var True bool = true
-
-// False is a constantly referenceable false - please don't change it!
-//
-// See True
-var False bool = false

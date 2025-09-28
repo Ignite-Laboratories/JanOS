@@ -43,7 +43,7 @@ func (t *Timeline) Len() uint {
 }
 
 func (t *Timeline) Add(element SynapticEvent) {
-	t.temporal.Add(element.Inception, element)
+	t.temporal.Record(element.Inception, element)
 }
 
 // Latest returns the latest elements from the timeline in temporal order up to the provided depth.

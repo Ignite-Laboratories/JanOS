@@ -4,11 +4,6 @@ package see
 /*
 # " 𝑃𝑟𝑖𝑛𝑡𝑖𝑛𝑔 𝑁𝑢𝑚𝑏𝑒𝑟𝑠 "
 
-In the context of 𝑡𝑖𝑛𝑦, printing refers to either the output of a number OR the output of a binary measurement
-and/or phrase.  This document covers printing numbers.  For binary, see.PrintingBinary
-
-# Printing Operations
-
 In short, there are two kinds of numbers in 𝑡𝑖𝑛𝑦 - the Natural and the Realized.  Both of these offer three operations:
 
 	𝑆𝑡𝑟𝑖𝑛𝑔() - Outputs the data in identity form at the observed base

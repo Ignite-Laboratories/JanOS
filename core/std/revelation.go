@@ -28,7 +28,7 @@ func (r *Revelation[T]) Reveal() T {
 
 	result := r.reveal(r.last)
 	now := time.Now()
-	r.Add(now, result)
+	r.Record(now, result)
 	r.last = now
 	return result
 }

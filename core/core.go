@@ -69,6 +69,19 @@ func Describe(description string) {
 	fmt.Println("[core] " + Name.Name + " is a \"" + description + "\"")
 }
 
+// Ref creates an inline "dead reference" of a value type.  In many places, JanOS allows you to provide a reference
+// to live data - but sometimes you'll want to reference an inline-constant:
+//
+//	// Before
+//	a := 5
+//	myFunc(&a)
+//
+//	// After
+//	myFunc(core.Ref(5))
+func Ref[T any](val T) *T {
+	return &val
+}
+
 // Deferrals are where you can send actions you wish to be fired just before the JanOS instance shuts down.  This is useful
 // for performing global 'cleanup' operations.
 func Deferrals() chan<- func(group *sync.WaitGroup) {

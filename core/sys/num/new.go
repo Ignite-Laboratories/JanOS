@@ -29,7 +29,7 @@ func NewNumericBounded[T Advanced](value, minimum, maximum T, clamp ...bool) (Nu
 // See Numeric, NewNumeric, and NewNumericBounded
 func NewNumeric[T Advanced](value T) Numeric[T] {
 	switch raw := any(value).(type) {
-	case Natural, Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return newNumericAdvanced(value)

@@ -24,7 +24,7 @@ func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*I
 // or impulsed lifecycles, this gets called immediately - for looping or stimulative, this gets called after the cortex shuts down.
 func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 	rec.Verbosef(core.ModuleName, "%v is creating synapse '%s'\n", core.Name.Name, neuron.Named())
-	beat := 0
+	count := uint(0)
 	return func(imp *Impulse) {
 		creation := time.Now()
 		imp.Bridge = (*imp.Cortex).Named() + " ⇝ " + neuron.Named()
@@ -53,13 +53,15 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						SynapseCreation: creation,
 						Inception:       time.Now(),
 					}
-					imp.Beat = beat
+					imp.Count = count
+					imp.Beat = (*imp.Cortex).beat
+					imp.Phase = (*imp.Cortex).Phase
 					if neuron.Potential(imp) && !imp.Mute && (*imp.Cortex).Alive() {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)
 						panicSafeAction(imp)
 						imp.Timeline.setCompleted(event.id, time.Now())
-						beat++
+						count++
 					}
 
 					if !imp.Decay && (*imp.Cortex).Alive() {
@@ -86,7 +88,9 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 						SynapseCreation: creation,
 						Inception:       time.Now(),
 					}
-					imp.Beat = beat
+					imp.Count = count
+					imp.Beat = (*imp.Cortex).beat
+					imp.Phase = (*imp.Cortex).Phase
 					if neuron.Potential(imp) && !imp.Mute && (*imp.Cortex).Alive() {
 						event.Activation = time.Now()
 						imp.Timeline.Add(event)
@@ -94,7 +98,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 							panicSafeAction(imp)
 							imp.Timeline.setCompleted(event.id, time.Now())
 						}()
-						beat++
+						count++
 					}
 
 					if !imp.Decay && (*imp.Cortex).Alive() {
@@ -126,12 +130,14 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					(*imp.Cortex).master.Unlock()
 				}
 				if (*imp.Cortex).Alive() && !imp.Mute {
-					imp.Beat = beat
+					imp.Count = count
+					imp.Beat = (*imp.Cortex).beat
+					imp.Phase = (*imp.Cortex).Phase
 					event.Activation = time.Now()
 					imp.Timeline.Add(event)
 					panicSafeAction(imp)
 					imp.Timeline.setCompleted(event.id, time.Now())
-					beat++
+					count++
 				}
 
 				if neuron.Cleanup != nil {
@@ -149,12 +155,14 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 					Inception:       time.Now(),
 				}
 				if (*imp.Cortex).Alive() && neuron.Potential(imp) && !imp.Mute {
-					imp.Beat = beat
+					imp.Count = count
+					imp.Beat = (*imp.Cortex).beat
+					imp.Phase = (*imp.Cortex).Phase
 					event.Activation = time.Now()
 					imp.Timeline.Add(event)
 					panicSafeAction(imp)
 					imp.Timeline.setCompleted(event.id, time.Now())
-					beat++
+					count++
 					imp.Timeline.Add(event)
 				}
 

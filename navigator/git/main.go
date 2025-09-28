@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"git.ignitelabs.net/janos/core"
+	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/std/neural"
 	"git.ignitelabs.net/janos/core/sys/deploy"
@@ -19,7 +20,7 @@ func main() {
 		cortex.Frequency = 1 //hz
 		cortex.Mute()
 
-		cortex.Synapses() <- neural.Net.Vanity("git.ignitelabs.net", "https://github.com/ignite-laboratories", 4242, func(imp *std.Impulse) {
+		cortex.Synapses() <- neural.Net.Vanity(lifecycle.Looping, "git.ignitelabs.net", "https://github.com/ignite-laboratories", 4242, func(imp *std.Impulse) {
 			cortex.Impulse()
 		})
 

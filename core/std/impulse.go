@@ -6,7 +6,7 @@ package std
 //
 // # TimelineOld - This holds the temporal activation information for this neuron
 //
-// # Beat - This indicates the number of activations that this Synapse has processed
+// # Count - This indicates the number of activations that this Synapse has processed
 //
 // Cortex - This provides a reference to the cortex that generated this impulse (the neuron can be impulsed by many cortices)
 //
@@ -17,7 +17,9 @@ package std
 type Impulse struct {
 	Bridge   string
 	Timeline *Timeline
-	Beat     int
+	Beat     uint
+	Phase    uint
+	Count    uint
 	Cortex   *Cortex
 	Neuron   Neural
 	Decay    bool

@@ -6,7 +6,7 @@ import (
 )
 
 func BuildTestCases() (pass []any, fail []any, providers []any) {
-	// Add the underlying types we support
+	// Record the underlying types we support
 
 	pass = []any{
 		int(1), int8(2), int16(3), int32(4), int64(5),
@@ -20,7 +20,7 @@ func BuildTestCases() (pass []any, fail []any, providers []any) {
 		// "ℯ", "-ℯ", "π", "-π", // We still need to implement the identity system
 	}
 
-	// Add pointers to all the above types
+	// Record pointers to all the above types
 
 	toAdd := make([]any, len(pass))
 
@@ -28,7 +28,7 @@ func BuildTestCases() (pass []any, fail []any, providers []any) {
 		toAdd[i] = &c
 	}
 
-	// Add double pointers to all the above types
+	// Record double pointers to all the above types
 
 	pass = append(pass, toAdd...)
 
@@ -39,7 +39,7 @@ func BuildTestCases() (pass []any, fail []any, providers []any) {
 
 	pass = append(pass, toAdd2...)
 
-	// Add provider functions
+	// Record provider functions
 
 	// Provider functions are laid out as follows:
 	//
