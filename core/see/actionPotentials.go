@@ -27,7 +27,7 @@ For instance, let's take a look at a "frequency activation" function:
 	  return func() bool {
 	    now := time.Now()
 
-	    if now.Sub(last) > HertzToDuration(*hertz) {
+	    if now.SubProcess(last) > HertzToDuration(*hertz) {
 	      last = now
 	      return true
 	    }

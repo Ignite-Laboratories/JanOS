@@ -23,7 +23,9 @@ func main() {
 		cortex.Frequency = 1 //hz
 		cortex.Mute()
 
-		cortex.Synapses() <- neural.Net.Server("enigmaneering.net", ":4242", Handler)
+		cortex.Synapses() <- neural.Net.Server("enigmaneering.net", ":4242", Handler, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
 
 		cortex.Spark()
 		cortex.Impulse()

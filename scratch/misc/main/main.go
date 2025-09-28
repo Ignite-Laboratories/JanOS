@@ -1,55 +1,44 @@
 package main
 
 import (
-	"fmt"
-	"sync"
-	"time"
+	"os"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
 	"git.ignitelabs.net/janos/core/std"
+	"git.ignitelabs.net/janos/core/std/neural"
 	"git.ignitelabs.net/janos/core/sys/rec"
-	"git.ignitelabs.net/janos/core/sys/when"
 )
 
+func init() {
+	rec.Verbose = false
+}
+
 func main() {
-	c := std.NewCortex(std.RandomName())
-	c.Frequency = 60 //hz
+	var cortex *std.Cortex
 
-	freq := 2.0
+	if len(os.Args) > 1 && os.Args[1] == "server" {
+		core.Describe("Sub-Process")
+		cortex = std.NewCortex(std.RandomName())
 
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Cycle Printer", PrintCycle, when.FrequencyRef(&freq), Cleanup)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Refractory Printer", PrintRefractory, when.FrequencyRef(&freq), Cleanup)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Response Time Printer", PrintResponse, when.FrequencyRef(&freq), Cleanup)
+		cortex.Synapses() <- neural.Net.HelloWorld("Hello, World!", os.Args[2])
+	} else {
+		core.Describe("Multiplexer")
+		cortex = std.NewCortex(std.RandomName())
 
-	c.Deferrals() <- func(wg *sync.WaitGroup) {
-		time.Sleep(time.Second * 5)
-		wg.Done()
+		cortex.Synapses() <- neural.Shell.SubProcess("sub process a", []string{"go", "run", "./main", "server", ":4242"}, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
+		cortex.Synapses() <- neural.Shell.SubProcess("sub process b", []string{"go", "run", "./main", "server", ":4243"}, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
+		cortex.Synapses() <- neural.Shell.SubProcess("sub process c", []string{"go", "run", "./main", "server", ":4244"}, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
 	}
 
-	c.Spark()
+	cortex.Frequency = 1 //hz
+	cortex.Mute()
+	cortex.Spark()
+	cortex.Impulse()
 	core.KeepAlive()
-}
-
-func Cleanup(imp *std.Impulse) {
-	rec.Printf(imp.Bridge, "cleaning up\n")
-}
-
-var i = 0
-
-func PrintCycle(imp *std.Impulse) {
-	if i >= 3 {
-		imp.Decay = true
-	}
-	i++
-
-	fmt.Printf("\t%v [cycle] %v\n", imp.Timeline.CyclePeriod().String(), imp.Timeline.CyclePeriod().String())
-}
-
-func PrintRefractory(imp *std.Impulse) {
-	fmt.Printf("\t%v [refraction] %v\n", imp.Timeline.CyclePeriod().String(), imp.Timeline.RefractoryPeriod().String())
-}
-
-func PrintResponse(imp *std.Impulse) {
-	fmt.Printf("\t%v [response] %v\n", imp.Timeline.CyclePeriod().String(), imp.Timeline.ResponseTime().String())
 }

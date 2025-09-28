@@ -23,7 +23,7 @@ func NewSynapse(lifecycle lifecycle.Lifecycle, neuronName string, action func(*I
 // provide a cleanup function which is called after this Synapse finishes all neural activation (or the cortex shuts down).  For triggered
 // or impulsed lifecycles, this gets called immediately - for looping or stimulative, this gets called after the cortex shuts down.
 func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
-	rec.Verbosef(core.ModuleName, "creating synapse '%s'\n", neuron.Named())
+	rec.Verbosef(core.ModuleName, "%v is creating synapse '%s'\n", core.Name.Name, neuron.Named())
 	beat := 0
 	return func(imp *Impulse) {
 		creation := time.Now()

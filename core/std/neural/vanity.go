@@ -30,11 +30,8 @@ import (
 //	</html>
 //
 // That's really it!  No fancy libraries are needed, just a simple HTTP handler =)
-func (_net) Vanity(source string, remote string, port ...uint) std.Synapse {
-	p := "4242"
-	if len(port) > 0 {
-		p = strconv.Itoa(int(port[0]))
-	}
+func (_net) Vanity(source string, remote string, port uint, onDisconnect ...func(*std.Impulse)) std.Synapse {
+	p := strconv.Itoa(int(port))
 
 	metaTmpl := template.Must(template.New("meta").Parse(`<!doctype html>
 <html><head>
@@ -85,5 +82,5 @@ func (_net) Vanity(source string, remote string, port ...uint) std.Synapse {
 				http.Redirect(w, r, rem, http.StatusFound)
 			}
 		})
-	})
+	}, onDisconnect...)
 }

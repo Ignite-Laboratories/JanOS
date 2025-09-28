@@ -19,7 +19,9 @@ func main() {
 		cortex.Frequency = 1 //hz
 		cortex.Mute()
 
-		cortex.Synapses() <- neural.Net.Vanity("git.ignitelabs.net", "https://github.com/ignite-laboratories", 4242)
+		cortex.Synapses() <- neural.Net.Vanity("git.ignitelabs.net", "https://github.com/ignite-laboratories", 4242, func(imp *std.Impulse) {
+			cortex.Impulse()
+		})
 
 		cortex.Spark()
 		cortex.Impulse()

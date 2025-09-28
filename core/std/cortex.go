@@ -70,7 +70,7 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
 
-	rec.Verbosef(core.ModuleName, "created cortex '%s'\n", c.Named())
+	rec.Verbosef(core.ModuleName, "%v has created cortex '%s'\n", core.Name.Name, c.Named())
 	return c
 }
 

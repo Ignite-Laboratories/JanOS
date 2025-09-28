@@ -11,10 +11,6 @@ import (
 )
 
 func (_net) Server(named string, address string, handlerFn func(imp *std.Impulse) http.Handler, onDisconnect ...func(*std.Impulse)) std.Synapse {
-	c := func(*std.Impulse) {}
-	if len(onDisconnect) > 0 {
-		c = onDisconnect[0]
-	}
 	if handlerFn == nil {
 		panic(errors.New("handler function is nil"))
 	}
@@ -36,8 +32,8 @@ func (_net) Server(named string, address string, handlerFn func(imp *std.Impulse
 				} else {
 					rec.Printf(imp.Bridge, "neural server error: %s\n", err)
 				}
-				if onDisconnect != nil {
-					c(imp)
+				if onDisconnect != nil && onDisconnect[0] != nil {
+					onDisconnect[0](imp)
 				}
 			}
 

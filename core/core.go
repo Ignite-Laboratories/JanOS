@@ -59,6 +59,13 @@ var Inception = time.Now()
 // Name provides the randomly selected name of this instance.
 var Name = given.Random[format.Default]()
 
+// Describe sets the core name's description and prints the output.  If you'd like a silent output, please
+// set the Name.Description directly.
+func Describe(description string) {
+	Name.Description = description
+	fmt.Println("[core] " + Name.Name + " is a \"" + description + "\"")
+}
+
 // Deferrals are where you can send actions you wish to be fired just before the JanOS instance shuts down.  This is useful
 // for performing global 'cleanup' operations.
 func Deferrals() chan<- func(group *sync.WaitGroup) {
@@ -88,7 +95,7 @@ var ShutdownCondition = &sync.Cond{L: &ShutdownLock}
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func Shutdown(period time.Duration, exitCode ...int) {
-	fmt.Printf("[core] instance shutting down in %v\n", period)
+	fmt.Printf("[core] %v instance shutting down in %v\n", Name.Name, period)
 	time.Sleep(period)
 	ShutdownNow(exitCode...)
 }
@@ -98,7 +105,7 @@ func Shutdown(period time.Duration, exitCode ...int) {
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
-	fmt.Printf("\n[core] instance shutting down\n")
+	fmt.Printf("\n[core] %v instance shutting down\n", Name.Name)
 	alive = false
 
 	wg := &sync.WaitGroup{}
@@ -106,9 +113,9 @@ func ShutdownNow(exitCode ...int) {
 	count := len(deferrals)
 	if count > 0 {
 		if count > 1 {
-			fmt.Printf("[core] running %d deferrals\n", count)
+			fmt.Printf("[core] %v running %d deferrals\n", Name.Name, count)
 		} else {
-			fmt.Printf("[core] running %d deferral\n", count)
+			fmt.Printf("[core] %v running %d deferral\n", Name.Name, count)
 		}
 		for len(deferrals) > 0 {
 			deferFn := <-deferrals
@@ -116,7 +123,7 @@ func ShutdownNow(exitCode ...int) {
 			go func() {
 				defer func() {
 					if r := recover(); r != nil {
-						fmt.Printf("[%s] deferral error: %v\n", ModuleName, r)
+						fmt.Printf("[core] %v deferral error: %v\n", Name.Name, r)
 						wg.Done()
 					}
 				}()
@@ -125,7 +132,7 @@ func ShutdownNow(exitCode ...int) {
 			}()
 		}
 		wg.Wait()
-		fmt.Printf("[core] instance shut down complete\n")
+		fmt.Printf("[core] signing off — \"%v, %v\"\n", Name.Name, Name.Description)
 	}
 
 	if len(exitCode) > 0 {
@@ -154,7 +161,7 @@ func RelativePath(components ...string) string {
 func KeepAlive(postDelay ...time.Duration) {
 	if len(postDelay) > 0 {
 		deferrals <- func(wg *sync.WaitGroup) {
-			fmt.Printf("[core] holding open for %v\n", postDelay[0])
+			fmt.Printf("[core] %v holding open for %v\n", Name.Name, postDelay[0])
 			time.Sleep(postDelay[0])
 			wg.Done()
 		}

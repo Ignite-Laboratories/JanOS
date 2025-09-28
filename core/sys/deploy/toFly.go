@@ -137,7 +137,7 @@ func (_fly) Spark(flyApp string, target ...string) {
 		if errors.As(err, &exitErr) {
 			os.Exit(exitErr.ExitCode())
 		}
-		rec.FatalfCode(1, ModuleName, "deploy failed: %v\n", err)
+		rec.FatalfCode(exitErr.ExitCode(), ModuleName, "deploy failed: %v\n", err)
 	}
 
 	rec.Printf(ModuleName, "Successfully deployed '%v' to '%v'\n", relative, flyApp)
