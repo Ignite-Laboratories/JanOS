@@ -59,10 +59,13 @@ var Inception = time.Now()
 // Name provides the randomly selected name of this instance.
 var Name = given.Random[format.Default]()
 
+var described = false
+
 // Describe sets the core name's description and prints the output.  If you'd like a silent output, please
 // set the Name.Description directly.
 func Describe(description string) {
 	Name.Description = description
+	described = true
 	fmt.Println("[core] " + Name.Name + " is a \"" + description + "\"")
 }
 
@@ -132,7 +135,12 @@ func ShutdownNow(exitCode ...int) {
 			}()
 		}
 		wg.Wait()
-		fmt.Printf("[core] signing off — \"%v, %v\"\n", Name.Name, Name.Description)
+
+		if described {
+			fmt.Printf("[core] signing off — \"%v, %v\"\n", Name.Name, Name.Description)
+		} else {
+			fmt.Printf("[core] signing off — \"%v\"\n", Name.Name)
+		}
 	}
 
 	if len(exitCode) > 0 {

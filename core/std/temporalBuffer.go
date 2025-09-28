@@ -29,12 +29,12 @@ type TemporalBuffer[T any] struct {
 
 // NewTemporalBuffer creates a new instance of a temporal buffer which observes the provided window of time.  If no
 // window is provided, this will default to atlas.ObservanceWindow
-func NewTemporalBuffer[T any](window ...*time.Duration) TemporalBuffer[T] {
+func NewTemporalBuffer[T any](window ...*time.Duration) *TemporalBuffer[T] {
 	w := &atlas.ObservanceWindow
 	if len(window) > 0 {
 		w = window[0]
 	}
-	return TemporalBuffer[T]{
+	return &TemporalBuffer[T]{
 		buffer: make([]instant[T], 0),
 		Window: w,
 	}
