@@ -19,8 +19,12 @@ type Cortex struct {
 	// NOTE: If you set this to zero or negative, they will fire as fast as possible.  For a zero frequency, please mute the cortex.
 	// Otherwise, we'd have to divide by zero =)
 	Frequency float64
-	Phase     uint
-	beat      uint
+
+	// Phase defines the number of beats the cortex will count to before looping back to zero.
+	//
+	// NOTE: Set this to a negative value for an infinite phase =)
+	Phase int
+	beat  uint
 
 	inception time.Time
 
@@ -34,11 +38,14 @@ type Cortex struct {
 	unmute       chan any
 	impulse      chan any
 	shutdown     chan any
+	closed       chan any // NOTE: closed is used to 'close' signal when the cortex is shutting down
 	shutdownWait *sync.WaitGroup
+	hold         *sync.WaitGroup
 
 	alive   bool
 	created bool
 	running bool
+	limit   int
 
 	timeLock sync.Mutex
 	master   sync.Mutex
@@ -60,17 +67,20 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 		Entity:       NewEntity[format.Default](),
 		inception:    time.Now(),
 		synapses:     make(chan Synapse, limit),
-		deferrals:    make(chan func(*sync.WaitGroup), limit),
+		deferrals:    make(chan func(*sync.WaitGroup), 1<<16),
 		deferralWait: &sync.WaitGroup{},
 		mute:         make(chan any, 1<<16),
 		unmute:       make(chan any, 1<<16),
 		impulse:      make(chan any, 1<<16),
 		shutdown:     make(chan any, 1<<16),
+		closed:       make(chan any, 1<<16),
+		limit:        limit,
 		alive:        true,
 		created:      true,
 	}
 	c.clock = sync.Cond{L: &c.master}
 	c.Entity.Name.Name = named
+	c.hold = &sync.WaitGroup{}
 
 	rec.Verbosef(core.ModuleName, "%v has created cortex '%s'\n", core.Name.Name, c.Named())
 	return c
@@ -97,6 +107,14 @@ func _hertzToDuration(hz float64) time.Duration {
 
 func (c *Cortex) Spark(synapses ...Synapse) {
 	c.sanityCheck()
+
+	select {
+	case _, ok := <-c.closed:
+		if !ok {
+			panic("cannot re-spark a cortex after shutdown - please create a new cortex")
+		}
+	default:
+	}
 
 	rec.Verbosef(c.Named(), "sparking neural activity\n")
 
@@ -142,6 +160,8 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				}
 				c.deferralWait.Wait()
 			}
+			time.Sleep(time.Second)
+			c.hold.Wait()
 			rec.Verbosef(c.Named(), "cortex shut down complete\n")
 			c.shutdownWait.Done()
 		}()
@@ -227,7 +247,7 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 				initial = false
 			} else {
 				c.beat++
-				if c.beat > c.Phase {
+				if c.Phase > 0 && c.beat > uint(c.Phase) {
 					c.beat = 0
 				}
 			}
@@ -261,6 +281,7 @@ func (c *Cortex) Shutdown(delay ...time.Duration) {
 	c.running = false
 	c.alive = false
 	c.shutdown <- nil
+	close(c.closed)
 	c.master.Unlock()
 }
 
@@ -281,7 +302,6 @@ func (c *Cortex) addToTimeline(moment time.Time) {
 	c.timeline = c.timeline[trim:]
 }
 
-// TimelineOld returns the activation moments available to the cortex - limited to atlas.ObservanceWindow.
 func (c *Cortex) Timeline() []time.Time {
 	c.timeLock.Lock()
 	defer c.timeLock.Unlock()

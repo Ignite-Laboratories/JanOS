@@ -1,5 +1,7 @@
 package std
 
+import "strings"
+
 // An Impulse represents the act of a synaptic event between a cortex and neuron.  This contains several key points:
 //
 // Bridge - This is the named synaptic bridge between the cortex and neuron (for tracing purposes)
@@ -15,10 +17,10 @@ package std
 // Thought - This holds the actual impulse data that -this- synaptic bridge has been accumulating across time.  Only the neuron
 // understands how to interpret the information contained in the impulsive thought.
 type Impulse struct {
-	Bridge   string
+	Bridge   Bridge
 	Timeline *Timeline
 	Beat     uint
-	Phase    uint
+	Phase    int
 	Count    uint
 	Cortex   *Cortex
 	Neuron   Neural
@@ -26,4 +28,12 @@ type Impulse struct {
 	Mute     bool
 
 	Thought *Thought
+
+	currentEvent SynapticEvent
+}
+
+type Bridge []string
+
+func (b Bridge) String() string {
+	return strings.Join(b, " ⇝ ")
 }

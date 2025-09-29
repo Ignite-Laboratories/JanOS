@@ -11,7 +11,7 @@ import (
 func DurationToHertz[T num.Advanced](d time.Duration) T {
 	var zero T
 	switch typed := any(zero).(type) {
-	case num.Natural, num.Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return durationToHertzAdvanced[T](d)
@@ -62,36 +62,36 @@ func durationToHertzPrimitive[T num.Primitive](d time.Duration) T {
 // HertzToDuration converts a Hertz value to a time.Duration.
 func HertzToDuration[T num.Primitive](hz T) time.Duration {
 	switch typed := any(hz).(type) {
-	case num.Natural, num.Realized, complex64, complex128:
+	case complex64, complex128:
 		// CRITICAL: This does NOT type assert the string advanced types!!!
 		// ALWAYS pass through the generic type for tiny types - never type assert and then mutate
 		return hertzToDurationAdvanced(hz)
 	case int:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case int8:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case int16:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case int32:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case int64:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uint:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uint8:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uint16:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uint32:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uint64:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case uintptr:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case float32:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	case float64:
-		return hertzToDurationPrimitive(typed)
+		return hertzToDurationPrimitive(float64(typed))
 	default:
 		panic(fmt.Errorf("unknown type %T", typed))
 	}

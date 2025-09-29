@@ -42,7 +42,7 @@ func main() {
 func Handler(imp *std.Impulse) http.Handler {
 	sub, err := fs.Sub(static, "src")
 	if err != nil {
-		rec.Fatalf(imp.Bridge, err.Error())
+		rec.Fatalf(imp.Bridge.String(), err.Error())
 	}
 	fileServer := http.FileServer(http.FS(sub))
 

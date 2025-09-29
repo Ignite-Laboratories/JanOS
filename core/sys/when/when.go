@@ -11,28 +11,6 @@ func Always() func(*std.Impulse) bool {
 	return func(*std.Impulse) bool { return true }
 }
 
-// StepMaker creates two functions for synchronizing neural activations - one that makes a potential function
-// tied to a specific numeric value, and the other that increments a globally shared counter.  When the potential
-// is called while the global counter matches the assigned value, it will go high - otherwise it will return false.
-//
-// See E0S0 for a working example.
-func StepMaker(limit int) (makePotential func(step int) func(*std.Impulse) bool, step func()) {
-	i := 0
-	return func(step int) func(*std.Impulse) bool {
-			return func(*std.Impulse) bool {
-				if i == step {
-					return true
-				}
-				return false
-			}
-		}, func() {
-			i++
-			if i >= limit {
-				i = 0
-			}
-		}
-}
-
 func Periodically(duration time.Duration) func(*std.Impulse) bool {
 	return PeriodicallyRef(&duration)
 }

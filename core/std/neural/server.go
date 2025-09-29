@@ -24,13 +24,13 @@ func (_net) Server(lifecycle lifecycle.Lifecycle, named string, address string, 
 		imp.Thought = std.NewThought(server)
 
 		go func() {
-			rec.Printf(imp.Bridge, "neural server listening on %s\n", address)
+			rec.Printf(imp.Bridge.String(), "neural server listening on %s\n", address)
 
 			if err := server.ListenAndServe(); err != nil {
 				if errors.Is(err, http.ErrServerClosed) {
-					rec.Printf(imp.Bridge, "%s\n", err)
+					rec.Printf(imp.Bridge.String(), "%s\n", err)
 				} else {
-					rec.Printf(imp.Bridge, "neural server error: %s\n", err)
+					rec.Printf(imp.Bridge.String(), "neural server error: %s\n", err)
 				}
 				if onDisconnect != nil && onDisconnect[0] != nil {
 					onDisconnect[0](imp)

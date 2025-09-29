@@ -35,7 +35,7 @@ func (_shell) SubProcessAt(lifecycle lifecycle.Lifecycle, named string, command 
 	ctx, cancel := context.WithCancel(context.Background())
 
 	return std.NewSynapse(lifecycle, named, func(imp *std.Impulse) {
-		rec.Printf(imp.Bridge, "sparking sub-process '%v'\n", command[0])
+		rec.Printf(imp.Bridge.String(), "sparking sub-process '%v'\n", command[0])
 
 		cmd := exec.CommandContext(ctx, command[0], command[1:]...)
 		cmd.Stdin = os.Stdin
@@ -43,7 +43,7 @@ func (_shell) SubProcessAt(lifecycle lifecycle.Lifecycle, named string, command 
 		cmd.Stderr = os.Stderr
 		cmd.Dir = path
 		imp.Thought = std.NewThought(cmd)
-		rec.Verbosef(imp.Bridge, "executing command: %v/%v\n", path, strings.Join(command, " "))
+		rec.Verbosef(imp.Bridge.String(), "executing command: %v/%v\n", path, strings.Join(command, " "))
 		fmt.Println(cmd.String())
 		err := cmd.Start()
 		if err != nil {
@@ -68,10 +68,10 @@ func (_shell) SubProcessAt(lifecycle lifecycle.Lifecycle, named string, command 
 		if err = cmd.Wait(); err != nil {
 			var exitErr *exec.ExitError
 			if exitErr, _ = err.(*exec.ExitError); exitErr != nil {
-				rec.Printf(imp.Bridge, "[%d] sub process error %v\n", exitErr.ExitCode(), err)
+				rec.Printf(imp.Bridge.String(), "[%d] sub process error %v\n", exitErr.ExitCode(), err)
 			}
 		}
-		rec.Printf(imp.Bridge, "sub process exited\n")
+		rec.Printf(imp.Bridge.String(), "sub process exited\n")
 		imp.Thought = nil
 		cleanup(imp)
 	}, func(imp *std.Impulse) bool {
