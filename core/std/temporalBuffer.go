@@ -189,11 +189,14 @@ func (b *TemporalBuffer[T]) CalculateSince(moment time.Time, calcFn func(time.Du
 
 // Integrate will perform standard temporal integration against the provided depth of elements.  This will yield the area
 // between each moment and the total calculated area.  If you'd like to implement your own integration logic,
-// please leverage Calculate.
+// please leverage Calculate.  To integrate to custom precision, please use IntegrateTolerance.
 //
-// NOTE: If the elements are NOT implicitly parseable as defined by tiny.FilterOperands, this will panic.  In that case,
-// please provide a 'parseFn' which translates the buffered information into a parseable type.
+// NOTE: If the elements are NOT implicitly parseable, this will panic.  In that case, please provide a 'parseFn'
+// which translates the buffered information into a parseable type.  A parseable type is any numeric, string, or function provider type.
 func (b *TemporalBuffer[T]) Integrate(base uint16, depth int, parseFn ...func(T) any) ([]instant[any], float64) {
+	return b.IntegrateTolerance(base, depth, atlas.Precision, parseFn...)
+}
+func (b *TemporalBuffer[T]) IntegrateTolerance(base uint16, depth int, precision uint, parseFn ...func(T) any) ([]instant[any], float64) {
 	b.sanityCheck()
 	area := 0.0
 	last := 0.0
@@ -208,8 +211,8 @@ func (b *TemporalBuffer[T]) Integrate(base uint16, depth int, parseFn ...func(T)
 			last = 0.0
 			return 0.0
 		}
-		last = tiny.ParseAs[float64](tiny.Multiply(dt, tiny.Add(number, last), 0.5))
-		area = tiny.ParseAs[float64](tiny.Add(area, last))
+		last = tiny.ParseInto[float64](tiny.Multiply(dt, tiny.Add(number, last), 0.5))
+		area = tiny.ParseInto[float64](tiny.Add(area, last))
 		return last
 	}), area
 }

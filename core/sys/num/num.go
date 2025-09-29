@@ -14,7 +14,7 @@ import (
 const strNaN = "NaN"
 const strInf = "Inf"
 
-// Advanced represents any Primitive or a numeric string.  To convert back to a primitive type, please use ParsePrimitive or Parse.
+// Advanced represents any Primitive or a numeric string.
 type Advanced interface {
 	Primitive | string
 }

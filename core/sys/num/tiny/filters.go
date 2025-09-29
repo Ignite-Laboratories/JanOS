@@ -10,7 +10,7 @@ import (
 	"git.ignitelabs.net/janos/core/sys/num"
 )
 
-// FilterOperands filters the provided operands into processable types.  If provided a type that does not
+// filter filters the provided operands into processable types.  If provided a type that does not
 // satisfy the following requirements, this will panic -
 //
 //		0 - int, int8, int16, int32, int64 - Calls num.ToString
@@ -34,13 +34,13 @@ import (
 // For function calls and pointer types, this will RESOLVE the underlying value they 'point' to by dereferencing
 // or invoking the operand until reaching its result.  If you close over this function call, you dynamically
 // encode in that functionality 'on the fly' =)
-func FilterOperands(base uint16, operands ...any) []any {
-	var filter func(any) any
-	filter = func(op any) any {
+func filter(base uint16, operands ...any) []any {
+	var f func(any) any
+	f = func(op any) any {
 		switch raw := op.(type) {
 
 		// 0 - "Pass" branch
-		case num.Bounds:
+		case Operand, num.Bounds:
 			return raw
 		case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr:
 			return num.ToString(raw)
@@ -70,7 +70,7 @@ func FilterOperands(base uint16, operands ...any) []any {
 
 		// 2 - "Recurse" branches
 		case *string:
-			return filter(raw)
+			return f(raw)
 		case *big.Int:
 			// TODO: big doesn't cover all of tiny's bases, so we still need to do a base conversion from big's output
 			return raw.Text(10)
@@ -86,16 +86,16 @@ func FilterOperands(base uint16, operands ...any) []any {
 				if rv.IsNil() {
 					panic(fmt.Errorf("got a nil input - %v", raw))
 				}
-				return filter(rv.Elem().Interface()) // Recurse!
+				return f(rv.Elem().Interface()) // Recurse!
 			}
 
 			switch rv.Kind() {
 			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-				return filter(rv.Int())
+				return f(rv.Int())
 			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-				return filter(rv.Uint())
+				return f(rv.Uint())
 			case reflect.Float32, reflect.Float64:
-				return filter(rv.Float())
+				return f(rv.Float())
 			case reflect.Func:
 				if rv.IsNil() {
 					panic(fmt.Errorf("got a nil input - %v", raw))
@@ -138,9 +138,9 @@ func FilterOperands(base uint16, operands ...any) []any {
 					result = rv.Call(args)[0]
 				}
 				if result.Kind() == reflect.Pointer {
-					return filter(result.Elem().Interface())
+					return f(result.Elem().Interface())
 				}
-				return filter(result.Interface())
+				return f(result.Interface())
 			default:
 				panic(fmt.Errorf("unknown type %T", raw))
 			}
@@ -149,7 +149,7 @@ func FilterOperands(base uint16, operands ...any) []any {
 
 	result := make([]any, len(operands))
 	for i, op := range operands {
-		result[i] = filter(op)
+		result[i] = f(op)
 	}
 	return result
 }

@@ -8,5 +8,4 @@ type Bounds struct {
 	Minimum any
 	Maximum any
 	Clamp   *bool
-	Base    *uint16
 }
