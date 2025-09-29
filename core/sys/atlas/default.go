@@ -7,9 +7,9 @@ import (
 )
 
 // Verbose gets or sets the rec.Verbose value.  If no value is provided, it only gets - if a value is provided, it sets and gets.
-func Verbose(val ...bool) bool {
-	if len(val) > 0 {
-		rec.Verbose = val[0]
+func Verbose(set ...bool) bool {
+	if len(set) > 0 {
+		rec.Verbose = set[0]
 	}
 	return rec.Verbose
 }
