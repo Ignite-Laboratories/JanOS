@@ -2,8 +2,6 @@ package std
 
 import (
 	"time"
-
-	"git.ignitelabs.net/janos/core"
 )
 
 // Timeline represents key moments in the lifecycle of a SynapticEvent.  A synaptic event is the contextual
@@ -14,10 +12,10 @@ type Timeline struct {
 
 func NewTimeline() *Timeline {
 	inception := SynapticEvent{
-		SynapseCreation: core.Inception,
-		Inception:       core.Inception,
-		Activation:      core.Inception,
-		Completion:      core.Inception,
+		SynapseCreation: time.Now(),
+		Inception:       time.Now(),
+		Activation:      time.Now(),
+		Completion:      time.Now(),
 	}
 	timeline := &Timeline{
 		temporal: NewTemporalBuffer[SynapticEvent](),

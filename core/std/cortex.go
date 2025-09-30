@@ -1,6 +1,7 @@
 package std
 
 import (
+	"math"
 	"sync"
 	"time"
 
@@ -20,11 +21,11 @@ type Cortex struct {
 	// Otherwise, we'd have to divide by zero =)
 	Frequency float64
 
-	// Phase defines the number of beats the cortex will count to before looping back to zero.
+	// BeatPeriod defines the number of beats the cortex will count to before looping back to zero.
 	//
 	// NOTE: Set this to a negative value for an infinite phase =)
-	Phase int
-	beat  uint
+	BeatPeriod int
+	beat       uint
 
 	inception time.Time
 
@@ -86,13 +87,45 @@ func NewCortex(named string, synapticLimit ...int) *Cortex {
 	return c
 }
 
+func (ctx *Cortex) Phase(frequency float64) float64 {
+	return 1.0 * math.Sin((2*math.Pi*frequency)*(time.Now().Sub(ctx.Inception()).Seconds()))
+}
+
+// Optional: return the instantaneous phase angle in [0, 2π)
+func (ctx *Cortex) PhaseAngle(frequency float64) float64 {
+	if frequency <= 0 {
+		return 0
+	}
+	t := time.Since(ctx.inception).Seconds()
+	theta := 2 * math.Pi * frequency * t
+	// normalize to [0, 2π)
+	theta = math.Mod(theta, 2*math.Pi)
+	if theta < 0 {
+		theta += 2 * math.Pi
+	}
+	return theta
+}
+
+// Optional: return the normalized phase fraction in [0, 1)
+func (ctx *Cortex) PhaseFraction(frequency float64) float64 {
+	if frequency <= 0 {
+		return 0
+	}
+	t := time.Since(ctx.inception).Seconds()
+	p := math.Mod(frequency*t, 1.0)
+	if p < 0 {
+		p += 1.0
+	}
+	return p
+}
+
 // Impulse causes the cortex to fire a single impulse cycle.  Please note this is an asynchronous invocation.
 //
 // NOTE: If your cortex is phase-locked, this will inherently break its ability to track the phase momentarily.
 // This is because phase-locking (at the cortex level) relies on tracking phase relative to the last impulse moment,
 // which shifts when an impulse is fired.
-func (c *Cortex) Impulse() {
-	c.impulse <- nil
+func (ctx *Cortex) Impulse() {
+	ctx.impulse <- nil
 }
 
 func _hertzToDuration(hz float64) time.Duration {
@@ -105,65 +138,65 @@ func _hertzToDuration(hz float64) time.Duration {
 	return time.Duration(ns)
 }
 
-func (c *Cortex) Spark(synapses ...Synapse) {
-	c.sanityCheck()
+func (ctx *Cortex) Spark(synapses ...Synapse) {
+	ctx.sanityCheck()
 
 	select {
-	case _, ok := <-c.closed:
+	case _, ok := <-ctx.closed:
 		if !ok {
 			panic("cannot re-spark a cortex after shutdown - please create a new cortex")
 		}
 	default:
 	}
 
-	rec.Verbosef(c.Named(), "sparking neural activity\n")
+	rec.Verbosef(ctx.Named(), "sparking neural activity\n")
 
 	for _, syn := range synapses {
-		c.synapses <- syn
+		ctx.synapses <- syn
 	}
 
-	if c.running {
+	if ctx.running {
 		return
 	}
 
 	core.Deferrals() <- func(wg *sync.WaitGroup) {
-		c.shutdownWait = wg
-		c.Shutdown()
+		ctx.shutdownWait = wg
+		ctx.Shutdown()
 	}
 
 	go func() {
-		c.alive = true
-		c.running = true
+		ctx.alive = true
+		ctx.running = true
 
 		defer func() {
-			count := len(c.deferrals)
+			count := len(ctx.deferrals)
 			if count > 0 {
 				if count > 1 {
-					rec.Verbosef(c.Named(), "running %d deferrals\n", count)
+					rec.Verbosef(ctx.Named(), "running %d deferrals\n", count)
 				} else {
-					rec.Verbosef(c.Named(), "running %d deferral\n", count)
+					rec.Verbosef(ctx.Named(), "running %d deferral\n", count)
 				}
-				for len(c.deferrals) > 0 {
-					deferral := <-c.deferrals
+				for len(ctx.deferrals) > 0 {
+					deferral := <-ctx.deferrals
 					if deferral != nil {
-						c.deferralWait.Add(1)
+						ctx.deferralWait.Add(1)
 						go func() {
 							defer func() {
 								if r := recover(); r != nil {
-									rec.Printf(c.Named(), "deferral error: %v\n", r)
+									rec.Printf(ctx.Named(), "deferral error: %v\n", r)
 								}
 							}()
 
-							deferral(c.deferralWait)
+							deferral(ctx.deferralWait)
 						}()
 					}
 				}
-				c.deferralWait.Wait()
+				ctx.deferralWait.Wait()
 			}
 			time.Sleep(time.Second)
-			c.hold.Wait()
-			rec.Verbosef(c.Named(), "cortex shut down complete\n")
-			c.shutdownWait.Done()
+			ctx.hold.Wait()
+			rec.Verbosef(ctx.Named(), "cortex shut down complete\n")
+			ctx.shutdownWait.Done()
 		}()
 
 		initial := true
@@ -173,185 +206,189 @@ func (c *Cortex) Spark(synapses ...Synapse) {
 		var frequency float64
 
 	main:
-		for c.Alive() {
-			if c.Frequency <= 0 {
+		for ctx.Alive() {
+			if ctx.Frequency <= 0 {
 				// This is a 'free-spin' condition
 				select {
-				case <-c.mute:
-					rec.Verbosef(c.Named(), "muting\n")
+				case <-ctx.mute:
+					rec.Verbosef(ctx.Named(), "muting\n")
 					select {
-					case <-c.shutdown:
+					case <-ctx.shutdown:
 						break main
-					case <-c.impulse:
+					case <-ctx.impulse:
 						// NOTE: Impulse requests should not break the muted condition
-						c.mute <- nil
-					case <-c.unmute:
-						rec.Verbosef(c.Named(), "unmuting\n")
-						for len(c.mute) > 0 {
-							<-c.mute
+						ctx.mute <- nil
+					case <-ctx.unmute:
+						rec.Verbosef(ctx.Named(), "unmuting\n")
+						for len(ctx.mute) > 0 {
+							<-ctx.mute
 						}
-						for len(c.unmute) > 0 {
-							<-c.unmute
+						for len(ctx.unmute) > 0 {
+							<-ctx.unmute
 						}
 					}
+				case <-ctx.unmute:
+					continue // drain stray unmute signals
 				default:
 				}
 			} else {
 				// This is a 'timer-step' condition
-				expected = last.Add(_hertzToDuration(c.Frequency)).Sub(time.Now().Add(adjustment))
-				frequency = c.Frequency
+				expected = last.Add(_hertzToDuration(ctx.Frequency)).Sub(time.Now().Add(adjustment))
+				frequency = ctx.Frequency
 				select {
-				case <-c.shutdown:
+				case <-ctx.shutdown:
 					break main
-				case <-c.impulse:
-					rec.Verbosef(c.Named(), "impulsing\n")
+				case <-ctx.impulse:
+					rec.Verbosef(ctx.Named(), "impulsing\n")
 				case <-time.After(expected):
 					observed := time.Since(last)
 					adjustment = observed - expected
 
 					// If the frequency changed between cycles, don't try to 'adjust' it =)
-					if c.Frequency != frequency {
+					if ctx.Frequency != frequency {
 						adjustment = 0
 					}
-				case <-c.mute:
-					rec.Verbosef(c.Named(), "muting\n")
+				case <-ctx.mute:
+					rec.Verbosef(ctx.Named(), "muting\n")
 					select {
-					case <-c.shutdown:
+					case <-ctx.shutdown:
 						break main
-					case <-c.impulse:
-						rec.Verbosef(c.Named(), "impulsing\n")
+					case <-ctx.impulse:
+						rec.Verbosef(ctx.Named(), "impulsing\n")
 						// NOTE: Impulse requests should not break the muted condition
-						c.mute <- nil
-					case <-c.unmute:
-						rec.Verbosef(c.Named(), "unmuting\n")
-						for len(c.mute) > 0 {
-							<-c.mute
+						ctx.mute <- nil
+					case <-ctx.unmute:
+						rec.Verbosef(ctx.Named(), "unmuting\n")
+						for len(ctx.mute) > 0 {
+							<-ctx.mute
 						}
-						for len(c.unmute) > 0 {
-							<-c.unmute
+						for len(ctx.unmute) > 0 {
+							<-ctx.unmute
 						}
 					}
+				case <-ctx.unmute:
+					continue // drain stray unmute signals
 				}
 			}
 
-			for len(c.synapses) > 0 {
+			for len(ctx.synapses) > 0 {
 				imp := &Impulse{
-					Cortex:   c,
+					Cortex:   ctx,
 					Timeline: NewTimeline(),
 				}
-				syn := <-c.synapses
+				syn := <-ctx.synapses
 				syn(imp)
 			}
 
 			if initial {
 				initial = false
 			} else {
-				c.beat++
-				if c.Phase > 0 && c.beat > uint(c.Phase) {
-					c.beat = 0
+				ctx.beat++
+				if ctx.BeatPeriod > 0 && ctx.beat > uint(ctx.BeatPeriod) {
+					ctx.beat = 0
 				}
 			}
 
-			c.clock.Broadcast()
-			c.addToTimeline(time.Now())
+			ctx.clock.Broadcast()
+			ctx.addToTimeline(time.Now())
 			last = time.Now()
 		}
 
-		rec.Verbosef(c.Named(), "decayed\n")
+		rec.Verbosef(ctx.Named(), "decayed\n")
 
 		// This beat frees the synapses to complete their activation and exit
-		c.clock.Broadcast()
+		ctx.clock.Broadcast()
 	}()
 }
 
-func (c *Cortex) Shutdown(delay ...time.Duration) {
-	c.sanityCheck()
+func (ctx *Cortex) Shutdown(delay ...time.Duration) {
+	ctx.sanityCheck()
 
-	if !c.alive {
+	if !ctx.alive {
 		return
 	}
 
 	if len(delay) > 0 {
-		rec.Verbosef(c.Named(), "cortex shutting down in %v\n", delay[0])
+		rec.Verbosef(ctx.Named(), "cortex shutting down in %v\n", delay[0])
 		time.Sleep(delay[0])
 	}
 
-	c.master.Lock()
-	rec.Verbosef(c.Named(), "cortex shutting down\n")
-	c.running = false
-	c.alive = false
-	c.shutdown <- nil
-	close(c.closed)
-	c.master.Unlock()
+	ctx.master.Lock()
+	rec.Verbosef(ctx.Named(), "cortex shutting down\n")
+	ctx.running = false
+	ctx.alive = false
+	ctx.shutdown <- nil
+	close(ctx.closed)
+	ctx.master.Unlock()
 }
 
-func (c *Cortex) addToTimeline(moment time.Time) {
-	c.timeLock.Lock()
-	defer c.timeLock.Unlock()
+func (ctx *Cortex) addToTimeline(moment time.Time) {
+	ctx.timeLock.Lock()
+	defer ctx.timeLock.Unlock()
 
-	c.timeline = append(c.timeline, moment)
+	ctx.timeline = append(ctx.timeline, moment)
 
 	var trim int
-	for i := range c.timeline {
-		if c.timeline[i].Before(moment.Add(-atlas.ObservanceWindow)) {
+	for i := range ctx.timeline {
+		if ctx.timeline[i].Before(moment.Add(-atlas.ObservanceWindow)) {
 			trim++
 		} else {
 			break
 		}
 	}
-	c.timeline = c.timeline[trim:]
+	ctx.timeline = ctx.timeline[trim:]
 }
 
-func (c *Cortex) Timeline() []time.Time {
-	c.timeLock.Lock()
-	defer c.timeLock.Unlock()
-	return c.timeline
+func (ctx *Cortex) Timeline() []time.Time {
+	ctx.timeLock.Lock()
+	defer ctx.timeLock.Unlock()
+	return ctx.timeline
 }
 
-func (c *Cortex) Alive() bool {
-	c.sanityCheck()
+func (ctx *Cortex) Alive() bool {
+	ctx.sanityCheck()
 
-	return c.alive
+	return ctx.alive
 }
 
-func (c *Cortex) Mute() {
-	c.sanityCheck()
+func (ctx *Cortex) Mute() {
+	ctx.sanityCheck()
 
-	c.mute <- c.Entity
+	ctx.mute <- ctx.Entity
 }
 
-func (c *Cortex) Unmute() {
-	c.sanityCheck()
+func (ctx *Cortex) Unmute() {
+	ctx.sanityCheck()
 
-	c.unmute <- c.Entity
+	ctx.unmute <- ctx.Entity
 }
 
-func (c *Cortex) Inception() time.Time {
-	c.sanityCheck()
+func (ctx *Cortex) Inception() time.Time {
+	ctx.sanityCheck()
 
-	return c.inception
+	return ctx.inception
 }
 
-func (c *Cortex) Synapses() chan<- Synapse {
-	c.sanityCheck()
+func (ctx *Cortex) Synapses() chan<- Synapse {
+	ctx.sanityCheck()
 
-	return c.synapses
+	return ctx.synapses
 }
 
-func (c *Cortex) Deferrals() chan<- func(*sync.WaitGroup) {
-	c.sanityCheck()
+func (ctx *Cortex) Deferrals() chan<- func(*sync.WaitGroup) {
+	ctx.sanityCheck()
 
-	return c.deferrals
+	return ctx.deferrals
 }
 
-func (c *Cortex) sanityCheck() {
-	if !c.created {
+func (ctx *Cortex) sanityCheck() {
+	if !ctx.created {
 		panic("cortices must be created through NewCortex")
 	}
-	if c.deferrals == nil {
+	if ctx.deferrals == nil {
 		panic("deferrals must not be nil")
 	}
-	if c.synapses == nil {
+	if ctx.synapses == nil {
 		panic("synapses must not be nil")
 	}
 }

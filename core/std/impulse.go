@@ -9,17 +9,17 @@ package std
 //   - Neural provides a reference to the neuron that this impulse terminates into.
 //   - Thought holds a reference to the data this synaptic bridge is maturing over time.
 type Impulse struct {
-	Bridge   Bridge
-	Timeline *Timeline
-	Beat     uint
-	Phase    int
-	Count    uint
-	Cortex   *Cortex
-	Neuron   Neural
-	Decay    bool
-	Mute     bool
+	Bridge     Bridge
+	Timeline   *Timeline
+	Beat       uint
+	BeatPeriod int
+	Count      uint
+	Cortex     *Cortex
+	Neuron     Neural
+	Decay      bool
+	Mute       bool
 
 	Thought *Thought
 
-	currentEvent SynapticEvent
+	currentEvent *SynapticEvent
 }
