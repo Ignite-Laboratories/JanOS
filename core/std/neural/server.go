@@ -5,12 +5,12 @@ import (
 	"errors"
 	"net/http"
 
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
-func (_net) Server(lifecycle lifecycle.Lifecycle, named string, address string, handlerFn func(imp *std.Impulse) http.Handler, onDisconnect ...func(*std.Impulse)) std.Synapse {
+func (_net) Server(lifecycle life.Cycle, named string, address string, handlerFn func(imp *std.Impulse) http.Handler, onDisconnect ...func(*std.Impulse)) std.Synapse {
 	if handlerFn == nil {
 		panic(errors.New("handler function is nil"))
 	}

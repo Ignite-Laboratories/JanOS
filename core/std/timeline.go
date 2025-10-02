@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Timeline represents key moments in the lifecycle of a SynapticEvent.  A synaptic event is the contextual
+// Timeline represents key moments in the life of a SynapticEvent.  A synaptic event is the contextual
 // activation of a Neuron from a Cortex - typically traversed along an axon in biological structure.
 type Timeline struct {
 	temporal *TemporalBuffer[SynapticEvent]

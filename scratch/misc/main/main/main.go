@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/sys/when"
 )
@@ -18,11 +18,11 @@ func main() {
 	cortex := std.NewCortex(std.RandomName())
 	cortex.Frequency = 4 //hz
 
-	cortex.Synapses() <- std.NewSynapse(lifecycle.Looping, "Record", func(imp *std.Impulse) {
+	cortex.Synapses() <- std.NewSynapse(life.Looping, "Record", func(imp *std.Impulse) {
 		fmt.Println(signal.Reveal())
 	}, nil)
 
-	cortex.Synapses() <- std.NewSynapse(lifecycle.Looping, "Calculate", func(imp *std.Impulse) {
+	cortex.Synapses() <- std.NewSynapse(life.Looping, "Calculate", func(imp *std.Impulse) {
 		integral.Reveal()
 	}, when.Frequency(1.0))
 

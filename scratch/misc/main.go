@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/std"
 )
 
@@ -17,12 +17,12 @@ func main() {
 	c.Frequency = 1
 	//c.Mute()
 
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager A", Averager, nil)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager B", Averager, nil)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager C", Averager, nil)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager D", Averager, nil)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager E", Averager, nil)
-	c.Synapses() <- std.NewSynapse(lifecycle.Looping, "Impulse Averager F", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager A", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager B", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager C", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager D", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager E", Averager, nil)
+	c.Synapses() <- std.NewSynapse(life.Looping, "Impulse Averager F", Averager, nil)
 	c.Spark()
 
 	core.KeepAlive()

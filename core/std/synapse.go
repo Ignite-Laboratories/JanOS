@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/sys/id"
 	"git.ignitelabs.net/janos/core/sys/rec"
 )
@@ -14,14 +14,14 @@ import (
 type Synapse func(*Impulse)
 
 // NewSynapse creates a Neural connection between a Neuron and a Cortex.  You may optionally provide 'nil' to the potential if you'd like to imply 'always fire'.
-func NewSynapse(life lifecycle.Lifecycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse)) Synapse {
-	return NewSynapseFromNeural(life, NewNeuron(neuronName, action, potential, cleanup...))
+func NewSynapse(lifeycle life.Cycle, neuronName string, action func(*Impulse), potential func(*Impulse) bool, cleanup ...func(*Impulse)) Synapse {
+	return NewSynapseFromNeural(lifeycle, NewNeuron(neuronName, action, potential, cleanup...))
 }
 
-// NewSynapseFromNeural creates a neural Synapse which fires the provided action potential according to the provided lifecycle.Lifecycle.  You may optionally
+// NewSynapseFromNeural creates a neural Synapse which fires the provided action potential according to the provided life.Cycle.  You may optionally
 // provide a cleanup function which is called after this Synapse finishes all neural activation (or the cortex shuts down).  For triggered
 // or impulsed lifecycles, this gets called immediately - for looping or stimulative, this gets called after the cortex shuts down.
-func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
+func NewSynapseFromNeural(lifeycle life.Cycle, neuron Neural) Synapse {
 	rec.Verbosef(core.ModuleName, "%v is creating synapse '%s'\n", core.Name.Name, neuron.Named())
 	count := uint(0)
 	return func(imp *Impulse) {
@@ -41,8 +41,8 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 			neuron.Action(i)
 		}
 
-		switch life {
-		case lifecycle.Looping:
+		switch lifeycle {
+		case life.Looping:
 			// 0 - Looping activations cyclically reactivate the same goroutine when the last finishes and the potential is high
 			go func() {
 				rec.Verbosef(imp.Bridge.String(), "looping\n")
@@ -79,7 +79,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				rec.Verbosef(imp.Bridge.String(), "decayed\n")
 				(*imp.Cortex).hold.Done()
 			}()
-		case lifecycle.Stimulative:
+		case life.Stimulative:
 			// 1 - Stimulative activations launch new goroutines on every impulse the potential is high
 			go func() {
 				rec.Verbosef(imp.Bridge.String(), "stimulating\n")
@@ -118,7 +118,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				rec.Verbosef(imp.Bridge.String(), "decayed\n")
 				(*imp.Cortex).hold.Done()
 			}()
-		case lifecycle.Triggered:
+		case life.Triggered:
 			// 2 - Triggered activations are a one-shot GUARANTEE once the potential goes high
 			go func() {
 				rec.Verbosef(imp.Bridge.String(), "setting a trigger\n")
@@ -150,7 +150,7 @@ func NewSynapseFromNeural(life lifecycle.Lifecycle, neuron Neural) Synapse {
 				rec.Verbosef(imp.Bridge.String(), "decayed\n")
 				(*imp.Cortex).hold.Done()
 			}()
-		case lifecycle.Impulse:
+		case life.Impulse:
 			// 3 - Impulse activations are a one-shot ATTEMPT regardless of potential
 			go func() {
 				rec.Verbosef(imp.Bridge.String(), "impulsing\n")

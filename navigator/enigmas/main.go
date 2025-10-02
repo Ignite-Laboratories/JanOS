@@ -7,7 +7,7 @@ import (
 	"regexp"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/std/neural"
 	"git.ignitelabs.net/janos/core/sys/deploy"
@@ -24,7 +24,7 @@ func main() {
 		cortex.Frequency = 1 //hz
 		cortex.Mute()
 
-		cortex.Synapses() <- neural.Net.Server(lifecycle.Looping, "enigmaneering.net", ":4242", Handler, func(imp *std.Impulse) {
+		cortex.Synapses() <- neural.Net.Server(life.Looping, "enigmaneering.net", ":4242", Handler, func(imp *std.Impulse) {
 			cortex.Impulse()
 		})
 

@@ -10,19 +10,19 @@ import (
 	"strings"
 	"syscall"
 
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/std"
 	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 // SubProcess sparks off a separate process of the provided command as a neural child of the current instance.  This means
 // that when the instance terminates, the child process will be cleaned up.
-func (_shell) SubProcess(lifecycle lifecycle.Lifecycle, named string, command []string, onExit ...func(*std.Impulse)) std.Synapse {
+func (_shell) SubProcess(lifecycle life.Cycle, named string, command []string, onExit ...func(*std.Impulse)) std.Synapse {
 	dir, _ := os.Getwd()
 	return Shell.SubProcessAt(lifecycle, named, command, dir, onExit...)
 }
 
-func (_shell) SubProcessAt(lifecycle lifecycle.Lifecycle, named string, command []string, path string, onExit ...func(*std.Impulse)) std.Synapse {
+func (_shell) SubProcessAt(lifecycle life.Cycle, named string, command []string, path string, onExit ...func(*std.Impulse)) std.Synapse {
 	if len(command) == 0 {
 		panic("no command provided")
 	}

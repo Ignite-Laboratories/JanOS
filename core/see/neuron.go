@@ -12,7 +12,7 @@ A neuron is any impulsable type that can reveal a number - abstractly speaking! 
 	}
 
 𝐼𝑚𝑝𝑢𝑙𝑠𝑒() and 𝑅𝑒𝑣𝑒𝑎𝑙() both spark the underlying neurological action, but 𝑅𝑒𝑣𝑒𝑎𝑙() typically invokes a sequential step beyond
-the impulse action.  Neurological activity typically can be broken down into a standardized "lifecycle":
+the impulse action.  Neurological activity typically can be broken down into a standardized "life":
 
 	0 - Observe a potential
 	1 - Describe the observation

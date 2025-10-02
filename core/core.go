@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"sync"
 	"syscall"
@@ -193,4 +194,22 @@ func KeepAlive(postDelay ...time.Duration) {
 	<-notify.Done()
 	ShutdownCondition.Broadcast()
 	ShutdownNow()
+}
+
+// HandlePanic safely recovers from a panic, prints the panic event out, and optionally includes the debug.Stack().
+//
+// NOTE: If verbose is omitted, this will follow atlas.Verbose()
+func HandlePanic(named string, location string, verbose ...bool) {
+	v := atlas.Verbose()
+	if len(verbose) > 0 {
+		v = verbose[0]
+	}
+
+	if r := recover(); r != nil {
+		if v {
+			fmt.Printf("[%s] %s panic: %v\n%s", named, location, r, debug.Stack())
+		} else {
+			fmt.Printf("[%s] %s panic: %v\n", named, location, r)
+		}
+	}
 }

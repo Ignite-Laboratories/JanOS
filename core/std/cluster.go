@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"git.ignitelabs.net/janos/core"
-	"git.ignitelabs.net/janos/core/enum/lifecycle"
+	"git.ignitelabs.net/janos/core/enum/life"
 	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
@@ -193,7 +193,7 @@ func (ctx *Cortex) CreateCluster(named string, period *time.Duration, potential 
 			}
 		}
 
-		ctx.Synapses() <- NewSynapse(lifecycle.Looping, named, func(imp *Impulse) {
+		ctx.Synapses() <- NewSynapse(life.Looping, named, func(imp *Impulse) {
 			if cls.Decay {
 				imp.Decay = true
 				return
