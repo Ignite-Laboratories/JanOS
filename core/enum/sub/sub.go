@@ -10,7 +10,7 @@ import (
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -32,7 +32,7 @@ type SubByte uint
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -54,7 +54,7 @@ const BitMax SubByte = 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -76,7 +76,7 @@ const CrumbMax SubByte = 1<<2 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -98,7 +98,7 @@ const NoteMax SubByte = 1<<3 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -120,7 +120,7 @@ const NibbleMax SubByte = 1<<4 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -142,7 +142,7 @@ const FlakeMax SubByte = 1<<5 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -164,7 +164,7 @@ const MorselMax SubByte = 1<<6 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -186,7 +186,7 @@ const ShredMax SubByte = 1<<7 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -208,7 +208,7 @@ const ByteMax SubByte = 1<<8 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -230,7 +230,7 @@ const RunMax SubByte = 1<<10 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -252,7 +252,7 @@ const ScaleMax SubByte = 1<<12 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -274,7 +274,7 @@ const RiffMax SubByte = 1<<24 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -296,7 +296,7 @@ const HookMax SubByte = 1<<48 - 1
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -318,7 +318,7 @@ func NewBit(value ...uint) num.Numeric[uint] { return newSubByte(BitMax, value..
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -340,7 +340,7 @@ func NewCrumb(value ...uint) num.Numeric[uint] { return newSubByte(CrumbMax, val
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -362,7 +362,7 @@ func NewNote(value ...uint) num.Numeric[uint] { return newSubByte(NoteMax, value
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -384,7 +384,7 @@ func NewNibble(value ...uint) num.Numeric[uint] { return newSubByte(NibbleMax, v
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -406,7 +406,7 @@ func NewFlake(value ...uint) num.Numeric[uint] { return newSubByte(FlakeMax, val
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -428,7 +428,7 @@ func NewMorsel(value ...uint) num.Numeric[uint] { return newSubByte(MorselMax, v
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -450,7 +450,7 @@ func NewShred(value ...uint) num.Numeric[uint] { return newSubByte(ShredMax, val
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -481,7 +481,7 @@ func NewByte(value ...byte) num.Numeric[byte] {
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -503,7 +503,7 @@ func NewRun(value ...uint) num.Numeric[uint] { return newSubByte(RunMax, value..
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -525,7 +525,7 @@ func NewScale(value ...uint) num.Numeric[uint] { return newSubByte(ScaleMax, val
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)
@@ -547,7 +547,7 @@ func NewRiff(value ...uint) num.Numeric[uint] { return newSubByte(RiffMax, value
 //
 // "The Extended Unsigned Integer Types"
 //
-//	  Name | Width | Overflow
+//	  Given | Width | Overflow
 //	   Bit |    1  | 2
 //	 Crumb |    2  | 2² (4)
 //	  Note |    3  | 2³ (8)

@@ -354,7 +354,7 @@ func buildStringFunc() {
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf(", _v.%s.String()", componentsUpper[i])
 	}
-	fprintf(", _v.GivenName.Name)\n")
+	fprintf(", _v.GivenName.Given)\n")
 	fprintf("\t}\n")
 
 	/**
@@ -385,7 +385,7 @@ func buildStringFunc() {
 	for i := 0; i < len(componentsUpper); i++ {
 		fprintf(", _v.%s.String()", componentsUpper[i])
 	}
-	fprintf(", _v.GivenName.Name)\n")
+	fprintf(", _v.GivenName.Given)\n")
 	fprintf("}\n\n")
 }
 
@@ -520,8 +520,8 @@ func buildName() {
 			fprintf(", T%s", componentsUpper[i])
 		}
 	}
-	fprintf("]) Name() string {\n")
-	fprintf("\treturn _v.GivenName.Name\n")
+	fprintf("]) Given() string {\n")
+	fprintf("\treturn _v.GivenName.Given\n")
 	fprintf("}\n\n")
 }
 
@@ -543,7 +543,7 @@ func buildSetName() {
 		}
 	}
 	fprintf("] {\n")
-	fprintf("\t_v.GivenName.Name = name\n")
+	fprintf("\t_v.GivenName.Given = name\n")
 	fprintf("\treturn _v\n")
 	fprintf("}\n\n")
 }

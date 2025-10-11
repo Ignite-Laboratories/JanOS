@@ -62,3 +62,6 @@ var IncludeNilBits = false
 //
 //	{x: xVal, y: yVal}
 var CompactVectors = false
+
+// SynapticChannelLimit defines the maximum number of signals a synapse channel can receive before blocking - defaulting to 2¹⁶
+var SynapticChannelLimit = uint(1 << 16)

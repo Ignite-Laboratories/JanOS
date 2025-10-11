@@ -2,7 +2,7 @@ package std
 
 // Neural represents any type that can fire an action-potential (see.ActionPotentials).
 type Neural interface {
-	// Named returns the underlying Entity.Name.
+	// Named returns the underlying Entity.Given.
 	Named() string
 
 	// Action takes in an Impulse and should return whether to keep the neural activity running (true).

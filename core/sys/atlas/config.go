@@ -9,6 +9,7 @@ import (
 type config struct {
 	PrintPreamble        *bool         `json:"printPreamble"`
 	Verbose              *bool         `json:"verbose"`
+	Silent               *bool         `json:"silent"`
 	ShutdownTimeout      time.Duration `json:"shutdownTimeout"`
 	ObservanceWindow     string        `json:"observanceWindow"`
 	ObservedMinimum      uint          `json:"observedMinimum"`
@@ -19,6 +20,7 @@ type config struct {
 	SeedRefractoryPeriod string        `json:"seedRefractoryPeriod"`
 	IncludeNilBits       *bool         `json:"includeNilBits"`
 	CompactVectors       *bool         `json:"compactVectors"`
+	SynapticChannelLimit uint          `json:"synapticChannelLimit"`
 }
 
 func (c config) apply() {
@@ -27,6 +29,9 @@ func (c config) apply() {
 	}
 	if c.Verbose != nil {
 		rec.Verbose = *c.Verbose
+	}
+	if c.Silent != nil {
+		rec.Silent = *c.Silent
 	}
 	if c.ShutdownTimeout != 0 {
 		ShutdownTimeout = c.ShutdownTimeout
@@ -54,5 +59,8 @@ func (c config) apply() {
 	}
 	if c.CompactVectors != nil {
 		CompactVectors = *c.CompactVectors
+	}
+	if c.SynapticChannelLimit > 0 {
+		SynapticChannelLimit = c.SynapticChannelLimit
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"git.ignitelabs.net/janos/core/enum/italic"
 )
 
-// Name represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names
+// Given represents a name, as well as its original cultural meaning.  This can be used as a way to assign logical names
 // to entities as needed.  Bear in mind, however, that legible names like 'Johnny-5' or 'Α' and 'Ω' are FAR easier
 // to track in the trace output than '4DCE9-A9' =)
 //
@@ -17,16 +17,16 @@ import (
 //	tl;dr - you own your identifier, not the other way around!
 //
 // See Name, String, StringQuoted, and Italicize
-type Name struct {
+type Given struct {
 	Name        string
 	Description string
-	Details     Details
+	Heritage    Heritage
 }
 
 // String returns the Name as a string.
 //
 // See Name, String, StringQuoted, and Italicize
-func (n Name) String() string {
+func (n Given) String() string {
 	return fmt.Sprintf("%v", n.Name)
 }
 
@@ -38,7 +38,7 @@ func (n Name) String() string {
 //	Without: "Kurt Weller"
 //
 // See Name, String, StringQuoted, and Italicize
-func (n Name) StringQuoted(wrapDescription ...bool) string {
+func (n Given) StringQuoted(wrapDescription ...bool) string {
 	if n.Description == "" {
 		return fmt.Sprintf("\"%v\"", n.Name)
 	}
@@ -52,7 +52,7 @@ func (n Name) StringQuoted(wrapDescription ...bool) string {
 // leaving the other characters alone.
 //
 // See italic.Italicize.
-func (n Name) Italicize() Name {
+func (n Given) Italicize() Given {
 	n.Name = italic.Italicize(n.Name)
 	return n
 }

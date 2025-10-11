@@ -18,13 +18,14 @@ import (
 	"git.ignitelabs.net/janos/core/sys/blue"
 	"git.ignitelabs.net/janos/core/sys/given"
 	"git.ignitelabs.net/janos/core/sys/given/format"
+	"git.ignitelabs.net/janos/core/sys/rec"
 )
 
 func init() {
 	exe, _ := os.Executable()
 	exeInfo, _ := buildinfo.ReadFile(exe)
 
-	if atlas.PrintPreamble {
+	if !rec.Silent && atlas.PrintPreamble {
 		var version string
 		for _, dep := range exeInfo.Deps {
 			if dep.Path == "git.ignitelabs.net/janos/core" {
@@ -61,13 +62,19 @@ var Inception = time.Now()
 var Name = given.Random[format.Default]()
 
 var described = false
+var descriptionArticle = "a"
 
 // Describe sets the core name's description and prints the output.  If you'd like a silent output, please
-// set the Name.Description directly.
-func Describe(description string) {
+// set the Given.Description directly.
+func Describe(description string, article ...string) {
+	if len(article) > 0 {
+		descriptionArticle = article[0]
+	}
 	Name.Description = description
 	described = true
-	fmt.Println("[core] " + Name.Name + " is a \"" + description + "\"")
+	if !rec.Silent {
+		fmt.Printf("[core] %v is %v \"%v\"\n", Name.Name, descriptionArticle, description)
+	}
 }
 
 // Ref creates an inline "dead reference" of a value type.  In many places, JanOS allows you to provide a reference
@@ -112,7 +119,9 @@ var ShutdownCondition = &sync.Cond{L: &ShutdownLock}
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the catch-all exit code '1'.
 func Shutdown(period time.Duration, exitCode ...int) {
-	fmt.Printf("[core] %v instance shutting down in %v\n", Name.Name, period)
+	if !rec.Silent {
+		fmt.Printf("[core] %v instance shutting down in %v\n", Name.Name, period)
+	}
 	time.Sleep(period)
 	ShutdownNow(exitCode...)
 }
@@ -122,7 +131,9 @@ func Shutdown(period time.Duration, exitCode ...int) {
 //
 // NOTE: If you don't know a proper exit code but are indicating an issue occurred, please use the "catch-all" exit code of '1'.
 func ShutdownNow(exitCode ...int) {
-	fmt.Printf("\n[core] %v instance shutting down\n", Name.Name)
+	if !rec.Silent {
+		fmt.Printf("\n[core] %v instance shutting down\n", Name.Name)
+	}
 	alive = false
 
 	wg := &sync.WaitGroup{}
@@ -130,9 +141,13 @@ func ShutdownNow(exitCode ...int) {
 	count := len(deferrals)
 	if count > 0 {
 		if count > 1 {
-			fmt.Printf("[core] %v running %d deferrals\n", Name.Name, count)
+			if !rec.Silent {
+				fmt.Printf("[core] %v running %d deferrals\n", Name.Name, count)
+			}
 		} else {
-			fmt.Printf("[core] %v running %d deferral\n", Name.Name, count)
+			if !rec.Silent {
+				fmt.Printf("[core] %v running %d deferral\n", Name.Name, count)
+			}
 		}
 		for len(deferrals) > 0 {
 			deferFn := <-deferrals
@@ -140,7 +155,9 @@ func ShutdownNow(exitCode ...int) {
 			go func() {
 				defer func() {
 					if r := recover(); r != nil {
-						fmt.Printf("[core] %v deferral error: %v\n", Name.Name, r)
+						if !rec.Silent {
+							fmt.Printf("[core] %v deferral error: %v\n", Name.Name, r)
+						}
 						wg.Done()
 					}
 				}()
@@ -150,10 +167,12 @@ func ShutdownNow(exitCode ...int) {
 		}
 		wg.Wait()
 
-		if described {
-			fmt.Printf("[core] signing off — \"%v, %v\"\n", Name.Name, Name.Description)
-		} else {
-			fmt.Printf("[core] signing off — \"%v\"\n", Name.Name)
+		if !rec.Silent {
+			if described {
+				fmt.Printf("[core] signing off — \"%v, %v\"\n", Name.Name, Name.Description)
+			} else {
+				fmt.Printf("[core] signing off — \"%v\"\n", Name.Name)
+			}
 		}
 	}
 
@@ -183,7 +202,9 @@ func RelativePath(components ...string) string {
 func KeepAlive(postDelay ...time.Duration) {
 	if len(postDelay) > 0 {
 		deferrals <- func(wg *sync.WaitGroup) {
-			fmt.Printf("[core] %v holding open for %v\n", Name.Name, postDelay[0])
+			if !rec.Silent {
+				fmt.Printf("[core] %v holding open for %v\n", Name.Name, postDelay[0])
+			}
 			time.Sleep(postDelay[0])
 			wg.Done()
 		}
@@ -206,10 +227,12 @@ func HandlePanic(named string, location string, verbose ...bool) {
 	}
 
 	if r := recover(); r != nil {
-		if v {
-			fmt.Printf("[%s] %s panic: %v\n%s", named, location, r, debug.Stack())
-		} else {
-			fmt.Printf("[%s] %s panic: %v\n", named, location, r)
+		if !rec.Silent {
+			if v {
+				fmt.Printf("[%s] %s panic: %v\n%s", named, location, r, debug.Stack())
+			} else {
+				fmt.Printf("[%s] %s panic: %v\n", named, location, r)
+			}
 		}
 	}
 }

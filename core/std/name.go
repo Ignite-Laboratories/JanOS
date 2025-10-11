@@ -5,7 +5,7 @@ import (
 	"git.ignitelabs.net/janos/core/sys/given/format"
 )
 
-// RandomName returns a random given.Name's name string formatted to format.Default.
+// RandomName returns a random given.Given's name string formatted to format.Default.
 func RandomName() string {
 	return given.Random[format.Default]().Name
 }

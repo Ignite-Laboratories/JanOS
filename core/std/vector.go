@@ -20,7 +20,7 @@ package std
 // NOTE: By design, all vector components are organized by their self-described order.  For instance, an XYZW type's
 // components are logically ordered as X[0], Y[1], Z[2], W[3] - while a UV's is U[0], V[1].
 //
-// NOTE: Name retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
+// NOTE: Given retrieval is case-insensitive - "YCb" and "yCb" both match YCbCr's "Cb" component.
 type Vector interface {
 	// ComponentLen ( ) retrieves the number of components managed by this Vector.
 	//

@@ -21,7 +21,7 @@ var moduleName = "name"
 
 //go:embed nameDB.tsv
 var nameDBRaw string
-var nameDB = make([]Name, 0, 8888)
+var nameDB = make([]Given, 0, 8888)
 
 //go:embed surnameDB.txt
 var surnameDBRaw string
@@ -89,10 +89,10 @@ func initNameDB() {
 			}
 		}
 
-		entry := Name{
+		entry := Given{
 			Name:        strings.TrimSpace(record[0]),
 			Description: strings.TrimSpace(record[3]),
-			Details: struct {
+			Heritage: struct {
 				Origin string
 				Gender gender.Gender
 			}{
@@ -107,21 +107,21 @@ func initNameDB() {
 }
 
 // New creates a new given.Name.  You may optionally provide a description during creation.
-func New(name string, description ...string) Name {
+func New(name string, description ...string) Given {
 	if len(description) > 0 {
-		return Name{
+		return Given{
 			Name:        name,
 			Description: description[0],
 		}
 	}
-	return Name{
+	return Given{
 		Name: name,
 	}
 }
 
 type tokenSet struct {
 	sync.Mutex
-	used map[Name]struct{}
+	used map[Given]struct{}
 }
 
 var tokens = make(map[uint64]*tokenSet)
@@ -133,7 +133,7 @@ func getTokenSet(t uint64) *tokenSet {
 
 	ts := tokens[t]
 	if ts == nil {
-		ts = &tokenSet{used: make(map[Name]struct{})}
+		ts = &tokenSet{used: make(map[Given]struct{})}
 		tokens[t] = ts
 	}
 	return ts
@@ -143,7 +143,7 @@ func getTokenSet(t uint64) *tokenSet {
 // scope, please use RandomTokenized to scope your random requests.
 //
 // NOTE: Uniqueness is only guaranteed up to the format's available set of names before "rolling over" the unique entry table to a fresh one.
-func Random[T format.Format]() Name {
+func Random[T format.Format]() Given {
 	n, _ := RandomTokenized[T](0)
 	return n
 }
@@ -152,7 +152,7 @@ func Random[T format.Format]() Name {
 // a random token is generated along with the name.  If you'd like a globally unique name, please use token '0' (or call Random instead)
 //
 // NOTE: Uniqueness is only guaranteed up to the format's available set of names before "rolling over" the unique entry table to a fresh one.
-func RandomTokenized[T format.Format](token ...uint64) (Name, uint64) {
+func RandomTokenized[T format.Format](token ...uint64) (Given, uint64) {
 	var t uint64
 	if len(token) > 0 {
 		t = token[0]
@@ -190,7 +190,7 @@ func RandomTokenized[T format.Format](token ...uint64) (Name, uint64) {
 
 		ts.Lock()
 		if len(ts.used) >= uniqueness {
-			ts.used = make(map[Name]struct{})
+			ts.used = make(map[Given]struct{})
 		}
 		if _, exists := ts.used[name]; !exists {
 			ts.used[name] = struct{}{}
@@ -204,12 +204,12 @@ func RandomTokenized[T format.Format](token ...uint64) (Name, uint64) {
 
 var nonAlphaRegex = regexp.MustCompile(`^[A-Za-z]+$`)
 
-func random[T format.Format]() Name {
+func random[T format.Format]() Given {
 	switch any(T("")).(type) {
 	case format.NameDB:
 		return nameDB[rand.Intn(len(nameDB))]
 	case format.SurnameDB:
-		return Name{Name: surnameDB[rand.Intn(len(surnameDB))]}
+		return Given{Name: surnameDB[rand.Intn(len(surnameDB))]}
 	case format.Tiny:
 		for {
 			name := random[format.NameDB]()
@@ -235,7 +235,7 @@ func random[T format.Format]() Name {
 // NOTE: This will only look up names from the NameDB and SurnameDB databases as all others are dynamically generated.
 //
 // See Format.
-func Lookup[T format.Format](name string, caseInsensitive ...bool) (Name, error) {
+func Lookup[T format.Format](name string, caseInsensitive ...bool) (Given, error) {
 	switch any(T("")).(type) {
 	case format.NameDB:
 		for _, n := range nameDB {
@@ -253,14 +253,14 @@ func Lookup[T format.Format](name string, caseInsensitive ...bool) (Name, error)
 		for _, n := range surnameDB {
 			if len(caseInsensitive) > 0 && caseInsensitive[0] {
 				if strings.EqualFold(n, name) {
-					return Name{Name: n}, nil
+					return Given{Name: n}, nil
 				}
 			} else {
 				if n == name {
-					return Name{Name: n}, nil
+					return Given{Name: n}, nil
 				}
 			}
 		}
 	}
-	return Name{}, fmt.Errorf("name not found")
+	return Given{}, fmt.Errorf("name not found")
 }
