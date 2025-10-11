@@ -55,8 +55,8 @@ func Alive() bool {
 
 var alive = true
 
-// Inception provides the moment this operating system was initialized.
-var Inception = time.Now()
+// Genesis provides the moment this operating system instance was initialized during creation.
+var Genesis = time.Now()
 
 // Name provides the randomly selected name of this instance.
 var Name = given.Random[format.Default]()

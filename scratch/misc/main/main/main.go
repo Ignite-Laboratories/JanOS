@@ -43,7 +43,7 @@ func OscillatorRef[TOut any](amplitude, phase, frequency *any) func(time.Time) T
 		o := 2 * math.Pi * f
 
 		moment := time.Now()
-		t := moment.Sub(core.Inception).Seconds()
+		t := moment.Sub(core.Genesis).Seconds()
 		value := a * math.Sin(o*t+p)
 
 		// TODO: Parse the value to TOut
