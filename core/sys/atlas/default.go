@@ -14,6 +14,14 @@ func Verbose(set ...bool) bool {
 	return rec.Verbose
 }
 
+// Silent gets or sets the rec.Silent value.  If no value is provided, it only gets - if a value is provided, it sets and gets.
+func Silent(set ...bool) bool {
+	if len(set) > 0 {
+		rec.Silent = set[0]
+	}
+	return rec.Silent
+}
+
 // PrintPreamble indicates if JanOS should print its preamble.
 var PrintPreamble = true
 
