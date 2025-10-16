@@ -7,6 +7,7 @@ import (
 
 	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
 	"git.ignitelabs.net/janos/core/sys/atlas"
+	"git.ignitelabs.net/janos/core/sys/num"
 	"git.ignitelabs.net/janos/core/sys/pad"
 	"git.ignitelabs.net/janos/core/sys/pad/scheme"
 )
@@ -119,6 +120,8 @@ func ToString(value any) string {
 		return typed.Text(10)
 	case *big.Float:
 		return typed.Text('f', int(atlas.Precision))
+	case *big.Rat:
+		return typed.String()
 	case complex64, complex128:
 		return fmt.Sprintf("%v", typed)
 	case float32:
@@ -154,13 +157,30 @@ func ToString(value any) string {
 	// Ensure the data is never '.5' or '5.'
 	// strconv should never produce this, but it's still a good check to perform
 	if len(out) > 0 {
-		if out[0] == '.' {
-			out = "0" + out
-		} else if out[len(out)-1] == '.' {
+		prepend := false
+		for out[0] == '.' {
+			out = out[1:]
+			prepend = true
+		}
+		if prepend {
+			out = "0." + out
+		}
+
+		if out[len(out)-1] == '.' {
 			out = out + "0"
 		}
 	}
 	return out
+}
+
+// ToStringSafe is a convenience wrapper for num.ToString which safely attempts to stringify the provided value as if a numeric type.
+func ToStringSafe(value any) (out string, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("%T is not a stringable type", value)
+		}
+	}()
+	return num.ToString(value), nil
 }
 
 /*
