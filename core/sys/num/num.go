@@ -7,7 +7,6 @@ import (
 
 	"git.ignitelabs.net/janos/core/enum/direction/ordinal"
 	"git.ignitelabs.net/janos/core/sys/atlas"
-	"git.ignitelabs.net/janos/core/sys/num"
 	"git.ignitelabs.net/janos/core/sys/pad"
 	"git.ignitelabs.net/janos/core/sys/pad/scheme"
 )
@@ -108,14 +107,19 @@ func ToStringAligned(operands ...any) []string {
 //
 // NOTE: This will panic if provided a non Numeric type.
 func ToString(value any) string {
+	// NOTE: As of 10/16/2025 the below types MUST be carried forward perpetually in this function
+	// - string
+	// - big.Int.Text(2)
+	// - big.Float.Text('f', atlas.Precision)
+	// - big.Rat.String()
+	// - num.Primitives (including complex numbers)
+
+	// Any further claims to the functionality of this should be updated above - Alex
+
 	var out string
 	switch typed := value.(type) {
 	case string:
 		return typed
-	case Measurement:
-		return typed.String()
-	case Realization:
-		return typed.String()
 	case *big.Int:
 		return typed.Text(10)
 	case *big.Float:
@@ -180,7 +184,7 @@ func ToStringSafe(value any) (out string, err error) {
 			err = fmt.Errorf("%T is not a stringable type", value)
 		}
 	}()
-	return num.ToString(value), nil
+	return ToString(value), nil
 }
 
 /*
