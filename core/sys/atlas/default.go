@@ -8,6 +8,7 @@ import (
 
 // Verbose gets or sets the rec.Verbose value.  If no value is provided, it only gets - if a value is provided, it sets and gets.
 func Verbose(set ...bool) bool {
+	refresh()
 	if len(set) > 0 {
 		rec.Verbose = set[0]
 	}
@@ -16,6 +17,7 @@ func Verbose(set ...bool) bool {
 
 // Silent gets or sets the rec.Silent value.  If no value is provided, it only gets - if a value is provided, it sets and gets.
 func Silent(set ...bool) bool {
+	refresh()
 	if len(set) > 0 {
 		rec.Silent = set[0]
 	}

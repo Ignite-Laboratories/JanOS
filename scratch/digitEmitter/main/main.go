@@ -10,7 +10,7 @@ import (
 
 func main() {
 	core.WhileAlive(func() {
-		fmt.Println(atlas.Precision)
+		fmt.Println(atlas.Verbose())
 	}, time.Second)
 }
 
