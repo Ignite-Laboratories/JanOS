@@ -39,10 +39,15 @@ func init() {
 		}
 
 		fmt.Printf("   ╭"+randomDash()+"⇥ JanOS %v\n", version)
-		fmt.Println("╭──┼" + randomDash() + "⇥ © 2025 - Humanity")
+		fmt.Println("╭──┼" + randomDash() + "⇥ © ∞ - Humanity")
 		fmt.Println("⎨  ⎬" + randomDash() + "⇥ Maintained by The Enigmaneering Guild")
 		fmt.Println("╰─┬┴" + randomDash() + "⇥ ↯ [core] " + Name.StringQuoted(false))
 		fmt.Println("  ╰" + randomDash() + "⬎")
+	}
+
+	Deferrals() <- func(wg *sync.WaitGroup) {
+		atlas.Cleanup()
+		wg.Done()
 	}
 }
 
@@ -191,9 +196,26 @@ func ShutdownNow(exitCode ...int) {
 // Would return a path to the "Git Vanity URL" cortex like this:
 //
 //	/users/ignite/source/janOS/navigator/git
+//
+// (assuming your janOS folder is located in /users/ignite/source)
 func RelativePath(components ...string) string {
 	_, file, _, _ := runtime.Caller(0)
 	return filepath.Dir(filepath.Dir(file)) + "/" + strings.Join(components, "/")
+}
+
+// WhileAlive will loop over the provided function while Alive.  You may optionally provide a
+// delay between activations.
+func WhileAlive(fn func(), period ...time.Duration) {
+	go func() {
+		for Alive() {
+			fn()
+			if len(period) > 0 {
+				time.Sleep(period[0])
+			}
+		}
+	}()
+
+	KeepAlive()
 }
 
 // KeepAlive will block the current thread until a call to Shutdown - then, this will sleep for the provided duration.

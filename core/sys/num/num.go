@@ -109,7 +109,7 @@ func ToStringAligned(operands ...any) []string {
 func ToString(value any) string {
 	// NOTE: As of 10/16/2025 the below types MUST be carried forward perpetually in this function
 	// - string
-	// - big.Int.Text(2)
+	// - big.Int.Text(10)
 	// - big.Float.Text('f', atlas.Precision)
 	// - big.Rat.String()
 	// - num.Primitives (including complex numbers)

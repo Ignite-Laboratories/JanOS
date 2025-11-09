@@ -28,6 +28,9 @@ var PrintPreamble = true
 // ShutdownTimeout is the default amount of time that JanOS will allow cleanup operations within during shutdown.
 var ShutdownTimeout = 5 * time.Second
 
+// Record holds the temporal history of this instance.
+var Record []byte
+
 // ObservanceWindow is the default dimensional window of observance - 2 seconds.
 var ObservanceWindow = 5 * time.Second
 
@@ -48,10 +51,10 @@ var Precision uint = 256
 // NOTE: This defaults to a 7 placeholder minimum.
 var PrecisionMinimum uint = 7
 
-// Base defines the global default base for all calculation.
+// Radix defines the global default base for all calculation.
 //
 // NOTE: This defaults to base₁₀.
-var Base uint16 = 10
+var Radix uint = 10
 
 // SeedRefractoryPeriod is the default amount of time a seed pool will retain its current random value set for.
 // This allows a small batch of fixed random numbers to be referenced ad-hoc without neuron having to track their own concept of temporality.

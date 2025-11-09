@@ -5,4 +5,5 @@ use (
 	navigator
 	scratch/misc
 	scratch/important
+	scratch/digitEmitter
 )

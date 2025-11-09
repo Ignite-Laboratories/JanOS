@@ -11,12 +11,13 @@ type config struct {
 	Verbose              *bool         `json:"verbose"`
 	Silent               *bool         `json:"silent"`
 	ShutdownTimeout      time.Duration `json:"shutdownTimeout"`
+	Record               []byte        `json:"record"`
 	ObservanceWindow     string        `json:"observanceWindow"`
 	ObservedMinimum      uint          `json:"observedMinimum"`
 	TrimFrequency        float64       `json:"trimFrequency"`
 	Precision            uint          `json:"precision"`
 	PrecisionMinimum     uint          `json:"precisionMinimum"`
-	Base                 uint16        `json:"base"`
+	Radix                uint          `json:"radix"`
 	SeedRefractoryPeriod string        `json:"seedRefractoryPeriod"`
 	IncludeNilBits       *bool         `json:"includeNilBits"`
 	CompactVectors       *bool         `json:"compactVectors"`
@@ -36,6 +37,9 @@ func (c config) apply() {
 	if c.ShutdownTimeout != 0 {
 		ShutdownTimeout = c.ShutdownTimeout
 	}
+	if len(c.Record) > 0 {
+		Record = c.Record
+	}
 	if len(c.ObservanceWindow) > 0 {
 		ObservanceWindow, _ = time.ParseDuration(c.ObservanceWindow)
 	}
@@ -50,6 +54,9 @@ func (c config) apply() {
 	}
 	if c.PrecisionMinimum > 0 {
 		PrecisionMinimum = c.PrecisionMinimum
+	}
+	if c.Radix > 0 {
+		Radix = c.Radix
 	}
 	if len(c.SeedRefractoryPeriod) > 0 {
 		SeedRefractoryPeriod, _ = time.ParseDuration(c.SeedRefractoryPeriod)

@@ -12,7 +12,7 @@ package temporal
 // Abstractly, the result of calculation (the target) is always relatively "down" (or "towards the enemy gate") no matter YOUR orientation
 // in space.  Mentally this may be the direction of "gravity" while standing up and writing calculations on a whiteboard, but I think Ender
 // described it best.  All binary data is oriented with the most-significant side towards the "left" (or "west").  When operating against a
-// matrix, you walk "latitudinally" between rows along the Y axis and "longitudinally" between columns along the X axis.  Against a voxel,
+// matrix, you walk "latitudinally" between rows along the Y axis and "longitudinally" between columns along the X axis.  Against a volumetric element,
 // you'd walk negatively "in" or positively "out" along the Z axis.
 //
 // Abstract references consider your relative orientation as you float through the void of time and spatial calculation.

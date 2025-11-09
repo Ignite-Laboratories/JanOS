@@ -26,11 +26,16 @@ type Measurement struct {
 
 	// Bits holds any remaining bits.
 	Bits []Bit
+
+	Diminish _diminishment
+
+	created bool
 }
 
 // ToNaturalString takes the current value of the measurement and outputs it as a baseₙ string.  If no base is
 // provided, base₁₀ is implied.  This also returns the number of digits embedded within the output string.
 func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
+	a.sanityCheck()
 	b := PanicIfInvalidBase(base...)
 
 	return Base.StringToString(a.String(), 2, b)
@@ -39,6 +44,7 @@ func (a Measurement) ToNaturalString(base ...uint16) (string, uint) {
 // ToNaturalDigits takes the current value of the measurement and outputs it as baseₙ bytes.  If no base is
 // provided, base₁₀ is implied.
 func (a Measurement) ToNaturalDigits(base ...uint16) []byte {
+	a.sanityCheck()
 	b := PanicIfInvalidBase(base...)
 
 	digits, _ := Base.StringToDigits(a.String(), 2, b)
@@ -70,6 +76,7 @@ func NewMeasurementOfPattern(w int, d ordinal.Direction, p ...Bit) Measurement {
 	if w <= 0 || len(p) == 0 {
 		return Measurement{
 			Endianness: endian.Big,
+			created:    true,
 		}
 	}
 
@@ -93,11 +100,14 @@ func NewMeasurementOfPattern(w int, d ordinal.Direction, p ...Bit) Measurement {
 
 // NewMeasurementOfZeros creates a new Measurement of the provided bit-width consisting entirely of 0s.
 func NewMeasurementOfZeros(width int) Measurement {
-	return Measurement{
+	m := Measurement{
 		Bytes:      make([]byte, width/8),
 		Bits:       make([]Bit, width%8),
 		Endianness: endian.Big,
+		created:    true,
 	}.RollUp()
+	m.sanityCheck()
+	return m
 }
 
 // NewMeasurementOfOnes creates a new Measurement of the provided bit-width consisting entirely of 1s.
@@ -110,23 +120,30 @@ func NewMeasurementOfOnes(width int) Measurement {
 	for i := range zeros.Bits {
 		zeros.Bits[i] = 1
 	}
+	zeros.sanityCheck()
 	return zeros.RollUp()
 }
 
 // NewMeasurement creates a new Measurement of the provided Bit slice.
 func NewMeasurement(bits ...Bit) Measurement {
-	return Measurement{
+	m := Measurement{
 		Bits:       bits,
 		Endianness: endian.Big,
+		created:    true,
 	}.RollUp()
+	m.sanityCheck()
+	return m
 }
 
 // NewMeasurementOfBytes creates a new Measurement of the provided byte slice.
 func NewMeasurementOfBytes(bytes ...byte) Measurement {
-	return Measurement{
+	m := Measurement{
 		Bytes:      bytes,
 		Endianness: endian.Big,
+		created:    true,
 	}.RollUp()
+	m.sanityCheck()
+	return m
 }
 
 // NewMeasurementOfBinaryString creates a new Measurement from the provided binary input string.
@@ -211,6 +228,7 @@ func (a Measurement) AppendBytes(bytes ...byte) Measurement {
 
 // AppendMeasurements places the provided measurement at the end of the measurement.
 func (a Measurement) AppendMeasurements(m ...Measurement) Measurement {
+	a.sanityCheck()
 	for _, mmt := range m {
 		a = a.Append(mmt.GetAllBits()...)
 	}
@@ -246,6 +264,7 @@ func (a Measurement) PrependBytes(bytes ...byte) Measurement {
 
 // PrependMeasurements places the provided measurement at the start of the measurement.
 func (a Measurement) PrependMeasurements(m ...Measurement) Measurement {
+	a.sanityCheck()
 	if len(m) == 0 {
 		return a
 	}
@@ -260,6 +279,7 @@ func (a Measurement) PrependMeasurements(m ...Measurement) Measurement {
 
 // Reverse reverses the order of all bits in the measurement.
 func (a Measurement) Reverse() Measurement {
+	a.sanityCheck()
 	reversedBytes := make([]byte, len(a.Bytes))
 	reversedBits := make([]Bit, len(a.Bits))
 
@@ -282,6 +302,7 @@ func (a Measurement) Reverse() Measurement {
 
 // BleedLastBit returns the last bit of the measurement and a measurement missing that bit.
 func (a Measurement) BleedLastBit() (Bit, Measurement) {
+	a.sanityCheck()
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the last bit of an empty measurement")
 	}
@@ -303,6 +324,7 @@ func (a Measurement) BleedLastBit() (Bit, Measurement) {
 
 // BleedFirstBit returns the first bit of the measurement and a measurement missing that bit.
 func (a Measurement) BleedFirstBit() (Bit, Measurement) {
+	a.sanityCheck()
 	if a.BitWidth() == 0 {
 		panic("cannot bleed the first bit of an empty measurement")
 	}
@@ -343,6 +365,36 @@ func (a Measurement) RollUp() Measurement {
 Arithmetic
 */
 
+func test() {
+	m := Measurement{}
+	m.Diminish.Up.ByValue(42)
+	m.Diminish.Down.ByPattern(1, 0, 1, 1)
+}
+
+type _diminishment struct {
+	m any
+
+	Up   _diminishmentOp
+	Down _diminishmentOp
+}
+
+type _diminishmentOp struct {
+	m   any
+	sub bool
+}
+
+// ByValue adds or subtracts a new Measurement of the provided numeric value against the source measurement.
+//
+// NOTE: If the provided number is not a numeric type, this will panic.
+func (a _diminishmentOp) ByValue(number any) Measurement {
+	panic("not implemented")
+}
+
+// ByPattern adds or subtracts a new Measurement of the provided bit pattern against the source measurement.
+func (a _diminishmentOp) ByPattern(bits ...Bit) Measurement {
+	panic("not implemented")
+}
+
 // NonZero returns true if the underlying measurement holds a non-zero value.
 func (a Measurement) NonZero() bool {
 	for _, b := range a.Bytes {
@@ -364,6 +416,20 @@ Utilities
 
 // sanityCheck ensures the provided bits are all 1s and 0s and rolls the currently measured bits into bytes, if possible.
 func (a Measurement) sanityCheck(bits ...Bit) Measurement {
+	if !a.created {
+		panic("num.Measurements must be created using one of the New methods")
+	}
+	a.Diminish = _diminishment{
+		m: a,
+		Up: _diminishmentOp{
+			m:   a,
+			sub: false,
+		},
+		Down: _diminishmentOp{
+			m:   a,
+			sub: true,
+		},
+	}
 	if a.Bytes == nil {
 		a.Bytes = []byte{}
 	}
