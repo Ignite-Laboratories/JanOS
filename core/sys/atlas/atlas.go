@@ -9,7 +9,7 @@ import (
 )
 
 var keys = make(map[string]any)
-var gate sync.Mutex
+var gate sync.RWMutex
 var cleanup = make(chan any)
 
 func init() {
@@ -59,8 +59,8 @@ func Cleanup() {
 func Parse[TOut any](key string) TOut {
 	refresh()
 
-	gate.Lock()
-	defer gate.Unlock()
+	gate.RLock()
+	defer gate.RUnlock()
 	var zero TOut
 
 	// 0. pull the requested key out, if possible
