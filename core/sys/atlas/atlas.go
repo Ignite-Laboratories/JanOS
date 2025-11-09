@@ -10,10 +10,10 @@ import (
 
 var keys = make(map[string]any)
 var gate sync.RWMutex
-var cleanup = make(chan any)
+var cleanup chan any
 
 func init() {
-	_, _ = watch(".", refresh)
+	cleanup, _ = watch(".", refresh)
 }
 
 func refresh() {

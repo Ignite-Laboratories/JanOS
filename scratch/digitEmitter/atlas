@@ -1,4 +1,5 @@
 {
+  "verbose": true,
   "printPreamble": true,
   "observanceWindow": "4s",
   "trimFrequency": 1024,

@@ -4,9 +4,11 @@ package atlas
 
 import (
 	"log"
+	"os"
 	"path/filepath"
-	"syscall"
 	"time"
+
+	"golang.org/x/sys/windows"
 )
 
 func watch(configPath string, onChange ...func()) (chan any, error) {
@@ -15,89 +17,96 @@ func watch(configPath string, onChange ...func()) (chan any, error) {
 		change = onChange[0]
 	}
 
-	// Watch the directory containing the file
-	dir := filepath.Dir(configPath)
-	if dir == "" || dir == "." {
+	// Resolve directory to watch (treat file paths implicitly).
+	dir := configPath
+	if dir == "" {
 		dir = "."
 	}
+	if fi, err := os.Stat(dir); err == nil {
+		if !fi.IsDir() {
+			dir = filepath.Dir(dir)
+		}
+	} else {
+		// If the path doesn't exist yet, watch its parent directory (or ".")
+		if d := filepath.Dir(dir); d != "" && d != "." && d != string(filepath.Separator) {
+			dir = d
+		} else {
+			dir = "."
+		}
+	}
 
-	// Open directory
-	dirPath, err := syscall.UTF16PtrFromString(dir)
+	const filter = windows.FILE_NOTIFY_CHANGE_FILE_NAME |
+		windows.FILE_NOTIFY_CHANGE_DIR_NAME |
+		windows.FILE_NOTIFY_CHANGE_ATTRIBUTES |
+		windows.FILE_NOTIFY_CHANGE_SIZE |
+		windows.FILE_NOTIFY_CHANGE_LAST_WRITE |
+		windows.FILE_NOTIFY_CHANGE_CREATION |
+		windows.FILE_NOTIFY_CHANGE_SECURITY
+
+	h, err := windows.FindFirstChangeNotification(dir, false, filter)
 	if err != nil {
 		return nil, err
 	}
 
-	handle, err := syscall.CreateFile(
-		dirPath,
-		syscall.FILE_LIST_DIRECTORY,
-		syscall.FILE_SHARE_READ|syscall.FILE_SHARE_WRITE|syscall.FILE_SHARE_DELETE,
-		nil,
-		syscall.OPEN_EXISTING,
-		syscall.FILE_FLAG_BACKUP_SEMANTICS|syscall.FILE_FLAG_OVERLAPPED,
-		0,
+	// Manual-reset event used to signal cancellation.
+	cancelEvent, err := windows.CreateEventEx(
+		nil,                                            // security attributes
+		nil,                                            // name
+		windows.CREATE_EVENT_MANUAL_RESET,              // manual reset, initially not signaled
+		windows.EVENT_MODIFY_STATE|windows.SYNCHRONIZE, // desired access
 	)
 	if err != nil {
+		_ = windows.FindCloseChangeNotification(h)
 		return nil, err
 	}
 
-	// Initial load
+	cleanup := make(chan any)
+
+	// Initial load before entering the loop.
 	if change != nil {
 		change()
 	}
 
+	// Bridge the cleanup channel to the cancellation event.
 	go func() {
-		defer syscall.CloseHandle(handle)
+		<-cleanup // any value (commonly nil) triggers shutdown
+		_ = windows.SetEvent(cancelEvent)
+	}()
 
-		buf := make([]byte, 4096)
-		lastReload := time.Now()
-		debounceDelay := 100 * time.Millisecond
+	go func() {
+		defer func() {
+			_ = windows.FindCloseChangeNotification(h)
+			_ = windows.CloseHandle(cancelEvent)
+		}()
 
-		// Create event for overlapped I/O
-		event, _ := syscall.CreateEvent(nil, 0, 0, nil)
-		defer syscall.CloseHandle(event)
-
-		overlapped := &syscall.Overlapped{HEvent: event}
+		handles := []windows.Handle{h, cancelEvent}
+		debounce := 100 * time.Millisecond
+		last := time.Now().Add(-debounce)
 
 		for {
-			select {
-			case <-cleanup:
+			status, err := windows.WaitForMultipleObjects(handles, false, windows.INFINITE)
+			if err != nil {
+				log.Printf("watch: WaitForMultipleObjects error: %v", err)
 				return
-			default:
-				var bytesReturned uint32
-				err := syscall.ReadDirectoryChanges(
-					handle,
-					&buf[0],
-					uint32(len(buf)),
-					false,
-					syscall.FILE_NOTIFY_CHANGE_FILE_NAME|syscall.FILE_NOTIFY_CHANGE_LAST_WRITE|syscall.FILE_NOTIFY_CHANGE_SIZE,
-					&bytesReturned,
-					overlapped,
-					0,
-				)
+			}
 
-				if err != nil && err != syscall.ERROR_IO_PENDING {
-					log.Printf("Error watching directory: %v", err)
-					return
-				}
-
-				// Wait with timeout
-				result, _ := syscall.WaitForSingleObject(event, 50) // 50ms timeout
-
-				if result == syscall.WAIT_OBJECT_0 {
-					// Get actual bytes read
-					syscall.GetOverlappedResult(handle, overlapped, &bytesReturned, false)
-
-					if bytesReturned > 0 {
-						// Debounce: only reload if enough time has passed
-						// The callback will check if the atlas file specifically changed
-						if time.Since(lastReload) > debounceDelay {
-							lastReload = time.Now()
-							if change != nil {
-								change()
-							}
-						}
+			switch int(status - windows.WAIT_OBJECT_0) {
+			case 0: // directory change
+				if time.Since(last) >= debounce {
+					last = time.Now()
+					if change != nil {
+						change()
 					}
 				}
+				if err := windows.FindNextChangeNotification(h); err != nil {
+					log.Printf("watch: FindNextChangeNotification error: %v", err)
+					return
+				}
+			case 1: // cancel
+				return
+			default:
+				// Unexpected; exit gracefully.
+				return
 			}
 		}
 	}()
